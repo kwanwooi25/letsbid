@@ -1,5 +1,3 @@
-import ProductOptionSelect from '@/components/ProductOptionSelect';
-import SalesChannelSelect from '@/components/SalesChannelSelect';
 import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
 import { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
@@ -9,42 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 export default function SelectFormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  type = 'default',
-  className,
-  label,
-  placeholder,
-  selectOptions = [],
-  onChange = () => {},
-  ...props
-}: Props<TFieldValues, TName>) {
+>({ className, label, placeholder, selectOptions = [], ...props }: Props<TFieldValues, TName>) {
   return (
     <FormField
       render={({ field }) => {
-        if (type === 'productOption') {
-          return (
-            <FormItem className={cn('flex flex-col', className)}>
-              <FormLabel className="h-[24px] flex items-center">{label}</FormLabel>
-              <FormControl>
-                <ProductOptionSelect value={field.value} onChange={onChange} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }
-
-        if (type === 'salesChannel') {
-          return (
-            <FormItem className="flex flex-col">
-              <FormLabel className="h-[24px] flex items-center">판매처</FormLabel>
-              <FormControl>
-                <SalesChannelSelect value={field.value} onChange={onChange} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }
-
         return (
           <FormItem className={cn('flex flex-col', className)}>
             {!!label && <FormLabel>{label}</FormLabel>}
@@ -74,8 +40,7 @@ export default function SelectFormField<
 type Props<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = Omit<ControllerProps<TFieldValues, TName>, 'render'> &
-  (DefaultSelectProps | ProductOptionSelectProps | SalesChannelSelectProps);
+> = Omit<ControllerProps<TFieldValues, TName>, 'render'> & DefaultSelectProps;
 
 type DefaultSelectProps = {
   type: 'default';
@@ -83,23 +48,4 @@ type DefaultSelectProps = {
   label?: string;
   placeholder?: string;
   selectOptions: { value: string; label: ReactNode }[];
-  onChange?: never;
-};
-
-type ProductOptionSelectProps = {
-  type: 'productOption';
-  className?: string;
-  label?: string;
-  placeholder?: never;
-  selectOptions?: never;
-  onChange?: (productOptionId: string) => void;
-};
-
-type SalesChannelSelectProps = {
-  type: 'salesChannel';
-  className?: string;
-  label?: string;
-  placeholder?: never;
-  selectOptions?: never;
-  onChange?: (salesChannelId: string) => void;
 };

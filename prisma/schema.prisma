@@ -9,6 +9,10 @@ generator client {
   previewFeatures = ["driverAdapters", "fullTextSearch"]
 }
 
+generator zod {
+  provider = "npx zod-prisma-types"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("POSTGRES_PRISMA_URL")
