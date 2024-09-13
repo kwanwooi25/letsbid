@@ -1,5 +1,5 @@
-import GroupForm from '@/components/dialogForms/GroupForm';
 import { ComponentProps } from 'react';
+import GroupForm from './GroupForm';
 
 export type FormDialogProps = DefaultProps | GroupFormProps;
 

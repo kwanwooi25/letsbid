@@ -1,7 +1,7 @@
-import GroupForm from '@/components/dialogForms/GroupForm';
 import { Dialog } from '@/components/ui/dialog';
 import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 import { DEFAULT_FORM_DIALOG_PROPS } from './const';
+import GroupForm from './GroupForm';
 import { FormDialogContextState, FormDialogProps } from './types';
 
 export const FormDialogContext = createContext<FormDialogContextState | null>(null);
@@ -24,8 +24,8 @@ export function FormDialogProvider({ children }: PropsWithChildren) {
       type: props.type,
       formProps: {
         ...props.formProps,
-        onSubmit: () => {
-          props.formProps?.onSubmit?.();
+        onSubmit: async () => {
+          await props.formProps?.onSubmit?.();
           handleOpenChange(false);
         },
       },

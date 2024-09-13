@@ -1,13 +1,23 @@
 import { Button } from '@/components/ui/button';
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
+import { API_ROUTE } from '@/const/paths';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { SuccessResponse } from '@/types/api';
+import { GroupWithMembers } from '@/types/group';
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { formSchema, GroupFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
 export default function GroupForm({ onSubmit }: Props) {
+  const { toast } = useToast();
+  const router = useRouter();
+  const { handleAxiosError } = useAxiosError();
   const form = useForm<GroupFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues(),
@@ -18,24 +28,23 @@ export default function GroupForm({ onSubmit }: Props) {
   const formTitle = isEditing ? '그룹 수정' : '그룹 생성';
 
   const submitForm = form.handleSubmit(async (values: GroupFormSchema) => {
-    console.log(values);
-
     try {
-      // const method = isEditing ? 'patch' : 'post';
-      // await axios<SuccessResponse<null>>({
-      //   method,
-      //   url: API_ROUTE.PURCHASE_ORDER,
-      //   data: values,
-      // });
-      // toast({
-      //   description: <p>{title} 성공</p>,
-      //   variant: 'success',
-      // });
-      // router.refresh();
+      const method = isEditing ? 'patch' : 'post';
+      const createdGroup = await axios<SuccessResponse<GroupWithMembers>>({
+        method,
+        url: API_ROUTE.CREATE_GROUP,
+        data: values,
+      });
+      console.log(createdGroup);
+      toast({
+        description: <p>{formTitle} 성공</p>,
+        variant: 'success',
+      });
+      router.refresh();
       onSubmit?.();
-      // form.reset();
+      form.reset();
     } catch (error) {
-      // handleAxiosError(error);
+      handleAxiosError(error);
     }
   });
 
@@ -69,5 +78,5 @@ export default function GroupForm({ onSubmit }: Props) {
 }
 
 type Props = {
-  onSubmit?: () => void;
+  onSubmit?: () => void | Promise<void>;
 };
