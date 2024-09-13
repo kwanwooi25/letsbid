@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Let's bid!",
   description: '부동산 경매 모의 입찰',
   icons: {
-    icon: '/letsbic_logo.png',
+    icon: '/letsbid_logo.png',
   },
 };
 
