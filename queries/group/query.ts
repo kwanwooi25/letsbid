@@ -9,7 +9,7 @@ import { groupQueryKeys } from './queryKey';
 export const groupListQueryOptions = queryOptions({
   queryKey: groupQueryKeys.list,
   queryFn: async () => {
-    const url = getApiUrl(API_ROUTE.GET_GROUPS);
+    const url = getApiUrl(API_ROUTE.GROUP);
     const res = await axios<SuccessResponse<GroupWithMembers[]>>({
       method: 'get',
       url,

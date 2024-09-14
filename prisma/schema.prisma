@@ -75,9 +75,9 @@ model Group {
 }
 
 model UsersOnGroups {
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId    String
-  group     Group    @relation(fields: [groupId], references: [id])
+  group     Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   groupId   String
   joinedAt  DateTime @default(now())
   invitedBy String
