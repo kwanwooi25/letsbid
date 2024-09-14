@@ -18,6 +18,9 @@ export async function GET() {
       include: {
         members: true,
       },
+      orderBy: {
+        createdAt: 'asc',
+      },
     });
     return handleSuccess({ data: groups });
   } catch (e) {
@@ -46,6 +49,27 @@ export async function POST(req: NextRequest) {
       },
     });
     return handleSuccess({ data: createdGroup, status: HttpStatusCode.Created });
+  } catch (e) {
+    return handlePrismaClientError(e);
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    await getUserFromSession();
+    const data = await req.json();
+    const updatedGroup = await prisma.group.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+      },
+      include: {
+        members: true,
+      },
+    });
+    return handleSuccess({ data: updatedGroup });
   } catch (e) {
     return handlePrismaClientError(e);
   }

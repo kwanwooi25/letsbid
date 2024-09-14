@@ -3,39 +3,49 @@ import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/compon
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { createGroupMutationOptions } from '@/queries/group/mutation';
+import { createGroupMutationOptions, updateGroupMutationOptions } from '@/queries/group/mutation';
+import { GroupWithMembers } from '@/types/group';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Group } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { formSchema, GroupFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
-export default function GroupForm({ onSubmit }: Props) {
+export default function GroupForm({ group, onSubmit }: Props) {
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const createGroupMutation = useMutation(createGroupMutationOptions);
+  const updateGroupMutation = useMutation(updateGroupMutationOptions);
   const form = useForm<GroupFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: getDefaultFormValues(),
+    defaultValues: getDefaultFormValues(group),
   });
   const { isSubmitting } = form.formState;
 
-  const isEditing = false;
+  const isEditing = !!group;
   const formTitle = isEditing ? '그룹 수정' : '그룹 생성';
 
   const createGroup = async (values: GroupFormSchema) => {
     const createdGroup = await createGroupMutation.mutateAsync(values);
-    toast({
-      title: createdGroup.name,
-      description: <p>{formTitle} 성공</p>,
-      variant: 'success',
-    });
+    return createdGroup.name;
+  };
+
+  const editGroup = async (values: GroupFormSchema) => {
+    const updatedGroup = await updateGroupMutation.mutateAsync(values);
+    return updatedGroup.name;
   };
 
   const submitForm = form.handleSubmit(async (values: GroupFormSchema) => {
     try {
-      if (!isEditing) await createGroup(values);
+      const mutationFn = isEditing ? editGroup : createGroup;
+      const groupName = await mutationFn(values);
+      toast({
+        title: groupName,
+        description: <p>{formTitle} 성공</p>,
+        variant: 'success',
+      });
       onSubmit?.();
       form.reset();
     } catch (error) {
@@ -73,5 +83,6 @@ export default function GroupForm({ onSubmit }: Props) {
 }
 
 type Props = {
+  group?: Group | GroupWithMembers;
   onSubmit?: () => void | Promise<void>;
 };

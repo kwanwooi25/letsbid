@@ -8,4 +8,5 @@ export const API_ROUTE = {
   SIGN_OUT: '/api/auth/signout',
   GET_GROUPS: '/api/group',
   CREATE_GROUP: '/api/group',
+  UPDATE_GROUP: '/api/group',
 } as const;

@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { PATHS } from '@/const/paths';
+import { useFormDialog } from '@/context/FormDialog';
 import { GroupWithMembers } from '@/types/group';
 import { LucideCrown, LucideEdit2, LucideTrash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -10,13 +11,18 @@ import { ButtonHTMLAttributes } from 'react';
 
 export default function GroupListItem({ group, isHost }: Props) {
   const router = useRouter();
+  const { openForm } = useFormDialog();
 
   const moveToGroup = () => router.push(`${PATHS.GROUP}/${group.id}`);
 
   const handleClickEditGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
-    // TODO
-    console.log('edit group', group.id);
+    openForm({
+      type: 'GROUP',
+      formProps: {
+        group,
+      },
+    });
   };
 
   const handleClickDeleteGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {

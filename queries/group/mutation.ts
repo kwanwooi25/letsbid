@@ -28,3 +28,23 @@ export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
     },
   };
+
+export const updateGroupMutationOptions: MutationOptions<GroupWithMembers, Error, GroupFormSchema> =
+  {
+    mutationFn: async (data: GroupFormSchema) => {
+      try {
+        const res = await axios<SuccessResponse<GroupWithMembers>>({
+          method: 'patch',
+          url: API_ROUTE.UPDATE_GROUP,
+          data,
+        });
+        return res.data.data;
+      } catch (e) {
+        throw e;
+      }
+    },
+    onSettled: () => {
+      const queryClient = getQueryClient();
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    },
+  };
