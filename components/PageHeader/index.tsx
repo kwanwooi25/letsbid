@@ -10,7 +10,7 @@ export default function PageHeader({ className, title, children, backButton }: P
   const router = useRouter();
 
   return (
-    <div className={cn('flex items-center justify-between px-4 py-2 mb-2 mx-auto', className)}>
+    <div className={cn('flex items-center justify-between px-4 py-2 my-2 mx-auto', className)}>
       <div className="flex items-center gap-2">
         {!!backButton && typeof backButton === 'boolean' && (
           <Button onClick={() => router.back()} variant="ghost" size="icon" type={'button'}>

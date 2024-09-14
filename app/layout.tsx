@@ -27,7 +27,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(notoSans.className, 'min-h-screen flex flex-col antialiased')}>
+      <body
+        className={cn(notoSans.className, 'min-h-screen flex flex-col antialiased')}
+        suppressHydrationWarning
+      >
         <Providers session={session}>
           <NextTopLoader color="gray" zIndex={99999} />
           <MainLayout>{children}</MainLayout>

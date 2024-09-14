@@ -5,14 +5,8 @@ import authConfig from './config';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  session: { strategy: 'jwt' },
   callbacks: {
-    async session({ session, token }) {
-      if (!token.sub) return Promise.resolve(session);
-
-      const user = await prisma.user.findUnique({
-        where: { id: token.sub },
-      });
+    async session({ session, user }) {
       if (!user) return Promise.resolve(session);
 
       session.user = user;

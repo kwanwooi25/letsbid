@@ -2,22 +2,19 @@ import { Button } from '@/components/ui/button';
 import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-import { API_ROUTE } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { SuccessResponse } from '@/types/api';
-import { GroupWithMembers } from '@/types/group';
+import { createGroupMutationOptions } from '@/queries/group/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { formSchema, GroupFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
 export default function GroupForm({ onSubmit }: Props) {
   const { toast } = useToast();
-  const router = useRouter();
   const { handleAxiosError } = useAxiosError();
+  const createGroupMutation = useMutation(createGroupMutationOptions);
   const form = useForm<GroupFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues(),
@@ -27,20 +24,18 @@ export default function GroupForm({ onSubmit }: Props) {
   const isEditing = false;
   const formTitle = isEditing ? '그룹 수정' : '그룹 생성';
 
+  const createGroup = async (values: GroupFormSchema) => {
+    const createdGroup = await createGroupMutation.mutateAsync(values);
+    toast({
+      title: createdGroup.name,
+      description: <p>{formTitle} 성공</p>,
+      variant: 'success',
+    });
+  };
+
   const submitForm = form.handleSubmit(async (values: GroupFormSchema) => {
     try {
-      const method = isEditing ? 'patch' : 'post';
-      const createdGroup = await axios<SuccessResponse<GroupWithMembers>>({
-        method,
-        url: API_ROUTE.CREATE_GROUP,
-        data: values,
-      });
-      console.log(createdGroup);
-      toast({
-        description: <p>{formTitle} 성공</p>,
-        variant: 'success',
-      });
-      router.refresh();
+      if (!isEditing) await createGroup(values);
       onSubmit?.();
       form.reset();
     } catch (error) {
@@ -50,8 +45,8 @@ export default function GroupForm({ onSubmit }: Props) {
 
   return (
     <Form {...form}>
-      <form>
-        <DialogContent className="max-w-xl">
+      <form className="max-w-xl">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>{formTitle}</DialogTitle>
           </DialogHeader>
