@@ -68,7 +68,7 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
             <span>입찰 종료 사건</span>
           </TabsContent>
           <TabsContent value="members">
-            <MemberList group={group} />
+            <MemberList isHost={isHost} group={group} />
           </TabsContent>
         </Tabs>
       </PageBody>

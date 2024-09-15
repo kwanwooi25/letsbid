@@ -2,8 +2,10 @@
 
 import { API_ROUTE } from '@/const/paths';
 import { GroupFormSchema } from '@/context/FormDialog/GroupForm/formSchema';
+import { InvitationFormSchema } from '@/context/FormDialog/InvitationForm/formSchema';
 import { SuccessResponse } from '@/types/api';
 import { GroupWithMembers } from '@/types/group';
+import { Invitation } from '@prisma/client';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
@@ -70,5 +72,31 @@ export const deleteGroupMutationOptions: MutationOptions<string, Error, string> 
   onSettled: () => {
     const queryClient = getQueryClient();
     queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+  },
+};
+
+export const inviteGroupMemberMutationOptions: MutationOptions<
+  Invitation,
+  Error,
+  InvitationFormSchema
+> = {
+  mutationFn: async (data: InvitationFormSchema) => {
+    try {
+      const url = getApiUrl(API_ROUTE.INVITATION);
+      const res = await axios<SuccessResponse<Invitation>>({
+        method: 'post',
+        url,
+        data,
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (createdInvitation) => {
+    const queryClient = getQueryClient();
+    if (createdInvitation?.groupId) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(createdInvitation.groupId) });
+    }
   },
 };

@@ -2,6 +2,7 @@ import { Dialog } from '@/components/ui/dialog';
 import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 import { DEFAULT_FORM_DIALOG_PROPS } from './const';
 import GroupForm from './GroupForm';
+import InvitationForm from './InvitationForm';
 import { FormDialogContextState, FormDialogProps } from './types';
 
 export const FormDialogContext = createContext<FormDialogContextState | null>(null);
@@ -38,6 +39,8 @@ export function FormDialogProvider({ children }: PropsWithChildren) {
         {children}
 
         {formDialogProps.type === 'GROUP' && <GroupForm {...formDialogProps.formProps} />}
+
+        {formDialogProps.type === 'INVITATION' && <InvitationForm {...formDialogProps.formProps} />}
       </Dialog>
     </FormDialogContext.Provider>
   );

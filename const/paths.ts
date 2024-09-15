@@ -11,4 +11,5 @@ export const API_ROUTE = {
   USER: '/api/user',
   USER_LOGIN: '/api/user/login',
   GROUP: '/api/group',
+  INVITATION: '/api/invitation',
 } as const;
