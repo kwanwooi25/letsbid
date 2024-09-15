@@ -6,14 +6,29 @@ import { useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Button } from '../ui/button';
 
-export default function PageHeader({ className, title, children, backButton }: Props) {
+export default function PageHeader({
+  className,
+  title,
+  children,
+  backButton,
+  onBackButtonClick,
+}: Props) {
   const router = useRouter();
+
+  const handleClickBackButton = () => {
+    if (onBackButtonClick) {
+      onBackButtonClick();
+      return;
+    }
+
+    router.back();
+  };
 
   return (
     <div className={cn('flex items-center justify-between px-4 py-2 my-2 mx-auto', className)}>
       <div className="flex items-center gap-2">
         {!!backButton && typeof backButton === 'boolean' && (
-          <Button onClick={() => router.back()} variant="ghost" size="icon" type={'button'}>
+          <Button onClick={handleClickBackButton} variant="ghost" size="icon" type={'button'}>
             <LucideChevronLeft />
           </Button>
         )}
@@ -30,4 +45,5 @@ type Props = PropsWithChildren & {
   className?: string;
   title?: ReactNode;
   backButton?: boolean | ReactNode;
+  onBackButtonClick?: () => void;
 };

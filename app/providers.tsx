@@ -1,5 +1,6 @@
 'use client';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { AlertProvider } from '@/context/Alert';
 import { FormDialogProvider } from '@/context/FormDialog';
 import { getQueryClient } from '@/queries/config';
@@ -17,7 +18,9 @@ export default function Providers({ session, children }: Props) {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <QueryClientProvider client={queryClient}>
           <FormDialogProvider>
-            <AlertProvider>{children}</AlertProvider>
+            <AlertProvider>
+              <TooltipProvider>{children}</TooltipProvider>
+            </AlertProvider>
           </FormDialogProvider>
         </QueryClientProvider>
       </ThemeProvider>

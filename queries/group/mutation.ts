@@ -45,13 +45,16 @@ export const updateGroupMutationOptions: MutationOptions<GroupWithMembers, Error
         throw e;
       }
     },
-    onSettled: () => {
+    onSettled: (updatedGroup) => {
       const queryClient = getQueryClient();
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+      if (updatedGroup?.id) {
+        queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
+      }
     },
   };
 
-export const deleteGroupMutationOptions: MutationOptions<void, Error, string> = {
+export const deleteGroupMutationOptions: MutationOptions<string, Error, string> = {
   mutationFn: async (groupId: string) => {
     try {
       const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
@@ -59,7 +62,7 @@ export const deleteGroupMutationOptions: MutationOptions<void, Error, string> = 
         method: 'delete',
         url,
       });
-      return;
+      return groupId;
     } catch (e) {
       throw e;
     }

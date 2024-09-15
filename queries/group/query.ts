@@ -17,3 +17,16 @@ export const groupListQueryOptions = queryOptions({
     return res.data.data;
   },
 });
+
+export const getGroupDetailQueryOptions = (groupId: string) =>
+  queryOptions({
+    queryKey: groupQueryKeys.detail(groupId),
+    queryFn: async () => {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
+      const res = await axios<SuccessResponse<GroupWithMembers>>({
+        method: 'get',
+        url,
+      });
+      return res.data.data;
+    },
+  });

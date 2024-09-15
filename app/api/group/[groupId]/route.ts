@@ -2,6 +2,28 @@ import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/li
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 
+export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
+  try {
+    const user = await getUserFromSession();
+    const group = await prisma.group.findUnique({
+      where: {
+        id: params.groupId,
+        members: {
+          some: {
+            userId: user!.id!,
+          },
+        },
+      },
+      include: {
+        members: true,
+      },
+    });
+    return handleSuccess({ data: group });
+  } catch (e) {
+    return handlePrismaClientError(e);
+  }
+}
+
 export async function PATCH(req: NextRequest, { params }: { params: { groupId: string } }) {
   try {
     await getUserFromSession();
