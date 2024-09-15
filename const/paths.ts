@@ -8,5 +8,6 @@ export const PATHS = {
 export const API_ROUTE = {
   SIGN_IN: '/api/auth/signin',
   SIGN_OUT: '/api/auth/signout',
+  USER: '/api/user',
   GROUP: '/api/group',
 } as const;

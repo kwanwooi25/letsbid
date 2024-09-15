@@ -1,0 +1,23 @@
+import { SignUpFormSchema } from '@/components/SignUpForm/formSchema';
+import { API_ROUTE } from '@/const/paths';
+import { SuccessResponse } from '@/types/api';
+import { User } from '@prisma/client';
+import { MutationOptions } from '@tanstack/react-query';
+import axios from 'axios';
+import { getApiUrl } from '../config';
+
+export const createUserMutationOptions: MutationOptions<User, Error, SignUpFormSchema> = {
+  mutationFn: async (data: SignUpFormSchema) => {
+    try {
+      const url = getApiUrl(API_ROUTE.USER);
+      const res = await axios<SuccessResponse<User>>({
+        method: 'post',
+        url,
+        data,
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+};

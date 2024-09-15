@@ -1,18 +1,25 @@
 'use client';
 
 import { PATHS } from '@/const/paths';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { createUserMutationOptions } from '@/queries/user/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { LucideLogIn } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import { Form, InputFormField } from '../ui/form';
+import { useToast } from '../ui/use-toast';
 import { formSchema, SignUpFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
 export default function SignUpForm() {
+  const { toast } = useToast();
+  const { handleAxiosError } = useAxiosError();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const createUserMutation = useMutation(createUserMutationOptions);
   const form = useForm<SignUpFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues(searchParams.get('email') ?? ''),
@@ -20,8 +27,18 @@ export default function SignUpForm() {
   const { isSubmitting } = form.formState;
 
   const submitForm = form.handleSubmit(async (values: SignUpFormSchema) => {
-    // TODO
-    console.log(values);
+    try {
+      const createdUser = await createUserMutation.mutateAsync(values);
+      toast({
+        title: `${createdUser.email} (${createdUser.name})`,
+
+        description: '계정이 생성되었습니다',
+        variant: 'success',
+      });
+      router.push(PATHS.SIGN_IN);
+    } catch (error) {
+      handleAxiosError(error);
+    }
   });
 
   const moveToSignIn = () => router.push(PATHS.SIGN_IN);
