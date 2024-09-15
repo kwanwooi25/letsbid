@@ -5,9 +5,11 @@ export function useCreateQueryString() {
   const searchParams = useSearchParams();
 
   const createQueryString = useCallback(
-    (key: string, value: string) => {
+    (keyValuePairs: Record<string, unknown>) => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set(key, value);
+      Object.entries(keyValuePairs).forEach(([key, value]) => {
+        params.set(key, String(value));
+      });
       return params.toString();
     },
     [searchParams],

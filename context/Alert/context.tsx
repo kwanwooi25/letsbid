@@ -8,7 +8,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
 import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 import { DEFAULT_ALERT_PROPS } from './const';
 import { AlertContextState, AlertProps } from './types';
@@ -57,8 +56,7 @@ export function AlertProvider({ children }: PropsWithChildren) {
             <AlertDialogCancel onClick={alertProps.onCancel}>
               {alertProps.cancelLabel}
             </AlertDialogCancel>
-            <Button type="button" onClick={handleClickAction} disabled={isLoading}>
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button type="button" onClick={handleClickAction} isLoading={isLoading}>
               {alertProps.actionLabel}
             </Button>
           </AlertDialogFooter>

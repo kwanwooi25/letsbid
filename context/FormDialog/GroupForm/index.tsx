@@ -8,7 +8,6 @@ import { GroupWithMembers } from '@/types/group';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Group } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
-import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { formSchema, GroupFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
@@ -71,8 +70,7 @@ export default function GroupForm({ group, onSubmit }: Props) {
           </div>
 
           <DialogFooter>
-            <Button onClick={submitForm} disabled={isSubmitting}>
-              {isSubmitting && <Loader2 className={'mr-2 h-4 w-4 animate-spin'} />}
+            <Button onClick={submitForm} isLoading={isSubmitting}>
               <span>저장</span>
             </Button>
           </DialogFooter>
