@@ -11,14 +11,15 @@ import { LucideCrown } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import GroupDetailHeaderButtons from './HeaderButtons';
+import MemberList from './MemberList';
 
 export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
   const session = useSession();
-  const { data } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
+  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const isHost = session?.data?.user?.id === data.hostId;
+  const isHost = session?.data?.user?.id === group.hostId;
 
   const handleClickBackButton = () => router.replace(PATHS.HOME);
 
@@ -38,7 +39,7 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
         onBackButtonClick={handleClickBackButton}
         title={
           <>
-            <span className="text-xl font-semibold">{data.name}</span>
+            <span className="text-xl font-semibold">{group.name}</span>
             {isHost && (
               <Avatar>
                 <AvatarFallback>
@@ -49,7 +50,7 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
           </>
         }
       >
-        <GroupDetailHeaderButtons isHost={isHost} group={data} />
+        <GroupDetailHeaderButtons isHost={isHost} group={group} />
       </PageHeader>
       <PageBody className="max-w-2xl">
         <Tabs defaultValue={tab} onValueChange={handleTabChange}>
@@ -67,7 +68,7 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
             <span>입찰 종료 사건</span>
           </TabsContent>
           <TabsContent value="members">
-            <span>멤버 목록</span>
+            <MemberList group={group} />
           </TabsContent>
         </Tabs>
       </PageBody>

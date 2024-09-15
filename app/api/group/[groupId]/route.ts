@@ -15,7 +15,11 @@ export async function GET(req: NextRequest, { params }: { params: { groupId: str
         },
       },
       include: {
-        members: true,
+        members: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
     return handleSuccess({ data: group });
