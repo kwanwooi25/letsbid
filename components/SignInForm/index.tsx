@@ -1,21 +1,30 @@
 'use client';
 
 import { PATHS } from '@/const/paths';
+import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCreateQueryString } from '@/hooks/useCreateQueryString';
+import { loginUserMutationOptions } from '@/queries/user/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { LucideMail, LucideUserPlus } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import KakaoIcon from '../KakaoIcon';
 import { Button } from '../ui/button';
 import Divider from '../ui/divider';
 import { Form, InputFormField } from '../ui/form';
+import { useToast } from '../ui/use-toast';
 import { SignInFormSchema, formSchema } from './formSchema';
 
 export default function SignInForm() {
+  const [isKakaoLoggingIn, setIsKakaoLoggingIn] = useState(false);
   const router = useRouter();
   const createQueryString = useCreateQueryString();
+  const loginUserMutation = useMutation(loginUserMutationOptions);
+  const { toast } = useToast();
+  const { handleAxiosError } = useAxiosError();
   const form = useForm<SignInFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,8 +35,16 @@ export default function SignInForm() {
   const { isSubmitting } = form.formState;
 
   const submitForm = form.handleSubmit(async (values: SignInFormSchema) => {
-    // TODO
-    console.log(values);
+    try {
+      const loggedInUser = await loginUserMutation.mutateAsync(values);
+      await signIn('credentials', { user: JSON.stringify(loggedInUser), callbackUrl: PATHS.HOME });
+      toast({
+        title: `${loggedInUser.name}님 환영합니다`,
+        variant: 'success',
+      });
+    } catch (error) {
+      handleAxiosError(error);
+    }
   });
 
   const moveToSignUp = () => {
@@ -43,11 +60,16 @@ export default function SignInForm() {
     <div className="flex flex-col gap-4">
       <Button
         className="flex items-center gap-2 text-gray-900 bg-[#fee503] hover:bg-[#fee503]/80"
-        onClick={() => signIn('kakao')}
+        onClick={async () => {
+          setIsKakaoLoggingIn(true);
+          await signIn('kakao');
+          setIsKakaoLoggingIn(false);
+        }}
         type="button"
         size="lg"
+        isLoading={isKakaoLoggingIn}
       >
-        <KakaoIcon width={18} height={18} />
+        {!isKakaoLoggingIn && <KakaoIcon width={18} height={18} />}
         카카오 로그인
       </Button>
 
