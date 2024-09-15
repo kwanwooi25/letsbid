@@ -88,13 +88,13 @@ model UsersOnGroups {
 }
 
 model Invitation {
-  id        String           @id @default(cuid())
-  group     Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  groupId   String
-  inviterId String
-  invitee   User             @relation(fields: [inviteeId], references: [id])
-  inviteeId String
-  status    InvitationStatus @default(PENDING)
+  id           String           @id @default(cuid())
+  group        Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId      String
+  inviter      User             @relation(fields: [inviterId], references: [id])
+  inviterId    String
+  inviteeEmail String
+  status       InvitationStatus @default(PENDING)
 }
 
 enum InvitationStatus {
