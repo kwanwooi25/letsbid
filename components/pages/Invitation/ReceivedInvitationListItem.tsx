@@ -1,11 +1,41 @@
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { useAlert } from '@/context/Alert';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { acceptInvitationMutationOptions } from '@/queries/invitation/mutation';
 import { InvitationWithGroupAndInviter } from '@/types/invitation';
+import { useMutation } from '@tanstack/react-query';
 import { LucideCrown } from 'lucide-react';
 
 export default function ReceivedInvitationListItem({ invitation }: Props) {
+  const { openAlert } = useAlert();
+  const { toast } = useToast();
+  const { handleAxiosError } = useAxiosError();
+  const acceptInvitationMutation = useMutation(acceptInvitationMutationOptions);
+
   const handleClickAccept = () => {
-    //TODO
-    console.log('accept');
+    openAlert({
+      title: '초대 수락',
+      description: (
+        <p>
+          <b>{invitation.inviter.name}</b>님이 보낸 <b>{invitation.group.name}</b> 그룹 초대를
+          수락할까요?
+        </p>
+      ),
+      actionLabel: '수락',
+      action: async () => {
+        try {
+          await acceptInvitationMutation.mutateAsync(invitation.id);
+          toast({
+            title: '초대를 수락했습니다.',
+            description: invitation.group.name,
+            variant: 'success',
+          });
+        } catch (e) {
+          handleAxiosError(e);
+        }
+      },
+    });
   };
 
   const handleClickReject = () => {
