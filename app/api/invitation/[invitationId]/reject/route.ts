@@ -6,7 +6,6 @@ import { NextRequest } from 'next/server';
 export async function GET(req: NextRequest, { params }: { params: { invitationId: string } }) {
   try {
     const user = await getUserFromSession();
-    const userId = user!.id!;
     const userEmail = user!.email!;
     const invitation = await prisma.invitation.findUnique({
       where: {
@@ -22,23 +21,14 @@ export async function GET(req: NextRequest, { params }: { params: { invitationId
       });
     }
 
-    const [updatedInvitation] = await Promise.all([
-      await prisma.invitation.update({
-        where: { id: params.invitationId },
-        data: { status: 'ACCEPTED' },
-        include: {
-          group: true,
-          inviter: true,
-        },
-      }),
-      await prisma.usersOnGroups.create({
-        data: {
-          userId,
-          groupId: invitation.groupId,
-          invitedBy: invitation.inviterId,
-        },
-      }),
-    ]);
+    const updatedInvitation = await prisma.invitation.update({
+      where: { id: params.invitationId },
+      data: { status: 'REJECTED' },
+      include: {
+        group: true,
+        inviter: true,
+      },
+    });
 
     return handleSuccess({ data: updatedInvitation });
   } catch (e) {

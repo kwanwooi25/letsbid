@@ -6,16 +6,16 @@ import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
 import { invitationQueryKeys } from './queryKey';
 
-export const acceptInvitationMutationOptions: MutationOptions<
+export const respondToInvitationMutationOptions: MutationOptions<
   InvitationWithGroupAndInviter,
   Error,
-  string
+  { invitationId: string; response: 'accept' | 'reject' }
 > = {
-  mutationFn: async (invitationId: string) => {
+  mutationFn: async ({ invitationId, response }) => {
     try {
-      const url = getApiUrl(`${API_ROUTE.INVITATION}/${invitationId}/accept`);
+      const url = getApiUrl(`${API_ROUTE.INVITATION}/${invitationId}/${response}`);
       const res = await axios<SuccessResponse<InvitationWithGroupAndInviter>>({
-        method: 'post',
+        method: 'get',
         url,
       });
       return res.data.data;
