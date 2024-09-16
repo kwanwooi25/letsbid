@@ -72,9 +72,9 @@ model Group {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  members     UsersOnGroups[]
-  invitations Invitation[]
-  cases       Case[]
+  members      UsersOnGroups[]
+  invitations  Invitation[]
+  auctionCases AuctionCase[]
 }
 
 model UsersOnGroups {
@@ -104,10 +104,10 @@ enum InvitationStatus {
   REJECTED
 }
 
-model Case {
+model AuctionCase {
   id          String   @id @default(cuid())
-  caseYear    Int
-  caseNumber  Int
+  caseYear    String
+  caseNumber  String
   groupId     String
   group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   bidStartsAt DateTime

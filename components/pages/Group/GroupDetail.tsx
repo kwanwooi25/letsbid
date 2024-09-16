@@ -10,6 +10,8 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideCrown } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import CaseList from './AuctionCaseList';
 import GroupDetailHeaderButtons from './HeaderButtons';
 import MemberList from './MemberList';
 
@@ -56,16 +58,16 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
         <Tabs defaultValue={tab} onValueChange={handleTabChange}>
           <TabsList className="w-full">
             <TabsTrigger className="w-full" value="cases">
-              사건
+              경매 사건
             </TabsTrigger>
             <TabsTrigger className="w-full" value="members">
               멤버
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="cases" className="flex flex-col gap-6">
-            <span>입찰 중 사건</span>
-            <span>입찰 예정 사건</span>
-            <span>입찰 종료 사건</span>
+          <TabsContent value="cases">
+            <Suspense fallback={<div>Loading...</div>}>
+              <CaseList isHost={isHost} />
+            </Suspense>
           </TabsContent>
           <TabsContent value="members">
             <MemberList isHost={isHost} group={group} />

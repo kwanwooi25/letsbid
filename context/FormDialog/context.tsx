@@ -1,5 +1,6 @@
 import { Dialog } from '@/components/ui/dialog';
 import { PropsWithChildren, createContext, useCallback, useState } from 'react';
+import AuctionCaseForm from './AuctionCaseForm';
 import { DEFAULT_FORM_DIALOG_PROPS } from './const';
 import GroupForm from './GroupForm';
 import InvitationForm from './InvitationForm';
@@ -41,6 +42,10 @@ export function FormDialogProvider({ children }: PropsWithChildren) {
         {formDialogProps.type === 'GROUP' && <GroupForm {...formDialogProps.formProps} />}
 
         {formDialogProps.type === 'INVITATION' && <InvitationForm {...formDialogProps.formProps} />}
+
+        {formDialogProps.type === 'AUCTION_CASE' && (
+          <AuctionCaseForm {...formDialogProps.formProps} />
+        )}
       </Dialog>
     </FormDialogContext.Provider>
   );

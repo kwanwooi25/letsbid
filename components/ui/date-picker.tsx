@@ -14,7 +14,6 @@ export default function DatePicker({ triggerElement, calendarProps }: Props) {
           formatters={{
             formatCaption: (date) => format(date, 'yyyy년 M월'),
           }}
-          initialFocus
           {...calendarProps}
         />
       </PopoverContent>
