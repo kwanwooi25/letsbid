@@ -1,11 +1,41 @@
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { useAlert } from '@/context/Alert';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { cancelInvitationMutationOptions } from '@/queries/invitation/mutation';
 import { InvitationWithGroupAndInviter } from '@/types/invitation';
+import { useMutation } from '@tanstack/react-query';
 import { LucideUser } from 'lucide-react';
 
 export default function SentInvitationListItem({ invitation }: Props) {
+  const { openAlert } = useAlert();
+  const { toast } = useToast();
+  const { handleAxiosError } = useAxiosError();
+  const cancelInvitationMutation = useMutation(cancelInvitationMutationOptions);
+
   const handleClickCancel = () => {
-    //TODO
-    console.log('cancel');
+    openAlert({
+      title: '초대 취소',
+      description: (
+        <>
+          <b>{invitation.inviteeEmail}</b>님에게 보낸 <b>{invitation.group.name}</b> 그룹 초대를{' '}
+          <b className="text-destructive">취소</b>할까요?
+        </>
+      ),
+      actionLabel: '초대 취소',
+      action: async () => {
+        try {
+          await cancelInvitationMutation.mutateAsync(invitation.id);
+          toast({
+            title: '초대를 취소했습니다.',
+            description: invitation.inviteeEmail,
+            variant: 'success',
+          });
+        } catch (e) {
+          handleAxiosError(e);
+        }
+      },
+    });
   };
 
   return (

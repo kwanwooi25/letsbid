@@ -28,3 +28,26 @@ export const respondToInvitationMutationOptions: MutationOptions<
     queryClient.invalidateQueries({ queryKey: invitationQueryKeys.list('received') });
   },
 };
+
+export const cancelInvitationMutationOptions: MutationOptions<
+  InvitationWithGroupAndInviter,
+  Error,
+  string
+> = {
+  mutationFn: async (invitationId) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.INVITATION}/${invitationId}/cancel`);
+      const res = await axios<SuccessResponse<InvitationWithGroupAndInviter>>({
+        method: 'get',
+        url,
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: () => {
+    const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: invitationQueryKeys.list('sent') });
+  },
+};

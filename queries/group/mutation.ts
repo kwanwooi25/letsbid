@@ -9,6 +9,7 @@ import { Invitation } from '@prisma/client';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
+import { invitationQueryKeys } from '../invitation/queryKey';
 import { groupQueryKeys } from './queryKey';
 
 export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error, GroupFormSchema> =
@@ -95,6 +96,7 @@ export const inviteGroupMemberMutationOptions: MutationOptions<
   },
   onSettled: (createdInvitation) => {
     const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: invitationQueryKeys.list('sent') });
     if (createdInvitation?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(createdInvitation.groupId) });
     }
