@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button';
 import { useFormDialog } from '@/context/FormDialog';
 import { LucideFilePlus2 } from 'lucide-react';
 
-export default function AuctionCaseList({ isHost }: Props) {
+export default function AuctionCaseList({ isHost, groupId }: Props) {
   const { openForm } = useFormDialog();
 
   const handleClickAddCase = () => {
-    openForm({ type: 'AUCTION_CASE', formProps: {} });
+    openForm({ type: 'AUCTION_CASE', formProps: { groupId } });
   };
 
   return (
@@ -25,4 +25,5 @@ export default function AuctionCaseList({ isHost }: Props) {
 
 type Props = {
   isHost?: boolean;
+  groupId: string;
 };

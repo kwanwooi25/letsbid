@@ -66,7 +66,7 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
           </TabsList>
           <TabsContent value="cases">
             <Suspense fallback={<div>Loading...</div>}>
-              <CaseList isHost={isHost} />
+              <CaseList isHost={isHost} groupId={groupId} />
             </Suspense>
           </TabsContent>
           <TabsContent value="members">
