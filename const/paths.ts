@@ -3,6 +3,7 @@ export const PATHS = {
   SIGN_UP: '/auth/sign-up',
   SIGN_IN: '/auth/sign-in',
   GROUP: '/group',
+  INVITATION: '/invitation',
 } as const;
 
 export const API_ROUTE = {
