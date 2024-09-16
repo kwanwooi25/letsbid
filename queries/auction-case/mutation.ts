@@ -4,7 +4,8 @@ import { SuccessResponse } from '@/types/api';
 import { AuctionCase } from '@prisma/client';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl } from '../config';
+import { getApiUrl, getQueryClient } from '../config';
+import { auctionCaseQueryKeys } from './queryKey';
 
 export const createAuctionCaseMutationOptions: MutationOptions<
   AuctionCase,
@@ -24,8 +25,10 @@ export const createAuctionCaseMutationOptions: MutationOptions<
       throw e;
     }
   },
-  onSettled: () => {
-    // const queryClient = getQueryClient();
-    // queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+  onSettled: (data) => {
+    const queryClient = getQueryClient();
+    if (data?.groupId) {
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(data.groupId) });
+    }
   },
 };
