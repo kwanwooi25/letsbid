@@ -74,6 +74,7 @@ model Group {
 
   members     UsersOnGroups[]
   invitations Invitation[]
+  cases       Case[]
 }
 
 model UsersOnGroups {
@@ -101,4 +102,14 @@ enum InvitationStatus {
   PENDING
   ACCEPTED
   REJECTED
+}
+
+model Case {
+  id          String   @id @default(cuid())
+  caseYear    Int
+  caseNumber  Int
+  groupId     String
+  group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  bidStartsAt DateTime
+  bidEndsAt   DateTime
 }
