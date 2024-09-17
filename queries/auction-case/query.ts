@@ -17,4 +17,5 @@ export const getAuctionCaseListQueryOptions = (groupId: string) =>
       });
       return res.data.data;
     },
+    staleTime: 1000 * 60,
   });
