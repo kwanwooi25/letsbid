@@ -13,7 +13,7 @@ export default function GroupListItem({ group, isHost }: Props) {
   const moveToGroup = () => router.push(`${PATHS.GROUP}/${group.id}`);
 
   return (
-    <ListItem color={isHost ? 'green' : undefined} onClick={moveToGroup}>
+    <ListItem className="min-h-[74px]" color={isHost ? 'green' : undefined} onClick={moveToGroup}>
       <span className="text-xl font-semibold">{group.name}</span>
       {isHost && (
         <Avatar>
