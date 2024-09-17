@@ -1,6 +1,8 @@
+import { ListItemColor } from '@/components/ListItem/types';
 import { AuctionCaseStatus } from '@/types/auctionCase';
 import { AuctionCase } from '@prisma/client';
-import { format, isAfter } from 'date-fns';
+import { differenceInSeconds, format, isAfter } from 'date-fns';
+import { formatSeconds, ONE_DAY, ONE_HOUR } from './time';
 
 export function getAuctionCaseName(auctionCase: AuctionCase) {
   const { caseYear, caseNumber } = auctionCase;
@@ -28,6 +30,26 @@ export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCase) {
     default:
       return `입찰 종료: ${format(bidEndsAt, 'yyyy/MM/dd HH:mm')}`;
   }
+}
+
+export function getRemainingTimeDisplay(auctionCase: AuctionCase) {
+  const { bidStartsAt, bidEndsAt } = auctionCase;
+  const status = getAuctionCaseStatus(auctionCase);
+  const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
+  const totalSeconds = differenceInSeconds(criteriaDateTime, new Date());
+  return formatSeconds(totalSeconds);
+}
+
+export function getAuctionCaseColor(auctionCase: AuctionCase): ListItemColor {
+  const { bidStartsAt, bidEndsAt } = auctionCase;
+  const status = getAuctionCaseStatus(auctionCase);
+  const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
+  const totalSeconds = differenceInSeconds(criteriaDateTime, new Date());
+
+  if (totalSeconds > ONE_DAY) return 'green';
+  if (totalSeconds > ONE_HOUR) return 'yellow';
+  if (totalSeconds < 0) return 'gray';
+  return 'red';
 }
 
 export function categorizeAuctionCases(

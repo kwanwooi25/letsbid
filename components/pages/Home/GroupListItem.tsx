@@ -1,5 +1,6 @@
 'use client';
 
+import ListItem from '@/components/ListItem';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { PATHS } from '@/const/paths';
 import { GroupWithMembers } from '@/types/group';
@@ -12,19 +13,16 @@ export default function GroupListItem({ group, isHost }: Props) {
   const moveToGroup = () => router.push(`${PATHS.GROUP}/${group.id}`);
 
   return (
-    <li
-      className="flex items-center justify-between p-4 border border-primary/30 rounded-sm hover:bg-primary-foreground hover:cursor-pointer transition-colors"
-      onClick={moveToGroup}
-    >
+    <ListItem color={isHost ? 'green' : undefined} onClick={moveToGroup}>
       <span className="text-xl font-semibold">{group.name}</span>
       {isHost && (
         <Avatar>
-          <AvatarFallback>
+          <AvatarFallback className="bg-inherit">
             <LucideCrown size={18} />
           </AvatarFallback>
         </Avatar>
       )}
-    </li>
+    </ListItem>
   );
 }
 

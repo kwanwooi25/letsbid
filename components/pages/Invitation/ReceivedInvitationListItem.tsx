@@ -1,3 +1,4 @@
+import ListItem from '@/components/ListItem';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
@@ -70,7 +71,7 @@ export default function ReceivedInvitationListItem({ invitation }: Props) {
   };
 
   return (
-    <li className="flex items-center justify-between p-4 border border-primary/30 rounded-sm hover:bg-primary-foreground hover:cursor-pointer transition-colors">
+    <ListItem>
       <div className="flex flex-col">
         <span className="text-lg font-bold">{invitation.group.name}</span>
         <div className="flex items-center text-primary/70">
@@ -86,7 +87,7 @@ export default function ReceivedInvitationListItem({ invitation }: Props) {
           거절
         </Button>
       </div>
-    </li>
+    </ListItem>
   );
 }
 
