@@ -1,5 +1,6 @@
 'use client';
 
+import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST, AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
 import { useFormDialog } from '@/context/FormDialog';
@@ -14,6 +15,7 @@ export default function AuctionCaseList({ isHost, auctionCases }: Props) {
   const groupId = params.groupId as string;
   const { openForm } = useFormDialog();
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
+  const isEmpty = Object.values(categorizedAuctionCases).every((list) => !list.length);
 
   const handleClickAddCase = () => {
     openForm({ type: 'AUCTION_CASE', formProps: { groupId } });
@@ -45,6 +47,20 @@ export default function AuctionCaseList({ isHost, auctionCases }: Props) {
           </div>
         );
       })}
+
+      {isEmpty && !isHost && <ListEmpty message="표시할 경매 사건이 없습니다" />}
+      {isEmpty && isHost && (
+        <ListEmpty className="flex flex-col gap-4">
+          <p>표시할 경매 사건이 없습니다</p>
+          <p>
+            <Button className="self-end" onClick={handleClickAddCase}>
+              <LucideFilePlus2 className="w-4 h-4 mr-2" />
+              경매 사건 추가
+            </Button>{' '}
+            버튼을 눌러 사건을 추가해주세요
+          </p>
+        </ListEmpty>
+      )}
     </div>
   );
 }
