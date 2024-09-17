@@ -3,18 +3,16 @@
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST, AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
 import { useFormDialog } from '@/context/FormDialog';
-import { getAuctionCaseListQueryOptions } from '@/queries/auction-case/query';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { AuctionCase } from '@prisma/client';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import AuctionCaseListItem from './AuctionCaseListItem';
 import { useCategorizedAuctionCases } from './hooks';
 
-export default function AuctionCaseList({ isHost }: Props) {
+export default function AuctionCaseList({ isHost, auctionCases }: Props) {
   const params = useParams();
   const groupId = params.groupId as string;
   const { openForm } = useFormDialog();
-  const { data: auctionCases } = useSuspenseQuery(getAuctionCaseListQueryOptions(groupId));
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
 
   const handleClickAddCase = () => {
@@ -53,4 +51,5 @@ export default function AuctionCaseList({ isHost }: Props) {
 
 type Props = {
   isHost?: boolean;
+  auctionCases: AuctionCase[];
 };

@@ -5,12 +5,12 @@ import PageHeader from '@/components/PageHeader';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PATHS } from '@/const/paths';
+import { getAuctionCaseListQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 import { LucideCrown } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 import AuctionCaseList from './AuctionCaseList';
 import GroupDetailHeaderButtons from './HeaderButtons';
 import MemberList from './MemberList';
@@ -24,7 +24,9 @@ export default function Group() {
   const searchParams = useSearchParams();
   const groupId = params.groupId as string;
   const tab = (searchParams.get('tab') as GroupPageTabs) ?? 'auctionCases';
-  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
+  const [{ data: group }, { data: auctionCases }] = useSuspenseQueries({
+    queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseListQueryOptions(groupId)],
+  });
   const isHost = session?.data?.user?.id === group.hostId;
 
   const handleClickBackButton = () => router.replace(PATHS.HOME);
@@ -69,9 +71,7 @@ export default function Group() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="auctionCases">
-            <Suspense fallback={<div>Loading...</div>}>
-              <AuctionCaseList isHost={isHost} />
-            </Suspense>
+            <AuctionCaseList isHost={isHost} auctionCases={auctionCases} />
           </TabsContent>
           <TabsContent value="members">
             <MemberList isHost={isHost} group={group} />
