@@ -1,23 +1,48 @@
+import { AuctionCaseStatus } from '@/types/auctionCase';
 import { AuctionCase } from '@prisma/client';
-import { isAfter } from 'date-fns';
+import { format, isAfter } from 'date-fns';
 
-export function categorizeAuctionCases(auctionCases: AuctionCase[]) {
+export function getAuctionCaseName(auctionCase: AuctionCase) {
+  const { caseYear, caseNumber } = auctionCase;
+  return `${caseYear}타경${caseNumber}`;
+}
+
+export function getAuctionCaseStatus(auctionCase: AuctionCase): AuctionCaseStatus {
+  const { bidStartsAt, bidEndsAt } = auctionCase;
   const now = new Date();
+
+  if (isAfter(bidStartsAt, now)) return 'BEFORE_BIDDING';
+  if (isAfter(bidEndsAt, now)) return 'BIDDING';
+  return 'FINISHED_BIDDING';
+}
+
+export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCase) {
+  const { bidStartsAt, bidEndsAt } = auctionCase;
+  const status = getAuctionCaseStatus(auctionCase);
+
+  switch (status) {
+    case 'BEFORE_BIDDING':
+      return `입찰 시작: ${format(bidStartsAt, 'yyyy/MM/dd HH:mm')}`;
+    case 'BIDDING':
+    case 'FINISHED_BIDDING':
+    default:
+      return `입찰 종료: ${format(bidEndsAt, 'yyyy/MM/dd HH:mm')}`;
+  }
+}
+
+export function categorizeAuctionCases(
+  auctionCases: AuctionCase[],
+): Record<AuctionCaseStatus, AuctionCase[]> {
   return auctionCases.reduce(
     (acc, cur) => {
-      if (isAfter(cur.bidStartsAt, now)) {
-        acc.beforeBidding.push(cur);
-      } else if (isAfter(cur.bidEndsAt, now)) {
-        acc.bidding.push(cur);
-      } else {
-        acc.finishedBidding.push(cur);
-      }
+      const status = getAuctionCaseStatus(cur);
+      acc[status].push(cur);
       return acc;
     },
     {
-      bidding: [] as AuctionCase[],
-      beforeBidding: [] as AuctionCase[],
-      finishedBidding: [] as AuctionCase[],
+      BIDDING: [] as AuctionCase[],
+      BEFORE_BIDDING: [] as AuctionCase[],
+      FINISHED_BIDDING: [] as AuctionCase[],
     },
   );
 }

@@ -1,21 +1,21 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { AUCTION_CASE_STATUS_LIST, AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
 import { useFormDialog } from '@/context/FormDialog';
 import { getAuctionCaseListQueryOptions } from '@/queries/auction-case/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideFilePlus2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import AuctionCaseListItem from './AuctionCaseListItem';
 import { useCategorizedAuctionCases } from './hooks';
 
-export default function AuctionCaseList({ isHost, groupId }: Props) {
+export default function AuctionCaseList({ isHost }: Props) {
+  const params = useParams();
+  const groupId = params.groupId as string;
   const { openForm } = useFormDialog();
   const { data: auctionCases } = useSuspenseQuery(getAuctionCaseListQueryOptions(groupId));
-  const {
-    bidding = [],
-    beforeBidding = [],
-    finishedBidding = [],
-  } = useCategorizedAuctionCases(auctionCases);
+  const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
 
   const handleClickAddCase = () => {
     openForm({ type: 'AUCTION_CASE', formProps: { groupId } });
@@ -30,55 +30,27 @@ export default function AuctionCaseList({ isHost, groupId }: Props) {
         </Button>
       )}
 
-      {!!bidding.length && (
-        <div className="flex flex-col gap-4 mb-6">
-          <h5 className="text-xl font-bold text-primary/80">입찰 중 사건</h5>
-          <ul className="flex flex-col gap-4">
-            {bidding.map((auctionCase) => (
-              <AuctionCaseListItem
-                key={auctionCase.id}
-                auctionCase={auctionCase}
-                status="BIDDING"
-              />
-            ))}
-          </ul>
-        </div>
-      )}
+      {AUCTION_CASE_STATUS_LIST.map((auctionCaseStatus) => {
+        const auctionCaseList = categorizedAuctionCases[auctionCaseStatus];
+        if (!auctionCaseList?.length) return null;
 
-      {!!beforeBidding.length && (
-        <div className="flex flex-col gap-4 mb-6">
-          <h5 className="text-xl font-bold text-primary/80">입찰 예정 사건</h5>
-          <ul className="flex flex-col gap-4">
-            {beforeBidding.map((auctionCase) => (
-              <AuctionCaseListItem
-                key={auctionCase.id}
-                auctionCase={auctionCase}
-                status="BEFORE_BIDDING"
-              />
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {!!finishedBidding.length && (
-        <div className="flex flex-col gap-4 mb-6">
-          <h5 className="text-xl font-bold text-primary/80">입찰 종료 사건</h5>
-          <ul className="flex flex-col gap-4">
-            {finishedBidding.map((auctionCase) => (
-              <AuctionCaseListItem
-                key={auctionCase.id}
-                auctionCase={auctionCase}
-                status="FINISHED_BIDDING"
-              />
-            ))}
-          </ul>
-        </div>
-      )}
+        return (
+          <div className="flex flex-col gap-4 mb-6">
+            <h5 className="text-xl font-bold text-primary/80">
+              {AUCTION_CASE_STATUS_TRANSLATIONS[auctionCaseStatus]}
+            </h5>
+            <ul className="flex flex-col gap-4">
+              {auctionCaseList.map((auctionCase) => (
+                <AuctionCaseListItem key={auctionCase.id} auctionCase={auctionCase} />
+              ))}
+            </ul>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 type Props = {
   isHost?: boolean;
-  groupId: string;
 };

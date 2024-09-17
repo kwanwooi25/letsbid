@@ -2,15 +2,15 @@ import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/li
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 
-export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
   try {
     await getUserFromSession();
-    const auctionCases = await prisma.auctionCase.findMany({
+    const auctionCase = await prisma.auctionCase.findUnique({
       where: {
-        groupId: params.groupId,
+        id: params.auctionCaseId,
       },
     });
-    return handleSuccess({ data: auctionCases });
+    return handleSuccess({ data: auctionCase });
   } catch (e) {
     return handlePrismaClientError(e);
   }

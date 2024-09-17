@@ -4,6 +4,7 @@ export const PATHS = {
   SIGN_IN: '/auth/sign-in',
   GROUP: '/group',
   INVITATION: '/invitation',
+  AUCTION_CASE: '/auction-case',
 } as const;
 
 export const API_ROUTE = {

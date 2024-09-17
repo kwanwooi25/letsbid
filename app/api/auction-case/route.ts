@@ -1,7 +1,27 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { getUserFromSession, handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
+
+export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
+  try {
+    const url = new URL(req.url);
+    const groupId = url.searchParams.get('groupId');
+    if (!groupId) {
+      return handleFail({
+        status: HttpStatusCode.BadRequest,
+        message: 'groupId required',
+      });
+    }
+    await getUserFromSession();
+    const auctionCases = await prisma.auctionCase.findMany({
+      where: { groupId },
+    });
+    return handleSuccess({ data: auctionCases });
+  } catch (e) {
+    return handlePrismaClientError(e);
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {

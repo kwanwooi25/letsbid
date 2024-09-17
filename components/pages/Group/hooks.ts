@@ -1,8 +1,11 @@
 import { categorizeAuctionCases } from '@/lib/auctionCase';
+import { AuctionCaseStatus } from '@/types/auctionCase';
 import { AuctionCase } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
 
-export function useCategorizedAuctionCases(auctionCases: AuctionCase[]) {
+export function useCategorizedAuctionCases(
+  auctionCases: AuctionCase[],
+): Record<AuctionCaseStatus, AuctionCase[]> {
   const { data } = useQuery({
     queryKey: ['categorizedAuctionCases'],
     queryFn: () => categorizeAuctionCases(auctionCases),
@@ -10,5 +13,5 @@ export function useCategorizedAuctionCases(auctionCases: AuctionCase[]) {
     refetchIntervalInBackground: true,
   });
 
-  return data ?? { bidding: [], beforeBidding: [], finishedBidding: [] };
+  return data ?? { BIDDING: [], BEFORE_BIDDING: [], FINISHED_BIDDING: [] };
 }

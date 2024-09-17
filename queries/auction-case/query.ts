@@ -10,7 +10,7 @@ export const getAuctionCaseListQueryOptions = (groupId: string) =>
   queryOptions({
     queryKey: auctionCaseQueryKeys.list(groupId),
     queryFn: async () => {
-      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${groupId}`);
+      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}?groupId=${groupId}`);
       const res = await axios<SuccessResponse<AuctionCase[]>>({
         method: 'get',
         url,
@@ -18,4 +18,17 @@ export const getAuctionCaseListQueryOptions = (groupId: string) =>
       return res.data.data;
     },
     staleTime: 1000 * 60,
+  });
+
+export const getAuctionCaseDetailQueryOptions = (auctionCaseId: string) =>
+  queryOptions({
+    queryKey: auctionCaseQueryKeys.detail(auctionCaseId),
+    queryFn: async () => {
+      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${auctionCaseId}`);
+      const res = await axios<SuccessResponse<AuctionCase>>({
+        method: 'get',
+        url,
+      });
+      return res.data.data;
+    },
   });

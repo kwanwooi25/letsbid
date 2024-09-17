@@ -1,19 +1,27 @@
 'use client';
 
+import { PATHS } from '@/const/paths';
+import {
+  getAuctionCaseName,
+  getAuctionCaseStatus,
+  getAuctionCaseTimeRefDisplay,
+} from '@/lib/auctionCase';
 import { formatSeconds, ONE_DAY, ONE_HOUR } from '@/lib/time';
 import { cn } from '@/lib/utils';
 import { AuctionCase } from '@prisma/client';
-import { differenceInSeconds, format } from 'date-fns';
+import { differenceInSeconds } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 
-export default function AuctionCaseListItem({ auctionCase, status }: Props) {
+export default function AuctionCaseListItem({ auctionCase }: Props) {
+  const router = useRouter();
   const [remainigTime, setRemainigTime] = useState('');
-  const { caseYear, caseNumber, bidStartsAt, bidEndsAt } = auctionCase;
+  const { bidStartsAt, bidEndsAt, id, groupId } = auctionCase;
 
-  const bidStartsAtDisplay = `입찰 시작: ${format(bidStartsAt, 'yyyy/MM/dd HH:mm')}`;
-  const bidEndsAtDisplay = `입찰 종료: ${format(bidEndsAt, 'yyyy/MM/dd HH:mm')}`;
+  const timeRefDisplay = getAuctionCaseTimeRefDisplay(auctionCase);
 
+  const status = getAuctionCaseStatus(auctionCase);
   const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
   const totalSeconds = differenceInSeconds(criteriaDateTime, new Date());
 
@@ -30,16 +38,11 @@ export default function AuctionCaseListItem({ auctionCase, status }: Props) {
         totalSeconds > ONE_HOUR && 'bg-yellow-100/20 hover:bg-yellow-100/50 border-yellow-700/50',
         totalSeconds > ONE_DAY && 'bg-green-100/20 hover:bg-green-100/50 border-green-700/50',
       )}
+      onClick={() => router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`)}
     >
       <div className="flex flex-col gap-2">
-        <span className="text-lg font-bold">
-          {caseYear}타경{caseNumber}
-        </span>
-        <span className="text-sm text-primary/70">
-          {status === 'BIDDING' && bidEndsAtDisplay}
-          {status === 'BEFORE_BIDDING' && bidStartsAtDisplay}
-          {status === 'FINISHED_BIDDING' && bidEndsAtDisplay}
-        </span>
+        <span className="text-lg font-bold">{getAuctionCaseName(auctionCase)}</span>
+        <span className="text-sm text-primary/70">{timeRefDisplay}</span>
       </div>
 
       {remainigTime && (
@@ -60,5 +63,4 @@ export default function AuctionCaseListItem({ auctionCase, status }: Props) {
 
 type Props = {
   auctionCase: AuctionCase;
-  status: 'BIDDING' | 'BEFORE_BIDDING' | 'FINISHED_BIDDING';
 };

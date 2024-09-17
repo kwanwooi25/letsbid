@@ -9,18 +9,22 @@ import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideCrown } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import CaseList from './AuctionCaseList';
+import AuctionCaseList from './AuctionCaseList';
 import GroupDetailHeaderButtons from './HeaderButtons';
 import MemberList from './MemberList';
+import { GroupPageTabs } from './types';
 
-export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
+export default function Group() {
   const session = useSession();
-  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const router = useRouter();
   const pathname = usePathname();
+  const params = useParams();
   const searchParams = useSearchParams();
+  const groupId = params.groupId as string;
+  const tab = (searchParams.get('tab') as GroupPageTabs) ?? 'auctionCases';
+  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const isHost = session?.data?.user?.id === group.hostId;
 
   const handleClickBackButton = () => router.replace(PATHS.HOME);
@@ -57,16 +61,16 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
       <PageBody className="max-w-2xl">
         <Tabs defaultValue={tab} onValueChange={handleTabChange}>
           <TabsList className="w-full">
-            <TabsTrigger className="w-full" value="cases">
+            <TabsTrigger className="w-full" value="auctionCases">
               경매 사건
             </TabsTrigger>
             <TabsTrigger className="w-full" value="members">
               멤버
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="cases">
+          <TabsContent value="auctionCases">
             <Suspense fallback={<div>Loading...</div>}>
-              <CaseList isHost={isHost} groupId={groupId} />
+              <AuctionCaseList isHost={isHost} />
             </Suspense>
           </TabsContent>
           <TabsContent value="members">
@@ -77,8 +81,3 @@ export default function GroupDetail({ groupId, tab = 'cases' }: Props) {
     </>
   );
 }
-
-type Props = {
-  groupId: string;
-  tab: 'cases' | 'members';
-};
