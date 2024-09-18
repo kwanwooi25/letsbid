@@ -15,6 +15,8 @@ import { cn } from '@/lib/utils';
 import DateFormField from './DateFormField';
 import InputFormField from './InputFormField';
 import SelectFormField from './SelectFormField';
+import DateTimeFormField from './DateTimeFormField';
+import CheckboxFormField from './CheckboxFormField';
 
 const Form = FormProvider;
 
@@ -173,6 +175,8 @@ export {
 
   // presets
   DateFormField,
+  DateTimeFormField,
   InputFormField,
   SelectFormField,
+  CheckboxFormField,
 };

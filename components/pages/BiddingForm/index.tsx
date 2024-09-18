@@ -4,7 +4,7 @@ import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
-import { Form, InputFormField } from '@/components/ui/form';
+import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
@@ -71,7 +71,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
       otherCost -
       expectedProfit;
     form.setValue('biddingPrice', biddingPrice);
-  }, [watchedValues]);
+  }, [watchedValues, form]);
 
   const isEditing = !!bid;
   const formTitle = isEditing ? '입찰 정보 수정' : '입찰표 제출';
@@ -89,7 +89,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
   const submitForm = form.handleSubmit(async (values: BiddingFormSchema) => {
     try {
       const mutationFn = isEditing ? updateBid : placeBid;
-      await mutationFn(values);
+      await mutationFn({ ...values, excludedReason: values.isExcluded ? '모의 입찰' : '' });
       toast({
         title: auctionCaseName,
         description: <p>{formTitle} 성공</p>,
@@ -119,9 +119,12 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
           }
           backButton
         >
-          <Button onClick={submitForm} isLoading={isSubmitting}>
-            <span>{isEditing ? '수정' : '제출'}</span>
-          </Button>
+          <div className="flex items-center gap-2">
+            <CheckboxFormField control={form.control} name="isExcluded" label="모의 입찰" />
+            <Button onClick={submitForm} isLoading={isSubmitting}>
+              {isEditing ? '수정' : '제출'}
+            </Button>
+          </div>
         </PageHeader>
 
         <PageBody className="flex flex-col gap-4 mb-8">
