@@ -15,12 +15,14 @@ import {
 } from '@/lib/auctionCase';
 import { cn } from '@/lib/utils';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
+import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
-import BidDetail from './BidDetail';
+import AuctionResult from './AuctionResult';
 import AuctionCaseHeaderButtons from './HeaderButtons';
+import MyBid from './MyBid';
 import PlaceBidButton from './PlaceBidButton';
 
 export default function AuctionCase() {
@@ -76,17 +78,26 @@ export default function AuctionCase() {
           </div>
         </div>
 
-        {biddingCount && (
+        {status !== 'BEFORE_BIDDING' && biddingCount > 0 && (
           <div className="text-center">
             <b className="text-lg">{biddingCount.toLocaleString()}명</b> 입찰 완료
           </div>
         )}
 
+        {status !== 'BEFORE_BIDDING' && biddingCount <= 0 && (
+          <div className="text-center text-lg font-bold">입찰자 없음</div>
+        )}
+
         {status === 'BIDDING' && !hasBidden && <PlaceBidButton auctionCase={auctionCase} />}
-        {hasBidden && bid?.id && (
+
+        {status === 'BIDDING' && hasBidden && bid?.id && (
           <Suspense fallback={<div>Loading...</div>}>
-            <BidDetail bidId={bid.id} auctionCase={auctionCase} />
+            <MyBid bidId={bid.id} auctionCase={auctionCase} />
           </Suspense>
+        )}
+
+        {status === 'FINISHED_BIDDING' && auctionCase.bids.length > 0 && (
+          <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUser} />
         )}
       </PageBody>
     </>
