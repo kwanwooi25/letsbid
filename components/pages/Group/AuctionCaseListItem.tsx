@@ -15,15 +15,17 @@ import { useInterval } from 'usehooks-ts';
 
 export default function AuctionCaseListItem({ auctionCase }: Props) {
   const router = useRouter();
-  const [remainigTime, setRemainigTime] = useState('');
+  const [remainingTime, setRemainingTime] = useState('');
   const { id, groupId } = auctionCase;
+  const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
+  const [timeRefDisplay, setTimeRefDisplay] = useState(getAuctionCaseTimeRefDisplay(auctionCase));
 
-  const color = getAuctionCaseColor(auctionCase);
   const auctionCaseName = getAuctionCaseName(auctionCase);
-  const timeRefDisplay = getAuctionCaseTimeRefDisplay(auctionCase);
 
   useInterval(() => {
-    setRemainigTime(getRemainingTimeDisplay(auctionCase));
+    setRemainingTime(getRemainingTimeDisplay(auctionCase));
+    setColor(getAuctionCaseColor(auctionCase));
+    setTimeRefDisplay(getAuctionCaseTimeRefDisplay(auctionCase));
   }, 1000);
 
   return (
@@ -36,9 +38,9 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
         <span className="text-sm text-primary/70">{timeRefDisplay}</span>
       </div>
 
-      {remainigTime && (
+      {remainingTime && (
         <div className="flex justify-between items-center text-lg font-bold">
-          {remainigTime} 남음
+          {remainingTime} 남음
         </div>
       )}
     </ListItem>

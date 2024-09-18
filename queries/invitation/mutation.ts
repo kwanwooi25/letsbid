@@ -4,6 +4,7 @@ import { InvitationWithGroupAndInviter } from '@/types/invitation';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
+import { groupQueryKeys } from '../group/queryKey';
 import { invitationQueryKeys } from './queryKey';
 
 export const respondToInvitationMutationOptions: MutationOptions<
@@ -26,6 +27,7 @@ export const respondToInvitationMutationOptions: MutationOptions<
   onSettled: () => {
     const queryClient = getQueryClient();
     queryClient.invalidateQueries({ queryKey: invitationQueryKeys.list('received') });
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
   },
 };
 

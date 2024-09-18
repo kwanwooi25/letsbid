@@ -28,19 +28,24 @@ export default function AuctionCase() {
   const params = useParams();
   const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
-  const [remainigTime, setRemainigTime] = useState('');
+  const [remainingTime, setRemainingTime] = useState('');
   const { data: auctionCase } = useSuspenseQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
   const isGroupHost = useIsGroupHost(groupId);
+  const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
+  const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
+  const [timeRefDisplay, setTimeRefDisplay] = useState(getAuctionCaseTimeRefDisplay(auctionCase));
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
 
-  const color = getAuctionCaseColor(auctionCase);
-  const status = getAuctionCaseStatus(auctionCase);
-  const timeRefDisplay = getAuctionCaseTimeRefDisplay(auctionCase);
   const biddingCount = auctionCase.bids.length ?? 0;
 
   const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
 
-  useInterval(() => setRemainigTime(getRemainingTimeDisplay(auctionCase)), 1000);
+  useInterval(() => {
+    setRemainingTime(getRemainingTimeDisplay(auctionCase));
+    setColor(getAuctionCaseColor(auctionCase));
+    setStatus(getAuctionCaseStatus(auctionCase));
+    setTimeRefDisplay(getAuctionCaseTimeRefDisplay(auctionCase));
+  }, 1000);
 
   return (
     <>
@@ -67,7 +72,7 @@ export default function AuctionCase() {
               color === 'green' && 'text-green-700',
             )}
           >
-            {remainigTime && `${remainigTime} 남음`}
+            {remainingTime && `${remainingTime} 남음`}
           </div>
         </div>
 

@@ -36,7 +36,7 @@ export default function BidDetail({ bidId, auctionCase }: Props) {
     expectedProfit,
     biddingPrice,
     user,
-  } = bid;
+  } = bid ?? {};
 
   const handleClickEditBid = () => {
     router.push(
@@ -63,6 +63,8 @@ export default function BidDetail({ bidId, auctionCase }: Props) {
       },
     });
   };
+
+  if (!bid) return null;
 
   return (
     <div className="w-full max-w-md mx-auto px-6 py-8 flex flex-col gap-2 border border-primary-foreground shadow-lg">

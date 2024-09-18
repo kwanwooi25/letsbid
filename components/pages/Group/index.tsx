@@ -1,15 +1,14 @@
 'use client';
 
+import HostBadge from '@/components/HostBadge';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PATHS } from '@/const/paths';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import { getAuctionCaseListQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { LucideCrown } from 'lucide-react';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import AuctionCaseList from './AuctionCaseList';
 import GroupDetailHeaderButtons from './HeaderButtons';
@@ -47,13 +46,7 @@ export default function Group() {
         title={
           <>
             <span className="text-xl font-semibold">{group.name}</span>
-            {isGroupHost && (
-              <Avatar>
-                <AvatarFallback>
-                  <LucideCrown className="w-4 h-4" />
-                </AvatarFallback>
-              </Avatar>
-            )}
+            {isGroupHost && <HostBadge />}
           </>
         }
       >
