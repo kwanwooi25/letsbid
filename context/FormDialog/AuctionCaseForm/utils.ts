@@ -1,4 +1,4 @@
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { AuctionCaseFormSchema } from './formSchema';
 
 export function getDefaultFormValues({
@@ -6,7 +6,7 @@ export function getDefaultFormValues({
   auctionCase,
 }: {
   groupId?: string;
-  auctionCase?: AuctionCase;
+  auctionCase?: AuctionCaseLike;
 }): AuctionCaseFormSchema {
   if (auctionCase) {
     const { bidStartsAt, bidEndsAt } = auctionCase;

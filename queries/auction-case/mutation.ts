@@ -1,21 +1,21 @@
 import { API_ROUTE } from '@/const/paths';
 import { AuctionCaseFormSchema } from '@/context/FormDialog/AuctionCaseForm/formSchema';
 import { SuccessResponse } from '@/types/api';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
 import { auctionCaseQueryKeys } from './queryKey';
 
 export const createAuctionCaseMutationOptions: MutationOptions<
-  AuctionCase,
+  AuctionCaseLike,
   Error,
   AuctionCaseFormSchema
 > = {
   mutationFn: async (data: AuctionCaseFormSchema) => {
     try {
       const url = getApiUrl(API_ROUTE.AUCTION_CASE);
-      const res = await axios<SuccessResponse<AuctionCase>>({
+      const res = await axios<SuccessResponse<AuctionCaseLike>>({
         method: 'post',
         url,
         data,
@@ -34,14 +34,14 @@ export const createAuctionCaseMutationOptions: MutationOptions<
 };
 
 export const updateAuctionCaseMutationOptions: MutationOptions<
-  AuctionCase,
+  AuctionCaseLike,
   Error,
   AuctionCaseFormSchema
 > = {
   mutationFn: async (data: AuctionCaseFormSchema) => {
     try {
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${data.id}`);
-      const res = await axios<SuccessResponse<AuctionCase>>({
+      const res = await axios<SuccessResponse<AuctionCaseLike>>({
         method: 'patch',
         url,
         data,

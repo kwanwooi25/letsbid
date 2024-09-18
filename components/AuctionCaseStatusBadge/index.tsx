@@ -1,7 +1,7 @@
 import { AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { cn } from '@/lib/utils';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 
 export default function AuctionCaseStatusBadge({ auctionCase, className, size = 'md' }: Props) {
   const status = getAuctionCaseStatus(auctionCase);
@@ -19,9 +19,9 @@ export default function AuctionCaseStatusBadge({ auctionCase, className, size = 
         size === 'sm' && 'px-2 py-1 text-xs',
         size === 'md' && 'px-3 py-1 text-sm',
         size === 'lg' && 'px-4 py-2 text-md',
-        color === 'gray' && 'text-gray-100 bg-gray-700',
-        color === 'yellow' && 'text-yellow-100 bg-yellow-700',
-        color === 'green' && 'text-green-100 bg-green-700',
+        color === 'gray' && 'text-white bg-gray-700',
+        color === 'yellow' && 'text-white bg-yellow-700',
+        color === 'green' && 'text-white bg-green-700',
         className,
       )}
     >
@@ -31,7 +31,7 @@ export default function AuctionCaseStatusBadge({ auctionCase, className, size = 
 }
 
 type Props = {
-  auctionCase: AuctionCase;
+  auctionCase: AuctionCaseLike;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
 };

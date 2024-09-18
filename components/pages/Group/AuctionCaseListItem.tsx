@@ -8,7 +8,7 @@ import {
   getAuctionCaseTimeRefDisplay,
   getRemainingTimeDisplay,
 } from '@/lib/auctionCase';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -46,5 +46,5 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
 }
 
 type Props = {
-  auctionCase: AuctionCase;
+  auctionCase: AuctionCaseLike;
 };

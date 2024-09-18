@@ -8,8 +8,8 @@ import {
   createAuctionCaseMutationOptions,
   updateAuctionCaseMutationOptions,
 } from '@/queries/auction-case/mutation';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AuctionCase } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { AuctionCaseFormSchema, formSchema } from './formSchema';
@@ -106,6 +106,6 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
 
 type Props = {
   groupId?: string;
-  auctionCase?: AuctionCase;
+  auctionCase?: AuctionCaseLike;
   onSubmit?: () => void | Promise<void>;
 };

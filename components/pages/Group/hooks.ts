@@ -1,11 +1,10 @@
 import { categorizeAuctionCases } from '@/lib/auctionCase';
-import { AuctionCaseStatus } from '@/types/auctionCase';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike, AuctionCaseStatus } from '@/types/auctionCase';
 import { useQuery } from '@tanstack/react-query';
 
 export function useCategorizedAuctionCases(
-  auctionCases: AuctionCase[],
-): Record<AuctionCaseStatus, AuctionCase[]> {
+  auctionCases: AuctionCaseLike[],
+): Record<AuctionCaseStatus, AuctionCaseLike[]> {
   const { data } = useQuery({
     queryKey: ['categorizedAuctionCases'],
     queryFn: () => categorizeAuctionCases(auctionCases),

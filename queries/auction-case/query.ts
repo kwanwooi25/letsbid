@@ -1,6 +1,6 @@
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { queryOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl } from '../config';
@@ -11,7 +11,7 @@ export const getAuctionCaseListQueryOptions = (groupId: string) =>
     queryKey: auctionCaseQueryKeys.list(groupId),
     queryFn: async () => {
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}?groupId=${groupId}`);
-      const res = await axios<SuccessResponse<AuctionCase[]>>({
+      const res = await axios<SuccessResponse<AuctionCaseLike[]>>({
         method: 'get',
         url,
       });
@@ -25,7 +25,7 @@ export const getAuctionCaseDetailQueryOptions = (auctionCaseId: string) =>
     queryKey: auctionCaseQueryKeys.detail(auctionCaseId),
     queryFn: async () => {
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${auctionCaseId}`);
-      const res = await axios<SuccessResponse<AuctionCase>>({
+      const res = await axios<SuccessResponse<AuctionCaseLike>>({
         method: 'get',
         url,
       });

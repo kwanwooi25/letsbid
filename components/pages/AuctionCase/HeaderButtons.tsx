@@ -8,7 +8,7 @@ import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { getAuctionCaseName, getAuctionCaseStatus } from '@/lib/auctionCase';
 import { deleteAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes } from 'react';
@@ -79,5 +79,5 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
 }
 
 type Props = {
-  auctionCase: AuctionCase;
+  auctionCase: AuctionCaseLike;
 };

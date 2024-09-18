@@ -4,7 +4,7 @@ import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST, AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
 import { useFormDialog } from '@/context/FormDialog';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import AuctionCaseListItem from './AuctionCaseListItem';
@@ -68,5 +68,5 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
 
 type Props = {
   isGroupHost?: boolean;
-  auctionCases: AuctionCase[];
+  auctionCases: AuctionCaseLike[];
 };

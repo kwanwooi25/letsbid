@@ -1,16 +1,29 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { getUserFromSession, handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { filterBidDetails } from '@/lib/auctionCase';
 import { prisma } from '@/lib/prisma';
+import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
   try {
-    await getUserFromSession();
+    const user = await getUserFromSession();
     const auctionCase = await prisma.auctionCase.findUnique({
-      where: {
-        id: params.auctionCaseId,
+      where: { id: params.auctionCaseId },
+      include: {
+        bids: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
-    return handleSuccess({ data: auctionCase });
+    if (!auctionCase) {
+      return handleFail({
+        status: HttpStatusCode.NotFound,
+        message: 'Not found',
+      });
+    }
+    return handleSuccess({ data: filterBidDetails(auctionCase, user?.id) });
   } catch (e) {
     return handlePrismaClientError(e);
   }

@@ -5,6 +5,7 @@ export const PATHS = {
   GROUP: '/group',
   INVITATION: '/invitation',
   AUCTION_CASE: '/auction-case',
+  BID: '/bid',
 } as const;
 
 export const API_ROUTE = {
@@ -15,4 +16,5 @@ export const API_ROUTE = {
   GROUP: '/api/group',
   INVITATION: '/api/invitation',
   AUCTION_CASE: '/api/auction-case',
+  BID: '/api/bid',
 } as const;

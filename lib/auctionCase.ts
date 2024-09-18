@@ -1,15 +1,14 @@
 import { ListItemColor } from '@/components/ListItem/types';
-import { AuctionCaseStatus } from '@/types/auctionCase';
-import { AuctionCase } from '@prisma/client';
+import { AuctionCaseLike, AuctionCaseStatus } from '@/types/auctionCase';
 import { differenceInSeconds, format, isAfter } from 'date-fns';
 import { formatSeconds, ONE_DAY, ONE_HOUR } from './time';
 
-export function getAuctionCaseName(auctionCase: AuctionCase) {
+export function getAuctionCaseName(auctionCase: AuctionCaseLike) {
   const { caseYear, caseNumber } = auctionCase;
   return `${caseYear}타경${caseNumber}`;
 }
 
-export function getAuctionCaseStatus(auctionCase: AuctionCase): AuctionCaseStatus {
+export function getAuctionCaseStatus(auctionCase: AuctionCaseLike): AuctionCaseStatus {
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const now = new Date();
 
@@ -18,7 +17,7 @@ export function getAuctionCaseStatus(auctionCase: AuctionCase): AuctionCaseStatu
   return 'FINISHED_BIDDING';
 }
 
-export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCase) {
+export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCaseLike) {
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const status = getAuctionCaseStatus(auctionCase);
 
@@ -32,7 +31,7 @@ export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCase) {
   }
 }
 
-export function getRemainingTimeDisplay(auctionCase: AuctionCase) {
+export function getRemainingTimeDisplay(auctionCase: AuctionCaseLike) {
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const status = getAuctionCaseStatus(auctionCase);
   const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
@@ -40,7 +39,7 @@ export function getRemainingTimeDisplay(auctionCase: AuctionCase) {
   return formatSeconds(totalSeconds);
 }
 
-export function getAuctionCaseColor(auctionCase: AuctionCase): ListItemColor {
+export function getAuctionCaseColor(auctionCase: AuctionCaseLike): ListItemColor {
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const status = getAuctionCaseStatus(auctionCase);
   const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
@@ -52,9 +51,16 @@ export function getAuctionCaseColor(auctionCase: AuctionCase): ListItemColor {
   return 'red';
 }
 
+export function getHasBidden(auctionCase: AuctionCaseLike, userId?: string) {
+  return {
+    hasBidden: auctionCase.bids.some((bid) => bid.userId === userId),
+    bid: auctionCase.bids.find((bid) => bid.userId === userId),
+  };
+}
+
 export function categorizeAuctionCases(
-  auctionCases: AuctionCase[],
-): Record<AuctionCaseStatus, AuctionCase[]> {
+  auctionCases: AuctionCaseLike[],
+): Record<AuctionCaseStatus, AuctionCaseLike[]> {
   return auctionCases.reduce(
     (acc, cur) => {
       const status = getAuctionCaseStatus(cur);
@@ -62,9 +68,28 @@ export function categorizeAuctionCases(
       return acc;
     },
     {
-      BIDDING: [] as AuctionCase[],
-      BEFORE_BIDDING: [] as AuctionCase[],
-      FINISHED_BIDDING: [] as AuctionCase[],
+      BIDDING: [] as AuctionCaseLike[],
+      BEFORE_BIDDING: [] as AuctionCaseLike[],
+      FINISHED_BIDDING: [] as AuctionCaseLike[],
     },
   );
+}
+
+export function filterBidDetails(auctionCase: AuctionCaseLike, userId?: string): AuctionCaseLike {
+  const status = getAuctionCaseStatus(auctionCase);
+  const bids = auctionCase.bids ?? [];
+
+  switch (status) {
+    case 'BIDDING':
+      return {
+        ...auctionCase,
+        bids: bids.map((bid) => {
+          return bid.userId === userId ? bid : { id: bid.id, userId: bid.userId };
+        }),
+      };
+    case 'FINISHED_BIDDING':
+    case 'BEFORE_BIDDING':
+    default:
+      return auctionCase;
+  }
 }
