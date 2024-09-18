@@ -3,6 +3,7 @@
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { PATHS } from '@/const/paths';
+import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import {
   getAuctionCaseColor,
   getAuctionCaseName,
@@ -15,23 +16,23 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
+import AuctionCaseHeaderButtons from './HeaderButtons';
 
 export default function AuctionCase() {
   const router = useRouter();
   const params = useParams();
+  const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
   const [remainigTime, setRemainigTime] = useState('');
   const { data: auctionCase } = useSuspenseQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
+  const isGroupHost = useIsGroupHost(groupId);
 
-  const { groupId } = auctionCase;
   const color = getAuctionCaseColor(auctionCase);
   const timeRefDisplay = getAuctionCaseTimeRefDisplay(auctionCase);
 
   const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
 
-  useInterval(() => {
-    setRemainigTime(getRemainingTimeDisplay(auctionCase));
-  }, 1000);
+  useInterval(() => setRemainigTime(getRemainingTimeDisplay(auctionCase)), 1000);
 
   return (
     <>
@@ -40,7 +41,9 @@ export default function AuctionCase() {
         backButton
         onBackButtonClick={handleClickBackButton}
         title={getAuctionCaseName(auctionCase)}
-      ></PageHeader>
+      >
+        {isGroupHost && <AuctionCaseHeaderButtons auctionCase={auctionCase} />}
+      </PageHeader>
       <PageBody className="max-w-2xl">
         <div className="flex items-center justify-between min-h-[28px]">
           <span className="text-sm text-primary/70">{timeRefDisplay}</span>

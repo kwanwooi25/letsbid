@@ -4,11 +4,9 @@ import { Button } from '@/components/ui/button';
 import { useFormDialog } from '@/context/FormDialog';
 import { GroupWithMembersAsUsers } from '@/types/group';
 import { LucideUserPlus } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import MemberListItem from './MemberListItem';
 
-export default function MemberList({ isHost: isMeHost, group }: Props) {
-  const session = useSession();
+export default function MemberList({ isGroupHost, group }: Props) {
   const { openForm } = useFormDialog();
   const { members, hostId } = group;
 
@@ -21,7 +19,7 @@ export default function MemberList({ isHost: isMeHost, group }: Props) {
 
   return (
     <div className="flex flex-col gap-4 py-4">
-      {isMeHost && (
+      {isGroupHost && (
         <Button className="self-end" onClick={handleClickInvite}>
           <LucideUserPlus className="w-4 h-4 mr-2" />
           멤버 초대
@@ -30,12 +28,7 @@ export default function MemberList({ isHost: isMeHost, group }: Props) {
 
       <ul className="flex flex-col gap-4">
         {members.map((member) => (
-          <MemberListItem
-            key={member.userId}
-            member={member}
-            isHost={member.userId === hostId}
-            isMe={member.userId === session?.data?.user?.id}
-          />
+          <MemberListItem key={member.userId} member={member} groupHostId={hostId} />
         ))}
       </ul>
     </div>
@@ -43,6 +36,6 @@ export default function MemberList({ isHost: isMeHost, group }: Props) {
 }
 
 type Props = {
-  isHost?: boolean;
+  isGroupHost?: boolean;
   group: GroupWithMembersAsUsers;
 };

@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes } from 'react';
 
-export default function GroupDetailHeaderButtons({ isHost, group }: Props) {
+export default function GroupDetailHeaderButtons({ group }: Props) {
   const { openForm } = useFormDialog();
   const { openAlert } = useAlert();
   const { toast } = useToast();
@@ -62,21 +62,16 @@ export default function GroupDetailHeaderButtons({ isHost, group }: Props) {
 
   return (
     <div className="flex items-center gap-2">
-      {isHost && (
-        <>
-          <Button type="button" onClick={handleClickEditGroup}>
-            수정
-          </Button>
-          <Button type="button" variant="destructive" onClick={handleClickDeleteGroup}>
-            삭제
-          </Button>
-        </>
-      )}
+      <Button type="button" onClick={handleClickEditGroup}>
+        수정
+      </Button>
+      <Button type="button" variant="destructive" onClick={handleClickDeleteGroup}>
+        삭제
+      </Button>
     </div>
   );
 }
 
 type Props = {
-  isHost?: boolean;
   group: GroupWithMembers;
 };

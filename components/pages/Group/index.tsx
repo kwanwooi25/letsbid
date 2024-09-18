@@ -5,11 +5,11 @@ import PageHeader from '@/components/PageHeader';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PATHS } from '@/const/paths';
+import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import { getAuctionCaseListQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { useSuspenseQueries } from '@tanstack/react-query';
 import { LucideCrown } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import AuctionCaseList from './AuctionCaseList';
 import GroupDetailHeaderButtons from './HeaderButtons';
@@ -17,7 +17,6 @@ import MemberList from './MemberList';
 import { GroupPageTabs } from './types';
 
 export default function Group() {
-  const session = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
@@ -27,7 +26,7 @@ export default function Group() {
   const [{ data: group }, { data: auctionCases }] = useSuspenseQueries({
     queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseListQueryOptions(groupId)],
   });
-  const isHost = session?.data?.user?.id === group.hostId;
+  const { isGroupHost } = useIsGroupHost(group.hostId);
 
   const handleClickBackButton = () => router.replace(PATHS.HOME);
 
@@ -48,7 +47,7 @@ export default function Group() {
         title={
           <>
             <span className="text-xl font-semibold">{group.name}</span>
-            {isHost && (
+            {isGroupHost && (
               <Avatar>
                 <AvatarFallback>
                   <LucideCrown className="w-4 h-4" />
@@ -58,7 +57,7 @@ export default function Group() {
           </>
         }
       >
-        <GroupDetailHeaderButtons isHost={isHost} group={group} />
+        {isGroupHost && <GroupDetailHeaderButtons group={group} />}
       </PageHeader>
       <PageBody className="max-w-2xl">
         <Tabs defaultValue={tab} onValueChange={handleTabChange}>
@@ -71,10 +70,10 @@ export default function Group() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="auctionCases">
-            <AuctionCaseList isHost={isHost} auctionCases={auctionCases} />
+            <AuctionCaseList isGroupHost={isGroupHost} auctionCases={auctionCases} />
           </TabsContent>
           <TabsContent value="members">
-            <MemberList isHost={isHost} group={group} />
+            <MemberList isGroupHost={isGroupHost} group={group} />
           </TabsContent>
         </Tabs>
       </PageBody>

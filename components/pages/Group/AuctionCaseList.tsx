@@ -10,7 +10,7 @@ import { useParams } from 'next/navigation';
 import AuctionCaseListItem from './AuctionCaseListItem';
 import { useCategorizedAuctionCases } from './hooks';
 
-export default function AuctionCaseList({ isHost, auctionCases }: Props) {
+export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
   const params = useParams();
   const groupId = params.groupId as string;
   const { openForm } = useFormDialog();
@@ -23,7 +23,7 @@ export default function AuctionCaseList({ isHost, auctionCases }: Props) {
 
   return (
     <div className="flex flex-col gap-4 py-4">
-      {isHost && (
+      {isGroupHost && (
         <Button className="self-end" onClick={handleClickAddCase}>
           <LucideFilePlus2 className="w-4 h-4 mr-2" />
           경매 사건 추가
@@ -48,17 +48,18 @@ export default function AuctionCaseList({ isHost, auctionCases }: Props) {
         );
       })}
 
-      {isEmpty && !isHost && <ListEmpty message="표시할 경매 사건이 없습니다" />}
-      {isEmpty && isHost && (
+      {isEmpty && (
         <ListEmpty className="flex flex-col gap-4">
           <p>표시할 경매 사건이 없습니다</p>
-          <p>
-            <Button className="self-end" onClick={handleClickAddCase}>
-              <LucideFilePlus2 className="w-4 h-4 mr-2" />
-              경매 사건 추가
-            </Button>{' '}
-            버튼을 눌러 사건을 추가해주세요
-          </p>
+          {isGroupHost && (
+            <p>
+              <Button className="self-end" onClick={handleClickAddCase}>
+                <LucideFilePlus2 className="w-4 h-4 mr-2" />
+                경매 사건 추가
+              </Button>{' '}
+              버튼을 눌러 사건을 추가해주세요
+            </p>
+          )}
         </ListEmpty>
       )}
     </div>
@@ -66,6 +67,6 @@ export default function AuctionCaseList({ isHost, auctionCases }: Props) {
 }
 
 type Props = {
-  isHost?: boolean;
+  isGroupHost?: boolean;
   auctionCases: AuctionCase[];
 };
