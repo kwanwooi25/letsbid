@@ -33,10 +33,13 @@ model User {
   Session     Session[]
   groups      UsersOnGroups[]
   invitations Invitation[]
+  bids        Bid[]
 }
 
 model Account {
-  userId            String
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   type              String
   provider          String
   providerAccountId String
@@ -50,19 +53,17 @@ model Account {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@id([provider, providerAccountId])
 }
 
 model Session {
-  sessionToken String   @unique
+  sessionToken String @unique
   userId       String
-  expires      DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Group {
@@ -78,22 +79,23 @@ model Group {
 }
 
 model UsersOnGroups {
-  user      User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId    String
-  group     Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   groupId   String
-  joinedAt  DateTime @default(now())
+  group     Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   invitedBy String
+  joinedAt  DateTime @default(now())
 
   @@id([userId, groupId])
 }
 
 model Invitation {
-  id           String           @id @default(cuid())
-  group        Group            @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  groupId      String
-  inviter      User             @relation(fields: [inviterId], references: [id])
-  inviterId    String
+  id        String @id @default(cuid())
+  groupId   String
+  group     Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  inviterId String
+  inviter   User   @relation(fields: [inviterId], references: [id])
+
   inviteeEmail String
   status       InvitationStatus @default(PENDING)
 }
@@ -105,11 +107,34 @@ enum InvitationStatus {
 }
 
 model AuctionCase {
-  id          String   @id @default(cuid())
+  id      String @id @default(cuid())
+  groupId String
+  group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
   caseYear    String
   caseNumber  String
-  groupId     String
-  group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   bidStartsAt DateTime
   bidEndsAt   DateTime
+
+  bids Bid[]
+}
+
+model Bid {
+  id            String      @id @default(cuid())
+  auctionCaseId String
+  auctionCase   AuctionCase @relation(fields: [auctionCaseId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expectedSalePrice Int     @default(0) // 목표 매도가
+  acquisitionCost   Int     @default(0) // 취득비용
+  evacuationCost    Int     @default(0) // 명도비용
+  repairCost        Int     @default(0) // 수리비
+  brokerageFee      Int     @default(0) // 중개수수료
+  estimatedInterest Int     @default(0) // 이자비용
+  otherCost         Int     @default(0) // 기타비용
+  expectedProfit    Int     @default(0) // 기대수익
+  biddingPrice      Int     @default(0) // 입찰가
+  isExcluded        Boolean @default(false) // 낙찰 제외 여부
+  excludedReason    String? // 낙찰 제외 사유
 }
