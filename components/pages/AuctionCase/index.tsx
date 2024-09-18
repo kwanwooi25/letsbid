@@ -1,5 +1,6 @@
 'use client';
 
+import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { PATHS } from '@/const/paths';
@@ -46,7 +47,10 @@ export default function AuctionCase() {
       </PageHeader>
       <PageBody className="max-w-2xl">
         <div className="flex items-center justify-between min-h-[28px]">
-          <span className="text-sm text-primary/70">{timeRefDisplay}</span>
+          <div className="flex items-center gap-3">
+            <AuctionCaseStatusBadge auctionCase={auctionCase} />
+            <span className="text-sm text-primary/70">{timeRefDisplay}</span>
+          </div>
           <div
             className={cn(
               'flex justify-between items-center text-lg font-bold',
@@ -57,7 +61,6 @@ export default function AuctionCase() {
             )}
           >
             {remainigTime && `${remainigTime} 남음`}
-            {color === 'gray' && '입찰 종료'}
           </div>
         </div>
       </PageBody>
