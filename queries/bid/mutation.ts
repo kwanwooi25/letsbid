@@ -52,3 +52,29 @@ export const updateBidMutationOptions: MutationOptions<Bid, Error, BiddingFormSc
     }
   },
 };
+
+export const deleteBidMutationOptions: MutationOptions<
+  { auctionCaseId: string; bidId: string },
+  Error,
+  { auctionCaseId: string; bidId: string }
+> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.BID}/${data.bidId}`);
+      await axios<SuccessResponse<{ id: string }>>({
+        method: 'delete',
+        url,
+      });
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (data) => {
+    const queryClient = getQueryClient();
+    if (data) {
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId) });
+      queryClient.invalidateQueries({ queryKey: bidQueryKeys.detail(data.bidId) });
+    }
+  },
+};
