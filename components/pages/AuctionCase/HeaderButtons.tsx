@@ -6,7 +6,7 @@ import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { getAuctionCaseName } from '@/lib/auctionCase';
+import { getAuctionCaseName, getAuctionCaseStatus } from '@/lib/auctionCase';
 import { deleteAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
 import { AuctionCase } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
@@ -23,6 +23,7 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
   const { id, groupId } = auctionCase;
 
   const auctionCaseName = getAuctionCaseName(auctionCase);
+  const status = getAuctionCaseStatus(auctionCase);
 
   const handleClickEdit: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
@@ -67,7 +68,7 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
 
   return (
     <div className="flex items-center gap-2">
-      <Button type="button" onClick={handleClickEdit}>
+      <Button type="button" onClick={handleClickEdit} disabled={status === 'FINISHED_BIDDING'}>
         수정
       </Button>
       <Button type="button" variant="destructive" onClick={handleClickDelete}>
