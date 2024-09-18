@@ -29,3 +29,15 @@ export async function PATCH(req: NextRequest, { params }: { params: { auctionCas
     return handlePrismaClientError(e);
   }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+  try {
+    await getUserFromSession();
+    await prisma.auctionCase.delete({
+      where: { id: params.auctionCaseId },
+    });
+    return handleSuccess({ data: { id: params.auctionCaseId } });
+  } catch (e) {
+    return handlePrismaClientError(e);
+  }
+}

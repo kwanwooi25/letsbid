@@ -63,3 +63,33 @@ export const updateAuctionCaseMutationOptions: MutationOptions<
     }
   },
 };
+
+export const deleteAuctionCaseMutationOptions: MutationOptions<
+  { auctionCaseId: string; groupId: string },
+  Error,
+  { auctionCaseId: string; groupId: string }
+> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${data.auctionCaseId}`);
+      await axios<SuccessResponse<{ id: string }>>({
+        method: 'delete',
+        url,
+      });
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (data) => {
+    const queryClient = getQueryClient();
+    if (!!data) {
+      queryClient.invalidateQueries({
+        queryKey: auctionCaseQueryKeys.list(data.groupId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId),
+      });
+    }
+  },
+};

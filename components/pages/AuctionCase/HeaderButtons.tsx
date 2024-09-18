@@ -7,7 +7,9 @@ import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { getAuctionCaseName } from '@/lib/auctionCase';
+import { deleteAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
 import { AuctionCase } from '@prisma/client';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes } from 'react';
 
@@ -17,8 +19,8 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
   const { toast } = useToast();
   const router = useRouter();
   const { handleAxiosError } = useAxiosError();
-  // const deleteGroupMutation = useMutation(deleteGroupMutationOptions);
-  const { groupId } = auctionCase;
+  const deleteAuctionCaseMutation = useMutation(deleteAuctionCaseMutationOptions);
+  const { id, groupId } = auctionCase;
 
   const auctionCaseName = getAuctionCaseName(auctionCase);
 
@@ -47,8 +49,7 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
       actionLabel: '삭제',
       action: async () => {
         try {
-          // TODO
-          // await deleteGroupMutation.mutateAsync(group.id);
+          await deleteAuctionCaseMutation.mutateAsync({ auctionCaseId: id, groupId });
           toast({
             title: auctionCaseName,
             description: '경매 사건이 삭제 되었습니다',
