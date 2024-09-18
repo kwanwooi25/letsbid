@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -36,7 +37,7 @@ export default function Invitation() {
             </TabsTrigger>
           </TabsList>
 
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <TabsContent value="received">
               <ReceivedInvitationList />
             </TabsContent>

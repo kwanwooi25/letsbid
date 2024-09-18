@@ -1,3 +1,4 @@
+import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import GroupList from '@/components/pages/Home/GroupList';
@@ -12,7 +13,7 @@ export default withAuth(function Home() {
         <HomeHeaderButtons />
       </PageHeader>
       <PageBody className="max-w-2xl">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading size="lg" />}>
           <GroupList />
         </Suspense>
       </PageBody>

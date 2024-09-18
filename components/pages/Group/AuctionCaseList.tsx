@@ -35,7 +35,7 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
         if (!auctionCaseList?.length) return null;
 
         return (
-          <div className="flex flex-col gap-4 mb-6">
+          <div className="flex flex-col gap-4 mb-6" key={auctionCaseStatus}>
             <h5 className="text-xl font-bold text-primary/80">
               {AUCTION_CASE_STATUS_TRANSLATIONS[auctionCaseStatus]}
             </h5>

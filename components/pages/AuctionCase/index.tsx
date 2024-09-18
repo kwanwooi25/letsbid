@@ -1,6 +1,7 @@
 'use client';
 
 import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
+import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { PATHS } from '@/const/paths';
@@ -15,8 +16,9 @@ import {
 } from '@/lib/auctionCase';
 import { cn } from '@/lib/utils';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
+import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQueries } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -31,8 +33,10 @@ export default function AuctionCase() {
   const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
   const [remainingTime, setRemainingTime] = useState('');
-  const { data: auctionCase } = useSuspenseQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
-  const isGroupHost = useIsGroupHost(groupId);
+  const [{ data: group }, { data: auctionCase }] = useSuspenseQueries({
+    queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
+  });
+  const { isGroupHost } = useIsGroupHost(group.hostId);
   const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const [timeRefDisplay, setTimeRefDisplay] = useState(getAuctionCaseTimeRefDisplay(auctionCase));
@@ -60,14 +64,14 @@ export default function AuctionCase() {
         {isGroupHost && <AuctionCaseHeaderButtons auctionCase={auctionCase} />}
       </PageHeader>
       <PageBody className="max-w-2xl flex flex-col gap-6">
-        <div className="flex items-center justify-between min-h-[28px]">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between min-h-[28px]">
           <div className="flex items-center gap-3">
             <AuctionCaseStatusBadge auctionCase={auctionCase} />
             <span className="text-sm text-primary/70">{timeRefDisplay}</span>
           </div>
           <div
             className={cn(
-              'flex justify-between items-center text-lg font-bold',
+              'self-end flex justify-between items-center text-lg font-bold',
               color === 'red' && 'text-red-700',
               color === 'gray' && 'text-gray-500',
               color === 'yellow' && 'text-yellow-700',
@@ -91,7 +95,7 @@ export default function AuctionCase() {
         {status === 'BIDDING' && !hasBidden && <PlaceBidButton auctionCase={auctionCase} />}
 
         {status === 'BIDDING' && hasBidden && bid?.id && (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <MyBid bidId={bid.id} auctionCase={auctionCase} />
           </Suspense>
         )}
