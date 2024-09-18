@@ -18,9 +18,10 @@ import { cn } from '@/lib/utils';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
+import { BidWithUser } from '@/types/bid';
 import { useSuspenseQueries } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import AuctionResult from './AuctionResult';
 import AuctionCaseHeaderButtons from './HeaderButtons';
@@ -33,7 +34,7 @@ export default function AuctionCase() {
   const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
   const [remainingTime, setRemainingTime] = useState('');
-  const [{ data: group }, { data: auctionCase }] = useSuspenseQueries({
+  const [{ data: group }, { data: auctionCase, refetch: refetchAuctionCase }] = useSuspenseQueries({
     queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
   });
   const { isGroupHost } = useIsGroupHost(group.hostId);
@@ -43,6 +44,7 @@ export default function AuctionCase() {
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
 
   const biddingCount = auctionCase.bids.length ?? 0;
+  const areBidsFinalized = (auctionCase.bids as BidWithUser[]).every((bid) => bid.biddingPrice);
 
   const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
 
@@ -52,6 +54,10 @@ export default function AuctionCase() {
     setStatus(getAuctionCaseStatus(auctionCase));
     setTimeRefDisplay(getAuctionCaseTimeRefDisplay(auctionCase));
   }, 1000);
+
+  useEffect(() => {
+    if (status === 'FINISHED_BIDDING') refetchAuctionCase();
+  }, [status, refetchAuctionCase]);
 
   return (
     <>
@@ -100,8 +106,10 @@ export default function AuctionCase() {
           </Suspense>
         )}
 
-        {status === 'FINISHED_BIDDING' && auctionCase.bids.length > 0 && (
-          <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUser} />
+        {status === 'FINISHED_BIDDING' && biddingCount > 0 && areBidsFinalized && (
+          <Suspense fallback={<Loading />}>
+            <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUser} />
+          </Suspense>
         )}
       </PageBody>
     </>

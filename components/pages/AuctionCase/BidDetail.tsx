@@ -16,12 +16,20 @@ export default function BidDetail({ bid, auctionCase }: Props) {
     otherCost,
     expectedProfit,
     biddingPrice,
+    excludedReason,
     user,
   } = bid ?? {};
 
+  const isMockBid = excludedReason === '모의 입찰';
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="relative flex flex-col gap-2">
       <h5 className="mb-4 text-2xl text-center font-bold">입 찰 표</h5>
+      {isMockBid && (
+        <span className="absolute top-[-12px] right-[-4px] px-2 py-1 border-2 border-yellow-600 text-yellow-600 text-sm font-semibold">
+          모의 입찰
+        </span>
+      )}
       <DetailRow label="사건 번호" value={auctionCaseName} />
       <DetailRow label="입찰자" value={user.name} />
 
