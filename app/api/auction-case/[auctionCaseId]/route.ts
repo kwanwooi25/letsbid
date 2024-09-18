@@ -15,3 +15,17 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
     return handlePrismaClientError(e);
   }
 }
+
+export async function PATCH(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+  try {
+    await getUserFromSession();
+    const data = await req.json();
+    const updatedAuctionCase = await prisma.auctionCase.update({
+      where: { id: params.auctionCaseId },
+      data,
+    });
+    return handleSuccess({ data: updatedAuctionCase });
+  } catch (e) {
+    return handlePrismaClientError(e);
+  }
+}

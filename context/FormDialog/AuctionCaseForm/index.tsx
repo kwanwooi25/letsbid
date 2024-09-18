@@ -4,7 +4,10 @@ import { Form, InputFormField } from '@/components/ui/form';
 import DateTimeFormField from '@/components/ui/form/DateTimeFormField';
 import { useToast } from '@/components/ui/use-toast';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { createAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
+import {
+  createAuctionCaseMutationOptions,
+  updateAuctionCaseMutationOptions,
+} from '@/queries/auction-case/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuctionCase } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
@@ -16,9 +19,10 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const createAuctionCaseMutation = useMutation(createAuctionCaseMutationOptions);
+  const updateAuctionCaseMutation = useMutation(updateAuctionCaseMutationOptions);
   const form = useForm<AuctionCaseFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: getDefaultFormValues({ groupId }),
+    defaultValues: getDefaultFormValues({ groupId, auctionCase }),
   });
   const { isSubmitting } = form.formState;
 
@@ -29,9 +33,16 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
     const createdAuctionCase = await createAuctionCaseMutation.mutateAsync(values);
     return createdAuctionCase;
   };
+  const updateAuctionCase = async (values: AuctionCaseFormSchema) => {
+    const updatedAuctionCase = await updateAuctionCaseMutation.mutateAsync(values);
+    return updatedAuctionCase;
+  };
 
   const submitForm = form.handleSubmit(async (values: AuctionCaseFormSchema) => {
-    const { caseYear, caseNumber } = await createAuctionCase(values);
+    values.bidStartsAt.setSeconds(0);
+    values.bidEndsAt.setSeconds(0);
+    const mutationFn = isEditing ? updateAuctionCase : createAuctionCase;
+    const { caseYear, caseNumber } = await mutationFn(values);
 
     try {
       toast({
@@ -68,8 +79,18 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
                 inputProps={{ placeholder: '12345' }}
               />
             </div>
-            <DateTimeFormField control={form.control} name="bidStartsAt" label="입찰 시작 일시" />
-            <DateTimeFormField control={form.control} name="bidEndsAt" label="입찰 종료 일시" />
+            <DateTimeFormField
+              control={form.control}
+              name="bidStartsAt"
+              label="입찰 시작 일시"
+              hourCycle={24}
+            />
+            <DateTimeFormField
+              control={form.control}
+              name="bidEndsAt"
+              label="입찰 종료 일시"
+              hourCycle={24}
+            />
           </div>
 
           <DialogFooter>

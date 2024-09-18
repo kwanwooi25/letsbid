@@ -24,13 +24,12 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
 
   const handleClickEdit: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
-    // TODO
-    // openForm({
-    //   type: 'GROUP',
-    //   formProps: {
-    //     group,
-    //   },
-    // });
+    openForm({
+      type: 'AUCTION_CASE',
+      formProps: {
+        auctionCase,
+      },
+    });
   };
 
   const handleClickDelete: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
