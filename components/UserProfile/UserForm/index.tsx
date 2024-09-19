@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { formSchema, UserFormSchema } from './formSchema';
 
-export default function UserForm({ user, onSubmit }: Props) {
+export default function UserForm({ user, onSubmit, onCancel }: Props) {
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const updateUserMutation = useMutation(updateUserMutationOptions);
@@ -38,15 +38,17 @@ export default function UserForm({ user, onSubmit }: Props) {
 
   return (
     <Form {...form}>
-      <form className="max-w-xl flex items-end gap-2">
+      <form className="max-w-xl flex items-center gap-2">
         <InputFormField
           control={form.control}
           name="name"
-          label="이름"
-          inputProps={{ autoFocus: true }}
+          inputProps={{ autoFocus: true, placeholder: '이름' }}
         />
         <Button onClick={submitForm} isLoading={isSubmitting} type="submit">
           저장
+        </Button>
+        <Button onClick={onCancel} disabled={isSubmitting} type="button" variant="secondary">
+          취소
         </Button>
       </form>
     </Form>
@@ -56,4 +58,5 @@ export default function UserForm({ user, onSubmit }: Props) {
 type Props = {
   user: User;
   onSubmit?: (updatedUser: User) => void | Promise<void>;
+  onCancel?: () => void;
 };

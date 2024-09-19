@@ -25,6 +25,8 @@ export default function UserDetail() {
     setIsEditing(false);
   };
 
+  const handleCancel = () => setIsEditing(false);
+
   return (
     <div>
       <div className="flex items-center gap-4">
@@ -45,7 +47,7 @@ export default function UserDetail() {
 
         <div className="flex flex-col gap-1">
           {isEditing ? (
-            <UserForm user={user} onSubmit={handleSubmit} />
+            <UserForm user={user} onSubmit={handleSubmit} onCancel={handleCancel} />
           ) : (
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold">{user.name}</span>
