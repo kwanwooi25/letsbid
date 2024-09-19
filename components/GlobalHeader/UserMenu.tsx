@@ -1,15 +1,17 @@
 'use client';
 
+import { PATHS } from '@/const/paths';
 import {
-  LucideLogIn,
   LucideLogOut,
   LucideMoon,
   LucideSettings,
   LucideSun,
   LucideUser,
+  LucideUser2,
 } from 'lucide-react';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import {
@@ -27,6 +29,7 @@ import {
 export default function UserMenu({ className }: Props) {
   const { theme, setTheme } = useTheme();
   const session = useSession();
+  const router = useRouter();
   const isAuthenticated = session.status === 'authenticated';
 
   return (
@@ -53,35 +56,36 @@ export default function UserMenu({ className }: Props) {
               {theme === 'light' && <LucideSun className="mr-2 h-4 w-4" />}
               {theme === 'dark' && <LucideMoon className="mr-2 h-4 w-4" />}
               {theme === 'system' && <LucideSettings className="mr-2 h-4 w-4" />}
-              <span>Theme</span>
+              <span>테마</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuItem onClick={() => setTheme('light')}>
                   <LucideSun className="mr-2 h-4 w-4" />
-                  <span>Light</span>
+                  <span>라이트</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme('dark')}>
                   <LucideMoon className="mr-2 h-4 w-4" />
-                  <span>Dark</span>
+                  <span>다크</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme('system')}>
                   <LucideSettings className="mr-2 h-4 w-4" />
-                  <span>System</span>
+                  <span>시스템 설정</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          {isAuthenticated ? (
-            <DropdownMenuItem onClick={() => signOut()}>
-              <LucideLogOut className="mr-2 h-4 w-4" />
-              <span>Logout</span>
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem onClick={() => signIn('kakao')}>
-              <LucideLogIn className="mr-2 h-4 w-4" />
-              <span>Login</span>
-            </DropdownMenuItem>
+          {isAuthenticated && (
+            <>
+              <DropdownMenuItem onClick={() => router.push(PATHS.ME)}>
+                <LucideUser2 className="mr-2 h-4 w-4" />
+                <span>내 정보</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => signOut()}>
+                <LucideLogOut className="mr-2 h-4 w-4" />
+                <span>로그아웃</span>
+              </DropdownMenuItem>
+            </>
           )}
         </DropdownMenuGroup>
       </DropdownMenuContent>

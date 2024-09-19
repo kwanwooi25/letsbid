@@ -6,6 +6,7 @@ export const PATHS = {
   INVITATION: '/invitation',
   AUCTION_CASE: '/auction-case',
   BID: '/bid',
+  ME: '/me',
 } as const;
 
 export const API_ROUTE = {
