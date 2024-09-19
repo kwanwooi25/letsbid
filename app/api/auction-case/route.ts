@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
 
-export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
+export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);
     const groupId = url.searchParams.get('groupId');
