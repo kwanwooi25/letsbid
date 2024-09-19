@@ -108,7 +108,10 @@ export default function AuctionCase() {
 
         {status === 'FINISHED_BIDDING' && biddingCount > 0 && areBidsFinalized && (
           <Suspense fallback={<Loading />}>
-            <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUser} />
+            <AuctionResult
+              auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
+              isGroupHost={isGroupHost}
+            />
           </Suspense>
         )}
       </PageBody>

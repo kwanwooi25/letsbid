@@ -1,18 +1,19 @@
 import { BiddingFormSchema } from '@/components/pages/BiddingForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
+import { BidExclusionFormSchema } from '@/context/FormDialog/BidExclusionForm/formSchema';
 import { SuccessResponse } from '@/types/api';
-import { Bid } from '@prisma/client';
+import { BidWithUser } from '@/types/bid';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
 import { getApiUrl, getQueryClient } from '../config';
 import { bidQueryKeys } from './queryKey';
 
-export const placeBidMutationOptions: MutationOptions<Bid, Error, BiddingFormSchema> = {
+export const placeBidMutationOptions: MutationOptions<BidWithUser, Error, BiddingFormSchema> = {
   mutationFn: async (data: BiddingFormSchema) => {
     try {
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${data.auctionCaseId}/bid`);
-      const res = await axios<SuccessResponse<Bid>>({
+      const res = await axios<SuccessResponse<BidWithUser>>({
         method: 'post',
         url,
         data,
@@ -30,11 +31,15 @@ export const placeBidMutationOptions: MutationOptions<Bid, Error, BiddingFormSch
   },
 };
 
-export const updateBidMutationOptions: MutationOptions<Bid, Error, BiddingFormSchema> = {
-  mutationFn: async (data: BiddingFormSchema) => {
+export const updateBidMutationOptions: MutationOptions<
+  BidWithUser,
+  Error,
+  BiddingFormSchema | BidExclusionFormSchema
+> = {
+  mutationFn: async (data) => {
     try {
       const url = getApiUrl(`${API_ROUTE.BID}/${data.id}`);
-      const res = await axios<SuccessResponse<Bid>>({
+      const res = await axios<SuccessResponse<BidWithUser>>({
         method: 'patch',
         url,
         data,

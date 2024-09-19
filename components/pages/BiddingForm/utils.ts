@@ -9,6 +9,7 @@ export function getDefaultFormValues({
   bid?: BidWithUser;
 }): BiddingFormSchema {
   if (bid) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { user, ...restBid } = bid;
     return {
       ...restBid,

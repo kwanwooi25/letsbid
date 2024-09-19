@@ -17,10 +17,10 @@ export async function GET(req: NextRequest, { params }: { params: { bidId: strin
 
 export async function PATCH(req: NextRequest, { params }: { params: { bidId: string } }) {
   try {
-    const user = await getUserFromSession();
+    await getUserFromSession();
     const data = await req.json();
     const bid = await prisma.bid.update({
-      where: { id: params.bidId, userId: user?.id },
+      where: { id: params.bidId },
       data,
       include: { user: true },
     });
