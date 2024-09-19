@@ -42,12 +42,12 @@ export default function InvitationForm({ group, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent>
+        <DialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>멤버 초대</DialogTitle>
           </DialogHeader>
 
-          <div>
+          <div className="my-4">
             <InputFormField
               control={form.control}
               name="inviteeEmail"

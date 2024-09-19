@@ -55,12 +55,12 @@ export default function GroupForm({ group, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent>
+        <DialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>{formTitle}</DialogTitle>
           </DialogHeader>
 
-          <div>
+          <div className="my-4">
             <InputFormField
               control={form.control}
               name="name"

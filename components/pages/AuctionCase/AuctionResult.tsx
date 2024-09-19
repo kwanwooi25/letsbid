@@ -67,7 +67,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
             <span>{auctionCaseName}</span>
             <span className="text-sm text-primary/50">하하</span>
           </DialogTitle>
-          <BidDetail auctionCase={auctionCase} bid={bids[currentBidDetailIndex]} />
+          <BidDetail auctionCase={auctionCase} bid={sortedBids[currentBidDetailIndex]} />
           <Pagination>
             <PaginationContent>
               <PaginationItem>
@@ -76,7 +76,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
                 </Button>
               </PaginationItem>
               <PaginationItem className="mx-4">
-                {currentBidDetailIndex + 1} / {bids.length}
+                {currentBidDetailIndex + 1} / {sortedBids.length}
               </PaginationItem>
               <PaginationItem>
                 <Button variant="ghost" size="icon" onClick={handleClickNext}>

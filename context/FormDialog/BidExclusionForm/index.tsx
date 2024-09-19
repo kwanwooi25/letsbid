@@ -43,7 +43,7 @@ export default function BidExclusionForm({ bid, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent>
+        <DialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>입찰 참여/제외</DialogTitle>
           </DialogHeader>

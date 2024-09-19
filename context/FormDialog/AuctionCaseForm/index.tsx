@@ -60,12 +60,12 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent>
+        <DialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>{formTitle}</DialogTitle>
           </DialogHeader>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 my-4">
             <div className="flex items-center gap-2">
               <InputFormField
                 control={form.control}
