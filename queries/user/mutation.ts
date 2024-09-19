@@ -1,5 +1,6 @@
 import { SignInFormSchema } from '@/components/SignInForm/formSchema';
 import { SignUpFormSchema } from '@/components/SignUpForm/formSchema';
+import { UserFormSchema } from '@/components/UserProfile/UserForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { User } from '@prisma/client';
@@ -13,6 +14,22 @@ export const createUserMutationOptions: MutationOptions<User, Error, SignUpFormS
       const url = getApiUrl(API_ROUTE.USER);
       const res = await axios<SuccessResponse<User>>({
         method: 'post',
+        url,
+        data,
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+};
+
+export const updateUserMutationOptions: MutationOptions<User, Error, UserFormSchema> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.USER}/${data.id}`);
+      const res = await axios<SuccessResponse<User>>({
+        method: 'patch',
         url,
         data,
       });
