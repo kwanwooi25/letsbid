@@ -1,20 +1,15 @@
 import MeBadge from '@/components/MeBadge';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { getAuctionCaseName } from '@/lib/auctionCase';
+import { useFormDialog } from '@/context/FormDialog';
 import { cn } from '@/lib/utils';
-import { AuctionCaseLike } from '@/types/auctionCase';
 import { BidWithUser } from '@/types/bid';
 import { LucideScrollText, LucideUserX } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import BidDetail from './BidDetail';
-import { useFormDialog } from '@/context/FormDialog';
 
-export default function AuctionResultItem({ auctionCase, bid, rank, isGroupHost }: Props) {
+export default function AuctionResultItem({ bid, rank, isGroupHost, openBidDetail }: Props) {
   const { openForm } = useFormDialog();
   const session = useSession();
-  const auctionCaseName = getAuctionCaseName(auctionCase);
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
   const isMe = session?.data?.user?.id === user?.id;
 
@@ -66,25 +61,14 @@ export default function AuctionResultItem({ auctionCase, bid, rank, isGroupHost 
           {biddingPrice?.toLocaleString()}
         </span>
         <div className="flex items-center">
-          <Dialog>
-            <Tooltip>
-              <DialogTrigger asChild>
-                <TooltipTrigger asChild>
-                  <Button size="icon" variant="ghost">
-                    <LucideScrollText />
-                  </Button>
-                </TooltipTrigger>
-              </DialogTrigger>
-              <TooltipContent>입찰표 보기</TooltipContent>
-              <DialogContent aria-describedby="">
-                <DialogTitle className="flex flex-col gap-2">
-                  <span>{auctionCaseName}</span>
-                  <span className="text-sm text-primary/50">{user?.name}</span>
-                </DialogTitle>
-                <BidDetail auctionCase={auctionCase} bid={bid} />
-              </DialogContent>
-            </Tooltip>
-          </Dialog>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size="icon" variant="ghost" onClick={openBidDetail}>
+                <LucideScrollText />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>입찰표 보기</TooltipContent>
+          </Tooltip>
           {isGroupHost && (
             <Button size="icon" variant="ghost" onClick={handleClickExcludeBid}>
               <LucideUserX />
@@ -97,8 +81,8 @@ export default function AuctionResultItem({ auctionCase, bid, rank, isGroupHost 
 }
 
 type Props = {
-  auctionCase: AuctionCaseLike;
   bid: BidWithUser;
   rank?: number;
   isGroupHost?: boolean;
+  openBidDetail: () => void;
 };

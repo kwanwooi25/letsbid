@@ -88,14 +88,10 @@ export default function AuctionCase() {
           </div>
         </div>
 
-        {status !== 'BEFORE_BIDDING' && biddingCount > 0 && (
+        {status !== 'BEFORE_BIDDING' && (
           <div className="text-center">
-            <b className="text-lg">{biddingCount.toLocaleString()}명</b> 입찰 완료
+            입찰자: <b className="text-lg">{biddingCount.toLocaleString()}명</b>
           </div>
-        )}
-
-        {status !== 'BEFORE_BIDDING' && biddingCount <= 0 && (
-          <div className="text-center text-lg font-bold">입찰자 없음</div>
         )}
 
         {status === 'BIDDING' && !hasBidden && <PlaceBidButton auctionCase={auctionCase} />}
