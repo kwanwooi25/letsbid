@@ -16,16 +16,18 @@ import { useInterval } from 'usehooks-ts';
 export default function AuctionCaseListItem({ auctionCase }: Props) {
   const router = useRouter();
   const [remainingTime, setRemainingTime] = useState('');
-  const { id, groupId } = auctionCase;
   const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
   const [timeRefDisplay, setTimeRefDisplay] = useState(getAuctionCaseTimeRefDisplay(auctionCase));
+  const [bidderCount, setBidderCount] = useState(0);
 
+  const { id, groupId } = auctionCase;
   const auctionCaseName = getAuctionCaseName(auctionCase);
 
   useInterval(() => {
     setRemainingTime(getRemainingTimeDisplay(auctionCase));
     setColor(getAuctionCaseColor(auctionCase));
     setTimeRefDisplay(getAuctionCaseTimeRefDisplay(auctionCase));
+    setBidderCount(auctionCase.bids.length);
   }, 1000);
 
   return (
@@ -38,11 +40,18 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
         <span className="text-sm text-primary/70">{timeRefDisplay}</span>
       </div>
 
-      {remainingTime && (
-        <div className="flex justify-between items-center text-lg font-bold">
-          {remainingTime} 남음
-        </div>
-      )}
+      <div className="flex flex-col items-end text-lg">
+        {remainingTime && (
+          <span>
+            <b>{remainingTime}</b> 남음
+          </span>
+        )}
+        {bidderCount > 0 && (
+          <span>
+            입찰자: <b>{bidderCount.toLocaleString()}명</b>
+          </span>
+        )}
+      </div>
     </ListItem>
   );
 }
