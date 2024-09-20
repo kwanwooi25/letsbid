@@ -16,6 +16,10 @@ export async function GET(req: NextRequest) {
     await getUserFromSession();
     const auctionCases = await prisma.auctionCase.findMany({
       where: { groupId },
+      include: {
+        group: true,
+      },
+      orderBy: [{ bidEndsAt: 'desc' }, { bidStartsAt: 'desc' }],
     });
     return handleSuccess({ data: auctionCases });
   } catch (e) {
