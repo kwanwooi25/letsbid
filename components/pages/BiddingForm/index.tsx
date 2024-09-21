@@ -10,10 +10,11 @@ import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { getAuctionCaseName } from '@/lib/auctionCase';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
+import { auctionCaseQueryKeys } from '@/queries/auction-case/queryKey';
 import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
 import { getBidDetailQueryOptions } from '@/queries/bid/query';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -30,6 +31,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
   const { data: bid } = useSuspenseQuery(getBidDetailQueryOptions(bidId));
   const placeBidMutation = useMutation(placeBidMutationOptions);
   const updateBidMutation = useMutation(updateBidMutationOptions);
+  const queryClient = useQueryClient();
   const form = useForm<BiddingFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues({ auctionCaseId, bid }),
@@ -97,6 +99,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
       });
       onSubmit?.();
       form.reset();
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase.groupId) });
       router.replace(
         callbackUrl
           ? callbackUrl

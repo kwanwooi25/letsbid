@@ -10,7 +10,7 @@ import { getApiUrl, getQueryClient } from '../config';
 import { bidQueryKeys } from './queryKey';
 
 export const placeBidMutationOptions: MutationOptions<BidWithUser, Error, BiddingFormSchema> = {
-  mutationFn: async (data: BiddingFormSchema) => {
+  mutationFn: async (data) => {
     try {
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${data.auctionCaseId}/bid`);
       const res = await axios<SuccessResponse<BidWithUser>>({
@@ -59,9 +59,9 @@ export const updateBidMutationOptions: MutationOptions<
 };
 
 export const deleteBidMutationOptions: MutationOptions<
-  { auctionCaseId: string; bidId: string },
+  { auctionCaseId: string; bidId: string; groupId: string },
   Error,
-  { auctionCaseId: string; bidId: string }
+  { auctionCaseId: string; bidId: string; groupId: string }
 > = {
   mutationFn: async (data) => {
     try {
@@ -78,6 +78,7 @@ export const deleteBidMutationOptions: MutationOptions<
   onSettled: (data) => {
     const queryClient = getQueryClient();
     if (data) {
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(data.groupId) });
       queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId) });
       queryClient.invalidateQueries({ queryKey: bidQueryKeys.detail(data.bidId) });
     }

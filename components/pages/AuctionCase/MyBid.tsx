@@ -38,7 +38,11 @@ export default function MyBid({ bidId, auctionCase }: Props) {
       actionLabel: '입찰 취소',
       action: async () => {
         try {
-          await cancelBid.mutateAsync({ auctionCaseId: auctionCase.id, bidId });
+          await cancelBid.mutateAsync({
+            auctionCaseId: auctionCase.id,
+            bidId,
+            groupId: auctionCase.groupId,
+          });
           toast({
             description: '입찰을 취소했습니다',
             variant: 'success',
