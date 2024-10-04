@@ -39,7 +39,7 @@ export default function SignInForm() {
       const loggedInUser = await loginUserMutation.mutateAsync(values);
       await signIn('credentials', {
         user: JSON.stringify(loggedInUser),
-        callbackUrl: window.location.href || PATHS.HOME,
+        callbackUrl: PATHS.HOME,
       });
       toast({
         title: `${loggedInUser.name}님 환영합니다`,
@@ -65,7 +65,7 @@ export default function SignInForm() {
         className="flex items-center gap-2 text-gray-900 bg-[#fee503] hover:bg-[#fee503]/80"
         onClick={async () => {
           setIsKakaoLoggingIn(true);
-          await signIn('kakao', { callbackUrl: window.location.href || PATHS.HOME });
+          await signIn('kakao', { callbackUrl: PATHS.HOME });
           setIsKakaoLoggingIn(false);
         }}
         type="button"
