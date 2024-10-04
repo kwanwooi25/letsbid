@@ -111,8 +111,7 @@ model AuctionCase {
   groupId String
   group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
-  caseYear    String
-  caseNumber  String
+  caseName    String
   bidStartsAt DateTime
   bidEndsAt   DateTime
 

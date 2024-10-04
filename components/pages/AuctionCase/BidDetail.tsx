@@ -1,11 +1,10 @@
 import DetailRow from '@/components/DetailRow';
 import Divider from '@/components/ui/divider';
-import { getAuctionCaseName } from '@/lib/auctionCase';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { BidWithUser } from '@/types/bid';
 
 export default function BidDetail({ bid, auctionCase }: Props) {
-  const auctionCaseName = getAuctionCaseName(auctionCase);
+  const { caseName } = auctionCase;
   const {
     expectedSalePrice,
     acquisitionCost,
@@ -31,7 +30,7 @@ export default function BidDetail({ bid, auctionCase }: Props) {
           모의 입찰
         </span>
       )}
-      <DetailRow label="사건 번호" value={auctionCaseName} />
+      <DetailRow label="사건명" value={caseName} />
       <DetailRow label="입찰자" value={user.name} />
 
       <Divider />

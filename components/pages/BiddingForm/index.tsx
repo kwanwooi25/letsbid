@@ -8,7 +8,6 @@ import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { getAuctionCaseName } from '@/lib/auctionCase';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { auctionCaseQueryKeys } from '@/queries/auction-case/queryKey';
 import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
@@ -77,7 +76,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
 
   const isEditing = !!bid;
   const formTitle = isEditing ? '입찰 정보 수정' : '입찰표 제출';
-  const auctionCaseName = getAuctionCaseName(auctionCase);
+  const { caseName } = auctionCase;
 
   const placeBid = async (values: BiddingFormSchema) => {
     const placedBid = await placeBidMutation.mutateAsync(values);
@@ -93,7 +92,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
       const mutationFn = isEditing ? updateBid : placeBid;
       await mutationFn({ ...values, excludedReason: values.isExcluded ? '모의 입찰' : '' });
       toast({
-        title: auctionCaseName,
+        title: caseName,
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });
@@ -117,7 +116,7 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
           title={
             <div className="flex flex-col gap-1">
               <span className="text-lg font-bold">{formTitle}</span>
-              <span className="text-sm font-semibold opacity-50">{auctionCaseName}</span>
+              <span className="text-sm font-semibold opacity-50">{caseName}</span>
             </div>
           }
           backButton

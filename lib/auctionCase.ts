@@ -3,11 +3,6 @@ import { AuctionCaseLike, AuctionCaseStatus } from '@/types/auctionCase';
 import { differenceInSeconds, format, isAfter } from 'date-fns';
 import { formatSeconds, ONE_DAY, ONE_HOUR } from './time';
 
-export function getAuctionCaseName(auctionCase: AuctionCaseLike) {
-  const { caseYear, caseNumber } = auctionCase;
-  return `${caseYear}타경${caseNumber}`;
-}
-
 export function getAuctionCaseStatus(auctionCase: AuctionCaseLike): AuctionCaseStatus {
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const now = new Date();

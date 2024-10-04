@@ -9,7 +9,6 @@ import { useHasUserBidden } from '@/hooks/useHasUserBidden';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import {
   getAuctionCaseColor,
-  getAuctionCaseName,
   getAuctionCaseStatus,
   getAuctionCaseTimeRefDisplay,
   getRemainingTimeDisplay,
@@ -65,7 +64,7 @@ export default function AuctionCase() {
         className="max-w-2xl"
         backButton
         onBackButtonClick={handleClickBackButton}
-        title={getAuctionCaseName(auctionCase)}
+        title={auctionCase.caseName}
       >
         {isGroupHost && <AuctionCaseHeaderButtons auctionCase={auctionCase} />}
       </PageHeader>

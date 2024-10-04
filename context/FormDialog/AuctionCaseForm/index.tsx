@@ -42,11 +42,11 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
     values.bidStartsAt.setSeconds(0);
     values.bidEndsAt.setSeconds(0);
     const mutationFn = isEditing ? updateAuctionCase : createAuctionCase;
-    const { caseYear, caseNumber } = await mutationFn(values);
+    const { caseName } = await mutationFn(values);
 
     try {
       toast({
-        title: `${caseYear}타경${caseNumber}`,
+        title: caseName,
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });
@@ -66,19 +66,12 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
           </DialogHeader>
 
           <div className="flex flex-col gap-4 my-4">
-            <div className="flex items-center gap-2">
-              <InputFormField
-                control={form.control}
-                name="caseYear"
-                inputProps={{ autoFocus: true, placeholder: '2024' }}
-              />
-              <span className="shrink-0">타경</span>
-              <InputFormField
-                control={form.control}
-                name="caseNumber"
-                inputProps={{ placeholder: '12345' }}
-              />
-            </div>
+            <InputFormField
+              control={form.control}
+              name="caseName"
+              label="사건명"
+              inputProps={{ placeholder: '2024타경12345' }}
+            />
             <DateTimeFormField
               control={form.control}
               name="bidStartsAt"

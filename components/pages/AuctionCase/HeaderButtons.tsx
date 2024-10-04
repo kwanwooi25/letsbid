@@ -6,7 +6,7 @@ import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { getAuctionCaseName, getAuctionCaseStatus } from '@/lib/auctionCase';
+import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { deleteAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { useMutation } from '@tanstack/react-query';
@@ -20,9 +20,8 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
   const router = useRouter();
   const { handleAxiosError } = useAxiosError();
   const deleteAuctionCaseMutation = useMutation(deleteAuctionCaseMutationOptions);
-  const { id, groupId } = auctionCase;
+  const { id, groupId, caseName } = auctionCase;
 
-  const auctionCaseName = getAuctionCaseName(auctionCase);
   const status = getAuctionCaseStatus(auctionCase);
 
   const handleClickEdit: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
@@ -44,7 +43,7 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
           경매 사건을 삭제하면 해당 사건의 <b className="text-destructive">모든 입찰 내역이 삭제</b>
           됩니다.
           <br />
-          경매 사건 (<b>{auctionCaseName}</b>) 을 삭제하시겠습니까?
+          경매 사건 (<b>{caseName}</b>) 을 삭제하시겠습니까?
         </>
       ),
       actionLabel: '삭제',
@@ -52,7 +51,7 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
         try {
           await deleteAuctionCaseMutation.mutateAsync({ auctionCaseId: id, groupId });
           toast({
-            title: auctionCaseName,
+            title: caseName,
             description: '경매 사건이 삭제 되었습니다',
             variant: 'success',
           });

@@ -18,8 +18,7 @@ export function getDefaultFormValues({
   }
 
   return {
-    caseYear: '',
-    caseNumber: '',
+    caseName: '',
     bidStartsAt: new Date(),
     bidEndsAt: new Date(),
     groupId,
