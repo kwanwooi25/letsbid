@@ -102,3 +102,28 @@ export const inviteGroupMemberMutationOptions: MutationOptions<
     }
   },
 };
+
+export const expelGroupMemberMutationOptions: MutationOptions<
+  { memberId: string; groupId: string },
+  Error,
+  { memberId: string; groupId: string }
+> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${data.groupId}/member/${data.memberId}`);
+      await axios<SuccessResponse<void>>({
+        method: 'delete',
+        url,
+      });
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (expelledUser) => {
+    const queryClient = getQueryClient();
+    if (expelledUser?.groupId) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(expelledUser.groupId) });
+    }
+  },
+};
