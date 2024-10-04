@@ -36,9 +36,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { groupId: s
       where: {
         id: params.groupId,
       },
-      data: {
-        name: data.name,
-      },
+      data,
       include: {
         members: true,
       },

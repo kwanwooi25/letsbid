@@ -8,10 +8,13 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
-import { expelGroupMemberMutationOptions } from '@/queries/group/mutation';
+import {
+  changeGroupHostMutationOptions,
+  expelGroupMemberMutationOptions,
+} from '@/queries/group/mutation';
 import { GroupWithMembersAsUsers } from '@/types/group';
 import { useMutation } from '@tanstack/react-query';
-import { LucideUser2, LucideUserMinus2 } from 'lucide-react';
+import { LucideCrown, LucideUser2, LucideUserMinus2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 export default function MemberListItem({ member, groupHostId }: Props) {
@@ -24,6 +27,7 @@ export default function MemberListItem({ member, groupHostId }: Props) {
   const isMe = loggedInUserId === userId;
   const isMeGroupHost = loggedInUserId === groupHostId;
   const expelGroupMemberMutation = useMutation(expelGroupMemberMutationOptions);
+  const changeGroupHostMutation = useMutation(changeGroupHostMutationOptions);
   const { handleAxiosError } = useAxiosError();
 
   const handleClickExpelMember = () => {
@@ -52,6 +56,34 @@ export default function MemberListItem({ member, groupHostId }: Props) {
     });
   };
 
+  const handleClickChangeHost = () => {
+    openAlert({
+      title: '리더 번경하기',
+      description: (
+        <>
+          멤버 (<b>{user.name}</b>) 를 리더로 변경하시겠습니까?
+          <br />
+          <b className="text-destructive">나는 일반 멤버로 변경</b>됩니다.
+        </>
+      ),
+      actionLabel: '리더 변경',
+      action: async () => {
+        try {
+          await changeGroupHostMutation.mutateAsync({
+            groupId: member.groupId,
+            hostId: userId,
+          });
+          toast({
+            description: `${user.name} 멤버가 리더가 되었습니다.`,
+            variant: 'success',
+          });
+        } catch (e) {
+          handleAxiosError(e);
+        }
+      },
+    });
+  };
+
   return (
     <ListItem>
       <div className="flex items-center gap-2">
@@ -68,14 +100,24 @@ export default function MemberListItem({ member, groupHostId }: Props) {
       {isGroupHost && <HostBadge />}
 
       {isMeGroupHost && !isMe && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" onClick={handleClickExpelMember}>
-              <LucideUserMinus2 />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>내보내기</TooltipContent>
-        </Tooltip>
+        <div className="flex items-center gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={handleClickExpelMember}>
+                <LucideUserMinus2 />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>내보내기</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={handleClickChangeHost}>
+                <LucideCrown />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>리더 변경하기</TooltipContent>
+          </Tooltip>
+        </div>
       )}
     </ListItem>
   );

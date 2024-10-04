@@ -5,6 +5,7 @@ import Kakao from 'next-auth/providers/kakao';
 import { prisma } from '../prisma';
 
 const authConfig = {
+  debug: process.env.NODE_ENV !== 'production',
   providers: [
     Kakao,
     Credentials({

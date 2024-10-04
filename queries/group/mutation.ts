@@ -127,3 +127,30 @@ export const expelGroupMemberMutationOptions: MutationOptions<
     }
   },
 };
+
+export const changeGroupHostMutationOptions: MutationOptions<
+  GroupWithMembers,
+  Error,
+  { groupId: string; hostId: string }
+> = {
+  mutationFn: async ({ groupId, hostId }) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
+      const res = await axios<SuccessResponse<GroupWithMembers>>({
+        method: 'patch',
+        url,
+        data: { hostId },
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (updatedGroup) => {
+    const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    if (updatedGroup?.id) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
+    }
+  },
+};
