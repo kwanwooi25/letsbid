@@ -8,7 +8,7 @@ import MemberListItem from './MemberListItem';
 
 export default function MemberList({ isGroupHost, group }: Props) {
   const { openForm } = useFormDialog();
-  const { members, hostId } = group;
+  const { members } = group;
 
   const handleClickInvite = () => {
     openForm({
@@ -28,7 +28,7 @@ export default function MemberList({ isGroupHost, group }: Props) {
 
       <ul className="flex flex-col gap-4">
         {members.map((member) => (
-          <MemberListItem key={member.userId} member={member} groupHostId={hostId} />
+          <MemberListItem key={member.userId} member={member} group={group} />
         ))}
       </ul>
     </div>

@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
+import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
@@ -14,15 +15,18 @@ import {
 } from '@/queries/group/mutation';
 import { GroupWithMembersAsUsers } from '@/types/group';
 import { useMutation } from '@tanstack/react-query';
-import { LucideCrown, LucideUser2, LucideUserMinus2 } from 'lucide-react';
+import { LucideCrown, LucideLogOut, LucideUser2, LucideUserMinus2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-export default function MemberListItem({ member, groupHostId }: Props) {
+export default function MemberListItem({ member, group }: Props) {
+  const router = useRouter();
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const session = useSession();
   const loggedInUserId = session?.data?.user?.id;
   const { user, userId } = member;
+  const { hostId: groupHostId } = group;
   const { isGroupHost } = useIsGroupHost(groupHostId, userId);
   const isMe = loggedInUserId === userId;
   const isMeGroupHost = loggedInUserId === groupHostId;
@@ -42,8 +46,8 @@ export default function MemberListItem({ member, groupHostId }: Props) {
       action: async () => {
         try {
           await expelGroupMemberMutation.mutateAsync({
-            groupId: member.groupId,
-            memberId: member.userId,
+            groupId: group.id,
+            memberId: userId,
           });
           toast({
             description: `${user.name} 멤버를 내보냈습니다`,
@@ -70,7 +74,7 @@ export default function MemberListItem({ member, groupHostId }: Props) {
       action: async () => {
         try {
           await changeGroupHostMutation.mutateAsync({
-            groupId: member.groupId,
+            groupId: group.id,
             hostId: userId,
           });
           toast({
@@ -84,8 +88,35 @@ export default function MemberListItem({ member, groupHostId }: Props) {
     });
   };
 
+  const handleClickOut = () => {
+    openAlert({
+      title: '그룹에서 나가기',
+      description: (
+        <>
+          <b>{group.name}</b> 그룹에서 나가시겠습니까?
+        </>
+      ),
+      actionLabel: '나가기',
+      action: async () => {
+        try {
+          await expelGroupMemberMutation.mutateAsync({
+            groupId: group.id,
+            memberId: userId,
+          });
+          toast({
+            description: `${group.name} 그룹에서 나왔습니다.`,
+            variant: 'success',
+          });
+          router.replace(PATHS.HOME);
+        } catch (e) {
+          handleAxiosError(e);
+        }
+      },
+    });
+  };
+
   return (
-    <ListItem>
+    <ListItem className="hover:cursor-default">
       <div className="flex items-center gap-2">
         <Avatar>
           <AvatarImage src={user.image ?? undefined} />
@@ -98,6 +129,17 @@ export default function MemberListItem({ member, groupHostId }: Props) {
       </div>
 
       {isGroupHost && <HostBadge />}
+
+      {isMe && !isMeGroupHost && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" onClick={handleClickOut}>
+              <LucideLogOut />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>그룹 나가기</TooltipContent>
+        </Tooltip>
+      )}
 
       {isMeGroupHost && !isMe && (
         <div className="flex items-center gap-2">
@@ -125,5 +167,5 @@ export default function MemberListItem({ member, groupHostId }: Props) {
 
 type Props = {
   member: GroupWithMembersAsUsers['members'][number];
-  groupHostId: string;
+  group: GroupWithMembersAsUsers;
 };
