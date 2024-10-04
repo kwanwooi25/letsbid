@@ -37,7 +37,10 @@ export default function SignInForm() {
   const submitForm = form.handleSubmit(async (values: SignInFormSchema) => {
     try {
       const loggedInUser = await loginUserMutation.mutateAsync(values);
-      await signIn('credentials', { user: JSON.stringify(loggedInUser), callbackUrl: PATHS.HOME });
+      await signIn('credentials', {
+        user: JSON.stringify(loggedInUser),
+        callbackUrl: window.location.href || PATHS.HOME,
+      });
       toast({
         title: `${loggedInUser.name}님 환영합니다`,
         variant: 'success',
@@ -62,7 +65,7 @@ export default function SignInForm() {
         className="flex items-center gap-2 text-gray-900 bg-[#fee503] hover:bg-[#fee503]/80"
         onClick={async () => {
           setIsKakaoLoggingIn(true);
-          await signIn('kakao');
+          await signIn('kakao', { callbackUrl: window.location.href || PATHS.HOME });
           setIsKakaoLoggingIn(false);
         }}
         type="button"

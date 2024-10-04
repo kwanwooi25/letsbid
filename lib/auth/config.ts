@@ -32,9 +32,6 @@ const authConfig = {
     async jwt({ token }) {
       return Promise.resolve(token);
     },
-    async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? Promise.resolve(url) : Promise.resolve(baseUrl);
-    },
   },
   pages: {
     signIn: '/auth/sign-in',
