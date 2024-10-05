@@ -1,10 +1,11 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { User } from '@prisma/client';
 import { LucideEdit, LucideUser2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import { useState } from 'react';
-import { Button } from '../ui/button';
 import UserForm from './UserForm';
 
 export default function UserDetail() {
@@ -30,9 +31,8 @@ export default function UserDetail() {
   return (
     <div>
       <div className="flex items-center gap-4">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         {!!user.image ? (
-          <img
+          <Image
             className="rounded-full"
             src={user.image}
             alt={`${user.name}`}

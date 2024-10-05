@@ -7,6 +7,7 @@ export const PATHS = {
   AUCTION_CASE: '/auction-case',
   BID: '/bid',
   ME: '/me',
+  MY_BID_HISTORY: '/me/bid-history',
 } as const;
 
 export const API_ROUTE = {

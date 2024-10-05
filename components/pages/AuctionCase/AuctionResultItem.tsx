@@ -1,3 +1,4 @@
+import BidRankBadge from '@/components/BidRankBadge';
 import MeBadge from '@/components/MeBadge';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -23,16 +24,7 @@ export default function AuctionResultItem({ bid, rank, isGroupHost, openBidDetai
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="self-start md:self-center flex items-center gap-2">
-        <span
-          className={cn(
-            'shrink-0 w-[42px] p-[0.15rem] border-2 text-xs text-center rotate-[-8deg]',
-            rank === 1 && 'text-red-500 border-red-500',
-            rank === 2 && 'text-orange-500 border-orange-500',
-            isExcluded && 'text-gray-500 border-gray-500',
-          )}
-        >
-          {isExcluded ? '제외' : rank === 1 ? '낙찰' : rank === 2 ? '차순위' : `${rank}순위`}
-        </span>
+        <BidRankBadge className="shrink-0" rank={rank} isExcluded={isExcluded} />
         <span
           className={cn(
             'line-clamp-1',
@@ -82,7 +74,7 @@ export default function AuctionResultItem({ bid, rank, isGroupHost, openBidDetai
 
 type Props = {
   bid: BidWithUser;
-  rank?: number;
+  rank: number;
   isGroupHost?: boolean;
   openBidDetail: () => void;
 };

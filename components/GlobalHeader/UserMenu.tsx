@@ -2,6 +2,7 @@
 
 import { PATHS } from '@/const/paths';
 import {
+  LucideFileStack,
   LucideLogOut,
   LucideMoon,
   LucideSettings,
@@ -80,6 +81,10 @@ export default function UserMenu({ className }: Props) {
               <DropdownMenuItem onClick={() => router.push(PATHS.ME)}>
                 <LucideUser2 className="mr-2 h-4 w-4" />
                 <span>내 정보</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push(PATHS.MY_BID_HISTORY)}>
+                <LucideFileStack className="mr-2 h-4 w-4" />
+                <span>내 입찰 기록</span>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => signOut()}>
                 <LucideLogOut className="mr-2 h-4 w-4" />

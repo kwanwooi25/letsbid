@@ -1,6 +1,6 @@
 import { SignInFormSchema } from '@/components/SignInForm/formSchema';
 import { SignUpFormSchema } from '@/components/SignUpForm/formSchema';
-import { UserFormSchema } from '@/components/UserProfile/UserForm/formSchema';
+import { UserFormSchema } from '@/components/pages/UserProfile/UserForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { User } from '@prisma/client';
