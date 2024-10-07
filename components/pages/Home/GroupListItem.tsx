@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function GroupListItem({ group, isHost }: Props) {
   const router = useRouter();
 
-  const moveToGroup = () => router.push(`${PATHS.GROUP}/${group.id}`);
+  const moveToGroup = () => router.push(`${PATHS.GROUP}/${group.id}`, { scroll: false });
 
   return (
     <ListItem className="min-h-[74px]" onClick={moveToGroup}>

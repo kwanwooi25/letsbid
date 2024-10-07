@@ -34,7 +34,7 @@ export default function Group() {
     newSearchParams.set('tab', value);
     const query = newSearchParams.toString();
     const url = `${pathname}?${query}`;
-    router.replace(url);
+    router.replace(url, { scroll: false });
   };
 
   return (

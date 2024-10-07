@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 export default function Loading({ fullscreen, size = 'md' }: Props) {
   if (fullscreen) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-primary-foreground/30 z-[9999]">
+      <div className="fixed inset-0 flex items-center justify-center bg-primary-foreground/30 z-loader">
         <div
           className={cn(
             'border-gray-300 animate-spin rounded-full  border-t-transparent h-16 w-16 border-4 my-16',

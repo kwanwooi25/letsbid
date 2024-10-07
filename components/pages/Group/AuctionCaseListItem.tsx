@@ -31,7 +31,9 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
   return (
     <ListItem
       color={color}
-      onClick={() => router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`)}
+      onClick={() =>
+        router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`, { scroll: false })
+      }
     >
       <div className="flex flex-col gap-2">
         <span className="text-lg font-bold">{caseName}</span>
