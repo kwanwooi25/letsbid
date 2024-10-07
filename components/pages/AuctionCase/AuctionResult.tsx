@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import Divider from '@/components/ui/divider';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
@@ -62,7 +62,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
       </div>
 
       <Dialog open={isBidDetailOpen} onOpenChange={setIsBidDetailOpen}>
-        <DialogContent aria-describedby="">
+        <ScrollableDialogContent aria-describedby="">
           <DialogTitle></DialogTitle>
           <BidDetail auctionCase={auctionCase} bid={sortedBids[currentBidDetailIndex]} />
           <Pagination>
@@ -82,7 +82,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-        </DialogContent>
+        </ScrollableDialogContent>
       </Dialog>
     </>
   );

@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  ScrollableDialogContent,
+} from '@/components/ui/dialog';
 import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { useAxiosError } from '@/hooks/useAxiosError';
@@ -43,7 +48,7 @@ export default function BidExclusionForm({ bid, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent aria-describedby="">
+        <ScrollableDialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>입찰 참여/제외</DialogTitle>
           </DialogHeader>
@@ -63,7 +68,7 @@ export default function BidExclusionForm({ bid, onSubmit }: Props) {
               <span>저장</span>
             </Button>
           </DialogFooter>
-        </DialogContent>
+        </ScrollableDialogContent>
       </form>
     </Form>
   );

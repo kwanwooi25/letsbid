@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  ScrollableDialogContent,
+} from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
 import DateTimeFormField from '@/components/ui/form/DateTimeFormField';
 import { useToast } from '@/components/ui/use-toast';
@@ -60,7 +65,7 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent aria-describedby="">
+        <ScrollableDialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>{formTitle}</DialogTitle>
           </DialogHeader>
@@ -91,7 +96,7 @@ export default function AuctionCaseForm({ groupId, auctionCase, onSubmit }: Prop
               <span>저장</span>
             </Button>
           </DialogFooter>
-        </DialogContent>
+        </ScrollableDialogContent>
       </form>
     </Form>
   );

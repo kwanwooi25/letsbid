@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  ScrollableDialogContent,
+} from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { useAxiosError } from '@/hooks/useAxiosError';
@@ -42,7 +47,7 @@ export default function InvitationForm({ group, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent aria-describedby="">
+        <ScrollableDialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>멤버 초대</DialogTitle>
           </DialogHeader>
@@ -61,7 +66,7 @@ export default function InvitationForm({ group, onSubmit }: Props) {
               <span>초대</span>
             </Button>
           </DialogFooter>
-        </DialogContent>
+        </ScrollableDialogContent>
       </form>
     </Form>
   );

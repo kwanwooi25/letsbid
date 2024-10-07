@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  ScrollableDialogContent,
+} from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { useAxiosError } from '@/hooks/useAxiosError';
@@ -55,7 +60,7 @@ export default function GroupForm({ group, onSubmit }: Props) {
   return (
     <Form {...form}>
       <form className="max-w-xl">
-        <DialogContent aria-describedby="">
+        <ScrollableDialogContent aria-describedby="">
           <DialogHeader>
             <DialogTitle>{formTitle}</DialogTitle>
           </DialogHeader>
@@ -74,7 +79,7 @@ export default function GroupForm({ group, onSubmit }: Props) {
               <span>저장</span>
             </Button>
           </DialogFooter>
-        </DialogContent>
+        </ScrollableDialogContent>
       </form>
     </Form>
   );
