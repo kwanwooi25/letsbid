@@ -1,4 +1,5 @@
 import { AuctionCaseLike } from '@/types/auctionCase';
+import { addDays, setMinutes } from 'date-fns';
 import { AuctionCaseFormSchema } from './formSchema';
 
 export function getDefaultFormValues({
@@ -19,8 +20,8 @@ export function getDefaultFormValues({
 
   return {
     caseName: '',
-    bidStartsAt: new Date(),
-    bidEndsAt: new Date(),
+    bidStartsAt: setMinutes(new Date(), 0),
+    bidEndsAt: setMinutes(addDays(new Date(), 1), 0),
     groupId,
   };
 }
