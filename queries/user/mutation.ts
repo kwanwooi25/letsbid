@@ -1,6 +1,6 @@
 import { SignInFormSchema } from '@/components/SignInForm/formSchema';
 import { SignUpFormSchema } from '@/components/SignUpForm/formSchema';
-import { UserFormSchema } from '@/components/pages/UserProfile/UserForm/formSchema';
+import { UserFormSchema } from '@/components/pages/UserForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { User } from '@prisma/client';
@@ -32,6 +32,9 @@ export const updateUserMutationOptions: MutationOptions<User, Error, UserFormSch
         method: 'patch',
         url,
         data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return res.data.data;
     } catch (e) {

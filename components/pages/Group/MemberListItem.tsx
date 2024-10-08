@@ -1,10 +1,10 @@
 import HostBadge from '@/components/HostBadge';
 import ListItem from '@/components/ListItem';
 import MeBadge from '@/components/MeBadge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
+import UserImage from '@/components/UserImage';
 import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useAxiosError } from '@/hooks/useAxiosError';
@@ -15,7 +15,7 @@ import {
 } from '@/queries/group/mutation';
 import { GroupWithMembersAsUsers } from '@/types/group';
 import { useMutation } from '@tanstack/react-query';
-import { LucideCrown, LucideLogOut, LucideUser2, LucideUserMinus2 } from 'lucide-react';
+import { LucideCrown, LucideLogOut, LucideUserMinus2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -118,12 +118,7 @@ export default function MemberListItem({ member, group }: Props) {
   return (
     <ListItem className="hover:cursor-default">
       <div className="flex items-center gap-2">
-        <Avatar>
-          <AvatarImage src={user.image ?? undefined} />
-          <AvatarFallback>
-            <LucideUser2 />
-          </AvatarFallback>
-        </Avatar>
+        <UserImage src={user.image} size={40} />
         <span>{user.name}</span>
         {isMe && <MeBadge />}
       </div>

@@ -7,13 +7,11 @@ import {
   LucideMoon,
   LucideSettings,
   LucideSun,
-  LucideUser,
   LucideUser2,
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import {
   DropdownMenu,
@@ -26,6 +24,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import UserImage from '../UserImage';
 
 export default function UserMenu({ className }: Props) {
   const { theme, setTheme } = useTheme();
@@ -37,16 +36,7 @@ export default function UserMenu({ className }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <Avatar>
-            <AvatarImage src={session.data?.user?.image ?? ''} />
-            <AvatarFallback>
-              {!!session.data?.user?.name ? (
-                session.data?.user.name.charAt(0).toUpperCase()
-              ) : (
-                <LucideUser />
-              )}
-            </AvatarFallback>
-          </Avatar>
+          <UserImage src={session.data?.user?.image} alt={session.data?.user?.name} size={40} />
         </Button>
       </DropdownMenuTrigger>
 

@@ -8,6 +8,7 @@ export const PATHS = {
   BID: '/bid',
   ME: '/me',
   MY_BID_HISTORY: '/me/bid-history',
+  EDIT_USER_PROFILE: '/me/edit',
 } as const;
 
 export const API_ROUTE = {
