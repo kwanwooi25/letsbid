@@ -8,7 +8,7 @@ export function useHomeHeaderButtons() {
   const { openForm } = useFormDialog();
   const router = useRouter();
 
-  const moveToInvitations = () => router.push(PATHS.INVITATION);
+  const moveToInvitations = () => router.push(PATHS.INVITATION, { scroll: false });
 
   const openCreateGroupForm = () => {
     openForm({

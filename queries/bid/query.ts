@@ -19,9 +19,9 @@ export const getBidDetailQueryOptions = (bidId?: string) =>
     },
   });
 
-export const getMyBidHistoryQueryOptions = () =>
+export const getMyBidHistoryQueryOptions = (userId?: string) =>
   queryOptions({
-    queryKey: bidQueryKeys.my_history,
+    queryKey: bidQueryKeys.history(userId),
     queryFn: async () => {
       const url = getApiUrl(API_ROUTE.BID);
       const res = await axios<SuccessResponse<BidWithUserAndAuctionCase[]>>({

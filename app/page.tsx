@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 export default withAuth(function Home() {
   return (
     <>
-      <PageHeader title="내 그룹" className="max-w-2xl">
+      <PageHeader title="내가 속한 그룹" className="max-w-2xl">
         <HomeHeaderButtons />
       </PageHeader>
       <PageBody className="max-w-2xl">

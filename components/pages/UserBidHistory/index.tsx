@@ -1,20 +1,23 @@
-import Loading from '@/components/Loading';
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
-import { Suspense } from 'react';
-import UserBidHistoryList from './UserBidHistoryList';
+'use client';
+
+import { getMyBidHistoryQueryOptions } from '@/queries/bid/query';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import UserBidHistoryListItem from './UserBidHistoryListItem';
 
 export default function UserBidHistory() {
+  const session = useSession();
+  const { data: bidHistory } = useSuspenseQuery(
+    getMyBidHistoryQueryOptions(session?.data?.user?.id),
+  );
+
+  if (!session?.data?.user) return null;
+
   return (
-    <>
-      <PageHeader className="max-w-lg" title="내 입찰 기록">
-        {/* <UserProfileHeaderButtons /> */}
-      </PageHeader>
-      <PageBody className="max-w-lg">
-        <Suspense fallback={<Loading />}>
-          <UserBidHistoryList />
-        </Suspense>
-      </PageBody>
-    </>
+    <ul className="flex flex-col gap-4">
+      {bidHistory.map((bid) => (
+        <UserBidHistoryListItem key={bid.id} bid={bid} />
+      ))}
+    </ul>
   );
 }

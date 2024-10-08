@@ -1,6 +1,6 @@
 const queryKeys = {
   detail: (bidId?: string) => ['bid', bidId],
-  my_history: ['my_bid_history'],
+  history: (userId?: string) => ['bidHistory', userId],
 } as const;
 
 export { queryKeys as bidQueryKeys };

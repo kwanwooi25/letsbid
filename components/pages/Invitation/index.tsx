@@ -1,13 +1,11 @@
 'use client';
 
-import Loading from '@/components/Loading';
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 import ReceivedInvitationList from './ReceivedInvitationList';
 import SentInvitationList from './SentInvitationList';
+import { Suspense } from 'react';
+import Loading from '@/components/Loading';
 
 export default function Invitation() {
   const router = useRouter();
@@ -24,29 +22,24 @@ export default function Invitation() {
   };
 
   return (
-    <>
-      <PageHeader title="그룹 초대 목록" className="max-w-2xl" />
-      <PageBody className="max-w-2xl">
-        <Tabs defaultValue={tab} onValueChange={handleTabChange}>
-          <TabsList className="w-full">
-            <TabsTrigger className="w-full" value="received">
-              받은 초대
-            </TabsTrigger>
-            <TabsTrigger className="w-full" value="sent">
-              보낸 초대
-            </TabsTrigger>
-          </TabsList>
+    <Tabs defaultValue={tab} onValueChange={handleTabChange}>
+      <TabsList className="w-full">
+        <TabsTrigger className="w-full" value="received">
+          받은 초대
+        </TabsTrigger>
+        <TabsTrigger className="w-full" value="sent">
+          보낸 초대
+        </TabsTrigger>
+      </TabsList>
 
-          <Suspense fallback={<Loading />}>
-            <TabsContent value="received">
-              <ReceivedInvitationList />
-            </TabsContent>
-            <TabsContent value="sent">
-              <SentInvitationList />
-            </TabsContent>
-          </Suspense>
-        </Tabs>
-      </PageBody>
-    </>
+      <Suspense fallback={<Loading />}>
+        <TabsContent value="received">
+          <ReceivedInvitationList />
+        </TabsContent>
+        <TabsContent value="sent">
+          <SentInvitationList />
+        </TabsContent>
+      </Suspense>
+    </Tabs>
   );
 }
