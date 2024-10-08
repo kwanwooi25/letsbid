@@ -20,6 +20,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuPortal,
+  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -42,6 +43,27 @@ export default function UserMenu({ className }: Props) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className={className}>
+        {isAuthenticated && (
+          <>
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={() => router.push(PATHS.ME, { scroll: false })}>
+                <LucideUser2 className="mr-2 h-4 w-4" />
+                <span>내 정보</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push(PATHS.INVITATION, { scroll: false })}>
+                <LucideMails className="mr-2 h-4 w-4" />
+                <span>초대 목록</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push(PATHS.MY_BID_HISTORY, { scroll: false })}
+              >
+                <LucideFileStack className="mr-2 h-4 w-4" />
+                <span>내 입찰 기록</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -67,28 +89,13 @@ export default function UserMenu({ className }: Props) {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-          {isAuthenticated && (
-            <>
-              <DropdownMenuItem onClick={() => router.push(PATHS.ME, { scroll: false })}>
-                <LucideUser2 className="mr-2 h-4 w-4" />
-                <span>내 정보</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push(PATHS.INVITATION, { scroll: false })}>
-                <LucideMails className="mr-2 h-4 w-4" />
-                <span>초대 목록</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push(PATHS.MY_BID_HISTORY, { scroll: false })}
-              >
-                <LucideFileStack className="mr-2 h-4 w-4" />
-                <span>내 입찰 기록</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => signOut()}>
-                <LucideLogOut className="mr-2 h-4 w-4" />
-                <span>로그아웃</span>
-              </DropdownMenuItem>
-            </>
-          )}
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => signOut()}>
+            <LucideLogOut className="mr-2 h-4 w-4" />
+            <span>로그아웃</span>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
