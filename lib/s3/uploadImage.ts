@@ -4,10 +4,10 @@ import { IMAGE_BUCKET_NAME, IMAGE_HOST_URL } from './const';
 export async function uploadImage({ file, fileName }: Args) {
   try {
     const s3Client = new S3Client({
-      region: process.env.AWS_REGION!,
+      region: process.env.ENV_AWS_REGION!,
       credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+        accessKeyId: process.env.ENV_AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.ENV_AWS_SECRET_ACCESS_KEY!,
       },
     });
 
