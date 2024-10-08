@@ -5,7 +5,12 @@ export default function UserImage({ src, alt = 'user image', size = 64 }: Props)
   return !!src ? (
     <Image
       className="rounded-full object-cover"
-      style={{ minWidth: `${size}px`, minHeight: `${size}px` }}
+      style={{
+        minWidth: `${size}px`,
+        minHeight: `${size}px`,
+        maxWidth: `${size}px`,
+        maxHeight: `${size}px`,
+      }}
       src={src}
       alt={alt}
       width={size}
