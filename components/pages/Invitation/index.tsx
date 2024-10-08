@@ -25,7 +25,7 @@ export default function Invitation() {
 
   return (
     <>
-      <PageHeader title="그룹 초대 목록" className="max-w-2xl" backButton />
+      <PageHeader title="그룹 초대 목록" className="max-w-2xl" />
       <PageBody className="max-w-2xl">
         <Tabs defaultValue={tab} onValueChange={handleTabChange}>
           <TabsList className="w-full">

@@ -4,6 +4,7 @@ import { PATHS } from '@/const/paths';
 import {
   LucideFileStack,
   LucideLogOut,
+  LucideMails,
   LucideMoon,
   LucideSettings,
   LucideSun,
@@ -68,11 +69,17 @@ export default function UserMenu({ className }: Props) {
           </DropdownMenuSub>
           {isAuthenticated && (
             <>
-              <DropdownMenuItem onClick={() => router.push(PATHS.ME)}>
+              <DropdownMenuItem onClick={() => router.push(PATHS.ME, { scroll: false })}>
                 <LucideUser2 className="mr-2 h-4 w-4" />
                 <span>내 정보</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push(PATHS.MY_BID_HISTORY)}>
+              <DropdownMenuItem onClick={() => router.push(PATHS.INVITATION, { scroll: false })}>
+                <LucideMails className="mr-2 h-4 w-4" />
+                <span>초대 목록</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => router.push(PATHS.MY_BID_HISTORY, { scroll: false })}
+              >
                 <LucideFileStack className="mr-2 h-4 w-4" />
                 <span>내 입찰 기록</span>
               </DropdownMenuItem>
