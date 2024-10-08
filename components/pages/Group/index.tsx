@@ -50,7 +50,7 @@ export default function Group() {
           </>
         }
       >
-        {isGroupHost && <GroupDetailHeaderButtons group={group} />}
+        <GroupDetailHeaderButtons group={group} />
       </PageHeader>
       <PageBody className="max-w-2xl">
         <Tabs defaultValue={tab} onValueChange={handleTabChange}>

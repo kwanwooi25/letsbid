@@ -40,7 +40,9 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
       title: '경매 사건 삭제',
       description: (
         <>
-          경매 사건을 삭제하면 해당 사건의 <b className="text-destructive">모든 입찰 내역이 삭제</b>
+          경매 사건을 삭제하면
+          <br />
+          해당 사건의 <b className="text-destructive">모든 입찰 내역이 삭제</b>
           됩니다.
           <br />
           경매 사건 (<b>{caseName}</b>) 을 삭제하시겠습니까?

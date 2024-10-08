@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import UserImage from '@/components/UserImage';
-import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
@@ -15,12 +14,10 @@ import {
 } from '@/queries/group/mutation';
 import { GroupWithMembersAsUsers } from '@/types/group';
 import { useMutation } from '@tanstack/react-query';
-import { LucideCrown, LucideLogOut, LucideUserMinus2 } from 'lucide-react';
+import { LucideCrown, LucideUserMinus2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 export default function MemberListItem({ member, group }: Props) {
-  const router = useRouter();
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const session = useSession();
@@ -39,7 +36,7 @@ export default function MemberListItem({ member, group }: Props) {
       title: '멤버 내보내기',
       description: (
         <>
-          멤버 (<b>{user.name}</b>) 를 내보내시겠습니까?
+          <b>{user.name}</b>님을 내보내시겠습니까?
         </>
       ),
       actionLabel: '내보내기',
@@ -50,7 +47,7 @@ export default function MemberListItem({ member, group }: Props) {
             memberId: userId,
           });
           toast({
-            description: `${user.name} 멤버를 내보냈습니다`,
+            description: `${user.name}님을 내보냈습니다`,
             variant: 'success',
           });
         } catch (e) {
@@ -65,7 +62,7 @@ export default function MemberListItem({ member, group }: Props) {
       title: '리더 번경하기',
       description: (
         <>
-          멤버 (<b>{user.name}</b>) 를 리더로 변경하시겠습니까?
+          <b>{user.name}</b>님을 리더로 변경하시겠습니까?
           <br />
           <b className="text-destructive">나는 일반 멤버로 변경</b>됩니다.
         </>
@@ -78,36 +75,9 @@ export default function MemberListItem({ member, group }: Props) {
             hostId: userId,
           });
           toast({
-            description: `${user.name} 멤버가 리더가 되었습니다.`,
+            description: `${user.name}님이 리더가 되었습니다.`,
             variant: 'success',
           });
-        } catch (e) {
-          handleAxiosError(e);
-        }
-      },
-    });
-  };
-
-  const handleClickOut = () => {
-    openAlert({
-      title: '그룹에서 나가기',
-      description: (
-        <>
-          <b>{group.name}</b> 그룹에서 나가시겠습니까?
-        </>
-      ),
-      actionLabel: '나가기',
-      action: async () => {
-        try {
-          await expelGroupMemberMutation.mutateAsync({
-            groupId: group.id,
-            memberId: userId,
-          });
-          toast({
-            description: `${group.name} 그룹에서 나왔습니다.`,
-            variant: 'success',
-          });
-          router.replace(PATHS.HOME);
         } catch (e) {
           handleAxiosError(e);
         }
@@ -124,17 +94,6 @@ export default function MemberListItem({ member, group }: Props) {
       </div>
 
       {isGroupHost && <HostBadge />}
-
-      {isMe && !isMeGroupHost && (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" onClick={handleClickOut}>
-              <LucideLogOut />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>그룹 나가기</TooltipContent>
-        </Tooltip>
-      )}
 
       {isMeGroupHost && !isMe && (
         <div className="flex items-center gap-2">
