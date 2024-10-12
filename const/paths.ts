@@ -6,6 +6,7 @@ export const PATHS = {
   CREATE_GROUP: '/group/create',
   INVITATION: '/invitation',
   AUCTION_CASE: '/auction-case',
+  CREATE_AUCTION_CASE: '/auction-case/create',
   BID: '/bid',
   ME: '/me',
   MY_BID_HISTORY: '/me/bid-history',

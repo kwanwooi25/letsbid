@@ -19,7 +19,7 @@ import { getDefaultFormValues } from './utils';
 
 export default function GroupForm() {
   const params = useParams();
-  const groupId = String(params.groupId);
+  const groupId = params.groupId as string;
   const router = useRouter();
   const callbackUrl = useCallbackUrl();
   const { toast } = useToast();

@@ -3,22 +3,22 @@
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST, AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
-import { useFormDialog } from '@/context/FormDialog';
+import { PATHS } from '@/const/paths';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { LucideFilePlus2 } from 'lucide-react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import AuctionCaseListItem from './AuctionCaseListItem';
 import { useCategorizedAuctionCases } from './hooks';
 
 export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
+  const router = useRouter();
   const params = useParams();
   const groupId = params.groupId as string;
-  const { openForm } = useFormDialog();
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
   const isEmpty = Object.values(categorizedAuctionCases).every((list) => !list.length);
 
   const handleClickAddCase = () => {
-    openForm({ type: 'AUCTION_CASE', formProps: { groupId } });
+    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`, { scroll: false });
   };
 
   return (

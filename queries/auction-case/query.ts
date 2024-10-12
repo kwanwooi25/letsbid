@@ -20,10 +20,13 @@ export const getAuctionCaseListQueryOptions = (groupId: string) =>
     staleTime: 1000 * 60,
   });
 
-export const getAuctionCaseDetailQueryOptions = (auctionCaseId: string) =>
+export const getAuctionCaseDetailQueryOptions = (auctionCaseId?: string) =>
   queryOptions({
     queryKey: auctionCaseQueryKeys.detail(auctionCaseId),
     queryFn: async () => {
+      if (!auctionCaseId) {
+        return null;
+      }
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${auctionCaseId}`);
       const res = await axios<SuccessResponse<AuctionCaseLike>>({
         method: 'get',

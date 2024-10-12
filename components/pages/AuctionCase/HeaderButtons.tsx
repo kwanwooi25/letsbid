@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
-import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { deleteAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
 import { AuctionCaseLike } from '@/types/auctionCase';
@@ -14,10 +14,10 @@ import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes } from 'react';
 
 export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
-  const { openForm } = useFormDialog();
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const router = useRouter();
+  const currentUrl = useCurrentUrl();
   const { handleAxiosError } = useAxiosError();
   const deleteAuctionCaseMutation = useMutation(deleteAuctionCaseMutationOptions);
   const { id, groupId, caseName } = auctionCase;
@@ -26,12 +26,10 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
 
   const handleClickEdit: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
-    openForm({
-      type: 'AUCTION_CASE',
-      formProps: {
-        auctionCase,
-      },
-    });
+    router.push(
+      `${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}/edit?callbackUrl=${currentUrl}`,
+      { scroll: false },
+    );
   };
 
   const handleClickDelete: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {

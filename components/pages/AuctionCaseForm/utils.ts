@@ -7,7 +7,7 @@ export function getDefaultFormValues({
   auctionCase,
 }: {
   groupId?: string;
-  auctionCase?: AuctionCaseLike;
+  auctionCase?: AuctionCaseLike | null;
 }): AuctionCaseFormSchema {
   if (auctionCase) {
     const { bidStartsAt, bidEndsAt } = auctionCase;

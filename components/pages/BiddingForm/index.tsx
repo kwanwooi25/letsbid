@@ -22,8 +22,8 @@ import { getDefaultFormValues } from './utils';
 
 export default function BiddingForm() {
   const params = useParams();
-  const auctionCaseId = String(params.auctionCaseId);
-  const bidId = String(params.bidId);
+  const auctionCaseId = params.auctionCaseId! as string;
+  const bidId = params.bidId as string;
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
@@ -79,7 +79,6 @@ export default function BiddingForm() {
 
   const isEditing = !!bid;
   const formTitle = isEditing ? '입찰 정보 수정' : '입찰표 제출';
-  const { caseName } = auctionCase;
 
   const placeBid = async (values: BiddingFormSchema) => {
     const placedBid = await placeBidMutation.mutateAsync(values);
@@ -95,16 +94,16 @@ export default function BiddingForm() {
       const mutationFn = isEditing ? updateBid : placeBid;
       await mutationFn({ ...values, excludedReason: values.isExcluded ? '모의 입찰' : '' });
       toast({
-        title: caseName,
+        title: auctionCase!.caseName,
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });
       form.reset();
-      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase.groupId) });
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase!.groupId) });
       router.replace(
         callbackUrl
           ? callbackUrl
-          : `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}`,
+          : `${PATHS.GROUP}/${auctionCase!.groupId}${PATHS.AUCTION_CASE}/${auctionCase!.id}`,
       );
     } catch (error) {
       handleAxiosError(error);
@@ -118,7 +117,7 @@ export default function BiddingForm() {
           title={
             <div className="flex flex-col gap-1">
               <span className="text-lg font-bold">{formTitle}</span>
-              <span className="text-sm font-semibold opacity-50">{caseName}</span>
+              <span className="text-sm font-semibold opacity-50">{auctionCase!.caseName}</span>
             </div>
           }
           backButton
