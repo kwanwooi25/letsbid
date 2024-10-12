@@ -3,7 +3,6 @@ import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 import AuctionCaseForm from './AuctionCaseForm';
 import BidExclusionForm from './BidExclusionForm';
 import { DEFAULT_FORM_DIALOG_PROPS } from './const';
-import GroupForm from './GroupForm';
 import InvitationForm from './InvitationForm';
 import { FormDialogContextState, FormDialogProps } from './types';
 
@@ -39,8 +38,6 @@ export function FormDialogProvider({ children }: PropsWithChildren) {
     <FormDialogContext.Provider value={{ openForm }}>
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         {children}
-
-        {formDialogProps.type === 'GROUP' && <GroupForm {...formDialogProps.formProps} />}
 
         {formDialogProps.type === 'INVITATION' && <InvitationForm {...formDialogProps.formProps} />}
 

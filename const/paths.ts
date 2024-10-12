@@ -3,6 +3,7 @@ export const PATHS = {
   SIGN_UP: '/auth/sign-up',
   SIGN_IN: '/auth/sign-in',
   GROUP: '/group',
+  CREATE_GROUP: '/group/create',
   INVITATION: '/invitation',
   AUCTION_CASE: '/auction-case',
   BID: '/bid',

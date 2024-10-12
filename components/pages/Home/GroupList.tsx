@@ -13,14 +13,14 @@ export default function GroupList() {
   const userId = session.data?.user?.id;
   const { data: groups, isPending } = useSuspenseQuery(groupListQueryOptions);
 
-  const { moveToInvitations, openCreateGroupForm } = useHomeHeaderButtons();
+  const { moveToInvitations, moveToCreateGroup } = useHomeHeaderButtons();
 
   if (!isPending && !groups.length) {
     return (
       <ListEmpty className="flex flex-col gap-4">
         <p className="mb-4">내가 속한 그룹이 없습니다</p>
         <p>
-          <Button type="button" onClick={openCreateGroupForm}>
+          <Button type="button" onClick={moveToCreateGroup}>
             그룹 생성
           </Button>
           <span className="ml-2">또는</span>

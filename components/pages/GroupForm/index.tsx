@@ -1,25 +1,30 @@
+'use client';
+
+import PageBody from '@/components/PageBody';
+import PageHeader from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
-import {
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  ScrollableDialogContent,
-} from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
+import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { createGroupMutationOptions, updateGroupMutationOptions } from '@/queries/group/mutation';
-import { GroupWithMembers } from '@/types/group';
+import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Group } from '@prisma/client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { formSchema, GroupFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
-export default function GroupForm({ group, onSubmit }: Props) {
+export default function GroupForm() {
+  const params = useParams();
+  const groupId = String(params.groupId);
+  const router = useRouter();
+  const callbackUrl = useCallbackUrl();
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
+  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const createGroupMutation = useMutation(createGroupMutationOptions);
   const updateGroupMutation = useMutation(updateGroupMutationOptions);
   const form = useForm<GroupFormSchema>({
@@ -50,8 +55,8 @@ export default function GroupForm({ group, onSubmit }: Props) {
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });
-      onSubmit?.();
       form.reset();
+      router.replace(callbackUrl ? callbackUrl : PATHS.HOME, { scroll: false });
     } catch (error) {
       handleAxiosError(error);
     }
@@ -59,33 +64,22 @@ export default function GroupForm({ group, onSubmit }: Props) {
 
   return (
     <Form {...form}>
-      <form className="max-w-xl">
-        <ScrollableDialogContent aria-describedby="">
-          <DialogHeader>
-            <DialogTitle>{formTitle}</DialogTitle>
-          </DialogHeader>
+      <form className="max-w-lg mx-auto">
+        <PageHeader title={formTitle} backButton>
+          <Button onClick={submitForm} isLoading={isSubmitting}>
+            <span>저장</span>
+          </Button>
+        </PageHeader>
 
-          <div className="my-4">
-            <InputFormField
-              control={form.control}
-              name="name"
-              label="그룹명"
-              inputProps={{ autoFocus: true }}
-            />
-          </div>
-
-          <DialogFooter>
-            <Button onClick={submitForm} isLoading={isSubmitting}>
-              <span>저장</span>
-            </Button>
-          </DialogFooter>
-        </ScrollableDialogContent>
+        <PageBody>
+          <InputFormField
+            control={form.control}
+            name="name"
+            label="그룹명"
+            inputProps={{ autoFocus: true }}
+          />
+        </PageBody>
       </form>
     </Form>
   );
 }
-
-type Props = {
-  group?: Group | GroupWithMembers;
-  onSubmit?: () => void | Promise<void>;
-};

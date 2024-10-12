@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
-import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import {
   deleteGroupMutationOptions,
@@ -21,22 +21,17 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
   const session = useSession();
   const loggedInUserId = session?.data?.user?.id;
   const { isGroupHost } = useIsGroupHost(group.hostId);
-  const { openForm } = useFormDialog();
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const router = useRouter();
+  const currentUrl = useCurrentUrl();
   const { handleAxiosError } = useAxiosError();
   const deleteGroupMutation = useMutation(deleteGroupMutationOptions);
   const expelGroupMemberMutation = useMutation(expelGroupMemberMutationOptions);
 
   const handleClickEditGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
-    openForm({
-      type: 'GROUP',
-      formProps: {
-        group,
-      },
-    });
+    router.push(`${PATHS.GROUP}/${group.id}/edit?callbackUrl=${currentUrl}`);
   };
 
   const handleClickDeleteGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {

@@ -1,24 +1,20 @@
 'use client';
 
 import { PATHS } from '@/const/paths';
-import { useFormDialog } from '@/context/FormDialog';
+import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { useRouter } from 'next/navigation';
 
 export function useHomeHeaderButtons() {
-  const { openForm } = useFormDialog();
   const router = useRouter();
+  const currentUrl = useCurrentUrl();
 
   const moveToInvitations = () => router.push(PATHS.INVITATION, { scroll: false });
 
-  const openCreateGroupForm = () => {
-    openForm({
-      type: 'GROUP',
-      formProps: {},
-    });
-  };
+  const moveToCreateGroup = () =>
+    router.push(`${PATHS.CREATE_GROUP}?callbackUrl=${currentUrl}`, { scroll: false });
 
   return {
     moveToInvitations,
-    openCreateGroupForm,
+    moveToCreateGroup,
   };
 }

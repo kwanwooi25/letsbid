@@ -1,22 +1,15 @@
 import { ComponentProps } from 'react';
 import AuctionCaseForm from './AuctionCaseForm';
 import BidExclusionForm from './BidExclusionForm';
-import GroupForm from './GroupForm';
 import InvitationForm from './InvitationForm';
 
 export type FormDialogProps =
   | DefaultProps
-  | GroupFormProps
   | InvitationFormProps
   | AuctionCaseFormProps
   | BidExclusionFormProps;
 
 type DefaultProps = { type: undefined; formProps: undefined };
-
-type GroupFormProps = {
-  type: 'GROUP';
-  formProps: ComponentProps<typeof GroupForm>;
-};
 
 type InvitationFormProps = {
   type: 'INVITATION';

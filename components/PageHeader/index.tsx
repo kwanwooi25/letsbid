@@ -1,9 +1,9 @@
 'use client';
 
 import { GNB_HEIGHT } from '@/const/layout';
+import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { cn } from '@/lib/utils';
 import { LucideChevronLeft } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Button } from '../ui/button';
@@ -16,10 +16,16 @@ export default function PageHeader({
   onBackButtonClick,
 }: Props) {
   const router = useRouter();
+  const callbackUrl = useCallbackUrl();
 
   const handleClickBackButton = () => {
     if (onBackButtonClick) {
       onBackButtonClick();
+      return;
+    }
+
+    if (callbackUrl) {
+      router.replace(callbackUrl, { scroll: false });
       return;
     }
 
@@ -35,14 +41,7 @@ export default function PageHeader({
       style={{ top: GNB_HEIGHT }}
     >
       <div className="flex items-center gap-2">
-        {!!backButton && typeof backButton === 'boolean' && !onBackButtonClick && (
-          <Link href=".." passHref scroll={false}>
-            <Button variant="ghost" size="icon" type={'button'}>
-              <LucideChevronLeft />
-            </Button>
-          </Link>
-        )}
-        {!!backButton && typeof backButton === 'boolean' && !!onBackButtonClick && (
+        {!!backButton && (
           <Button onClick={handleClickBackButton} variant="ghost" size="icon" type={'button'}>
             <LucideChevronLeft />
           </Button>

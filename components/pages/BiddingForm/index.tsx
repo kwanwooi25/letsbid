@@ -14,13 +14,16 @@ import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid
 import { getBidDetailQueryOptions } from '@/queries/bid/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { BiddingFormSchema, formSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
-export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
+export default function BiddingForm() {
+  const params = useParams();
+  const auctionCaseId = String(params.auctionCaseId);
+  const bidId = String(params.bidId);
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
@@ -96,7 +99,6 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });
-      onSubmit?.();
       form.reset();
       queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase.groupId) });
       router.replace(
@@ -201,9 +203,3 @@ export default function BiddingForm({ auctionCaseId, bidId, onSubmit }: Props) {
     </Form>
   );
 }
-
-type Props = {
-  auctionCaseId: string;
-  bidId?: string;
-  onSubmit?: () => void | Promise<void>;
-};
