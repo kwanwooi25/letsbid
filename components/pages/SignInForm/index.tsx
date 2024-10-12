@@ -1,11 +1,5 @@
 'use client';
 
-import KakaoIcon from '@/components/KakaoIcon';
-import { formSchema, SignInFormSchema } from '@/components/pages/SignInForm/formSchema';
-import { Button } from '@/components/ui/button';
-import Divider from '@/components/ui/divider';
-import { Form, InputFormField } from '@/components/ui/form';
-import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCreateQueryString } from '@/hooks/useCreateQueryString';
@@ -17,6 +11,12 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import KakaoIcon from '../../KakaoIcon';
+import { Button } from '../../ui/button';
+import Divider from '../../ui/divider';
+import { Form, InputFormField } from '../../ui/form';
+import { useToast } from '../../ui/use-toast';
+import { SignInFormSchema, formSchema } from './formSchema';
 
 export default function SignInForm() {
   const [isKakaoLoggingIn, setIsKakaoLoggingIn] = useState(false);
