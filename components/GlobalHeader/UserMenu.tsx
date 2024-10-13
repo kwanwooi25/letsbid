@@ -3,7 +3,7 @@
 import { PATHS } from '@/const/paths';
 import {
   LucideFileStack,
-  LucideGuideCircle,
+  LucideHelpCircle,
   LucideLogOut,
   LucideMails,
   LucideMoon,
@@ -94,7 +94,7 @@ export default function UserMenu({ className }: Props) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => router.push(PATHS.USER_GUIDE, { scroll: false })}>
-            <LucideGuideCircle className="mr-2 h-4 w-4" />
+            <LucideHelpCircle className="mr-2 h-4 w-4" />
             <span>이용 가이드</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
