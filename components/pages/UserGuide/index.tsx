@@ -4,15 +4,15 @@ import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTabs } from '@/hooks/useTabs';
-import AcceptInvitationHelp from './AcceptInvitation';
-import AuctionCaseHelp from './AuctionCase';
-import BidHelp from './Bid';
-import BidResultHelp from './BidResult';
-import BidResultChangeHelp from './BidResultChange';
-import GroupHelp from './Group';
-import GroupInvitationHelp from './GroupInvitation';
+import AcceptInvitationGuide from './AcceptInvitation';
+import AuctionCaseGuide from './AuctionCase';
+import BidGuide from './Bid';
+import BidResultGuide from './BidResult';
+import BidResultChangeGuide from './BidResultChange';
+import GroupGuide from './Group';
+import GroupInvitationGuide from './GroupInvitation';
 
-export default function Help() {
+export default function UserGuide() {
   const { tab, handleTabChange } = useTabs<'group' | 'auctionCase' | 'bid'>({
     defaultTab: 'group',
   });
@@ -35,17 +35,17 @@ export default function Help() {
           </TabsList>
 
           <TabsContent value="group">
-            <GroupHelp />
-            <GroupInvitationHelp />
-            <AcceptInvitationHelp />
+            <GroupGuide />
+            <GroupInvitationGuide />
+            <AcceptInvitationGuide />
           </TabsContent>
           <TabsContent value="auctionCase">
-            <AuctionCaseHelp />
+            <AuctionCaseGuide />
           </TabsContent>
           <TabsContent value="bid">
-            <BidHelp />
-            <BidResultHelp />
-            <BidResultChangeHelp />
+            <BidGuide />
+            <BidResultGuide />
+            <BidResultChangeGuide />
           </TabsContent>
         </Tabs>
       </PageBody>

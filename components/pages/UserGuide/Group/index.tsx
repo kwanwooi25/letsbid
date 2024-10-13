@@ -1,6 +1,6 @@
 import { Chip } from '@/components/ui/chip';
 
-export default function GroupHelp() {
+export default function GroupGuide() {
   return (
     <div className="py-4 flex flex-col gap-2">
       <h3 className="font-bold flex items-center gap-2">

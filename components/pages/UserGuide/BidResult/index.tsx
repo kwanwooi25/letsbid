@@ -1,6 +1,6 @@
 import { Chip } from '@/components/ui/chip';
 
-export default function BidResultHelp() {
+export default function BidResultGuide() {
   return (
     <div className="py-4 flex flex-col gap-2">
       <h3 className="font-bold flex items-center gap-2">

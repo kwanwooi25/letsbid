@@ -1,16 +1,16 @@
 import { Chip } from '@/components/ui/chip';
 
-export default function BidHelp() {
+export default function AcceptInvitationGuide() {
   return (
     <div className="py-4 flex flex-col gap-2">
       <h3 className="font-bold flex items-center gap-2">
-        <Chip>전체</Chip>
-        <span>입찰표 제출 / 수정 / 취소</span>
+        <Chip variant="success">멤버</Chip>
+        <span>초대 수락</span>
       </h3>
       <div className="relative pb-[calc(75.4%)] h-0 w-full bg-primary-foreground">
         <iframe
-          src="https://images.letsbid.app/tutorials/%5B%E1%84%8C%E1%85%A5%E1%86%AB%E1%84%8E%E1%85%A6%5D%E1%84%8B%E1%85%B5%E1%86%B8%E1%84%8E%E1%85%A1%E1%86%AF%E1%84%8C%E1%85%A6%E1%84%8E%E1%85%AE%E1%86%AF_%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC_%E1%84%89%E1%85%A1%E1%86%A8%E1%84%8C%E1%85%A6.mp4"
-          title="[전체] 입찰표 제출 / 수정 / 취소"
+          src="https://images.letsbid.app/tutorials/%5B%E1%84%86%E1%85%A6%E1%86%B7%E1%84%87%E1%85%A5%5D%E1%84%8E%E1%85%A9%E1%84%83%E1%85%A2%E1%84%89%E1%85%AE%E1%84%85%E1%85%A1%E1%86%A8.mp4"
+          title="[멤버] 초대 수락"
           loading="lazy"
           allowFullScreen
           allow="clipboard-write"
