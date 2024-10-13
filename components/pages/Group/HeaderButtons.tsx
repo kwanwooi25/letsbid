@@ -37,7 +37,7 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
   const handleClickDeleteGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
     openAlert({
-      title: '옵션 삭제',
+      title: '그룹 삭제',
       description: (
         <>
           그룹을 삭제하면 해당 그룹에서 진행했던
