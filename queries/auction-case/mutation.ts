@@ -1,5 +1,5 @@
+import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { AuctionCaseFormSchema } from '@/context/FormDialog/AuctionCaseForm/formSchema';
 import { SuccessResponse } from '@/types/api';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { MutationOptions } from '@tanstack/react-query';
