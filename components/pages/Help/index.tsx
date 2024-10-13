@@ -3,28 +3,19 @@
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTabs } from '@/hooks/useTabs';
 import AcceptInvitationHelp from './AcceptInvitation';
 import AuctionCaseHelp from './AuctionCase';
 import BidHelp from './Bid';
 import BidResultHelp from './BidResult';
+import BidResultChangeHelp from './BidResultChange';
 import GroupHelp from './Group';
 import GroupInvitationHelp from './GroupInvitation';
-import BidResultChangeHelp from './BidResultChange';
 
 export default function Help() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const tab = searchParams.get('tab') ?? 'group';
-
-  const handleTabChange: Parameters<typeof Tabs>[0]['onValueChange'] = (value) => {
-    const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
-    newSearchParams.set('tab', value);
-    const query = newSearchParams.toString();
-    const url = `${pathname}?${query}`;
-    router.replace(url, { scroll: false });
-  };
+  const { tab, handleTabChange } = useTabs<'group' | 'auctionCase' | 'bid'>({
+    defaultTab: 'group',
+  });
 
   return (
     <>

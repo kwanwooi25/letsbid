@@ -4,24 +4,13 @@ import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTabs } from '@/hooks/useTabs';
 import { Suspense } from 'react';
 import ReceivedInvitationList from './ReceivedInvitationList';
 import SentInvitationList from './SentInvitationList';
 
 export default function Invitation() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const tab = searchParams.get('tab') ?? 'received';
-
-  const handleTabChange: Parameters<typeof Tabs>[0]['onValueChange'] = (value) => {
-    const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
-    newSearchParams.set('tab', value);
-    const query = newSearchParams.toString();
-    const url = `${pathname}?${query}`;
-    router.replace(url, { scroll: false });
-  };
+  const { tab, handleTabChange } = useTabs<'received' | 'sent'>({ defaultTab: 'received' });
 
   return (
     <>
