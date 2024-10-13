@@ -79,7 +79,6 @@ export default function AuctionCaseForm({ groupId, auctionCase }: Props) {
             name="caseName"
             label="사건명"
             inputProps={{ placeholder: '2024타경12345', autoFocus: true }}
-            selectOnFocus
           />
           <DateTimeFormField
             control={form.control}

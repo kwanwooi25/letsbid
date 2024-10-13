@@ -20,6 +20,9 @@ export default function BidDetail({ bid, auctionCase }: Props) {
     user,
   } = bid ?? {};
 
+  const totalCost =
+    acquisitionCost + evacuationCost + repairCost + brokerageFee + estimatedInterest + otherCost;
+
   const isMockBid = isExcluded && excludedReason === '모의 입찰';
 
   return (
@@ -39,12 +42,31 @@ export default function BidDetail({ bid, auctionCase }: Props) {
 
       <Divider />
 
-      <DetailRow label="취득비용" value={acquisitionCost.toLocaleString()} />
-      <DetailRow label="명도비 / 미납관리비" value={evacuationCost.toLocaleString()} />
-      <DetailRow label="수리비용" value={repairCost.toLocaleString()} />
-      <DetailRow label="중개수수료" value={brokerageFee.toLocaleString()} />
-      <DetailRow label="이자비용" value={estimatedInterest.toLocaleString()} />
-      <DetailRow label="기타비용" value={otherCost.toLocaleString()} />
+      <DetailRow label="총 비용" value={totalCost.toLocaleString()} />
+      <DetailRow
+        label={<span className="ml-2">┗ 취득비용</span>}
+        value={acquisitionCost.toLocaleString()}
+      />
+      <DetailRow
+        label={<span className="ml-2">┗ 명도비 / 미납관리비</span>}
+        value={evacuationCost.toLocaleString()}
+      />
+      <DetailRow
+        label={<span className="ml-2">┗ 수리비용</span>}
+        value={repairCost.toLocaleString()}
+      />
+      <DetailRow
+        label={<span className="ml-2">┗ 중개수수료</span>}
+        value={brokerageFee.toLocaleString()}
+      />
+      <DetailRow
+        label={<span className="ml-2">┗ 이자비용</span>}
+        value={estimatedInterest.toLocaleString()}
+      />
+      <DetailRow
+        label={<span className="ml-2">┗ 기타비용</span>}
+        value={otherCost.toLocaleString()}
+      />
 
       <Divider />
 

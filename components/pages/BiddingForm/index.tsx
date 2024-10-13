@@ -8,39 +8,43 @@ import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { auctionCaseQueryKeys } from '@/queries/auction-case/queryKey';
 import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
-import { getBidDetailQueryOptions } from '@/queries/bid/query';
+import { AuctionCaseLike } from '@/types/auctionCase';
+import { BidWithUser } from '@/types/bid';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { BiddingFormSchema, formSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
-export default function BiddingForm() {
-  const params = useParams();
-  const auctionCaseId = params.auctionCaseId! as string;
-  const bidId = params.bidId as string;
+export default function BiddingForm({ bid, auctionCase }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
-  const { data: auctionCase } = useSuspenseQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
-  const { data: bid } = useSuspenseQuery(getBidDetailQueryOptions(bidId));
   const placeBidMutation = useMutation(placeBidMutationOptions);
   const updateBidMutation = useMutation(updateBidMutationOptions);
   const queryClient = useQueryClient();
   const form = useForm<BiddingFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: getDefaultFormValues({ auctionCaseId, bid }),
+    defaultValues: getDefaultFormValues({ auctionCaseId: auctionCase.id, bid }),
   });
   const { isSubmitting } = form.formState;
+  const PREVIOUS_URL = `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}`;
 
-  const watchedValues = useWatch({
+  const [
+    expectedSalePrice,
+    acquisitionCost,
+    evacuationCost,
+    repairCost,
+    brokerageFee,
+    estimatedInterest,
+    otherCost,
+    expectedProfit,
+  ] = useWatch({
     control: form.control,
     name: [
       'expectedSalePrice',
@@ -54,28 +58,15 @@ export default function BiddingForm() {
     ],
   });
 
-  useEffect(() => {
-    const [
-      expectedSalePrice,
-      acquisitionCost,
-      evacuationCost,
-      repairCost,
-      brokerageFee,
-      estimatedInterest,
-      otherCost,
-      expectedProfit,
-    ] = watchedValues;
-    const biddingPrice =
-      expectedSalePrice -
-      acquisitionCost -
-      evacuationCost -
-      repairCost -
-      brokerageFee -
-      estimatedInterest -
-      otherCost -
-      expectedProfit;
-    form.setValue('biddingPrice', biddingPrice);
-  }, [watchedValues, form]);
+  const biddingPrice =
+    expectedSalePrice -
+    acquisitionCost -
+    evacuationCost -
+    repairCost -
+    brokerageFee -
+    estimatedInterest -
+    otherCost -
+    expectedProfit;
 
   const isEditing = !!bid;
   const formTitle = isEditing ? '입찰 정보 수정' : '입찰표 제출';
@@ -92,19 +83,19 @@ export default function BiddingForm() {
   const submitForm = form.handleSubmit(async (values: BiddingFormSchema) => {
     try {
       const mutationFn = isEditing ? updateBid : placeBid;
-      await mutationFn({ ...values, excludedReason: values.isExcluded ? '모의 입찰' : '' });
+      await mutationFn({
+        ...values,
+        biddingPrice,
+        excludedReason: values.isExcluded ? '모의 입찰' : '',
+      });
       toast({
-        title: auctionCase!.caseName,
+        title: auctionCase.caseName,
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });
       form.reset();
-      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase!.groupId) });
-      router.replace(
-        callbackUrl
-          ? callbackUrl
-          : `${PATHS.GROUP}/${auctionCase!.groupId}${PATHS.AUCTION_CASE}/${auctionCase!.id}`,
-      );
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase.groupId) });
+      router.replace(callbackUrl ? callbackUrl : PREVIOUS_URL, { scroll: false });
     } catch (error) {
       handleAxiosError(error);
     }
@@ -190,15 +181,15 @@ export default function BiddingForm() {
 
           <Divider>입찰가</Divider>
           <div className="flex flex-col gap-4">
-            <InputFormField
-              control={form.control}
-              name="biddingPrice"
-              label="입찰가"
-              inputProps={{ format: 'thousandSeparator' }}
-            />
+            <span className="text-lg font-bold">{biddingPrice.toLocaleString()}</span>
           </div>
         </PageBody>
       </form>
     </Form>
   );
 }
+
+type Props = {
+  bid?: BidWithUser;
+  auctionCase: AuctionCaseLike;
+};
