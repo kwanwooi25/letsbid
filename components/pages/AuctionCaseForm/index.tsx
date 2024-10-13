@@ -13,23 +13,19 @@ import {
   createAuctionCaseMutationOptions,
   updateAuctionCaseMutationOptions,
 } from '@/queries/auction-case/mutation';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { AuctionCaseFormSchema, formSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 
-export default function AuctionCaseForm() {
+export default function AuctionCaseForm({ groupId, auctionCase }: Props) {
   const router = useRouter();
   const callbackUrl = useCallbackUrl();
-  const params = useParams();
-  const groupId = params.groupId as string;
-  const auctionCaseId = params.auctionCaseId as string;
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
-  const { data: auctionCase } = useSuspenseQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
   const createAuctionCaseMutation = useMutation(createAuctionCaseMutationOptions);
   const updateAuctionCaseMutation = useMutation(updateAuctionCaseMutationOptions);
   const form = useForm<AuctionCaseFormSchema>({
@@ -83,6 +79,7 @@ export default function AuctionCaseForm() {
             name="caseName"
             label="사건명"
             inputProps={{ placeholder: '2024타경12345', autoFocus: true }}
+            selectOnFocus
           />
           <DateTimeFormField
             control={form.control}
@@ -101,3 +98,8 @@ export default function AuctionCaseForm() {
     </Form>
   );
 }
+
+type Props = {
+  groupId: string;
+  auctionCase?: AuctionCaseLike;
+};

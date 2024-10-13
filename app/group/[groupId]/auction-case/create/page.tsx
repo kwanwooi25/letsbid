@@ -3,10 +3,10 @@ import AuctionCaseForm from '@/components/pages/AuctionCaseForm';
 import { withAuth } from '@/lib/auth/hoc';
 import { Suspense } from 'react';
 
-export default withAuth(function () {
+export default withAuth(function ({ params: { groupId } }: { params: { groupId: string } }) {
   return (
     <Suspense fallback={<Loading size="lg" />}>
-      <AuctionCaseForm />
+      <AuctionCaseForm groupId={groupId} />
     </Suspense>
   );
 });

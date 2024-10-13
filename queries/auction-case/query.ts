@@ -31,5 +31,4 @@ export const getAuctionCaseDetailQueryOptions = (auctionCaseId: string) =>
       });
       return res.data.data;
     },
-    enabled: !!auctionCaseId,
   });

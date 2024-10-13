@@ -6,14 +6,18 @@ import { Input } from '../input';
 export default function InputFormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ className, label, inputProps, required, ...props }: Props<TFieldValues, TName>) {
+>({ className, label, inputProps, required, selectOnFocus, ...props }: Props<TFieldValues, TName>) {
   return (
     <FormField
       render={({ field }) => (
         <FormItem className={className}>
           {label && <FormLabel aria-required={required}>{label}</FormLabel>}
           <FormControl>
-            <Input {...field} {...inputProps} />
+            <Input
+              {...field}
+              onSelect={selectOnFocus ? (e) => e.currentTarget.select() : undefined}
+              {...inputProps}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -31,4 +35,5 @@ type Props<
   label?: string;
   inputProps?: ComponentProps<typeof Input>;
   required?: boolean;
+  selectOnFocus?: boolean;
 };
