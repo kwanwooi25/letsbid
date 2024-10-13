@@ -3,6 +3,7 @@
 import { PATHS } from '@/const/paths';
 import {
   LucideFileStack,
+  LucideHelpCircle,
   LucideLogOut,
   LucideMails,
   LucideMoon,
@@ -92,11 +93,22 @@ export default function UserMenu({ className }: Props) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => signOut()}>
-            <LucideLogOut className="mr-2 h-4 w-4" />
-            <span>로그아웃</span>
+          <DropdownMenuItem onClick={() => router.push(PATHS.USER_GUIDE, { scroll: false })}>
+            <LucideHelpCircle className="mr-2 h-4 w-4" />
+            <span>이용 가이드</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        {isAuthenticated && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={() => signOut()}>
+                <LucideLogOut className="mr-2 h-4 w-4" />
+                <span>로그아웃</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

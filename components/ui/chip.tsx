@@ -18,6 +18,8 @@ const Chip = ({
         size === 'lg' && (icon ? 'p-4' : 'px-8 py-4'),
         variant === 'primary' && 'bg-primary text-primary-foreground',
         variant === 'secondary' && 'bg-secondary text-secondary-foreground',
+        variant === 'success' && 'bg-green-700 text-white',
+        variant === 'destruptive' && 'bg-destructive text-destruptive-foreground',
         className,
       )}
       style={style}
@@ -29,7 +31,7 @@ const Chip = ({
 
 type Props = PropsWithChildren<{
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'success' | 'destruptive';
   icon?: boolean;
   className?: string;
   style?: HTMLAttributes<'div'>['style'];

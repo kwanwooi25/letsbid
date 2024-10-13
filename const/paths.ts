@@ -12,6 +12,7 @@ export const PATHS = {
   EDIT_USER_PROFILE: '/me/edit',
   INVITATION: '/invitation',
   MY_BID_HISTORY: '/me/bid-history',
+  USER_GUIDE: '/user-guide',
 } as const;
 
 export const API_ROUTE = {
