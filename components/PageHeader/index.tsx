@@ -41,7 +41,7 @@ export default function PageHeader({
   return (
     <div
       className={cn(
-        'flex items-center justify-between p-4 mx-auto sticky backdrop-blur z-header',
+        'flex items-center justify-between p-4 mx-auto sticky backdrop-blur z-header min-h-[72px]',
         className,
       )}
       style={{ top: GNB_HEIGHT }}
