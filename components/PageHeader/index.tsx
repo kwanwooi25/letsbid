@@ -13,6 +13,7 @@ export default function PageHeader({
   title,
   children,
   backButton,
+  previousUrl,
   onBackButtonClick,
 }: Props) {
   const router = useRouter();
@@ -26,6 +27,11 @@ export default function PageHeader({
 
     if (callbackUrl) {
       router.replace(callbackUrl, { scroll: false });
+      return;
+    }
+
+    if (previousUrl) {
+      router.replace(previousUrl, { scroll: false });
       return;
     }
 
@@ -59,5 +65,6 @@ type Props = PropsWithChildren & {
   className?: string;
   title?: ReactNode;
   backButton?: boolean | ReactNode;
+  previousUrl?: string;
   onBackButtonClick?: () => void;
 };

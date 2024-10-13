@@ -4,13 +4,14 @@ export const PATHS = {
   SIGN_IN: '/auth/sign-in',
   GROUP: '/group',
   CREATE_GROUP: '/group/create',
-  INVITATION: '/invitation',
+  INVITE_MEMBERS: '/invite-members',
   AUCTION_CASE: '/auction-case',
   CREATE_AUCTION_CASE: '/auction-case/create',
   BID: '/bid',
   ME: '/me',
-  MY_BID_HISTORY: '/me/bid-history',
   EDIT_USER_PROFILE: '/me/edit',
+  INVITATION: '/invitation',
+  MY_BID_HISTORY: '/me/bid-history',
 } as const;
 
 export const API_ROUTE = {

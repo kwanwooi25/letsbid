@@ -1,11 +1,11 @@
 'use client';
 
+import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
+import { InvitationFormSchema } from '@/components/pages/InvitationForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { GroupFormSchema } from '@/context/FormDialog/GroupForm/formSchema';
-import { InvitationFormSchema } from '@/context/FormDialog/InvitationForm/formSchema';
 import { SuccessResponse } from '@/types/api';
 import { GroupWithMembers } from '@/types/group';
-import { Invitation } from '@prisma/client';
+import { InvitationResult } from '@/types/invitation';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
@@ -77,28 +77,28 @@ export const deleteGroupMutationOptions: MutationOptions<string, Error, string> 
 };
 
 export const inviteGroupMemberMutationOptions: MutationOptions<
-  Invitation,
+  { groupId: string; result: InvitationResult },
   Error,
   InvitationFormSchema
 > = {
   mutationFn: async (data: InvitationFormSchema) => {
     try {
       const url = getApiUrl(API_ROUTE.INVITATION);
-      const res = await axios<SuccessResponse<Invitation>>({
+      const res = await axios<SuccessResponse<InvitationResult>>({
         method: 'post',
         url,
         data,
       });
-      return res.data.data;
+      return { groupId: data.groupId, result: res.data.data };
     } catch (e) {
       throw e;
     }
   },
-  onSettled: (createdInvitation) => {
+  onSettled: (result) => {
     const queryClient = getQueryClient();
     queryClient.invalidateQueries({ queryKey: invitationQueryKeys.list('sent') });
-    if (createdInvitation?.groupId) {
-      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(createdInvitation.groupId) });
+    if (result?.groupId) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
     }
   },
 };

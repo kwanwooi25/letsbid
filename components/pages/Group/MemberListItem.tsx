@@ -89,8 +89,15 @@ export default function MemberListItem({ member, group }: Props) {
     <ListItem className="hover:cursor-default">
       <div className="flex items-center gap-2">
         <UserImage src={user.image} size={40} />
-        <span>{user.name}</span>
-        {isMe && <MeBadge />}
+        <div className="flex flex-col">
+          <div className="flex items-center gap-2">
+            <span className="font-bold">{user.name}</span>
+            {isMe && <MeBadge />}
+          </div>
+          {isMeGroupHost && (
+            <span className="text-sm font-semibold text-primary/50">{user.email}</span>
+          )}
+        </div>
       </div>
 
       {isGroupHost && <HostBadge />}

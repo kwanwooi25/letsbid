@@ -1,19 +1,21 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useFormDialog } from '@/context/FormDialog';
+import { PATHS } from '@/const/paths';
+import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { GroupWithMembersAsUsers } from '@/types/group';
 import { LucideUserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import MemberListItem from './MemberListItem';
 
 export default function MemberList({ isGroupHost, group }: Props) {
-  const { openForm } = useFormDialog();
+  const router = useRouter();
+  const currentUrl = useCurrentUrl();
   const { members } = group;
 
   const handleClickInvite = () => {
-    openForm({
-      type: 'INVITATION',
-      formProps: { group },
+    router.push(`${PATHS.GROUP}/${group.id}${PATHS.INVITE_MEMBERS}?callbackUrl=${currentUrl}`, {
+      scroll: false,
     });
   };
 
