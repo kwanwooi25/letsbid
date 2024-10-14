@@ -1,4 +1,4 @@
-import { GNB_HEIGHT, LNB_WIDTH } from '@/const/layout';
+import { GNB_HEIGHT } from '@/const/layout';
 import { PATHS } from '@/const/paths';
 import Link from 'next/link';
 import Logo from '../Logo';
@@ -11,8 +11,8 @@ export default function GlobalHeader() {
       style={{ height: GNB_HEIGHT }}
     >
       <div className="flex items-center">
-        <Link href={PATHS.HOME} style={{ width: LNB_WIDTH }} scroll={false}>
-          <Logo withText size={36} />
+        <Link href={PATHS.HOME} scroll={false}>
+          <Logo wide size={36} />
         </Link>
       </div>
       <UserMenu />

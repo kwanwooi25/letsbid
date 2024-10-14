@@ -11,10 +11,10 @@ import Providers from './providers';
 const notoSans = Noto_Sans_KR({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: `${process.env.NODE_ENV === 'development' ? '[DEV] ' : ''}Let's bid!`,
+  title: `${process.env.NODE_ENV === 'development' ? '[DEV] ' : ''}Run4U Bid`,
   description: '부동산 경매 모의 입찰',
   icons: {
-    icon: '/letsbid_logo.png',
+    icon: '/runforyou-logo.png',
   },
 };
 

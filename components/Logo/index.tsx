@@ -1,24 +1,30 @@
-import { default as LogoSquare, default as LogoWithText } from '@/public/letsbid_logo.png';
+import { default as LogoSquare } from '@/public/runforyou-logo.png';
+import { default as LogoWide } from '@/public/runforyou_bid-logo.png';
 import Image from 'next/image';
 
-export default function Logo({ size = 64, withText = false }: Props) {
-  if (withText) {
-    const fontSize = size / 1.8;
+const LOGO_ASPECT_RATIO = 54 / 16;
 
-    return (
-      <div className="flex items-center gap-2">
-        <Image src={LogoWithText} alt="letsbid app logo" width={size} height={size} />
-        <span className="font-black" style={{ fontSize }}>
-          {"Let's bid!"}
+export default function Logo({ size = 64, wide }: Props) {
+  const src = wide ? LogoWide : LogoSquare;
+  const width = wide ? size * LOGO_ASPECT_RATIO : size;
+  const height = size;
+
+  return (
+    <div className="relative">
+      <Image src={src} alt="runforyou-bid app logo" width={width} height={height} />
+      <span className="absolute top-0 right-0 translate-x-[100%] text-xs font-bold px-1 rounded-sm bg-secondary text-secondary-foreground">
+        BETA
+      </span>
+      {process.env.NODE_ENV === 'development' && (
+        <span className="absolute bottom-0 right-0 translate-x-[100%] text-xs font-bold px-1 rounded-sm bg-yellow-500 text-secondary-foreground">
+          DEV
         </span>
-      </div>
-    );
-  }
-
-  return <Image src={LogoSquare} alt="letsbid app logo" width={size} height={size} />;
+      )}
+    </div>
+  );
 }
 
 type Props = {
   size?: number;
-  withText?: boolean;
+  wide?: boolean;
 };
