@@ -21,12 +21,17 @@ export default function MemberList({ isGroupHost, group }: Props) {
 
   return (
     <div className="flex flex-col gap-4 py-4">
-      {isGroupHost && (
-        <Button className="self-end" onClick={handleClickInvite}>
-          <LucideUserPlus className="w-4 h-4 mr-2" />
-          멤버 초대
-        </Button>
-      )}
+      <div className="min-h-[40px] flex items-center justify-between">
+        <span>
+          전체 멤버수: <b className="text-lg font-bold">{members.length.toLocaleString()}</b>명
+        </span>
+        {isGroupHost && (
+          <Button className="justify-self-end" onClick={handleClickInvite}>
+            <LucideUserPlus className="w-4 h-4 mr-2" />
+            멤버 초대
+          </Button>
+        )}
+      </div>
 
       <ul className="flex flex-col gap-4">
         {members.map((member) => (
