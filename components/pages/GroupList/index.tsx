@@ -15,17 +15,17 @@ export default function Group() {
 
   return (
     <>
-      <PageHeader title="그룹 목록" className="max-w-lg">
+      <PageHeader title="그룹 목록" className="max-w-xl">
         <HeaderButtons />
       </PageHeader>
-      <PageBody className="max-w-lg">
+      <PageBody className="max-w-xl">
         <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
           <TabsList className="w-full">
             <TabsTrigger className="w-full" value="myGroups">
-              내가 속한 그룹
+              참여중인 그룹
             </TabsTrigger>
             <TabsTrigger className="w-full" value="all">
-              전체 그룹
+              참여 가능한 그룹
             </TabsTrigger>
           </TabsList>
           <TabsContent value="myGroups">

@@ -11,7 +11,7 @@ export default function Logo({ size = 64, wide }: Props) {
 
   return (
     <div className="flex items-stretch">
-      <Image src={src} alt="runforyou-bid app logo" width={width} height={height} />
+      <Image src={src} alt="runforyou-bid app logo" width={width} height={height} priority />
       <div className="flex flex-col items-center justify-between">
         <span className="text-xs font-bold px-1 rounded-sm bg-secondary text-secondary-foreground">
           BETA

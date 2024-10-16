@@ -19,12 +19,12 @@ export default function MyGroupList() {
   if (!isPending && !groups.length) {
     return (
       <ListEmpty className="flex flex-col gap-4 py-8">
-        <p>내가 속한 그룹이 없습니다</p>
+        <p>참여중인 그룹이 없습니다</p>
         <p>
           <Button type="button" onClick={moveToGroupList}>
-            전체 그룹
+            참여 가능한 그룹
           </Button>
-          <span className="ml-2">에서 참여할 그룹을 찾아보세요.</span>
+          <span className="ml-2">에서 그룹을 찾아보세요.</span>
         </p>
       </ListEmpty>
     );

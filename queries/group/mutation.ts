@@ -79,6 +79,37 @@ export const deleteGroupMutationOptions: MutationOptions<string, Error, string> 
   },
 };
 
+export const joinGroupMutationOptions: MutationOptions<
+  { groupId: string },
+  Error,
+  { groupId: string; password?: string }
+> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${data.groupId}/join`);
+      await axios<SuccessResponse<string>>({
+        method: 'post',
+        url,
+        data: { password: data.password },
+      });
+      return { groupId: data.groupId };
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (result) => {
+    const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    if (result?.groupId) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
+    }
+  },
+};
+
+/**
+ * @deprecated
+ */
 export const inviteGroupMemberMutationOptions: MutationOptions<
   { groupId: string; result: InvitationResult },
   Error,
@@ -125,6 +156,8 @@ export const expelGroupMemberMutationOptions: MutationOptions<
   },
   onSettled: (expelledUser) => {
     const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
     if (expelledUser?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(expelledUser.groupId) });
     }
