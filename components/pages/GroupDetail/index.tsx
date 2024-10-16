@@ -16,7 +16,7 @@ import GroupDetailHeaderButtons from './HeaderButtons';
 import MemberList from './MemberList';
 import { GroupPageTabs } from './types';
 
-export default function Group() {
+export default function GroupDetail() {
   const router = useRouter();
   const params = useParams();
   const groupId = params.groupId as string;
@@ -44,7 +44,7 @@ export default function Group() {
         <GroupDetailHeaderButtons group={group} />
       </PageHeader>
       <PageBody className="max-w-2xl">
-        <Tabs defaultValue={tab} onValueChange={handleTabChange}>
+        <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
           <TabsList className="w-full">
             <TabsTrigger className="w-full" value="auctionCases">
               경매 사건

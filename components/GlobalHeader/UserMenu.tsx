@@ -4,6 +4,7 @@ import { PATHS } from '@/const/paths';
 import {
   LucideFileStack,
   LucideHelpCircle,
+  LucideLogIn,
   LucideLogOut,
   LucideMails,
   LucideMoon,
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import {
@@ -98,17 +100,22 @@ export default function UserMenu({ className }: Props) {
             <span>이용 가이드</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        {isAuthenticated && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => signOut()}>
-                <LucideLogOut className="mr-2 h-4 w-4" />
-                <span>로그아웃</span>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          {isAuthenticated ? (
+            <DropdownMenuItem onClick={() => signOut()}>
+              <LucideLogOut className="mr-2 h-4 w-4" />
+              <span>로그아웃</span>
+            </DropdownMenuItem>
+          ) : (
+            <Link href={PATHS.SIGN_IN}>
+              <DropdownMenuItem>
+                <LucideLogIn className="mr-2 h-4 w-4" />
+                <span>로그인</span>
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </>
-        )}
+            </Link>
+          )}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -10,7 +10,7 @@ export async function GET() {
     const groups = await prisma.group.findMany({
       where: {
         members: {
-          some: {
+          none: {
             userId,
           },
         },
@@ -19,7 +19,7 @@ export async function GET() {
         members: true,
       },
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
     });
     return handleSuccess({ data: groups });

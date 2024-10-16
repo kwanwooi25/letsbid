@@ -21,7 +21,16 @@ export const API_ROUTE = {
   USER: '/api/user',
   USER_LOGIN: '/api/user/login',
   GROUP: '/api/group',
+  MY_GROUP: '/api/group/my',
   INVITATION: '/api/invitation',
   AUCTION_CASE: '/api/auction-case',
   BID: '/api/bid',
 } as const;
+
+export const NAV_LIST = [
+  {
+    href: PATHS.GROUP,
+    label: '그룹',
+    protected: true,
+  },
+] as const;

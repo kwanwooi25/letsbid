@@ -21,7 +21,7 @@ export default function UserGuide() {
     <>
       <PageHeader title="이용 가이드" className="max-w-3xl mx-auto" />
       <PageBody className="max-w-3xl mx-auto">
-        <Tabs defaultValue={tab} onValueChange={handleTabChange}>
+        <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
           <TabsList className="w-full">
             <TabsTrigger className="w-full" value="group">
               그룹
