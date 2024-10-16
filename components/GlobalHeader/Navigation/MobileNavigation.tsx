@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { NAV_LIST } from '@/const/paths';
 import { cn } from '@/lib/utils';
 import { LucideMenu } from 'lucide-react';
@@ -27,7 +27,12 @@ export default function MobileNavigation() {
           <LucideMenu />
         </Button>
       </SheetTrigger>
-      <SheetContent className="z-navigation md:hidden w-[240px]" side="left">
+      <SheetContent
+        className="z-navigation md:hidden w-[240px]"
+        overlayClassName="z-navigation"
+        side="left"
+      >
+        <SheetHeader></SheetHeader>
         <NavigationMenu>
           <NavigationMenuList>
             {NAV_LIST.map(({ href, label }) => {
