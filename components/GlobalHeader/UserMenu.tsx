@@ -6,7 +6,6 @@ import {
   LucideHelpCircle,
   LucideLogIn,
   LucideLogOut,
-  LucideMails,
   LucideMoon,
   LucideSettings,
   LucideSun,
@@ -52,10 +51,6 @@ export default function UserMenu({ className }: Props) {
               <DropdownMenuItem onClick={() => router.push(PATHS.ME, { scroll: false })}>
                 <LucideUser2 className="mr-2 h-4 w-4" />
                 <span>내 정보</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push(PATHS.INVITATION, { scroll: false })}>
-                <LucideMails className="mr-2 h-4 w-4" />
-                <span>초대 목록</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => router.push(PATHS.MY_BID_HISTORY, { scroll: false })}
