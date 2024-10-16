@@ -4,13 +4,11 @@ import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTabs } from '@/hooks/useTabs';
-import AcceptInvitationGuide from './AcceptInvitation';
 import AuctionCaseGuide from './AuctionCase';
 import BidGuide from './Bid';
 import BidResultGuide from './BidResult';
 import BidResultChangeGuide from './BidResultChange';
 import GroupGuide from './Group';
-import GroupInvitationGuide from './GroupInvitation';
 
 export default function UserGuide() {
   const { tab, handleTabChange } = useTabs<'group' | 'auctionCase' | 'bid'>({
@@ -36,8 +34,7 @@ export default function UserGuide() {
 
           <TabsContent value="group">
             <GroupGuide />
-            <GroupInvitationGuide />
-            <AcceptInvitationGuide />
+            {/* TODO: 그룹 참여 */}
           </TabsContent>
           <TabsContent value="auctionCase">
             <AuctionCaseGuide />
