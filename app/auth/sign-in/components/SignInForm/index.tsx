@@ -1,7 +1,13 @@
 'use client';
 
+import KakaoIcon from '@/components/KakaoIcon';
+import { Button } from '@/components/ui/button';
+import Divider from '@/components/ui/divider';
+import { Form, InputFormField } from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { useCreateQueryString } from '@/hooks/useCreateQueryString';
 import { loginUserMutationOptions } from '@/queries/user/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,11 +17,6 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import KakaoIcon from '../../KakaoIcon';
-import { Button } from '../../ui/button';
-import Divider from '../../ui/divider';
-import { Form, InputFormField } from '../../ui/form';
-import { useToast } from '../../ui/use-toast';
 import { SignInFormSchema, formSchema } from './formSchema';
 
 export default function SignInForm() {
@@ -25,6 +26,7 @@ export default function SignInForm() {
   const loginUserMutation = useMutation(loginUserMutationOptions);
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
+  const callbackUrl = useCallbackUrl();
   const form = useForm<SignInFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,7 +41,7 @@ export default function SignInForm() {
       const loggedInUser = await loginUserMutation.mutateAsync(values);
       await signIn('credentials', {
         user: JSON.stringify(loggedInUser),
-        callbackUrl: PATHS.HOME,
+        callbackUrl: callbackUrl ?? PATHS.HOME,
       });
       toast({
         title: `${loggedInUser.name}님 환영합니다`,
@@ -65,7 +67,7 @@ export default function SignInForm() {
         className="flex items-center gap-2 text-gray-900 bg-[#fee503] hover:bg-[#fee503]/80"
         onClick={async () => {
           setIsKakaoLoggingIn(true);
-          await signIn('kakao', { callbackUrl: PATHS.HOME });
+          await signIn('kakao', { callbackUrl: callbackUrl ?? PATHS.HOME });
           setIsKakaoLoggingIn(false);
         }}
         type="button"

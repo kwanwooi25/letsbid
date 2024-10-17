@@ -1,5 +1,8 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Form, InputFormField } from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { createUserMutationOptions } from '@/queries/user/mutation';
@@ -8,9 +11,6 @@ import { useMutation } from '@tanstack/react-query';
 import { LucideLogIn } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { Button } from '../../ui/button';
-import { Form, InputFormField } from '../../ui/form';
-import { useToast } from '../../ui/use-toast';
 import { formSchema, SignUpFormSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
 

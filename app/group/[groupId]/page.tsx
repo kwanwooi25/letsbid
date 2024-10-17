@@ -5,7 +5,7 @@ import { getUserFromSession } from '@/lib/api';
 import { withAuth } from '@/lib/auth/hoc';
 import { getQueryClient } from '@/queries/config';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
-import { redirect } from 'next/navigation';
+import { redirect, RedirectType } from 'next/navigation';
 import { Suspense } from 'react';
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
@@ -16,7 +16,7 @@ export default withAuth(async function ({ params: { groupId } }: { params: { gro
 
     // 해당 그룹의 멤버가 아니면 진입할 수 없음
     if (!group || group.members.filter((member) => member.userId === user?.id).length <= 0) {
-      return redirect(PATHS.GROUP);
+      return redirect(PATHS.GROUP, RedirectType.replace);
     }
 
     return (
@@ -25,6 +25,6 @@ export default withAuth(async function ({ params: { groupId } }: { params: { gro
       </Suspense>
     );
   } catch (error) {
-    return redirect(PATHS.GROUP);
+    return redirect(PATHS.GROUP, RedirectType.replace);
   }
 });
