@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, { params }: { params: { groupId: st
       data: {
         userId,
         groupId,
-        invitedBy: 'JOIN',
+        invitedBy: userId,
       },
     });
 
