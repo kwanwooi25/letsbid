@@ -1,5 +1,5 @@
-import { SignInFormSchema } from '@/components/pages/SignInForm/formSchema';
-import { SignUpFormSchema } from '@/components/pages/SignUpForm/formSchema';
+import { SignInFormSchema } from '@/app/auth/sign-in/components/SignInForm/formSchema';
+import { SignUpFormSchema } from '@/app/auth/sign-up/components/SignUpForm/formSchema';
 import { UserFormSchema } from '@/app/me/components/UserForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
