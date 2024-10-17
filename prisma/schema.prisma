@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters", "fullTextSearch"]
+  previewFeatures = ["driverAdapters", "fullTextSearch", "omitApi"]
   binaryTargets   = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -68,11 +68,15 @@ model Session {
 }
 
 model Group {
-  id        String   @id @default(cuid())
-  name      String
-  hostId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  hostId      String
+  isPrivate   Boolean  @default(false)
+  password    String?
+  maxMembers  Int      @default(1000)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   members      UsersOnGroups[]
   invitations  Invitation[]

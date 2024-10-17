@@ -1,18 +1,15 @@
+import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
+import { hashPassword } from '../../user/utils';
 
 export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
   try {
-    const user = await getUserFromSession();
+    await getUserFromSession();
     const group = await prisma.group.findUnique({
       where: {
         id: params.groupId,
-        members: {
-          some: {
-            userId: user!.id!,
-          },
-        },
       },
       include: {
         members: {
@@ -31,12 +28,20 @@ export async function GET(req: NextRequest, { params }: { params: { groupId: str
 export async function PATCH(req: NextRequest, { params }: { params: { groupId: string } }) {
   try {
     await getUserFromSession();
-    const data = await req.json();
+    const data = (await req.json()) as GroupFormSchema;
+    const { password, ...passwordExcludedGroup } = data;
+
     const updatedGroup = await prisma.group.update({
       where: {
         id: params.groupId,
       },
-      data,
+      data: {
+        ...passwordExcludedGroup,
+        ...(passwordExcludedGroup.isPrivate && !!password
+          ? { password: hashPassword(password) }
+          : {}),
+        ...(!passwordExcludedGroup.isPrivate ? { password: null } : {}),
+      },
       include: {
         members: true,
       },

@@ -1,18 +1,20 @@
+import { GroupWithMembers } from '@/types/group';
 import { Group } from '@prisma/client';
 import { GroupFormSchema } from './formSchema';
-import { GroupWithMembers } from '@/types/group';
 
 export function getDefaultFormValues(group?: Group | GroupWithMembers): GroupFormSchema {
   if (!group) {
     return {
       name: '',
+      description: '',
+      isPrivate: false,
+      password: '',
+      maxMembers: 1000,
     };
   }
 
-  const { id, name } = group;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { createdAt, updatedAt, hostId, ...rest } = group;
 
-  return {
-    id,
-    name,
-  };
+  return rest;
 }

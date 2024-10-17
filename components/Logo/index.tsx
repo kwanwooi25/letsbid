@@ -10,16 +10,18 @@ export default function Logo({ size = 64, wide }: Props) {
   const height = size;
 
   return (
-    <div className="relative">
-      <Image src={src} alt="runforyou-bid app logo" width={width} height={height} />
-      <span className="absolute top-0 right-0 translate-x-[100%] text-xs font-bold px-1 rounded-sm bg-secondary text-secondary-foreground">
-        BETA
-      </span>
-      {process.env.NODE_ENV === 'development' && (
-        <span className="absolute bottom-0 right-0 translate-x-[100%] text-xs font-bold px-1 rounded-sm bg-yellow-500 text-secondary-foreground">
-          DEV
+    <div className="flex items-stretch">
+      <Image src={src} alt="runforyou-bid app logo" width={width} height={height} priority />
+      <div className="flex flex-col items-center justify-between">
+        <span className="text-xs font-bold px-1 rounded-sm bg-secondary text-secondary-foreground">
+          BETA
         </span>
-      )}
+        {process.env.NODE_ENV === 'development' && (
+          <span className="text-xs font-bold px-1 rounded-sm bg-yellow-500 text-secondary-foreground">
+            DEV
+          </span>
+        )}
+      </div>
     </div>
   );
 }

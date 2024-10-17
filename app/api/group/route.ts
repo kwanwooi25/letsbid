@@ -1,7 +1,9 @@
+import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
+import { hashPassword } from '../user/utils';
 
 export async function GET() {
   try {
@@ -10,7 +12,7 @@ export async function GET() {
     const groups = await prisma.group.findMany({
       where: {
         members: {
-          some: {
+          none: {
             userId,
           },
         },
@@ -19,7 +21,7 @@ export async function GET() {
         members: true,
       },
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
     });
     return handleSuccess({ data: groups });
@@ -32,10 +34,11 @@ export async function POST(req: NextRequest) {
   try {
     const user = await getUserFromSession();
     const userId = user!.id!;
-    const data = await req.json();
+    const data = (await req.json()) as GroupFormSchema;
     const createdGroup = await prisma.group.create({
       data: {
-        name: data.name,
+        ...data,
+        password: hashPassword(data.password),
         hostId: userId,
         members: {
           create: {
