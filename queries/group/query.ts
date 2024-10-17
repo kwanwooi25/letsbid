@@ -6,7 +6,19 @@ import axios from 'axios';
 import { getApiUrl } from '../config';
 import { groupQueryKeys } from './queryKey';
 
-export const groupListQueryOptions = queryOptions({
+export const getMyGroupListQueryOptions = queryOptions({
+  queryKey: groupQueryKeys.myGroupList,
+  queryFn: async () => {
+    const url = getApiUrl(API_ROUTE.MY_GROUP);
+    const res = await axios<SuccessResponse<GroupWithMembers[]>>({
+      method: 'get',
+      url,
+    });
+    return res.data.data;
+  },
+});
+
+export const getGroupListQueryOptions = queryOptions({
   queryKey: groupQueryKeys.list,
   queryFn: async () => {
     const url = getApiUrl(API_ROUTE.GROUP);

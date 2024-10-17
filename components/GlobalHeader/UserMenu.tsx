@@ -4,8 +4,8 @@ import { PATHS } from '@/const/paths';
 import {
   LucideFileStack,
   LucideHelpCircle,
+  LucideLogIn,
   LucideLogOut,
-  LucideMails,
   LucideMoon,
   LucideSettings,
   LucideSun,
@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import {
@@ -50,10 +51,6 @@ export default function UserMenu({ className }: Props) {
               <DropdownMenuItem onClick={() => router.push(PATHS.ME, { scroll: false })}>
                 <LucideUser2 className="mr-2 h-4 w-4" />
                 <span>내 정보</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => router.push(PATHS.INVITATION, { scroll: false })}>
-                <LucideMails className="mr-2 h-4 w-4" />
-                <span>초대 목록</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => router.push(PATHS.MY_BID_HISTORY, { scroll: false })}
@@ -98,17 +95,22 @@ export default function UserMenu({ className }: Props) {
             <span>이용 가이드</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        {isAuthenticated && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => signOut()}>
-                <LucideLogOut className="mr-2 h-4 w-4" />
-                <span>로그아웃</span>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          {isAuthenticated ? (
+            <DropdownMenuItem onClick={() => signOut()}>
+              <LucideLogOut className="mr-2 h-4 w-4" />
+              <span>로그아웃</span>
+            </DropdownMenuItem>
+          ) : (
+            <Link href={PATHS.SIGN_IN}>
+              <DropdownMenuItem>
+                <LucideLogIn className="mr-2 h-4 w-4" />
+                <span>로그인</span>
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </>
-        )}
+            </Link>
+          )}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

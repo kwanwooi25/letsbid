@@ -1,3 +1,3 @@
-import UserGuide from '@/components/pages/UserGuide';
+import UserGuide from '@/app/user-guide/components/UserGuide';
 
 export default UserGuide;

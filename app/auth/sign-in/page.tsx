@@ -1,9 +1,9 @@
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import SignInForm from '@/components/pages/SignInForm';
 import { PATHS } from '@/const/paths';
 import { auth } from '@/lib/auth';
 import { redirect, RedirectType } from 'next/navigation';
+import SignInForm from './components/SignInForm';
 
 export default async function SignIn() {
   const session = await auth();

@@ -1,6 +1,5 @@
 'use client';
 
-import { Tabs } from '@/components/ui/tabs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export function useTabs<T extends string>({ defaultTab }: Args<T>) {
@@ -9,7 +8,7 @@ export function useTabs<T extends string>({ defaultTab }: Args<T>) {
   const searchParams = useSearchParams();
 
   const tab = (searchParams.get('tab') as T) ?? defaultTab;
-  const handleTabChange: Parameters<typeof Tabs>[0]['onValueChange'] = (value) => {
+  const handleTabChange = (value: T | string) => {
     const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
     newSearchParams.set('tab', value);
     const query = newSearchParams.toString();
