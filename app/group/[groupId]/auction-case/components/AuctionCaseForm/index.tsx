@@ -92,6 +92,24 @@ export default function AuctionCaseForm({ groupId, auctionCase }: Props) {
             label="입찰 종료 일시"
             hourCycle={24}
           />
+          <DateTimeFormField
+            control={form.control}
+            name="actualBidStartsAt"
+            label="실제 입찰 일시"
+            hourCycle={24}
+          />
+          <InputFormField
+            control={form.control}
+            name="appraisedValue"
+            label="감정가"
+            inputProps={{ format: 'thousandSeparator' }}
+          />
+          <InputFormField
+            control={form.control}
+            name="startingBid"
+            label="최저가"
+            inputProps={{ format: 'thousandSeparator' }}
+          />
         </PageBody>
       </form>
     </Form>

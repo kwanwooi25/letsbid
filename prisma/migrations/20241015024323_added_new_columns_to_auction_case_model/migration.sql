@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "AuctionCase" ADD COLUMN     "actualBidStartsAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "address" TEXT,
+ADD COLUMN     "addressDetail" TEXT,
+ADD COLUMN     "appraisedValue" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "image" TEXT,
+ADD COLUMN     "startingBid" INTEGER NOT NULL DEFAULT 0;
