@@ -1,5 +1,5 @@
+import GroupDetail from '@/app/group/components/GroupDetail';
 import Loading from '@/components/Loading';
-import GroupDetail from '@/components/pages/GroupDetail';
 import { PATHS } from '@/const/paths';
 import { getUserFromSession } from '@/lib/api';
 import { withAuth } from '@/lib/auth/hoc';

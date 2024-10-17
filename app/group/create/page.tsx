@@ -1,5 +1,5 @@
+import GroupForm from '@/app/group/components/GroupForm';
 import Loading from '@/components/Loading';
-import GroupForm from '@/components/pages/GroupForm';
 import { withAuth } from '@/lib/auth/hoc';
 import { Suspense } from 'react';
 
