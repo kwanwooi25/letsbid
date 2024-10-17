@@ -1,3 +1,4 @@
+import BidDetail from '@/components/BidDetail';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import Divider from '@/components/ui/divider';
@@ -7,7 +8,6 @@ import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import AuctionResultItem from './AuctionResultItem';
-import BidDetail from './BidDetail';
 
 export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
   const [isBidDetailOpen, setIsBidDetailOpen] = useState(false);

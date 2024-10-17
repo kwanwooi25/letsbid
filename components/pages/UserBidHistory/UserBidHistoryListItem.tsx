@@ -1,3 +1,4 @@
+import BidDetail from '@/components/BidDetail';
 import BidRankBadge from '@/components/BidRankBadge';
 import ListItem from '@/components/ListItem';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { format } from 'date-fns';
 import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { useState } from 'react';
-import BidDetail from '../AuctionCase/BidDetail';
 
 export default function UserBidHistoryListItem({ bid }: Props) {
   const { isExcluded, excludedReason, biddingPrice, auctionCase } = bid;

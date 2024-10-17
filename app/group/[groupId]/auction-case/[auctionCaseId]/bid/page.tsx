@@ -1,5 +1,5 @@
 import Loading from '@/components/Loading';
-import BiddingForm from '@/components/pages/BiddingForm';
+import BiddingForm from '@/app/group/[groupId]/auction-case/components/BiddingForm';
 import { withAuth } from '@/lib/auth/hoc';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getQueryClient } from '@/queries/config';

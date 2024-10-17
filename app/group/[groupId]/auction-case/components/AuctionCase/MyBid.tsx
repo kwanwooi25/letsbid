@@ -11,7 +11,7 @@ import { AuctionCaseLike } from '@/types/auctionCase';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes } from 'react';
-import BidDetail from './BidDetail';
+import BidDetail from '../../../../../../components/BidDetail';
 
 export default function MyBid({ bidId, auctionCase }: Props) {
   const router = useRouter();
