@@ -1,4 +1,4 @@
-import { InvitationFormSchema } from '@/components/pages/InvitationForm/formSchema';
+import { InvitationFormSchema } from '@/app/group/components/InvitationForm/formSchema';
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';

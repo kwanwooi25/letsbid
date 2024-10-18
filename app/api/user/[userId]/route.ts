@@ -1,4 +1,4 @@
-import { UserFormSchema } from '@/components/pages/UserForm/formSchema';
+import { UserFormSchema } from '@/app/me/components/UserForm/formSchema';
 import { handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { deleteImage, uploadImage } from '@/lib/s3';

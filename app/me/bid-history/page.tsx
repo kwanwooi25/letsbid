@@ -1,7 +1,7 @@
+import UserBidHistory from '@/app/me/components/UserBidHistory';
 import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import UserBidHistory from '@/components/pages/UserBidHistory';
 import { withAuth } from '@/lib/auth/hoc';
 import { Suspense } from 'react';
 

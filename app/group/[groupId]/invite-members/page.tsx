@@ -1,5 +1,5 @@
+import InvitationForm from '@/app/group/components/InvitationForm';
 import Loading from '@/components/Loading';
-import InvitationForm from '@/components/pages/InvitationForm';
 import { withAuth } from '@/lib/auth/hoc';
 import { Suspense } from 'react';
 

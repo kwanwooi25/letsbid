@@ -1,5 +1,5 @@
+import AuctionCase from '@/app/group/[groupId]/auction-case/components/AuctionCase';
 import Loading from '@/components/Loading';
-import AuctionCase from '@/components/pages/AuctionCase';
 import { withAuth } from '@/lib/auth/hoc';
 import { Suspense } from 'react';
 

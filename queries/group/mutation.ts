@@ -1,7 +1,7 @@
 'use client';
 
-import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
-import { InvitationFormSchema } from '@/components/pages/InvitationForm/formSchema';
+import { GroupFormSchema } from '@/app/group/components/GroupForm/formSchema';
+import { InvitationFormSchema } from '@/app/group/components/InvitationForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { GroupWithMembers } from '@/types/group';
@@ -29,6 +29,7 @@ export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error
     },
     onSettled: () => {
       const queryClient = getQueryClient();
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
     },
   };
@@ -50,6 +51,7 @@ export const updateGroupMutationOptions: MutationOptions<GroupWithMembers, Error
     },
     onSettled: (updatedGroup) => {
       const queryClient = getQueryClient();
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
       if (updatedGroup?.id) {
         queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
@@ -72,10 +74,42 @@ export const deleteGroupMutationOptions: MutationOptions<string, Error, string> 
   },
   onSettled: () => {
     const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
     queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
   },
 };
 
+export const joinGroupMutationOptions: MutationOptions<
+  { groupId: string },
+  Error,
+  { groupId: string; password?: string }
+> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${data.groupId}/join`);
+      await axios<SuccessResponse<string>>({
+        method: 'post',
+        url,
+        data: { password: data.password },
+      });
+      return { groupId: data.groupId };
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (result) => {
+    const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    if (result?.groupId) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
+    }
+  },
+};
+
+/**
+ * @deprecated
+ */
 export const inviteGroupMemberMutationOptions: MutationOptions<
   { groupId: string; result: InvitationResult },
   Error,
@@ -122,6 +156,8 @@ export const expelGroupMemberMutationOptions: MutationOptions<
   },
   onSettled: (expelledUser) => {
     const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
     if (expelledUser?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(expelledUser.groupId) });
     }
@@ -148,6 +184,7 @@ export const changeGroupHostMutationOptions: MutationOptions<
   },
   onSettled: (updatedGroup) => {
     const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
     queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
     if (updatedGroup?.id) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
