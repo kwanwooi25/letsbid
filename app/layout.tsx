@@ -1,6 +1,7 @@
 import MainLayout from '@/components/layouts/MainLayout';
 import { Toaster } from '@/components/ui/toaster';
 import { auth } from '@/lib/auth';
+import { getAppName } from '@/lib/env';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
@@ -11,8 +12,8 @@ import Providers from './providers';
 const notoSans = Noto_Sans_KR({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: `${process.env.NODE_ENV === 'development' ? '[DEV] ' : ''}Run4U Bid`,
-  description: '부동산 경매 모의 입찰',
+  title: getAppName(),
+  description: '부동산 경매 모의 입찰 시스템',
   icons: {
     icon: '/runforyou-logo.png',
   },
