@@ -12,10 +12,10 @@ const Chip = ({
   return (
     <div
       className={cn(
-        'rounded-full',
-        size === 'sm' && (icon ? 'p-1' : 'px-2 py-1'),
-        size === 'md' && (icon ? 'p-2' : 'px-4 py-2'),
-        size === 'lg' && (icon ? 'p-4' : 'px-8 py-4'),
+        'flex items-center justify-center rounded-full shrink-0',
+        size === 'sm' && (icon ? 'p-1 w-8 h-8' : 'px-2 py-1'),
+        size === 'md' && (icon ? 'p-2 w-10 h-10' : 'px-4 py-2'),
+        size === 'lg' && (icon ? 'p-4 w-14 h-14' : 'px-8 py-4'),
         variant === 'primary' && 'bg-primary text-primary-foreground',
         variant === 'secondary' && 'bg-secondary text-secondary-foreground',
         variant === 'success' && 'bg-green-700 text-white',

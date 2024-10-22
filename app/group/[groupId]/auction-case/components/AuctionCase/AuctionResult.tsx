@@ -46,13 +46,12 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
 
         <div className="flex flex-col gap-6 my-4">
           {sortedBids.map((bid, index) => {
-            const rank = bidRanks[index];
-
             return (
               <AuctionResultItem
                 key={bid.id}
                 bid={bid}
-                rank={rank}
+                rank={index + 1}
+                actualRank={bidRanks[index]}
                 isGroupHost={isGroupHost}
                 openBidDetail={openBidDetail(index)}
               />
