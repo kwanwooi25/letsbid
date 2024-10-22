@@ -14,15 +14,8 @@ import { useState } from 'react';
 export default function UserBidHistoryListItem({ bid }: Props) {
   const { isExcluded, excludedReason, biddingPrice, auctionCase } = bid;
   const sortedBids = orderBy(auctionCase.bids, 'biddingPrice', 'desc');
-  const bidRanks = (() => {
-    let currentRank = 0;
-    return sortedBids.map((b) => {
-      if (!b.isExcluded) currentRank += 1;
-      return currentRank;
-    });
-  })();
   const myBidIndex = sortedBids.findIndex((b) => b.id === bid.id);
-  const myBidRank = bidRanks[myBidIndex];
+  const myBidRank = myBidIndex + 1;
 
   const [isBidDetailOpen, setIsBidDetailOpen] = useState(false);
   const [currentBidDetailIndex, setCurrentBidDetailIndex] = useState(0);
@@ -45,8 +38,7 @@ export default function UserBidHistoryListItem({ bid }: Props) {
       <ListItem onClick={openBidDetail} className="relative">
         <BidRankBadge
           rank={myBidRank}
-          isExcluded={isExcluded}
-          className="absolute top-0 left-0 translate-x-[-15%] translate-y-[-15%]"
+          className="absolute top-0 left-0 translate-x-[-15%] translate-y-[-30%]"
         />
         <div className="flex flex-col gap-2">
           <span className="font-bold text-primary/70">{auctionCase.caseName}</span>

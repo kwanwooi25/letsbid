@@ -1,6 +1,7 @@
 import BidRankBadge from '@/components/BidRankBadge';
 import MeBadge from '@/components/MeBadge';
 import { Button } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useFormDialog } from '@/context/FormDialog';
 import { cn } from '@/lib/utils';
@@ -8,7 +9,13 @@ import { BidWithUser } from '@/types/bid';
 import { LucideScrollText, LucideUserX } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
-export default function AuctionResultItem({ bid, rank, isGroupHost, openBidDetail }: Props) {
+export default function AuctionResultItem({
+  bid,
+  rank,
+  actualRank,
+  isGroupHost,
+  openBidDetail,
+}: Props) {
   const { openForm } = useFormDialog();
   const session = useSession();
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
@@ -23,8 +30,13 @@ export default function AuctionResultItem({ bid, rank, isGroupHost, openBidDetai
 
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="self-start md:self-center flex items-center gap-2">
-        <BidRankBadge className="shrink-0" rank={rank} isExcluded={isExcluded} />
+      <div className="relative self-start md:self-center flex items-center gap-2">
+        {actualRank <= 2 && !isExcluded && (
+          <BidRankBadge className="absolute top-[-75%] left-[32px]" rank={actualRank} />
+        )}
+        <Chip variant="secondary" size="sm" icon>
+          {rank}
+        </Chip>
         <span
           className={cn(
             'line-clamp-1',
@@ -75,6 +87,7 @@ export default function AuctionResultItem({ bid, rank, isGroupHost, openBidDetai
 type Props = {
   bid: BidWithUser;
   rank: number;
+  actualRank: number;
   isGroupHost?: boolean;
   openBidDetail: () => void;
 };
