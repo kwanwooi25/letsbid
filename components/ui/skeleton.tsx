@@ -18,16 +18,18 @@ function InputSkeleton({ className }: { className?: string }) {
 function PageHeaderSkeleton({
   children,
   className,
+  title,
   backButton,
   actionButtonCount = 0,
 }: PropsWithChildren<{
   className?: ComponentProps<typeof PageHeader>['className'];
+  title?: ComponentProps<typeof PageHeader>['title'];
   backButton?: boolean;
   actionButtonCount?: number;
 }>) {
   return (
     <PageHeader
-      title={<Skeleton className="h-7 w-20" />}
+      title={title ?? <Skeleton className="h-7 w-20" />}
       className={className}
       backButton={backButton}
     >
