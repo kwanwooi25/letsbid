@@ -1,7 +1,6 @@
 'use client';
 
 import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
-import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { PATHS } from '@/const/paths';
@@ -103,12 +102,10 @@ export default function AuctionCase() {
         )}
 
         {status === 'FINISHED_BIDDING' && biddingCount > 0 && areBidsFinalized && (
-          <Suspense fallback={<Loading />}>
-            <AuctionResult
-              auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
-              isGroupHost={isGroupHost}
-            />
-          </Suspense>
+          <AuctionResult
+            auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
+            isGroupHost={isGroupHost}
+          />
         )}
       </PageBody>
     </>
