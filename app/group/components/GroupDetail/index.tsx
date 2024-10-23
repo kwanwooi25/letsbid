@@ -57,7 +57,7 @@ export default function GroupDetail() {
             <AuctionCaseList isGroupHost={isGroupHost} auctionCases={auctionCases} />
           </TabsContent>
           <TabsContent value="members">
-            <MemberList isGroupHost={isGroupHost} group={group} />
+            <MemberList group={group} />
           </TabsContent>
         </Tabs>
       </PageBody>

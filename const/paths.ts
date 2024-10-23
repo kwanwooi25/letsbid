@@ -4,7 +4,6 @@ export const PATHS = {
   SIGN_IN: '/auth/sign-in',
   GROUP: '/group',
   CREATE_GROUP: '/group/create',
-  INVITE_MEMBERS: '/invite-members',
   AUCTION_CASE: '/auction-case',
   CREATE_AUCTION_CASE: '/auction-case/create',
   BID: '/bid',
