@@ -1,3 +1,4 @@
+import BidDetail from '@/components/BidDetail';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
@@ -11,7 +12,6 @@ import { AuctionCaseLike } from '@/types/auctionCase';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { ButtonHTMLAttributes } from 'react';
-import BidDetail from '../../../../../../components/BidDetail';
 
 export default function MyBid({ bidId, auctionCase }: Props) {
   const router = useRouter();

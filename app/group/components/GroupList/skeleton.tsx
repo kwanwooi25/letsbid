@@ -1,25 +1,19 @@
 'use client';
 
 import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTabs } from '@/hooks/useTabs';
-import { Suspense } from 'react';
-import AllGroupList from './AllGroupList';
 import GroupListSkeleton from './GroupListSkeleton';
-import HeaderButtons from './HeaderButtons';
-import MyGroupList from './MyGroupList';
 
-export default function GroupList() {
-  const { tab, handleTabChange } = useTabs<'myGroups' | 'all'>({ defaultTab: 'myGroups' });
+export default function GroupListPageSkeleton() {
+  const { tab } = useTabs<'myGroups' | 'all'>({ defaultTab: 'myGroups' });
 
   return (
     <>
-      <PageHeader title="그룹 목록" className="max-w-xl">
-        <HeaderButtons />
-      </PageHeader>
+      <Skeleton.PageHeader title="그룹 목록" className="max-w-xl" />
       <PageBody className="max-w-xl">
-        <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+        <Tabs value={tab}>
           <TabsList className="w-full">
             <TabsTrigger className="w-full" value="myGroups">
               참여중인 그룹
@@ -29,14 +23,10 @@ export default function GroupList() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="myGroups">
-            <Suspense fallback={<GroupListSkeleton />}>
-              <MyGroupList />
-            </Suspense>
+            <GroupListSkeleton />
           </TabsContent>
           <TabsContent value="all">
-            <Suspense fallback={<GroupListSkeleton />}>
-              <AllGroupList />
-            </Suspense>
+            <GroupListSkeleton />
           </TabsContent>
         </Tabs>
       </PageBody>

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 export default function BidRankBadge({ rank, className }: Props) {
   return (
@@ -11,12 +11,12 @@ export default function BidRankBadge({ rank, className }: Props) {
         className,
       )}
     >
-      {rank === 1 ? '낙찰' : rank === 2 ? '차순위' : `${rank}위`}
+      {rank === 1 ? '낙찰' : rank === 2 ? '차순위' : typeof rank === 'number' ? `${rank}위` : rank}
     </span>
   );
 }
 
 type Props = {
-  rank: number;
+  rank: ReactNode;
   className?: HTMLAttributes<HTMLSpanElement>['className'];
 };
