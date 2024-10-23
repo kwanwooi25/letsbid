@@ -2,15 +2,15 @@
 
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import HeaderButtons from './HeaderButtons';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTabs } from '@/hooks/useTabs';
 import { Suspense } from 'react';
-import Loading from '@/components/Loading';
-import MyGroupList from './MyGroupList';
 import AllGroupList from './AllGroupList';
+import GroupListSkeleton from './GroupListSkeleton';
+import HeaderButtons from './HeaderButtons';
+import MyGroupList from './MyGroupList';
 
-export default function Group() {
+export default function GroupList() {
   const { tab, handleTabChange } = useTabs<'myGroups' | 'all'>({ defaultTab: 'myGroups' });
 
   return (
@@ -29,12 +29,12 @@ export default function Group() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="myGroups">
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<GroupListSkeleton />}>
               <MyGroupList />
             </Suspense>
           </TabsContent>
           <TabsContent value="all">
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<GroupListSkeleton />}>
               <AllGroupList />
             </Suspense>
           </TabsContent>
