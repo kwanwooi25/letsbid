@@ -15,6 +15,10 @@ function InputSkeleton({ className }: { className?: string }) {
   );
 }
 
+function ButtonSkeleton({ className, icon }: { className?: string; icon?: boolean }) {
+  return <Skeleton className={cn('h-[40px] w-[60px]', icon && 'w-[40px]', className)} />;
+}
+
 function PageHeaderSkeleton({
   children,
   className,
@@ -43,6 +47,7 @@ function PageHeaderSkeleton({
 }
 
 Skeleton.Input = InputSkeleton;
+Skeleton.Button = ButtonSkeleton;
 Skeleton.PageHeader = PageHeaderSkeleton;
 
 export { Skeleton };
