@@ -25,6 +25,7 @@ import { useInterval } from 'usehooks-ts';
 import AuctionResult from './AuctionResult';
 import AuctionCaseHeaderButtons from './HeaderButtons';
 import MyBid from './MyBid';
+import MyBidSkeleton from './MyBidSkeleton';
 import PlaceBidButton from './PlaceBidButton';
 
 export default function AuctionCase() {
@@ -96,7 +97,7 @@ export default function AuctionCase() {
         {status === 'BIDDING' && !hasBidden && <PlaceBidButton auctionCase={auctionCase} />}
 
         {status === 'BIDDING' && hasBidden && bid?.id && (
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<MyBidSkeleton />}>
             <MyBid bidId={bid.id} auctionCase={auctionCase} />
           </Suspense>
         )}
