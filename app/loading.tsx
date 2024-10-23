@@ -1,5 +1,5 @@
 import Loading from '@/components/Loading';
 
-export default function () {
+export default function Home() {
   return <Loading fullscreen />;
 }
