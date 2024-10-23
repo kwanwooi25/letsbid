@@ -1,9 +1,7 @@
 import AuctionCaseForm from '@/app/group/[groupId]/auction-case/components/AuctionCaseForm';
-import Loading from '@/components/Loading';
 import { withAuth } from '@/lib/auth/hoc';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getQueryClient } from '@/queries/config';
-import { Suspense } from 'react';
 
 export default withAuth(async function ({
   params: { groupId, auctionCaseId },
@@ -13,9 +11,5 @@ export default withAuth(async function ({
   const queryClient = getQueryClient();
   const auctionCase = await queryClient.fetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
 
-  return (
-    <Suspense fallback={<Loading size="lg" />}>
-      <AuctionCaseForm groupId={groupId} auctionCase={auctionCase} />
-    </Suspense>
-  );
+  return <AuctionCaseForm groupId={groupId} auctionCase={auctionCase} />;
 });

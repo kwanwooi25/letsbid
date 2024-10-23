@@ -1,15 +1,12 @@
 'use client';
 
 import { GroupFormSchema } from '@/app/group/components/GroupForm/formSchema';
-import { InvitationFormSchema } from '@/app/group/components/InvitationForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { GroupWithMembers } from '@/types/group';
-import { InvitationResult } from '@/types/invitation';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { getApiUrl, getQueryClient } from '../config';
-import { invitationQueryKeys } from '../invitation/queryKey';
 import { groupQueryKeys } from './queryKey';
 
 export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error, GroupFormSchema> =
@@ -101,36 +98,6 @@ export const joinGroupMutationOptions: MutationOptions<
     const queryClient = getQueryClient();
     queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
     queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
-    if (result?.groupId) {
-      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
-    }
-  },
-};
-
-/**
- * @deprecated
- */
-export const inviteGroupMemberMutationOptions: MutationOptions<
-  { groupId: string; result: InvitationResult },
-  Error,
-  InvitationFormSchema
-> = {
-  mutationFn: async (data: InvitationFormSchema) => {
-    try {
-      const url = getApiUrl(API_ROUTE.INVITATION);
-      const res = await axios<SuccessResponse<InvitationResult>>({
-        method: 'post',
-        url,
-        data,
-      });
-      return { groupId: data.groupId, result: res.data.data };
-    } catch (e) {
-      throw e;
-    }
-  },
-  onSettled: (result) => {
-    const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: invitationQueryKeys.list('sent') });
     if (result?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
     }

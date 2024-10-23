@@ -1,7 +1,6 @@
 'use client';
 
 import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
-import Loading from '@/components/Loading';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { PATHS } from '@/const/paths';
@@ -25,6 +24,7 @@ import { useInterval } from 'usehooks-ts';
 import AuctionResult from './AuctionResult';
 import AuctionCaseHeaderButtons from './HeaderButtons';
 import MyBid from './MyBid';
+import MyBidSkeleton from './MyBidSkeleton';
 import PlaceBidButton from './PlaceBidButton';
 
 export default function AuctionCase() {
@@ -96,18 +96,16 @@ export default function AuctionCase() {
         {status === 'BIDDING' && !hasBidden && <PlaceBidButton auctionCase={auctionCase} />}
 
         {status === 'BIDDING' && hasBidden && bid?.id && (
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<MyBidSkeleton />}>
             <MyBid bidId={bid.id} auctionCase={auctionCase} />
           </Suspense>
         )}
 
         {status === 'FINISHED_BIDDING' && biddingCount > 0 && areBidsFinalized && (
-          <Suspense fallback={<Loading />}>
-            <AuctionResult
-              auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
-              isGroupHost={isGroupHost}
-            />
-          </Suspense>
+          <AuctionResult
+            auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
+            isGroupHost={isGroupHost}
+          />
         )}
       </PageBody>
     </>
