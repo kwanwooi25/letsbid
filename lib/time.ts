@@ -14,9 +14,10 @@ export function formatSeconds(totalSeconds: number) {
 
   const textArray = [];
   if (days > 0) textArray.push(`${days}일`);
-  if (hours > 0) textArray.push(`${hours}시간`);
-  if (minutes > 0) textArray.push(`${minutes}분`);
-  if (seconds > 0) textArray.push(`${seconds}초`);
+  const hourDigits = `${hours}`.padStart(2, '0');
+  const minuteDigits = `${minutes}`.padStart(2, '0');
+  const secondDigits = `${seconds}`.padStart(2, '0');
+  textArray.push(`${hourDigits}:${minuteDigits}:${secondDigits}`);
 
   return textArray.join(' ');
 }

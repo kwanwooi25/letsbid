@@ -32,11 +32,11 @@ export default function AuctionCase() {
   const params = useParams();
   const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
-  const [remainingTime, setRemainingTime] = useState('');
   const [{ data: group }, { data: auctionCase, refetch: refetchAuctionCase }] = useSuspenseQueries({
     queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
   });
   const { isGroupHost } = useIsGroupHost(group.hostId);
+  const [remainingTime, setRemainingTime] = useState(getRemainingTimeDisplay(auctionCase));
   const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const [timeRefDisplay, setTimeRefDisplay] = useState(getAuctionCaseTimeRefDisplay(auctionCase));

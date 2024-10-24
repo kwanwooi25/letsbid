@@ -18,9 +18,7 @@ export default function GlobalHeader() {
       className="py-2 px-4 sticky w-full top-0 z-header shadow-sm backdrop-blur border-b border-border/70 flex justify-between items-center"
       style={{ height: GNB_HEIGHT }}
     >
-      <div className="flex md:hidden">
-        <MobileNavigation />
-      </div>
+      <div className="flex md:hidden">{isLoggedIn && <MobileNavigation />}</div>
       <div className="flex-1 flex items-center justify-center md:justify-start gap-10">
         <Link href={PATHS.HOME} scroll={false}>
           <Logo wide size={36} />

@@ -5,10 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function UserBidHistoryListItemSkeleton() {
   return (
     <ListItem className="relative">
-      <BidRankBadge
-        rank={<Skeleton className="h-[16px] w-[20px]" />}
-        className="absolute top-0 left-0 translate-x-[-15%] translate-y-[-30%]"
-      />
+      <BidRankBadge className="absolute top-0 left-0 translate-x-[-15%] translate-y-[-30%]" />
       <div className="flex flex-col gap-2">
         <Skeleton className="h-[24px] w-[90px]" />
         <Skeleton className="h-[20px] w-[180px]" />

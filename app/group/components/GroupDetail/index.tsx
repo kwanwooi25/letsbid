@@ -36,7 +36,7 @@ export default function GroupDetail() {
         onBackButtonClick={handleClickBackButton}
         title={
           <>
-            <span className="text-xl font-semibold">{group.name}</span>
+            <span className="text-xl font-semibold line-clamp-2">{group.name}</span>
             {isGroupHost && <HostBadge />}
           </>
         }
