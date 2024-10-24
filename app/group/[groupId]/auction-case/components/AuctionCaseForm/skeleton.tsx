@@ -9,6 +9,10 @@ export default function AuctionCaseFormSkeleton() {
         <Skeleton.Input />
         <Skeleton.Input />
         <Skeleton.Input />
+        <Skeleton.Input />
+        <Skeleton.Input />
+        <Skeleton.Input />
+        <Skeleton className="w-full h-[114px]" />
       </PageBody>
     </div>
   );

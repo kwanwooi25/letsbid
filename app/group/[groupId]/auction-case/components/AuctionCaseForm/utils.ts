@@ -12,6 +12,7 @@ export function getDefaultFormValues({
   if (auctionCase) {
     const { address, addressDetail, image, bidStartsAt, bidEndsAt, actualBidStartsAt } =
       auctionCase;
+
     return {
       ...auctionCase,
       address: address ?? '',

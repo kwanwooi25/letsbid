@@ -8,32 +8,35 @@ import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { auctionCaseQueryKeys } from '@/queries/auction-case/queryKey';
 import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
-import { AuctionCaseLike } from '@/types/auctionCase';
-import { BidWithUser } from '@/types/bid';
+import { getBidDetailQueryOptions } from '@/queries/bid/query';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { BiddingFormSchema, formSchema } from './formSchema';
+import BiddingFormSkeleton from './skeleton';
 import { getDefaultFormValues } from './utils';
 
-export default function BiddingForm({ bid, auctionCase }: Props) {
+export default function BiddingForm({ auctionCaseId, bidId }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
+  const [{ data: bid }, { data: auctionCase }] = useSuspenseQueries({
+    queries: [getBidDetailQueryOptions(bidId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
+  });
   const placeBidMutation = useMutation(placeBidMutationOptions);
   const updateBidMutation = useMutation(updateBidMutationOptions);
   const queryClient = useQueryClient();
   const form = useForm<BiddingFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: getDefaultFormValues({ auctionCaseId: auctionCase.id, bid }),
+    defaultValues: getDefaultFormValues({ auctionCaseId: auctionCaseId, bid }),
   });
   const { isSubmitting } = form.formState;
-  const PREVIOUS_URL = `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}`;
 
   const [
     expectedSalePrice,
@@ -57,6 +60,10 @@ export default function BiddingForm({ bid, auctionCase }: Props) {
       'expectedProfit',
     ],
   });
+
+  if (!auctionCase) return <BiddingFormSkeleton />;
+
+  const PREVIOUS_URL = `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}`;
 
   const biddingPrice =
     expectedSalePrice -
@@ -190,6 +197,6 @@ export default function BiddingForm({ bid, auctionCase }: Props) {
 }
 
 type Props = {
-  bid?: BidWithUser;
-  auctionCase: AuctionCaseLike;
+  auctionCaseId: string;
+  bidId?: string;
 };

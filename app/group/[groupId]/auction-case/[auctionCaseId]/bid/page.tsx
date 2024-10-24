@@ -11,11 +11,11 @@ export default withAuth(async function ({
   params: { auctionCaseId: string };
 }) {
   const queryClient = getQueryClient();
-  const auctionCase = await queryClient.fetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
+  await queryClient.prefetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
 
   return (
     <Suspense fallback={<BiddingFormSkeleton />}>
-      <BiddingForm auctionCase={auctionCase} />
+      <BiddingForm auctionCaseId={auctionCaseId} />
     </Suspense>
   );
 });

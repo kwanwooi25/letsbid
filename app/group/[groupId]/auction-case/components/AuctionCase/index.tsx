@@ -26,6 +26,7 @@ import AuctionCaseHeaderButtons from './HeaderButtons';
 import MyBid from './MyBid';
 import MyBidSkeleton from './MyBidSkeleton';
 import PlaceBidButton from './PlaceBidButton';
+import AuctionCaseSkeleton from './skeleton';
 
 export default function AuctionCase() {
   const router = useRouter();
@@ -42,11 +43,6 @@ export default function AuctionCase() {
   const [timeRefDisplay, setTimeRefDisplay] = useState(getAuctionCaseTimeRefDisplay(auctionCase));
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
 
-  const biddingCount = auctionCase.bids.length ?? 0;
-  const areBidsFinalized = (auctionCase.bids as BidWithUser[]).every((bid) => bid.biddingPrice);
-
-  const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
-
   useInterval(() => {
     setRemainingTime(getRemainingTimeDisplay(auctionCase));
     setColor(getAuctionCaseColor(auctionCase));
@@ -57,6 +53,13 @@ export default function AuctionCase() {
   useEffect(() => {
     if (status === 'FINISHED_BIDDING') refetchAuctionCase();
   }, [status, refetchAuctionCase]);
+
+  if (!auctionCase) return <AuctionCaseSkeleton />;
+
+  const biddingCount = auctionCase.bids.length ?? 0;
+  const areBidsFinalized = (auctionCase.bids as BidWithUser[]).every((bid) => bid.biddingPrice);
+
+  const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
 
   return (
     <>

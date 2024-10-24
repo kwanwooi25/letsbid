@@ -3,7 +3,9 @@ import { AuctionCaseLike, AuctionCaseStatus } from '@/types/auctionCase';
 import { differenceInSeconds, format, isAfter } from 'date-fns';
 import { formatSeconds, ONE_DAY, ONE_HOUR } from './time';
 
-export function getAuctionCaseStatus(auctionCase: AuctionCaseLike): AuctionCaseStatus {
+export function getAuctionCaseStatus(auctionCase?: AuctionCaseLike | null): AuctionCaseStatus {
+  if (!auctionCase) return 'FINISHED_BIDDING';
+
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const now = new Date();
 
@@ -12,7 +14,9 @@ export function getAuctionCaseStatus(auctionCase: AuctionCaseLike): AuctionCaseS
   return 'FINISHED_BIDDING';
 }
 
-export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCaseLike) {
+export function getAuctionCaseTimeRefDisplay(auctionCase?: AuctionCaseLike | null) {
+  if (!auctionCase) return '';
+
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const status = getAuctionCaseStatus(auctionCase);
 
@@ -26,7 +30,9 @@ export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCaseLike) {
   }
 }
 
-export function getRemainingTimeDisplay(auctionCase: AuctionCaseLike) {
+export function getRemainingTimeDisplay(auctionCase?: AuctionCaseLike | null) {
+  if (!auctionCase) return '';
+
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const status = getAuctionCaseStatus(auctionCase);
   const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
@@ -34,7 +40,8 @@ export function getRemainingTimeDisplay(auctionCase: AuctionCaseLike) {
   return formatSeconds(totalSeconds);
 }
 
-export function getAuctionCaseColor(auctionCase: AuctionCaseLike): ListItemColor {
+export function getAuctionCaseColor(auctionCase?: AuctionCaseLike | null): ListItemColor {
+  if (!auctionCase) return 'gray';
   const { bidStartsAt, bidEndsAt } = auctionCase;
   const status = getAuctionCaseStatus(auctionCase);
   const criteriaDateTime = status === 'BEFORE_BIDDING' ? bidStartsAt : bidEndsAt;
@@ -46,10 +53,10 @@ export function getAuctionCaseColor(auctionCase: AuctionCaseLike): ListItemColor
   return 'red';
 }
 
-export function getHasBidden(auctionCase: AuctionCaseLike, userId?: string) {
+export function getHasBidden(auctionCase?: AuctionCaseLike | null, userId?: string) {
   return {
-    hasBidden: auctionCase.bids.some((bid) => bid.userId === userId),
-    bid: auctionCase.bids.find((bid) => bid.userId === userId),
+    hasBidden: auctionCase?.bids.some((bid) => bid.userId === userId),
+    bid: auctionCase?.bids.find((bid) => bid.userId === userId),
   };
 }
 
