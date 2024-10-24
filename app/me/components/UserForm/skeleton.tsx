@@ -9,7 +9,7 @@ export default function UserFormSkeleton() {
       <PageBody className="flex items-center gap-4">
         <UserImage />
         <div className="flex flex-col gap-1">
-          <Skeleton.Input />
+          <Skeleton.Input hideLabel />
           <Skeleton className="h-[20px] w-[180px]" />
         </div>
       </PageBody>

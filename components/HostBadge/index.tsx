@@ -6,7 +6,7 @@ export default function HostBadge({ className }: Props) {
   return (
     <div
       className={cn(
-        'w-[32px] h-[32px] rounded-full bg-secondary flex items-center justify-center',
+        'w-[32px] h-[32px] rounded-full bg-secondary flex items-center justify-center shrink-0',
         className,
       )}
     >

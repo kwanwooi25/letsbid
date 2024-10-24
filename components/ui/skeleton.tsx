@@ -6,10 +6,10 @@ function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>)
   return <div className={cn('animate-pulse rounded-md bg-muted', className)} {...props} />;
 }
 
-function InputSkeleton({ className }: { className?: string }) {
+function InputSkeleton({ className, hideLabel }: { className?: string; hideLabel?: boolean }) {
   return (
     <div className={cn('space-y-2', className)}>
-      <Skeleton className="h-5 w-20" />
+      {!hideLabel && <Skeleton className="h-5 w-20" />}
       <Skeleton className="h-10 w-full mt-2" />
     </div>
   );

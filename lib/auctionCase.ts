@@ -18,11 +18,11 @@ export function getAuctionCaseTimeRefDisplay(auctionCase: AuctionCaseLike) {
 
   switch (status) {
     case 'BEFORE_BIDDING':
-      return `시작 일시: ${format(bidStartsAt, 'yyyy/MM/dd HH:mm')}`;
+      return `시작: ${format(bidStartsAt, 'yyyy/MM/dd HH:mm')}`;
     case 'BIDDING':
     case 'FINISHED_BIDDING':
     default:
-      return `종료 일시: ${format(bidEndsAt, 'yyyy/MM/dd HH:mm')}`;
+      return `종료: ${format(bidEndsAt, 'yyyy/MM/dd HH:mm')}`;
   }
 }
 
