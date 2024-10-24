@@ -37,6 +37,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { auctionCas
     await getUserFromSession();
     const formData = await req.formData();
     const { imageToUpload, imageToDelete, ...data } = formToJSON(formData) as AuctionCaseFormSchema;
+
     let imageUrl = '';
     if (imageToUpload) {
       imageUrl = await uploadImage({
@@ -47,18 +48,21 @@ export async function PATCH(req: NextRequest, { params }: { params: { auctionCas
         await deleteImage(data.image);
       }
     }
+
     if (imageToDelete && imageToDelete.startsWith(IMAGE_HOST_URL)) {
       await deleteImage(imageToDelete);
     }
+
     const updatedAuctionCase = await prisma.auctionCase.update({
       where: { id: params.auctionCaseId },
       data: {
         ...data,
         appraisedValue: +data.appraisedValue,
         startingBid: +data.startingBid,
-        image: imageUrl ?? data.image,
+        image: imageUrl || data.image,
       },
     });
+
     return handleSuccess({ data: updatedAuctionCase });
   } catch (e) {
     return handlePrismaClientError(e);
