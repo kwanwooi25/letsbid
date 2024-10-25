@@ -2,10 +2,9 @@ import { AuctionCaseFormSchema } from '@/app/group/[groupId]/auction-case/compon
 import { getUserFromSession, handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { filterBidDetails } from '@/lib/auctionCase';
 import { prisma } from '@/lib/prisma';
-import { deleteImage, uploadImage } from '@/lib/s3';
-import { IMAGE_HOST_URL } from '@/lib/s3/const';
 import { formToJSON, HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
+import { getAuctionCaseDataInput } from '../utils';
 
 export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
   try {
@@ -36,30 +35,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { auctionCas
   try {
     await getUserFromSession();
     const formData = await req.formData();
-    const { imageToUpload, imageToDelete, ...data } = formToJSON(formData) as AuctionCaseFormSchema;
-
-    let imageUrl = '';
-    if (imageToUpload) {
-      imageUrl = await uploadImage({
-        file: imageToUpload,
-        fileName: `auction-case/${data.caseName}_${imageToUpload.name}`,
-      });
-      if (data.image && data.image.startsWith(IMAGE_HOST_URL)) {
-        await deleteImage(data.image);
-      }
-    }
-
-    if (imageToDelete && imageToDelete.startsWith(IMAGE_HOST_URL)) {
-      await deleteImage(imageToDelete);
-    }
+    const json = formToJSON(formData) as AuctionCaseFormSchema;
+    const data = await getAuctionCaseDataInput(json);
 
     const updatedAuctionCase = await prisma.auctionCase.update({
       where: { id: params.auctionCaseId },
-      data: {
-        ...data,
-        appraisedValue: +data.appraisedValue,
-        startingBid: +data.startingBid,
-        image: imageUrl || data.image,
+      data,
+      include: {
+        group: true,
       },
     });
 

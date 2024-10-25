@@ -20,7 +20,7 @@ export function getDefaultFormValues({
       image: image ?? '',
       bidStartsAt: new Date(bidStartsAt),
       bidEndsAt: new Date(bidEndsAt),
-      actualBidStartsAt: new Date(actualBidStartsAt),
+      actualBidStartsAt: actualBidStartsAt ? new Date(actualBidStartsAt) : undefined,
     };
   }
 
@@ -31,9 +31,10 @@ export function getDefaultFormValues({
     image: '',
     bidStartsAt: setMinutes(new Date(), 0),
     bidEndsAt: setMinutes(addDays(new Date(), 1), 0),
-    actualBidStartsAt: setMinutes(addDays(new Date(), 3), 0),
     appraisedValue: 0,
     startingBid: 0,
+    officialValue: 0,
+    hasElevator: false,
     groupId,
   };
 }

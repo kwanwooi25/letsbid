@@ -24,6 +24,7 @@ export const getAuctionCaseDetailQueryOptions = (auctionCaseId?: string) =>
   queryOptions({
     queryKey: auctionCaseQueryKeys.detail(auctionCaseId),
     queryFn: async () => {
+      if (!auctionCaseId) return null;
       try {
         const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${auctionCaseId}`);
         const res = await axios<SuccessResponse<AuctionCaseLike>>({
