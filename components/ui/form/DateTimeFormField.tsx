@@ -7,12 +7,18 @@ import { DateTimePicker } from '../datetime-picker';
 export default function DateTimeFormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ className, label, hourCycle = 12, ...props }: Props<TFieldValues, TName>) {
+>({ className, label, required, hourCycle = 12, ...props }: Props<TFieldValues, TName>) {
   return (
     <FormField
       render={({ field }) => (
         <FormItem className={cn('flex flex-col w-auto', className)}>
-          {!!label && <FormLabel className="h-[24px] flex items-center w-auto">{label}</FormLabel>}
+          {!!label && (
+            <div className="flex">
+              <FormLabel className="h-[24px] flex items-center w-auto" aria-required={required}>
+                {label}
+              </FormLabel>
+            </div>
+          )}
           <FormControl>
             <DateTimePicker
               locale={ko}
@@ -42,4 +48,5 @@ type Props<
   className?: string;
   label?: string;
   hourCycle?: 12 | 24;
+  required?: boolean;
 };

@@ -116,9 +116,21 @@ model AuctionCase {
   groupId String
   group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
-  caseName    String
-  bidStartsAt DateTime
-  bidEndsAt   DateTime
+  caseName          String
+  address           String?
+  addressDetail     String?
+  bidStartsAt       DateTime
+  bidEndsAt         DateTime
+  image             String?
+  actualBidStartsAt DateTime? // 실제 입찰일
+  appraisedValue    Int       @default(0) // 감정가
+  startingBid       Int       @default(0) // 최저가
+  officialValue     Int       @default(0) // 공시가
+  area              Float? // 면적 (m2)
+  floorLevel        Int? // 층
+  floorPlan         String? // 구조
+  hasElevator       Boolean   @default(false) // 엘리베이터 유무
+  completedYear     Int? // 준공연도
 
   bids Bid[]
 }

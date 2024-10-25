@@ -9,7 +9,7 @@ export default withAuth(async function ({
   params: { groupId: string; auctionCaseId: string };
 }) {
   const queryClient = getQueryClient();
-  const auctionCase = await queryClient.fetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
+  await queryClient.prefetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
 
-  return <AuctionCaseForm groupId={groupId} auctionCase={auctionCase} />;
+  return <AuctionCaseForm groupId={groupId} auctionCaseId={auctionCaseId} />;
 });

@@ -19,6 +19,9 @@ export const createAuctionCaseMutationOptions: MutationOptions<
         method: 'post',
         url,
         data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return res.data.data;
     } catch (e) {
@@ -45,6 +48,9 @@ export const updateAuctionCaseMutationOptions: MutationOptions<
         method: 'patch',
         url,
         data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return res.data.data;
     } catch (e) {
@@ -57,7 +63,7 @@ export const updateAuctionCaseMutationOptions: MutationOptions<
       queryClient.invalidateQueries({
         queryKey: auctionCaseQueryKeys.list(data.groupId),
       });
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: auctionCaseQueryKeys.detail(data.id),
       });
     }
