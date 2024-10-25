@@ -23,6 +23,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import AuctionCaseIntroduction from './AuctionCaseIntroduction';
+import AuctionCaseTitle from './AuctionCaseTitle';
 import AuctionResult from './AuctionResult';
 import AuctionCaseHeaderButtons from './HeaderButtons';
 import MyBid from './MyBid';
@@ -66,10 +67,10 @@ export default function AuctionCase() {
   return (
     <>
       <PageHeader
-        className="max-w-2xl"
+        className="max-w-2xl min-h-[80px]"
         backButton
         onBackButtonClick={handleClickBackButton}
-        title={auctionCase.caseName}
+        title={<AuctionCaseTitle auctionCase={auctionCase} />}
       >
         {isGroupHost && <AuctionCaseHeaderButtons auctionCase={auctionCase} />}
       </PageHeader>

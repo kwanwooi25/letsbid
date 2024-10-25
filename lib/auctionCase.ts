@@ -95,3 +95,18 @@ export function filterBidDetails(auctionCase: AuctionCaseLike, userId?: string):
       return auctionCase;
   }
 }
+
+export function getFullAddress({
+  address,
+  addressDetail,
+}: Pick<AuctionCaseLike, 'address' | 'addressDetail'>) {
+  if (!!address && !!addressDetail) {
+    return `${address} ${addressDetail}`;
+  }
+
+  if (!!address) {
+    return address;
+  }
+
+  return null;
+}

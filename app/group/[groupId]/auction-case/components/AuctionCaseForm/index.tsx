@@ -17,8 +17,10 @@ import {
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { LucideX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { ComponentProps } from 'react';
+import { ComponentProps, FocusEventHandler } from 'react';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useForm, useWatch } from 'react-hook-form';
 import AuctionCaseImageForm from './AuctionCaseImageForm';
 import { AuctionCaseFormSchema, formSchema } from './formSchema';
@@ -37,10 +39,11 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
     defaultValues: getDefaultFormValues({ groupId, auctionCase }),
   });
   const { isSubmitting } = form.formState;
-  const [image, imageToUpload, area] = useWatch({
+  const [image, imageToUpload, area, address] = useWatch({
     control: form.control,
-    name: ['image', 'imageToUpload', 'area'],
+    name: ['image', 'imageToUpload', 'area', 'address'],
   });
+  const openDaumPostcode = useDaumPostcodePopup();
 
   const areaInPY = (() => {
     if (!area) return null;
@@ -95,6 +98,25 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
     }
   };
 
+  const handleFocusAddressInput: FocusEventHandler<HTMLInputElement> = (e) => {
+    e.currentTarget.blur();
+    openDaumPostcode({
+      onComplete(data) {
+        const address = `${data.roadAddress} (${data.jibunAddress
+          .replace(data.sido, '')
+          .replace(data.sigungu, '')
+          .trim()}, ${data.buildingName})`;
+        form.setValue('address', address);
+        form.setFocus('addressDetail');
+      },
+    });
+  };
+
+  const removeAddress = () => {
+    form.setValue('address', '');
+    form.setValue('addressDetail', '');
+  };
+
   return (
     <Form {...form}>
       <form className="max-w-2xl mx-auto">
@@ -110,6 +132,31 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
             label="사건명"
             inputProps={{ placeholder: '2024타경12345', autoFocus: true }}
             required
+          />
+          <InputFormField
+            control={form.control}
+            name="address"
+            label="주소"
+            inputProps={{ onFocus: handleFocusAddressInput, readOnly: true }}
+            suffix={
+              !!address ? (
+                <Button
+                  className="mr-[-12px]"
+                  onClick={removeAddress}
+                  size="icon"
+                  type="button"
+                  variant="ghost"
+                >
+                  <LucideX />
+                </Button>
+              ) : null
+            }
+          />
+          <InputFormField
+            className="md:flex-1"
+            control={form.control}
+            name="addressDetail"
+            label="상세 주소"
           />
           <div className="flex flex-col gap-4 md:flex-row">
             <DateTimeFormField

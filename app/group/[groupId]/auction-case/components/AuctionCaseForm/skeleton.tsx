@@ -7,6 +7,8 @@ export default function AuctionCaseFormSkeleton() {
       <Skeleton.PageHeader backButton actionButtonCount={1} />
       <PageBody className="flex flex-col gap-4 md:gap-6">
         <Skeleton.Input />
+        <Skeleton.Input />
+        <Skeleton.Input />
 
         <div className="flex flex-col gap-4 md:flex-row">
           <Skeleton.Input className="flex-1" />
