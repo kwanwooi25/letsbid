@@ -20,15 +20,21 @@ export const getAuctionCaseListQueryOptions = (groupId: string) =>
     staleTime: 1000 * 60,
   });
 
-export const getAuctionCaseDetailQueryOptions = (auctionCaseId: string) =>
+export const getAuctionCaseDetailQueryOptions = (auctionCaseId?: string) =>
   queryOptions({
     queryKey: auctionCaseQueryKeys.detail(auctionCaseId),
     queryFn: async () => {
-      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${auctionCaseId}`);
-      const res = await axios<SuccessResponse<AuctionCaseLike>>({
-        method: 'get',
-        url,
-      });
-      return res.data.data;
+      if (!auctionCaseId) return null;
+      try {
+        const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${auctionCaseId}`);
+        const res = await axios<SuccessResponse<AuctionCaseLike>>({
+          method: 'get',
+          url,
+        });
+        return res.data.data;
+      } catch (error) {
+        return null;
+      }
     },
+    enabled: !!auctionCaseId,
   });

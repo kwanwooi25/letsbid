@@ -23,7 +23,7 @@ export default function GroupListItem({ group, isHost }: Props) {
   const { handleAxiosError } = useAxiosError();
   const { openForm } = useFormDialog();
 
-  const { id, name, members, maxMembers, isPrivate } = group;
+  const { id, name, members, maxMembers, isPrivate, description } = group;
   const isJoinable =
     members.filter((member) => member.userId === session?.data?.user.id).length === 0;
   const isMaxMemberReached = members.length >= maxMembers;
@@ -69,6 +69,9 @@ export default function GroupListItem({ group, isHost }: Props) {
     >
       <div className="flex flex-col gap-2">
         <span className="text-xl font-semibold line-clamp-1">{name}</span>
+        {!!description && (
+          <div className="text-xs font-semibold text-primary/50 line-clamp-1">{description}</div>
+        )}
         <div className="flex items-center gap-2 min-h-[20px]">
           <span
             className={cn(

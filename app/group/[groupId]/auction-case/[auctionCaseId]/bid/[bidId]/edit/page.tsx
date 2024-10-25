@@ -12,12 +12,12 @@ export default withAuth(async function ({
   params: { auctionCaseId: string; bidId: string };
 }) {
   const queryClient = getQueryClient();
-  const auctionCase = await queryClient.fetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
-  const bid = await queryClient.fetchQuery(getBidDetailQueryOptions(bidId));
+  await queryClient.prefetchQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
+  await queryClient.prefetchQuery(getBidDetailQueryOptions(bidId));
 
   return (
     <Suspense fallback={<BiddingFormSkeleton />}>
-      <BiddingForm auctionCase={auctionCase} bid={bid} />
+      <BiddingForm auctionCaseId={auctionCaseId} bidId={bidId} />
     </Suspense>
   );
 });

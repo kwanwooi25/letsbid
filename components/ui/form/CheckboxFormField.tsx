@@ -11,7 +11,7 @@ export default function CheckboxFormField<
     <FormField
       render={({ field }) => {
         return (
-          <FormItem className={cn('flex flex-col', className)}>
+          <FormItem className={cn('flex flex-col justify-center', className)}>
             <FormControl>
               <div className="flex items-center gap-2">
                 <Checkbox id={props.name} onCheckedChange={field.onChange} checked={field.value} />

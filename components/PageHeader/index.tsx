@@ -46,7 +46,7 @@ export default function PageHeader({
       )}
       style={{ top: GNB_HEIGHT }}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-1">
         {!!backButton && (
           <Button onClick={handleClickBackButton} variant="ghost" size="icon" type={'button'}>
             <LucideChevronLeft />

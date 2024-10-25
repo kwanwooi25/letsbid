@@ -1,8 +1,10 @@
+import { AuctionCaseFormSchema } from '@/app/group/[groupId]/auction-case/components/AuctionCaseForm/formSchema';
 import { getUserFromSession, handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { filterBidDetails } from '@/lib/auctionCase';
 import { prisma } from '@/lib/prisma';
-import { HttpStatusCode } from 'axios';
+import { formToJSON, HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
+import { getAuctionCaseDataInput } from '../utils';
 
 export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
   try {
@@ -32,11 +34,18 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
 export async function PATCH(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
   try {
     await getUserFromSession();
-    const data = await req.json();
+    const formData = await req.formData();
+    const json = formToJSON(formData) as AuctionCaseFormSchema;
+    const data = await getAuctionCaseDataInput(json);
+
     const updatedAuctionCase = await prisma.auctionCase.update({
       where: { id: params.auctionCaseId },
       data,
+      include: {
+        group: true,
+      },
     });
+
     return handleSuccess({ data: updatedAuctionCase });
   } catch (e) {
     return handlePrismaClientError(e);
