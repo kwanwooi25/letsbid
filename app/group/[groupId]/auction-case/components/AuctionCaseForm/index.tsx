@@ -65,8 +65,6 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
     const mutationFn = isEditing ? updateAuctionCase : createAuctionCase;
     const { caseName } = await mutationFn(values);
 
-    console.log(values);
-
     try {
       toast({
         title: caseName,
@@ -167,7 +165,7 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
               className="md:flex-1"
               control={form.control}
               name="area"
-              label="면적 (m2)"
+              label="면적 (㎡)"
               inputProps={{ format: 'numberOnly' }}
               suffix={areaInPY}
             />

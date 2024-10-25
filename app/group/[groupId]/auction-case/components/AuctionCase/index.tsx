@@ -1,7 +1,6 @@
 'use client';
 
 import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
-import DetailRow from '@/components/DetailRow';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import Divider from '@/components/ui/divider';
@@ -14,18 +13,16 @@ import {
   getAuctionCaseTimeRefDisplay,
   getRemainingTimeDisplay,
 } from '@/lib/auctionCase';
-import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
 import { BidWithUser } from '@/types/bid';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
+import AuctionCaseIntroduction from './AuctionCaseIntroduction';
 import AuctionResult from './AuctionResult';
 import AuctionCaseHeaderButtons from './HeaderButtons';
 import MyBid from './MyBid';
@@ -60,11 +57,6 @@ export default function AuctionCase() {
   }, [status, refetchAuctionCase]);
 
   if (!auctionCase) return <AuctionCaseSkeleton />;
-
-  const { caseName, image, appraisedValue, startingBid, actualBidStartsAt } = auctionCase;
-
-  const hasAuctionCaseDetail =
-    appraisedValue > 0 || startingBid > 0 || !!actualBidStartsAt || !!image;
 
   const biddingCount = auctionCase.bids.length ?? 0;
   const areBidsFinalized = (auctionCase.bids as BidWithUser[]).every((bid) => bid.biddingPrice);
@@ -109,36 +101,9 @@ export default function AuctionCase() {
           </div>
         </div>
 
-        {hasAuctionCaseDetail && (
-          <>
-            <div className="flex flex-col gap-4">
-              <h5 className="text-2xl font-bold self-center mb-4">기 초 정 보</h5>
-              <div className="flex flex-col gap-2 max-w-xs w-full self-center">
-                {appraisedValue > 0 && (
-                  <DetailRow label="감정가" value={appraisedValue.toLocaleString()} />
-                )}
-                {startingBid > 0 && (
-                  <DetailRow label="최저가" value={startingBid.toLocaleString()} />
-                )}
-                {!!actualBidStartsAt && (
-                  <DetailRow
-                    label="실제 입찰일"
-                    value={formatDateTime(actualBidStartsAt, 'yyyy-MM-dd (ccc)')}
-                  />
-                )}
-              </div>
-              {image && (
-                <>
-                  <Divider />
-                  <Link href={image} rel="noreferrer noopener" target="_blank">
-                    <Image src={image} alt={caseName} width={1000} height={700} />
-                  </Link>
-                </>
-              )}
-            </div>
-            <Divider />
-          </>
-        )}
+        <AuctionCaseIntroduction auctionCase={auctionCase} />
+
+        <Divider />
 
         {status === 'BIDDING' && !hasBidden && <PlaceBidButton auctionCase={auctionCase} />}
 

@@ -1,5 +1,6 @@
 import PageBody from '@/components/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
+import AuctionCaseIntroductionSkeleton from './AuctionCaseIntroductionSkeleton';
 
 export default function AuctionCaseSkeleton() {
   return (
@@ -12,6 +13,7 @@ export default function AuctionCaseSkeleton() {
             <Skeleton className="h-[20px] w-[170px]" />
           </div>
         </div>
+        <AuctionCaseIntroductionSkeleton />
       </PageBody>
     </>
   );

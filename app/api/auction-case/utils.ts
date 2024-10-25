@@ -30,6 +30,8 @@ export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
     await deleteImage(imageToDelete);
   }
 
+  const unknownHasElevator = hasElevator as unknown;
+
   return {
     ...rest,
     appraisedValue: +appraisedValue,
@@ -39,9 +41,9 @@ export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
     floorLevel: floorLevel ? +floorLevel : undefined,
     completedYear: completedYear ? +completedYear : undefined,
     hasElevator:
-      typeof (hasElevator as unknown) === 'string' && (hasElevator as unknown) === 'true'
-        ? true
-        : !!hasElevator,
+      typeof unknownHasElevator === 'boolean'
+        ? !!unknownHasElevator
+        : unknownHasElevator === 'true',
     image: imageUrl || rest.image,
     groupId: groupId as string,
   };
