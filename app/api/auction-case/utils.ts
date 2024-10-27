@@ -19,10 +19,10 @@ export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
   if (imageToUpload) {
     imageUrl = await uploadImage({
       file: imageToUpload,
-      fileName: `auction-case/${data.caseName}_${imageToUpload.name}`,
+      fileName: `auction-case/${rest.caseName}_${imageToUpload.name}`,
     });
-    if (data.image && data.image.startsWith(IMAGE_HOST_URL)) {
-      await deleteImage(data.image);
+    if (rest.image && rest.image.startsWith(IMAGE_HOST_URL)) {
+      await deleteImage(rest.image);
     }
   }
 
