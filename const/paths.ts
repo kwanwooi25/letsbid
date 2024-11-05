@@ -9,7 +9,6 @@ export const PATHS = {
   BID: '/bid',
   ME: '/me',
   EDIT_USER_PROFILE: '/me/edit',
-  INVITATION: '/invitation',
   MY_BID_HISTORY: '/me/bid-history',
   USER_GUIDE: '/user-guide',
 } as const;
@@ -21,7 +20,7 @@ export const API_ROUTE = {
   USER_LOGIN: '/api/user/login',
   GROUP: '/api/group',
   MY_GROUP: '/api/group/my',
-  INVITATION: '/api/invitation',
+  ARCHIVED_GROUP: '/api/group/archived',
   AUCTION_CASE: '/api/auction-case',
   BID: '/api/bid',
 } as const;

@@ -8,8 +8,10 @@ import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import {
+  archiveGroupMutationOptions,
   deleteGroupMutationOptions,
   expelGroupMemberMutationOptions,
+  unarchiveGroupMutationOptions,
 } from '@/queries/group/mutation';
 import { GroupWithMembers } from '@/types/group';
 import { useMutation } from '@tanstack/react-query';
@@ -26,8 +28,12 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
   const router = useRouter();
   const currentUrl = useCurrentUrl();
   const { handleAxiosError } = useAxiosError();
-  const deleteGroupMutation = useMutation(deleteGroupMutationOptions);
-  const expelGroupMemberMutation = useMutation(expelGroupMemberMutationOptions);
+  const { mutateAsync: archiveGroup } = useMutation(archiveGroupMutationOptions);
+  const { mutateAsync: unarchiveGroup } = useMutation(unarchiveGroupMutationOptions);
+  const { mutateAsync: deleteGroup } = useMutation(deleteGroupMutationOptions);
+  const { mutateAsync: expelGroupMember } = useMutation(expelGroupMemberMutationOptions);
+
+  const isArchived = !!group.archivedAt;
 
   const handleClickEditGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
     e.stopPropagation();
@@ -50,12 +56,68 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
       actionLabel: '삭제',
       action: async () => {
         try {
-          await deleteGroupMutation.mutateAsync(group.id);
+          await deleteGroup(group.id);
           toast({
             description: '그룹이 삭제 되었습니다',
             variant: 'success',
           });
           router.replace(PATHS.HOME);
+          return true;
+        } catch (error) {
+          handleAxiosError(error);
+          return false;
+        }
+      },
+    });
+  };
+
+  const handleClickArchiveGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
+    e.stopPropagation();
+    openAlert({
+      title: '그룹 숨김',
+      description: (
+        <>
+          그룹을 숨김 처리하면 <b className="text-destructive">더이상 멤버가 참여할 수 없고</b>
+          <br />
+          <b className="text-destructive">경매 사건을 추가할 수 없게</b> 됩니다.
+          <br />
+          <b>{group.name}</b> 그룹을 숨김 처리하시겠습니까?
+        </>
+      ),
+      actionLabel: '숨김',
+      action: async () => {
+        try {
+          await archiveGroup(group.id);
+          toast({
+            description: '그룹이 숨김 처리되었습니다',
+            variant: 'success',
+          });
+          return true;
+        } catch (error) {
+          handleAxiosError(error);
+          return false;
+        }
+      },
+    });
+  };
+
+  const handleClickUnarchiveGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
+    e.stopPropagation();
+    openAlert({
+      title: '그룹 숨김 해제',
+      description: (
+        <>
+          <b>{group.name}</b> 그룹을 숨김 해제하시겠습니까?
+        </>
+      ),
+      actionLabel: '숨김 해제',
+      action: async () => {
+        try {
+          await unarchiveGroup(group.id);
+          toast({
+            description: '그룹이 숨김 해제되었습니다',
+            variant: 'success',
+          });
           return true;
         } catch (error) {
           handleAxiosError(error);
@@ -76,7 +138,7 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
       actionLabel: '나가기',
       action: async () => {
         try {
-          await expelGroupMemberMutation.mutateAsync({
+          await expelGroupMember({
             groupId: group.id,
             memberId: loggedInUserId!,
           });
@@ -99,6 +161,15 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
           <Button type="button" onClick={handleClickEditGroup}>
             수정
           </Button>
+          {isArchived ? (
+            <Button type="button" variant="destructive-outline" onClick={handleClickUnarchiveGroup}>
+              숨김 해제
+            </Button>
+          ) : (
+            <Button type="button" variant="destructive-outline" onClick={handleClickArchiveGroup}>
+              숨김
+            </Button>
+          )}
           <Button type="button" variant="destructive" onClick={handleClickDeleteGroup}>
             삭제
           </Button>

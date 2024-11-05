@@ -30,11 +30,10 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  Account     Account[]
-  Session     Session[]
-  groups      UsersOnGroups[]
-  invitations Invitation[]
-  bids        Bid[]
+  Account Account[]
+  Session Session[]
+  groups  UsersOnGroups[]
+  bids    Bid[]
 }
 
 model Account {
@@ -68,18 +67,18 @@ model Session {
 }
 
 model Group {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String?
   hostId      String
-  isPrivate   Boolean  @default(false)
+  isPrivate   Boolean   @default(false)
   password    String?
-  maxMembers  Int      @default(1000)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  maxMembers  Int       @default(1000)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  archivedAt  DateTime?
 
   members      UsersOnGroups[]
-  invitations  Invitation[]
   auctionCases AuctionCase[]
 }
 
@@ -92,23 +91,6 @@ model UsersOnGroups {
   joinedAt  DateTime @default(now())
 
   @@id([userId, groupId])
-}
-
-model Invitation {
-  id        String @id @default(cuid())
-  groupId   String
-  group     Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  inviterId String
-  inviter   User   @relation(fields: [inviterId], references: [id])
-
-  inviteeEmail String
-  status       InvitationStatus @default(PENDING)
-}
-
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
 }
 
 model AuctionCase {

@@ -16,6 +16,7 @@ export async function GET() {
             userId,
           },
         },
+        archivedAt: null,
       },
       include: {
         members: true,
