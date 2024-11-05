@@ -7,7 +7,7 @@ import { getApiUrl } from '../config';
 import { groupQueryKeys } from './queryKey';
 
 export const getMyGroupListQueryOptions = queryOptions({
-  queryKey: groupQueryKeys.myGroupList,
+  queryKey: groupQueryKeys.list('my'),
   queryFn: async () => {
     const url = getApiUrl(API_ROUTE.MY_GROUP);
     const res = await axios<SuccessResponse<GroupWithMembers[]>>({
@@ -19,9 +19,21 @@ export const getMyGroupListQueryOptions = queryOptions({
 });
 
 export const getGroupListQueryOptions = queryOptions({
-  queryKey: groupQueryKeys.list,
+  queryKey: groupQueryKeys.list('all'),
   queryFn: async () => {
     const url = getApiUrl(API_ROUTE.GROUP);
+    const res = await axios<SuccessResponse<GroupWithMembers[]>>({
+      method: 'get',
+      url,
+    });
+    return res.data.data;
+  },
+});
+
+export const getArchivedGroupListQueryOptions = queryOptions({
+  queryKey: groupQueryKeys.list('archived'),
+  queryFn: async () => {
+    const url = getApiUrl(API_ROUTE.ARCHIVED_GROUP);
     const res = await axios<SuccessResponse<GroupWithMembers[]>>({
       method: 'get',
       url,
