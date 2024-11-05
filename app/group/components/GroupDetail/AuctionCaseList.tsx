@@ -10,7 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 import AuctionCaseListItem from './AuctionCaseListItem';
 import { useCategorizedAuctionCases } from './hooks';
 
-export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
+export default function AuctionCaseList({ isGroupHost, isArchived, auctionCases }: Props) {
   const router = useRouter();
   const params = useParams();
   const groupId = params.groupId as string;
@@ -23,7 +23,7 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
 
   return (
     <div className="flex flex-col gap-4 py-4">
-      {isGroupHost && (
+      {isGroupHost && !isArchived && (
         <Button className="self-end" onClick={handleClickAddCase}>
           <LucideFilePlus2 className="w-4 h-4 mr-2" />
           경매 사건 추가
@@ -68,5 +68,6 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
 
 type Props = {
   isGroupHost?: boolean;
+  isArchived?: boolean;
   auctionCases: AuctionCaseLike[];
 };

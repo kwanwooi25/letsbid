@@ -26,8 +26,7 @@ export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error
     },
     onSettled: () => {
       const queryClient = getQueryClient();
-      queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
-      queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+      queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
     },
   };
 
@@ -48,16 +47,64 @@ export const updateGroupMutationOptions: MutationOptions<GroupWithMembers, Error
     },
     onSettled: (updatedGroup) => {
       const queryClient = getQueryClient();
-      queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
-      queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+      queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
       if (updatedGroup?.id) {
         queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
       }
     },
   };
 
+export const archiveGroupMutationOptions: MutationOptions<GroupWithMembers, Error, string> = {
+  mutationFn: async (groupId) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
+      const res = await axios<SuccessResponse<GroupWithMembers>>({
+        method: 'patch',
+        url,
+        data: {
+          archivedAt: new Date(),
+        },
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (updatedGroup) => {
+    const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    if (updatedGroup?.id) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
+    }
+  },
+};
+export const unarchiveGroupMutationOptions: MutationOptions<GroupWithMembers, Error, string> = {
+  mutationFn: async (groupId) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
+      const res = await axios<SuccessResponse<GroupWithMembers>>({
+        method: 'patch',
+        url,
+        data: {
+          archivedAt: null,
+        },
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (updatedGroup) => {
+    const queryClient = getQueryClient();
+    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    if (updatedGroup?.id) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
+    }
+  },
+};
+
 export const deleteGroupMutationOptions: MutationOptions<string, Error, string> = {
-  mutationFn: async (groupId: string) => {
+  mutationFn: async (groupId) => {
     try {
       const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
       await axios<SuccessResponse<GroupWithMembers>>({
@@ -71,8 +118,7 @@ export const deleteGroupMutationOptions: MutationOptions<string, Error, string> 
   },
   onSettled: () => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
   },
 };
 
@@ -96,8 +142,7 @@ export const joinGroupMutationOptions: MutationOptions<
   },
   onSettled: (result) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
     if (result?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
     }
@@ -123,8 +168,7 @@ export const expelGroupMemberMutationOptions: MutationOptions<
   },
   onSettled: (expelledUser) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
     if (expelledUser?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(expelledUser.groupId) });
     }
@@ -151,8 +195,7 @@ export const changeGroupHostMutationOptions: MutationOptions<
   },
   onSettled: (updatedGroup) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.myGroupList });
-    queryClient.invalidateQueries({ queryKey: groupQueryKeys.list });
+    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
     if (updatedGroup?.id) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
     }

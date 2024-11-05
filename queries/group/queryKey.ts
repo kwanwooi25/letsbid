@@ -1,6 +1,5 @@
 const queryKeys = {
-  myGroupList: ['my-groups'],
-  list: ['groups'],
+  list: (type: 'my' | 'all' | 'archived') => ['groups', type],
   detail: (id: string) => ['group', id],
 } as const;
 

@@ -41,12 +41,12 @@ export default function PageHeader({
   return (
     <div
       className={cn(
-        'flex items-center justify-between gap-2 p-4 mx-auto sticky backdrop-blur z-header min-h-[72px]',
+        'flex items-center flex-col sm:flex-row justify-between gap-2 p-4 mx-auto sticky backdrop-blur z-header min-h-[72px]',
         className,
       )}
       style={{ top: GNB_HEIGHT }}
     >
-      <div className="flex items-center gap-2 flex-1">
+      <div className="flex items-center gap-2 flex-1 self-start sm:self-center">
         {!!backButton && (
           <Button onClick={handleClickBackButton} variant="ghost" size="icon" type={'button'}>
             <LucideChevronLeft />
@@ -56,7 +56,7 @@ export default function PageHeader({
         {!!title && typeof title === 'string' && <h2 className="text-lg font-bold">{title}</h2>}
         {!!title && typeof title !== 'string' && title}
       </div>
-      <div className="flex items-center gap-2">{children}</div>
+      <div className="flex items-center gap-2 self-end sm:self-center">{children}</div>
     </div>
   );
 }

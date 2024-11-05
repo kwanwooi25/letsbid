@@ -12,7 +12,9 @@ export async function GET() {
             userId,
           },
         },
-        archivedAt: null,
+        archivedAt: {
+          not: null,
+        },
       },
       include: {
         members: true,
