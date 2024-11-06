@@ -50,20 +50,35 @@ export default function SignUpForm() {
           control={form.control}
           name="name"
           label="이름"
-          inputProps={{ autoFocus: true }}
+          inputProps={{ autoFocus: true, required: true }}
+          required
         />
-        <InputFormField control={form.control} name="email" label="이메일" />
+        <InputFormField
+          control={form.control}
+          name="email"
+          label="이메일"
+          inputProps={{ required: true }}
+          required
+        />
+        <InputFormField
+          control={form.control}
+          name="mobile"
+          label="휴대폰 번호"
+          inputProps={{ format: 'phoneNumber' }}
+        />
         <InputFormField
           control={form.control}
           name="password"
           label="비밀번호"
-          inputProps={{ type: 'password' }}
+          inputProps={{ type: 'password', required: true }}
+          required
         />
         <InputFormField
           control={form.control}
           name="passwordConfirm"
           label="비밀번호 확인"
-          inputProps={{ type: 'password' }}
+          inputProps={{ type: 'password', required: true }}
+          required
         />
 
         <Button isLoading={isSubmitting} size="lg">

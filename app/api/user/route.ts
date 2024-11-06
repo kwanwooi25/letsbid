@@ -1,3 +1,4 @@
+import { SignUpFormSchema } from '@/app/auth/sign-up/components/SignUpForm/formSchema';
 import { handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
@@ -7,11 +8,11 @@ import { hashPassword } from './utils';
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.json();
+    const data: SignUpFormSchema = await req.json();
+    const { password, passwordConfirm, ...rest } = data;
     const createdUser = await prisma.user.create({
       data: {
-        name: data.name,
-        email: data.email,
+        ...rest,
         password: hashPassword(data.password),
       },
     });

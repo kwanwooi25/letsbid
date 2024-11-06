@@ -7,6 +7,7 @@ export const formSchema = z
       .string()
       .min(1, { message: '이메일을 입력해주세요' })
       .email({ message: '올바른 이메일 형식으로 입력해주세요' }),
+    mobile: z.string().optional(),
     password: z.string().min(1, { message: '비밀번호를 입력해주세요' }),
     passwordConfirm: z.string().min(1, { message: '비밀번호를 한번 더 입력해주세요' }),
   })
