@@ -22,5 +22,5 @@ export const getAppEnvTag = () => {
 
 export const getAppName = () => {
   const appEnvTag = getAppEnvTag();
-  return `${appEnvTag ? `[${appEnvTag}] ` : ''}런포유비드`;
+  return `${appEnvTag ? `[${appEnvTag}] ` : ''}Let's bid!`;
 };

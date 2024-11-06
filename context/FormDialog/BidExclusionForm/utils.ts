@@ -4,12 +4,12 @@ import { BidExclusionFormSchema } from './formSchema';
 export function getDefaultFormValues(bid?: BidWithUser): BidExclusionFormSchema {
   if (!bid) {
     return {
-      isExcluded: false,
+      isExcluded: true,
       excludedReason: '',
     };
   }
 
-  const { id, isExcluded, excludedReason } = bid;
+  const { id, excludedReason } = bid;
 
-  return { id, isExcluded, excludedReason: excludedReason ?? '' };
+  return { id, isExcluded: true, excludedReason: excludedReason ?? '' };
 }
