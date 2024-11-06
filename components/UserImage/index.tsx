@@ -24,7 +24,7 @@ export default function UserImage({ className, src, alt = 'user image', size = 6
         'flex items-center justify-center rounded-full bg-primary-foreground',
         className,
       )}
-      style={{ width: size, height: size }}
+      style={{ minWidth: size, minHeight: size, width: size, height: size }}
     >
       <LucideUser2 className="w-[60%] h-[60%]" />
     </div>
