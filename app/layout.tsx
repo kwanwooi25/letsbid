@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: getAppName(),
   description: '부동산 경매 모의 입찰 시스템',
   icons: {
-    icon: '/runforyou-logo.png',
+    icon: '/letsbid_logo.png',
   },
 };
 
