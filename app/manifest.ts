@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: '부동산 경매 모의 입찰 시스템',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff00',
-    theme_color: '#DB0000',
+    background_color: '#DB0000',
+    theme_color: '#ffffff00',
     icons: [
       {
         src: '/letsbid_logo_192.png',
