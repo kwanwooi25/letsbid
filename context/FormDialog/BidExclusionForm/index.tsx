@@ -5,7 +5,7 @@ import {
   DialogTitle,
   ScrollableDialogContent,
 } from '@/components/ui/dialog';
-import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
+import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { updateBidMutationOptions } from '@/queries/bid/mutation';
@@ -19,23 +19,20 @@ import { getDefaultFormValues } from './utils';
 export default function BidExclusionForm({ bid, onSubmit }: Props) {
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
-  const updateBidMutation = useMutation(updateBidMutationOptions);
+  const { mutateAsync: updateBid } = useMutation(updateBidMutationOptions);
   const form = useForm<BidExclusionFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues(bid),
   });
   const { isSubmitting } = form.formState;
+  const dialogTitle = bid?.isExcluded ? '입찰 참여 처리' : '입찰 제외 처리';
 
   const submitForm = form.handleSubmit(async (values: BidExclusionFormSchema) => {
     try {
-      const updatedBid = await updateBidMutation.mutateAsync({
-        ...values,
-        excludedReason: values.isExcluded ? values.excludedReason : '',
-      });
-      const result = updatedBid.isExcluded ? '입찰 제외' : '입찰 참여';
+      const updatedBid = await updateBid(values);
       toast({
         title: updatedBid.user.name,
-        description: <p>{result} 성공</p>,
+        description: '입찰 제외 처리되었습니다',
         variant: 'success',
       });
       onSubmit?.();
@@ -50,11 +47,10 @@ export default function BidExclusionForm({ bid, onSubmit }: Props) {
       <form className="max-w-xl">
         <ScrollableDialogContent aria-describedby="">
           <DialogHeader>
-            <DialogTitle>입찰 참여/제외</DialogTitle>
+            <DialogTitle>{dialogTitle}</DialogTitle>
           </DialogHeader>
 
           <div className="flex items-center gap-4 my-4">
-            <CheckboxFormField control={form.control} name="isExcluded" label="입찰 제외" />
             <InputFormField
               className="flex-1"
               control={form.control}
