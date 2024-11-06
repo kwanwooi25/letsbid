@@ -3,10 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import Divider from '@/components/ui/divider';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
+import { Keys } from '@/const/keyboard';
 import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
 import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { KeyboardEventHandler, useState } from 'react';
 import AuctionResultItem from './AuctionResultItem';
 
 export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
@@ -37,6 +38,11 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
     setCurrentBidDetailIndex(Math.min(bids.length - 1, currentBidDetailIndex + 1));
   };
 
+  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.key === Keys.ArrowLeft || e.key === Keys.ArrowDown) return handleClickPrevious();
+    if (e.key === Keys.ArrowRight || e.key === Keys.ArrowUp) return handleClickNext();
+  };
+
   return (
     <>
       <div className="w-full max-w-lg mx-auto px-6 py-8 flex flex-col gap-4 border border-primary-foreground shadow-lg">
@@ -61,7 +67,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
       </div>
 
       <Dialog open={isBidDetailOpen} onOpenChange={setIsBidDetailOpen}>
-        <ScrollableDialogContent aria-describedby="">
+        <ScrollableDialogContent aria-describedby="" onKeyDown={handleKeyDown}>
           <DialogTitle></DialogTitle>
           <BidDetail auctionCase={auctionCase} bid={sortedBids[currentBidDetailIndex]} />
           <Pagination>
