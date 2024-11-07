@@ -7,10 +7,11 @@ export default function UserFormSkeleton() {
     <div className="max-w-lg mx-auto">
       <Skeleton.PageHeader actionButtonCount={2} />
       <PageBody className="flex items-center gap-4">
-        <UserImage />
-        <div className="flex flex-col gap-1">
-          <Skeleton.Input hideLabel />
-          <Skeleton className="h-[20px] w-[180px]" />
+        <UserImage className="self-start" />
+        <div className="flex-1 flex flex-col gap-2">
+          <Skeleton.Input />
+          <Skeleton.Input />
+          <Skeleton.Input />
         </div>
       </PageBody>
     </div>

@@ -2,6 +2,7 @@ import DetailRow from '@/components/DetailRow';
 import Divider from '@/components/ui/divider';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { BidWithUser } from '@/types/bid';
+import BidDetailSkeleton from './skeleton';
 
 export default function BidDetail({ bid, auctionCase }: Props) {
   const { caseName } = auctionCase;
@@ -86,6 +87,8 @@ export default function BidDetail({ bid, auctionCase }: Props) {
     </div>
   );
 }
+
+BidDetail.Skeleton = BidDetailSkeleton;
 
 type Props = {
   bid: BidWithUser;
