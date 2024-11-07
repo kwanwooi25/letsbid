@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
       where: { id: params.userId },
       data: {
         ...data,
-        image: imageUrl ?? data.image,
+        image: imageUrl || data.image,
       },
     });
     return handleSuccess({ data: updatedUser });

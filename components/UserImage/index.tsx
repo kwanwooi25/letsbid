@@ -1,10 +1,12 @@
+import { cn } from '@/lib/utils';
 import { LucideUser2 } from 'lucide-react';
 import Image from 'next/image';
+import { HTMLAttributes } from 'react';
 
-export default function UserImage({ src, alt = 'user image', size = 64 }: Props) {
+export default function UserImage({ className, src, alt = 'user image', size = 64 }: Props) {
   return !!src ? (
     <Image
-      className="rounded-full object-cover"
+      className={cn('rounded-full object-cover', className)}
       style={{
         minWidth: `${size}px`,
         minHeight: `${size}px`,
@@ -18,8 +20,11 @@ export default function UserImage({ src, alt = 'user image', size = 64 }: Props)
     />
   ) : (
     <div
-      className="flex items-center justify-center rounded-full bg-primary-foreground"
-      style={{ width: size, height: size }}
+      className={cn(
+        'flex items-center justify-center rounded-full bg-primary-foreground',
+        className,
+      )}
+      style={{ minWidth: size, minHeight: size, width: size, height: size }}
     >
       <LucideUser2 className="w-[60%] h-[60%]" />
     </div>
@@ -27,6 +32,7 @@ export default function UserImage({ src, alt = 'user image', size = 64 }: Props)
 }
 
 type Props = {
+  className?: HTMLAttributes<HTMLDivElement>['className'];
   src?: string | null;
   alt?: string;
   size?: number;

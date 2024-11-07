@@ -4,15 +4,19 @@ import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/di
 import Divider from '@/components/ui/divider';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Keys } from '@/const/keyboard';
+import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
 import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
-import { KeyboardEventHandler, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { KeyboardEventHandler } from 'react';
 import AuctionResultItem from './AuctionResultItem';
 
 export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
-  const [isBidDetailOpen, setIsBidDetailOpen] = useState(false);
-  const [currentBidDetailIndex, setCurrentBidDetailIndex] = useState(0);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const selectedBidId = searchParams.get('selectedBidId');
   const { bids = [] } = auctionCase;
   const sortedBids = orderBy(bids, 'biddingPrice', 'desc');
   const bidRanks = (() => {
@@ -22,20 +26,39 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
       return currentRank;
     });
   })();
+  const auctionCaseStatus = getAuctionCaseStatus(auctionCase);
+  const selectedBid = sortedBids.find((b) => b.id === selectedBidId);
+  const selectedBidIndex = sortedBids.findIndex((b) => b.id === selectedBidId);
+
+  const isBidDetailOpen = auctionCaseStatus === 'FINISHED_BIDDING' && !!selectedBid;
+
+  const setSelectedBidId = (bidId?: string | null) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (bidId) {
+      newSearchParams.set('selectedBidId', bidId);
+    } else {
+      newSearchParams.delete('selectedBidId');
+    }
+    router.replace(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
+  };
 
   const openBidDetail =
     (index: number = 0) =>
     () => {
-      setIsBidDetailOpen(true);
-      setCurrentBidDetailIndex(index);
+      const bidId = sortedBids[index].id;
+      setSelectedBidId(bidId);
     };
 
   const handleClickPrevious = () => {
-    setCurrentBidDetailIndex(Math.max(0, currentBidDetailIndex - 1));
+    const newIndex = Math.max(0, selectedBidIndex - 1);
+    const bidId = sortedBids[newIndex].id;
+    setSelectedBidId(bidId);
   };
 
   const handleClickNext = () => {
-    setCurrentBidDetailIndex(Math.min(bids.length - 1, currentBidDetailIndex + 1));
+    const newIndex = Math.min(bids.length - 1, selectedBidIndex + 1);
+    const bidId = sortedBids[newIndex].id;
+    setSelectedBidId(bidId);
   };
 
   const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (e) => {
@@ -66,10 +89,17 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
         </div>
       </div>
 
-      <Dialog open={isBidDetailOpen} onOpenChange={setIsBidDetailOpen}>
+      <Dialog
+        open={isBidDetailOpen}
+        onOpenChange={(open) => setSelectedBidId(open ? selectedBidId : null)}
+      >
         <ScrollableDialogContent aria-describedby="" onKeyDown={handleKeyDown}>
           <DialogTitle></DialogTitle>
-          <BidDetail auctionCase={auctionCase} bid={sortedBids[currentBidDetailIndex]} />
+          {!!selectedBid ? (
+            <BidDetail auctionCase={auctionCase} bid={selectedBid} />
+          ) : (
+            <BidDetail.Skeleton />
+          )}
           <Pagination>
             <PaginationContent>
               <PaginationItem>
@@ -78,7 +108,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
                 </Button>
               </PaginationItem>
               <PaginationItem className="mx-4">
-                {currentBidDetailIndex + 1} / {sortedBids.length}
+                {selectedBidIndex + 1} / {sortedBids.length}
               </PaginationItem>
               <PaginationItem>
                 <Button variant="ghost" size="icon" onClick={handleClickNext}>
