@@ -9,6 +9,7 @@ import { hashPassword } from './utils';
 export async function POST(req: NextRequest) {
   try {
     const data: SignUpFormSchema = await req.json();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, passwordConfirm, ...rest } = data;
     const createdUser = await prisma.user.create({
       data: {
