@@ -7,6 +7,7 @@ import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { updateUserMutationOptions } from '@/queries/user/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -23,6 +24,7 @@ export default function UserForm() {
   const session = useSession();
   const user = session?.data?.user;
 
+  const callbackUrl = useCallbackUrl();
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const { mutateAsync: updateUser } = useMutation(updateUserMutationOptions);
@@ -61,7 +63,7 @@ export default function UserForm() {
       });
 
       form.reset();
-      router.replace(PATHS.ME, { scroll: false });
+      router.replace(callbackUrl ? callbackUrl : PATHS.ME, { scroll: false });
     } catch (error) {
       handleAxiosError(error);
     }
@@ -84,7 +86,7 @@ export default function UserForm() {
           <Button onClick={submitForm} isLoading={isSubmitting} type="submit">
             저장
           </Button>
-          <Link href={PATHS.ME} passHref scroll={false}>
+          <Link href={callbackUrl ? callbackUrl : PATHS.ME} passHref scroll={false}>
             <Button disabled={isSubmitting} type="button" variant="secondary">
               취소
             </Button>

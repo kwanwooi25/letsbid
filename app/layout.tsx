@@ -36,6 +36,8 @@ export default async function RootLayout({
           <NextTopLoader color="gray" zIndex={99999} />
           <MainLayout>{children}</MainLayout>
           <Toaster />
+          {/* TODO: 개인 정보 수집 동의 필요 */}
+          {/* <MobileNumberChecker /> */}
         </Providers>
       </body>
     </html>
