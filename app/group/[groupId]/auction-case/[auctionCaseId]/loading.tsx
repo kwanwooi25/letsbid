@@ -1,3 +1,3 @@
-import AuctionCaseSkeleton from '@/app/group/[groupId]/auction-case/components/AuctionCase/skeleton';
+import AuctionCase from '@/components/pages/AuctionCase';
 
-export default AuctionCaseSkeleton;
+export default AuctionCase.Skeleton;
