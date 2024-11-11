@@ -1,3 +1,3 @@
-import UserBidHistorySkeleton from '../components/UserBidHistory/skeleton';
+import UserBidHistorySkeleton from '@/components/pages/UserBidHistory/skeleton';
 
 export default UserBidHistorySkeleton;
