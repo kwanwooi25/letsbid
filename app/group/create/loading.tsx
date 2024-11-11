@@ -1,3 +1,3 @@
-import GroupFormSkeleton from '../components/GroupForm/skeleton';
+import GroupFormSkeleton from '@/components/pages/GroupForm/skeleton';
 
 export default GroupFormSkeleton;

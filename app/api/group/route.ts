@@ -1,4 +1,4 @@
-import { GroupFormSchema } from '@/app/group/components/GroupForm/formSchema';
+import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
