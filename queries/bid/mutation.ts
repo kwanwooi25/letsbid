@@ -1,4 +1,4 @@
-import { BiddingFormSchema } from '@/app/group/[groupId]/auction-case/components/BiddingForm/formSchema';
+import { BiddingFormSchema } from '@/components/pages/BiddingForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { BidExclusionFormSchema } from '@/context/FormDialog/BidExclusionForm/formSchema';
 import { SuccessResponse } from '@/types/api';

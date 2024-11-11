@@ -1,3 +1,3 @@
-import GroupDetailSkeleton from '@/app/group/components/GroupDetail/skeleton';
+import GroupDetailSkeleton from '@/components/pages/GroupDetail/skeleton';
 
 export default GroupDetailSkeleton;

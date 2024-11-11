@@ -1,4 +1,4 @@
-import GroupDetail from '@/app/group/components/GroupDetail';
+import GroupDetail from '@/components/pages/GroupDetail';
 import { PATHS } from '@/const/paths';
 import { getUserFromSession } from '@/lib/api';
 import { withAuth } from '@/lib/auth/hoc';
@@ -6,7 +6,6 @@ import { getQueryClient } from '@/queries/config';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { redirect, RedirectType } from 'next/navigation';
 import { Suspense } from 'react';
-import GroupDetailSkeleton from '../components/GroupDetail/skeleton';
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
   try {
@@ -20,7 +19,7 @@ export default withAuth(async function ({ params: { groupId } }: { params: { gro
     }
 
     return (
-      <Suspense fallback={<GroupDetailSkeleton />}>
+      <Suspense fallback={<GroupDetail.Skeleton />}>
         <GroupDetail />
       </Suspense>
     );

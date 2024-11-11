@@ -3,6 +3,7 @@
 import UserImage from '@/components/UserImage';
 import { formatPhoneNumber } from '@/lib/string';
 import { useSession } from 'next-auth/react';
+import UserDetailSkeleton from './UserDetailSkeleton';
 
 export default function UserDetail() {
   const session = useSession();
@@ -27,3 +28,5 @@ export default function UserDetail() {
     </div>
   );
 }
+
+UserDetail.Skeleton = UserDetailSkeleton;

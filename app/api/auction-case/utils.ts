@@ -1,4 +1,4 @@
-import { AuctionCaseFormSchema } from '@/app/group/[groupId]/auction-case/components/AuctionCaseForm/formSchema';
+import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { deleteImage, uploadImage } from '@/lib/s3';
 import { IMAGE_HOST_URL } from '@/lib/s3/const';
 

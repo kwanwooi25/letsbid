@@ -1,4 +1,4 @@
-import AuctionCaseForm from '@/app/group/[groupId]/auction-case/components/AuctionCaseForm';
+import AuctionCaseForm from '@/components/pages/AuctionCaseForm';
 import { withAuth } from '@/lib/auth/hoc';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getQueryClient } from '@/queries/config';

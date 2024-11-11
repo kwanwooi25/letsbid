@@ -1,3 +1,3 @@
-import BiddingFormSkeleton from '@/app/group/[groupId]/auction-case/components/BiddingForm/skeleton';
+import BiddingForm from '@/components/pages/BiddingForm';
 
-export default BiddingFormSkeleton;
+export default BiddingForm.Skeleton;
