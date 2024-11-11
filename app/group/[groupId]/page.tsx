@@ -1,4 +1,5 @@
 import GroupDetail from '@/components/pages/GroupDetail';
+import GroupDetailSkeleton from '@/components/pages/GroupDetail/skeleton';
 import { PATHS } from '@/const/paths';
 import { getUserFromSession } from '@/lib/api';
 import { withAuth } from '@/lib/auth/hoc';
@@ -19,7 +20,7 @@ export default withAuth(async function ({ params: { groupId } }: { params: { gro
     }
 
     return (
-      <Suspense fallback={<GroupDetail.Skeleton />}>
+      <Suspense fallback={<GroupDetailSkeleton />}>
         <GroupDetail />
       </Suspense>
     );

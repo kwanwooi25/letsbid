@@ -124,5 +124,3 @@ export default function AuctionCase() {
     </>
   );
 }
-
-AuctionCase.Skeleton = AuctionCaseSkeleton;

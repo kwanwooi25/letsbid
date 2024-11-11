@@ -1,3 +1,3 @@
-import AuctionCase from '@/components/pages/AuctionCase';
+import AuctionCaseSkeleton from '@/components/pages/AuctionCase/skeleton';
 
-export default AuctionCase.Skeleton;
+export default AuctionCaseSkeleton;

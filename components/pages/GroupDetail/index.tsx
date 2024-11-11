@@ -16,7 +16,6 @@ import { useParams, useRouter } from 'next/navigation';
 import AuctionCaseList from './AuctionCaseList';
 import GroupDetailHeaderButtons from './HeaderButtons';
 import MemberList from './MemberList';
-import GroupDetailSkeleton from './skeleton';
 import { GroupPageTabs } from './types';
 
 export default function GroupDetail() {
@@ -85,5 +84,3 @@ export default function GroupDetail() {
     </>
   );
 }
-
-GroupDetail.Skeleton = GroupDetailSkeleton;

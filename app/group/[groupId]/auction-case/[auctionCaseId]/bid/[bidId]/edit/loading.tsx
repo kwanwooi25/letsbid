@@ -1,3 +1,3 @@
-import BiddingForm from '@/components/pages/BiddingForm';
+import BiddingFormSkeleton from '@/components/pages/BiddingForm/skeleton';
 
-export default BiddingForm.Skeleton;
+export default BiddingFormSkeleton;

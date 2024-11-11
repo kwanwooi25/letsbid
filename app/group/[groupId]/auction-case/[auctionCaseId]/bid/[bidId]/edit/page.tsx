@@ -1,4 +1,5 @@
 import BiddingForm from '@/components/pages/BiddingForm';
+import BiddingFormSkeleton from '@/components/pages/BiddingForm/skeleton';
 import { withAuth } from '@/lib/auth/hoc';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getBidDetailQueryOptions } from '@/queries/bid/query';
@@ -15,7 +16,7 @@ export default withAuth(async function ({
   await queryClient.prefetchQuery(getBidDetailQueryOptions(bidId));
 
   return (
-    <Suspense fallback={<BiddingForm.Skeleton />}>
+    <Suspense fallback={<BiddingFormSkeleton />}>
       <BiddingForm auctionCaseId={auctionCaseId} bidId={bidId} />
     </Suspense>
   );

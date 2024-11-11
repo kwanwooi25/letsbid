@@ -24,7 +24,6 @@ import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useForm, useWatch } from 'react-hook-form';
 import AuctionCaseImageForm from './AuctionCaseImageForm';
 import { AuctionCaseFormSchema, formSchema } from './formSchema';
-import AuctionCaseFormSkeleton from './skeleton';
 import { getDefaultFormValues } from './utils';
 
 export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
@@ -264,5 +263,3 @@ type Props = {
   groupId: string;
   auctionCaseId?: string;
 };
-
-AuctionCaseForm.Skeleton = AuctionCaseFormSkeleton;

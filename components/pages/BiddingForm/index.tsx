@@ -200,5 +200,3 @@ type Props = {
   auctionCaseId: string;
   bidId?: string;
 };
-
-BiddingForm.Skeleton = BiddingFormSkeleton;
