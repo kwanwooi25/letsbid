@@ -1,3 +1,3 @@
-import AuctionCaseFormSkeleton from '../../components/AuctionCaseForm/skeleton';
+import AuctionCaseForm from '@/components/pages/AuctionCaseForm';
 
-export default AuctionCaseFormSkeleton;
+export default AuctionCaseForm.Skeleton;

@@ -1,4 +1,4 @@
-import { AuctionCaseFormSchema } from '@/app/group/[groupId]/auction-case/components/AuctionCaseForm/formSchema';
+import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { getUserFromSession, handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { filterBidDetails } from '@/lib/auctionCase';
 import { prisma } from '@/lib/prisma';

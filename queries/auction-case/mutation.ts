@@ -1,4 +1,4 @@
-import { AuctionCaseFormSchema } from '@/app/group/[groupId]/auction-case/components/AuctionCaseForm/formSchema';
+import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { AuctionCaseLike } from '@/types/auctionCase';
