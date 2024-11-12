@@ -18,7 +18,7 @@ export default function AllGroupList() {
   }
 
   return (
-    <ul className="flex flex-col gap-4 py-4">
+    <ul className="flex flex-col gap-4">
       {groups.map((group) => (
         <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
       ))}

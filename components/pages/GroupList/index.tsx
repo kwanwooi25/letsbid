@@ -13,25 +13,23 @@ export default function GroupList() {
   const { tab, handleTabChange } = useGroupTabs();
 
   return (
-    <>
-      <PageHeader title="그룹 목록" className="max-w-xl">
+    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+      <PageHeader title="그룹 목록" className="max-w-xl lg:max-w-lg">
         <HeaderButtons />
       </PageHeader>
-      <PageBody className="max-w-xl w-full">
-        <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
-          <GroupTabsList />
-          {GROUP_LIST_TABS.map((t) => {
-            const Component = GROUP_LIST_TABS_CONTENT[t];
-            return (
-              <TabsContent key={t} value={t}>
-                <Suspense fallback={<GroupListSkeleton />}>
-                  <Component />
-                </Suspense>
-              </TabsContent>
-            );
-          })}
-        </Tabs>
+      <PageBody className="max-w-xl w-full lg:max-w-4xl lg:grid lg:grid-cols-[172px_1fr_172px] lg:gap-4 lg:items-start">
+        <GroupTabsList />
+        {GROUP_LIST_TABS.map((t) => {
+          const Component = GROUP_LIST_TABS_CONTENT[t];
+          return (
+            <TabsContent className="py-4 mt-0 lg:py-0" key={t} value={t}>
+              <Suspense fallback={<GroupListSkeleton />}>
+                <Component />
+              </Suspense>
+            </TabsContent>
+          );
+        })}
       </PageBody>
-    </>
+    </Tabs>
   );
 }
