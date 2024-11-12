@@ -8,6 +8,7 @@ import GroupListSkeleton from './GroupListSkeleton';
 import GroupTabsList from './GroupTabsList';
 import HeaderButtons from './HeaderButtons';
 import { GROUP_LIST_TABS, GROUP_LIST_TABS_CONTENT, useGroupTabs } from './useGroupTabs';
+import PageToolbar from '@/components/PageToolbar';
 
 export default function GroupList() {
   const { tab, handleTabChange } = useGroupTabs();
@@ -18,7 +19,9 @@ export default function GroupList() {
         <HeaderButtons />
       </PageHeader>
       <PageBody className="max-w-xl w-full lg:max-w-4xl lg:grid lg:grid-cols-[172px_1fr_172px] lg:gap-4 lg:items-start">
-        <GroupTabsList />
+        <PageToolbar>
+          <GroupTabsList />
+        </PageToolbar>
         {GROUP_LIST_TABS.map((t) => {
           const Component = GROUP_LIST_TABS_CONTENT[t];
           return (

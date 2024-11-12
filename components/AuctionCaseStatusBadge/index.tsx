@@ -1,16 +1,24 @@
+'use client';
+
 import { AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { cn } from '@/lib/utils';
 import { AuctionCaseLike } from '@/types/auctionCase';
+import { useState } from 'react';
+import { useInterval } from 'usehooks-ts';
 
 export default function AuctionCaseStatusBadge({ auctionCase, className, size = 'md' }: Props) {
-  const status = getAuctionCaseStatus(auctionCase);
+  const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const label = AUCTION_CASE_STATUS_TRANSLATIONS[status];
   const color = (() => {
     if (status === 'BEFORE_BIDDING') return 'yellow';
     if (status === 'BIDDING') return 'green';
     return 'gray';
   })();
+
+  useInterval(() => {
+    setStatus(getAuctionCaseStatus(auctionCase));
+  }, 1000);
 
   return (
     <span

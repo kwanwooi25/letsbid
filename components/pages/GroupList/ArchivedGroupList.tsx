@@ -1,5 +1,6 @@
 'use client';
 
+import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
 import { getArchivedGroupListQueryOptions } from '@/queries/group/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -16,10 +17,10 @@ export default function ArchivedGroupList() {
   }
 
   return (
-    <ul className="flex flex-col gap-4">
+    <List>
       {groups.map((group) => (
         <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
       ))}
-    </ul>
+    </List>
   );
 }
