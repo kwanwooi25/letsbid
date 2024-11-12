@@ -2,7 +2,12 @@ import { GNB_HEIGHT, PAGE_HEADER_HEIGHT } from '@/const/layout';
 import { cn } from '@/lib/utils';
 import { HTMLAttributes, PropsWithChildren } from 'react';
 
-export default function PageToolbar({ className, children, breakpoint = 'lg' }: Props) {
+export default function PageToolbar({
+  className,
+  children,
+  breakpoint = 'lg',
+  stickyTop = GNB_HEIGHT + PAGE_HEADER_HEIGHT,
+}: Props) {
   return (
     <>
       <aside
@@ -14,7 +19,7 @@ export default function PageToolbar({ className, children, breakpoint = 'lg' }: 
           breakpoint === '2xl' && '2xl:flex 2xl:flex-col 2xl:w-full 2xl:h-auto 2xl:sticky',
           className,
         )}
-        style={{ top: `${GNB_HEIGHT + PAGE_HEADER_HEIGHT}px` }}
+        style={{ top: `${stickyTop}px` }}
       >
         {children}
       </aside>
@@ -25,4 +30,5 @@ export default function PageToolbar({ className, children, breakpoint = 'lg' }: 
 type Props = PropsWithChildren & {
   className?: HTMLAttributes<HTMLElement>['className'];
   breakpoint?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  stickyTop?: number;
 };
