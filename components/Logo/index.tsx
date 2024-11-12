@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const LOGO_ASPECT_RATIO = 44 / 14;
 
-export default function Logo({ size = 64, wide }: Props) {
+export default function Logo({ size = 64, wide, hideTags }: Props) {
   const src = wide ? LogoWide : LogoSquare;
   const width = wide ? size * LOGO_ASPECT_RATIO : size;
   const height = size;
@@ -14,7 +14,7 @@ export default function Logo({ size = 64, wide }: Props) {
   const appEnvTag = getAppEnvTag();
 
   return (
-    <div className="flex items-stretch">
+    <div className="flex items-center">
       <Image
         className="mr-2"
         src={src}
@@ -23,22 +23,24 @@ export default function Logo({ size = 64, wide }: Props) {
         height={height}
         priority
       />
-      <div className="flex flex-col items-start gap-1 justify-between">
-        <span className="text-xs font-bold px-1 rounded-sm bg-secondary text-secondary-foreground">
-          BETA
-        </span>
-        {appEnvTag && (
-          <span
-            className={cn(
-              'text-xs font-bold px-1 rounded-sm bg-yellow-500 text-secondary-foreground',
-              appEnv === 'local' && 'bg-rose-500',
-              appEnv === 'development' && 'bg-orange-500',
-            )}
-          >
-            {appEnvTag}
+      {!hideTags && (
+        <div className="flex flex-col items-start gap-1 justify-between">
+          <span className="text-xs font-bold px-1 rounded-sm bg-secondary text-secondary-foreground">
+            BETA
           </span>
-        )}
-      </div>
+          {appEnvTag && (
+            <span
+              className={cn(
+                'text-xs font-bold px-1 rounded-sm bg-yellow-500 text-secondary-foreground',
+                appEnv === 'local' && 'bg-rose-500',
+                appEnv === 'development' && 'bg-orange-500',
+              )}
+            >
+              {appEnvTag}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -46,4 +48,5 @@ export default function Logo({ size = 64, wide }: Props) {
 type Props = {
   size?: number;
   wide?: boolean;
+  hideTags?: boolean;
 };

@@ -1,5 +1,6 @@
 'use client';
 
+import Logo from '@/components/Logo';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -9,7 +10,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
-import { NAV_LIST } from '@/const/paths';
+import { NAV_LIST, PATHS } from '@/const/paths';
 import { cn } from '@/lib/utils';
 import { LucideMenu } from 'lucide-react';
 import Link from 'next/link';
@@ -20,6 +21,8 @@ export default function MobileNavigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  const closeNavigation = () => setIsOpen(false);
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
@@ -28,18 +31,22 @@ export default function MobileNavigation() {
         </Button>
       </SheetTrigger>
       <SheetContent
-        className="z-navigation md:hidden w-[240px]"
+        className="z-navigation md:hidden w-[240px] [&>button]:hidden"
         overlayClassName="z-navigation"
         side="left"
       >
-        <SheetHeader></SheetHeader>
+        <SheetHeader>
+          <Link href={PATHS.HOME} onClick={closeNavigation}>
+            <Logo wide size={32} hideTags />
+          </Link>
+        </SheetHeader>
         <NavigationMenu>
-          <NavigationMenuList>
+          <NavigationMenuList className="py-4 flex flex-col">
             {NAV_LIST.map(({ href, label }) => {
               const isActive = pathname.startsWith(href);
 
               return (
-                <NavigationMenuItem key={href} onClick={() => setIsOpen(false)}>
+                <NavigationMenuItem key={href} onClick={closeNavigation}>
                   <Link href={href} legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle({
