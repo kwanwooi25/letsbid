@@ -2,28 +2,27 @@
 
 import PageBody from '@/components/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useTabs } from '@/hooks/useTabs';
-import { GroupPageTabs } from './types';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import AuctionCaseListSkeleton from './AuctionCaseListSkeleton';
+import GroupDetailTabsList from './GroupDetailTabsList';
+import MemberListSkeleton from './MemberListSkeleton';
+import { useGroupDetailTabs } from './useGroupDetailTabs';
 
 export default function GroupDetailSkeleton() {
-  const { tab } = useTabs<GroupPageTabs>({ defaultTab: 'auctionCases' });
+  const { tab } = useGroupDetailTabs();
 
   return (
-    <>
+    <Tabs value={tab}>
       <Skeleton.PageHeader className="max-w-2xl" backButton actionButtonCount={2} />
-      <PageBody className="max-w-2xl">
-        <Tabs value={tab}>
-          <TabsList className="w-full">
-            <TabsTrigger className="w-full" value="auctionCases">
-              경매 사건
-            </TabsTrigger>
-            <TabsTrigger className="w-full" value="members">
-              멤버
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+      <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+        <GroupDetailTabsList />
+        <TabsContent value="auctionCases" className="py-4 mt-0 lg:py-0">
+          <AuctionCaseListSkeleton />
+        </TabsContent>
+        <TabsContent value="members" className="py-4 mt-0 lg:py-0">
+          <MemberListSkeleton />
+        </TabsContent>
       </PageBody>
-    </>
+    </Tabs>
   );
 }

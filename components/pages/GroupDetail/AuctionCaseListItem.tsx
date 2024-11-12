@@ -1,5 +1,6 @@
 'use client';
 
+import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
 import ListItem from '@/components/ListItem';
 import { PATHS } from '@/const/paths';
 import { getAuctionCaseColor, getFullAddress, getRemainingTimeDisplay } from '@/lib/auctionCase';
@@ -32,7 +33,8 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
         router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`, { scroll: false })
       }
     >
-      <div className="flex flex-col gap-2 flex-1">
+      <div className="flex flex-col gap-2 flex-1 items-start">
+        <AuctionCaseStatusBadge auctionCase={auctionCase} />
         <div className="text-base min-h-[24px] sm:text-lg sm:min-h-[28px] font-bold">
           {caseName}
         </div>

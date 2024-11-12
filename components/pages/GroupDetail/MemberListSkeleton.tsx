@@ -1,13 +1,13 @@
 'use client';
 
 import List from '@/components/List';
-import GroupListItemSkeleton from './GroupListItemSkeleton';
+import MemberListItemSkeleton from './MemberListItemSkeleton';
 
-export default function GroupListSkeleton({ count = 5 }: Props) {
+export default function MemberListSkeleton({ count = 5 }: Props) {
   return (
     <List>
       {Array.from(Array(count)).map((n, i) => (
-        <GroupListItemSkeleton key={`${n}_${i}`} />
+        <MemberListItemSkeleton key={`${n}_${i}`} />
       ))}
     </List>
   );

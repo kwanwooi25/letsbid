@@ -4,42 +4,35 @@ import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Suspense } from 'react';
-import AllGroupList from './AllGroupList';
-import ArchivedGroupList from './ArchivedGroupList';
 import GroupListSkeleton from './GroupListSkeleton';
 import GroupTabsList from './GroupTabsList';
 import HeaderButtons from './HeaderButtons';
-import MyGroupList from './MyGroupList';
-import { useGroupTabs } from './useGroupTabs';
+import { GROUP_LIST_TABS, GROUP_LIST_TABS_CONTENT, useGroupTabs } from './useGroupTabs';
+import PageToolbar from '@/components/PageToolbar';
 
 export default function GroupList() {
   const { tab, handleTabChange } = useGroupTabs();
 
   return (
-    <>
-      <PageHeader title="그룹 목록" className="max-w-xl">
+    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+      <PageHeader title="그룹 목록" className="max-w-xl lg:max-w-lg">
         <HeaderButtons />
       </PageHeader>
-      <PageBody className="max-w-xl">
-        <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+      <PageBody className="max-w-xl w-full lg:max-w-4xl lg:grid lg:grid-cols-[172px_1fr_172px] lg:gap-4 lg:items-start">
+        <PageToolbar>
           <GroupTabsList />
-          <TabsContent value="myGroups">
-            <Suspense fallback={<GroupListSkeleton />}>
-              <MyGroupList />
-            </Suspense>
-          </TabsContent>
-          <TabsContent value="all">
-            <Suspense fallback={<GroupListSkeleton />}>
-              <AllGroupList />
-            </Suspense>
-          </TabsContent>
-          <TabsContent value="archived">
-            <Suspense fallback={<GroupListSkeleton />}>
-              <ArchivedGroupList />
-            </Suspense>
-          </TabsContent>
-        </Tabs>
+        </PageToolbar>
+        {GROUP_LIST_TABS.map((t) => {
+          const Component = GROUP_LIST_TABS_CONTENT[t];
+          return (
+            <TabsContent className="py-4 mt-0 lg:py-0" key={t} value={t}>
+              <Suspense fallback={<GroupListSkeleton />}>
+                <Component />
+              </Suspense>
+            </TabsContent>
+          );
+        })}
       </PageBody>
-    </>
+    </Tabs>
   );
 }
