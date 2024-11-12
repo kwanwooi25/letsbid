@@ -1,3 +1,3 @@
-import UserProfileSkeleton from './components/UserProfile/skeleton';
+import UserProfileSkeleton from '@/components/pages/UserProfile/skeleton';
 
 export default UserProfileSkeleton;

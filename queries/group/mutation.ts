@@ -1,6 +1,6 @@
 'use client';
 
-import { GroupFormSchema } from '@/app/group/components/GroupForm/formSchema';
+import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { SuccessResponse } from '@/types/api';
 import { GroupWithMembers } from '@/types/group';

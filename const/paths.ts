@@ -10,7 +10,6 @@ export const PATHS = {
   ME: '/me',
   EDIT_USER_PROFILE: '/me/edit',
   MY_BID_HISTORY: '/me/bid-history',
-  USER_GUIDE: '/user-guide',
 } as const;
 
 export const API_ROUTE = {

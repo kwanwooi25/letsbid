@@ -1,4 +1,4 @@
-import { SignUpFormSchema } from '@/app/auth/sign-up/components/SignUpForm/formSchema';
+import { SignUpFormSchema } from '@/components/pages/SignUpForm/formSchema';
 import { handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';

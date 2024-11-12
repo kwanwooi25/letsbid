@@ -1,0 +1,68 @@
+'use client';
+
+import PageBody from '@/components/PageBody';
+import PageHeader from '@/components/PageHeader';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { PATHS } from '@/const/paths';
+import { useIsGroupHost } from '@/hooks/useIsGroupHost';
+import { getAuctionCaseStatus } from '@/lib/auctionCase';
+import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
+import { getGroupDetailQueryOptions } from '@/queries/group/query';
+import { useSuspenseQueries } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useInterval } from 'usehooks-ts';
+import AuctionCaseBids from './AuctionCaseBids';
+import AuctionCaseIntroduction from './AuctionCaseIntroduction';
+import AucitonCasePageToolbar from './AuctionCasePageToolbar';
+import AuctionCaseTitle from './AuctionCaseTitle';
+import AuctionCaseHeaderButtons from './HeaderButtons';
+import AuctionCaseSkeleton from './skeleton';
+import { useAuctionCaseDetailTabs } from './useAuctionCaseDetailTabs';
+
+export default function AuctionCase() {
+  const router = useRouter();
+  const params = useParams();
+  const groupId = params.groupId as string;
+  const auctionCaseId = params.auctionCaseId as string;
+  const [{ data: group }, { data: auctionCase, refetch: refetchAuctionCase }] = useSuspenseQueries({
+    queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
+  });
+  const { isGroupHost } = useIsGroupHost(group.hostId);
+  const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
+  const { tab, handleTabChange } = useAuctionCaseDetailTabs();
+
+  useInterval(() => {
+    setStatus(getAuctionCaseStatus(auctionCase));
+  }, 1000);
+
+  useEffect(() => {
+    if (status === 'FINISHED_BIDDING') refetchAuctionCase();
+  }, [status, refetchAuctionCase]);
+
+  if (!auctionCase) return <AuctionCaseSkeleton />;
+
+  const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
+
+  return (
+    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+      <PageHeader
+        className="max-w-2xl min-h-[80px]"
+        backButton
+        onBackButtonClick={handleClickBackButton}
+        title={<AuctionCaseTitle auctionCase={auctionCase} />}
+      >
+        {isGroupHost && <AuctionCaseHeaderButtons auctionCase={auctionCase} />}
+      </PageHeader>
+      <PageBody className="max-w-2xl flex flex-col gap-4 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
+        <AucitonCasePageToolbar auctionCase={auctionCase} />
+        <TabsContent value="introduction" className="py-4 mt-0 lg:py-0">
+          <AuctionCaseIntroduction auctionCase={auctionCase} />
+        </TabsContent>
+        <TabsContent value="bids" className="py-4 mt-0 lg:py-0 flex flex-col items-center">
+          <AuctionCaseBids auctionCase={auctionCase} isGroupHost={isGroupHost} />
+        </TabsContent>
+      </PageBody>
+    </Tabs>
+  );
+}
