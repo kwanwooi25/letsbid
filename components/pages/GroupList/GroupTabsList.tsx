@@ -1,17 +1,14 @@
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { GROUP_LIST_TABS, GROUP_LIST_TABS_TRANSLATIONS } from './useGroupTabs';
 
 export default function GroupTabsList() {
   return (
     <TabsList className="w-full">
-      <TabsTrigger className="w-full" value="myGroups">
-        참여중인 그룹
-      </TabsTrigger>
-      <TabsTrigger className="w-full" value="all">
-        참여 가능한 그룹
-      </TabsTrigger>
-      <TabsTrigger className="w-full" value="archived">
-        숨겨진 그룹
-      </TabsTrigger>
+      {GROUP_LIST_TABS.map((t) => (
+        <TabsTrigger key={t} value={t} className="w-full">
+          {GROUP_LIST_TABS_TRANSLATIONS[t]}
+        </TabsTrigger>
+      ))}
     </TabsList>
   );
 }
