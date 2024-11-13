@@ -1,14 +1,18 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { PATHS } from '@/const/paths';
+import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { useRouter } from 'next/navigation';
 
 export default function PlaceBidButton({ auctionCase }: Props) {
   const router = useRouter();
+  const currentUrl = useCurrentUrl();
 
   const handleClickPlaceBid = () => {
     router.push(
-      `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}${PATHS.BID}`,
+      `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}${PATHS.BID}?callbackUrl=${currentUrl}`,
       { scroll: false },
     );
   };

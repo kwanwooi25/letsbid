@@ -1,5 +1,6 @@
 'use client';
 
+import List from '@/components/List';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import { getMyBidHistoryQueryOptions } from '@/queries/bid/query';
@@ -19,11 +20,11 @@ export default function UserBidHistory() {
     <>
       <PageHeader className="max-w-lg" title="내 입찰 기록" />
       <PageBody className="max-w-lg">
-        <ul className="flex flex-col gap-4 py-4">
+        <List>
           {bidHistory.map((bid) => (
             <UserBidHistoryListItem key={bid.id} bid={bid} />
           ))}
-        </ul>
+        </List>
       </PageBody>
     </>
   );

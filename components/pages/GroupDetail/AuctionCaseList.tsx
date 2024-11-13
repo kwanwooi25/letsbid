@@ -1,5 +1,6 @@
 'use client';
 
+import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/const/auctionCase';
@@ -39,7 +40,7 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
   }
 
   return (
-    <ul className="flex flex-col gap-4">
+    <List>
       {AUCTION_CASE_STATUS_LIST.map((auctionCaseStatus) => {
         const auctionCaseList = categorizedAuctionCases[auctionCaseStatus];
         if (!auctionCaseList?.length) return null;
@@ -48,7 +49,7 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
           <AuctionCaseListItem key={auctionCase.id} auctionCase={auctionCase} />
         ));
       })}
-    </ul>
+    </List>
   );
 }
 

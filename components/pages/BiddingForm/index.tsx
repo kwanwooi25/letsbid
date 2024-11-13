@@ -8,6 +8,7 @@ import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { readNumberInKorean } from '@/lib/number';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { auctionCaseQueryKeys } from '@/queries/auction-case/queryKey';
 import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
@@ -134,6 +135,7 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
             name="expectedSalePrice"
             label="목표 매도가"
             inputProps={{ autoFocus: true, format: 'thousandSeparator' }}
+            suffix={readNumberInKorean(expectedSalePrice)}
           />
 
           <Divider>비용</Divider>
@@ -143,36 +145,42 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
               name="acquisitionCost"
               label="취득비용"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(acquisitionCost)}
             />
             <InputFormField
               control={form.control}
               name="evacuationCost"
               label="명도비 및 미납관리비"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(evacuationCost)}
             />
             <InputFormField
               control={form.control}
               name="repairCost"
               label="수리비"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(repairCost)}
             />
             <InputFormField
               control={form.control}
               name="brokerageFee"
               label="중개수수료"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(brokerageFee)}
             />
             <InputFormField
               control={form.control}
               name="estimatedInterest"
               label="이자비용"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(estimatedInterest)}
             />
             <InputFormField
               control={form.control}
               name="otherCost"
               label="기타비용"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(otherCost)}
             />
           </div>
 
@@ -183,12 +191,16 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
               name="expectedProfit"
               label="기대수익"
               inputProps={{ format: 'thousandSeparator' }}
+              suffix={readNumberInKorean(expectedProfit)}
             />
           </div>
 
           <Divider>입찰가</Divider>
-          <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-4">
             <span className="text-lg font-bold">{biddingPrice.toLocaleString()}</span>
+            <span className="text font-semibold text-primary/50">
+              {readNumberInKorean(biddingPrice)}
+            </span>
           </div>
         </PageBody>
       </form>
