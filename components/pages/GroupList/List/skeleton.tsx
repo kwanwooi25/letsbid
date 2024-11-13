@@ -1,7 +1,7 @@
 'use client';
 
 import List from '@/components/List';
-import GroupListItemSkeleton from './GroupListItemSkeleton';
+import GroupListItemSkeleton from './GroupListItem.skeleton';
 
 export default function GroupListSkeleton({ count = 5 }: Props) {
   return (

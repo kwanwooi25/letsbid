@@ -7,7 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import GroupListItem from './GroupListItem';
 
-export default function AllGroupList() {
+export default function JoinableGroupList() {
   const session = useSession();
   const userId = session.data?.user?.id;
   const { data: groups, isPending } = useSuspenseQuery(getGroupListQueryOptions);

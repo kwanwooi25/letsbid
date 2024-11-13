@@ -1,6 +1,6 @@
 import TabNavigation from '@/components/TabNavigation';
-import { GROUP_LIST_TABS, GROUP_LIST_TABS_TRANSLATIONS } from './useGroupTabs';
+import { GROUP_LIST_TABS, GROUP_LIST_TABS_TRANSLATIONS } from '../useGroupListTabs';
 
-export default function GroupTabsList() {
+export default function GroupListTabsList() {
   return <TabNavigation tabs={[...GROUP_LIST_TABS]} labelMap={GROUP_LIST_TABS_TRANSLATIONS} />;
 }
