@@ -1,7 +1,7 @@
 'use client';
 
 import List from '@/components/List';
-import AuctionCaseListItemSkeleton from './AuctionCaseListItemSkeleton';
+import AuctionCaseListItemSkeleton from './ListItem.skeleton';
 
 export default function AuctionCaseListSkeleton({ count = 5 }: Props) {
   return (

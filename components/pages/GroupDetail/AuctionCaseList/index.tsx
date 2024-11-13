@@ -8,8 +8,8 @@ import { PATHS } from '@/const/paths';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import AuctionCaseListItem from './AuctionCaseListItem';
-import { useCategorizedAuctionCases } from './hooks';
+import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
+import AuctionCaseListItem from './ListItem';
 
 export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
   const router = useRouter();

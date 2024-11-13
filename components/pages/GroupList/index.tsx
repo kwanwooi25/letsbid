@@ -15,10 +15,10 @@ export default function GroupList() {
 
   return (
     <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
-      <PageHeader title="그룹 목록" className="max-w-xl lg:max-w-lg">
+      <PageHeader title="그룹 목록" className="max-w-2xl">
         <HeaderButtons />
       </PageHeader>
-      <PageBody className="max-w-xl w-full lg:max-w-4xl lg:grid lg:grid-cols-[172px_1fr_172px] lg:gap-4 lg:items-start">
+      <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <PageToolbar>
           <GroupTabsList />
         </PageToolbar>

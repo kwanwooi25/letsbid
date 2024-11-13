@@ -1,7 +1,7 @@
 'use client';
 
 import List from '@/components/List';
-import MemberListItemSkeleton from './MemberListItemSkeleton';
+import MemberListItemSkeleton from './ListItem.skeleton';
 
 export default function MemberListSkeleton({ count = 5 }: Props) {
   return (

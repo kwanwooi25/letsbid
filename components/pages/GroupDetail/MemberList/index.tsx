@@ -2,7 +2,7 @@
 
 import List from '@/components/List';
 import { GroupWithMembersAsUsers } from '@/types/group';
-import MemberListItem from './MemberListItem';
+import MemberListItem from './ListItem';
 
 export default function MemberList({ group }: Props) {
   const { members } = group;

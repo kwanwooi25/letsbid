@@ -1,12 +1,6 @@
-'use client';
-
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { useCurrentUrl } from '@/hooks/useCurrentUrl';
-import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import {
   archiveGroupMutationOptions,
   deleteGroupMutationOptions,
@@ -16,32 +10,25 @@ import {
 import { GroupWithMembers } from '@/types/group';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { ButtonHTMLAttributes } from 'react';
+import { useGroupDetailRouter } from './useGroupDetailRouter';
 
-export default function GroupDetailHeaderButtons({ group }: Props) {
+export function useGroupDetailPageActions({ group }: Args) {
   const session = useSession();
   const loggedInUserId = session?.data?.user?.id;
-  const { isGroupHost } = useIsGroupHost(group.hostId);
   const { openAlert } = useAlert();
   const { toast } = useToast();
-  const router = useRouter();
-  const currentUrl = useCurrentUrl();
   const { handleAxiosError } = useAxiosError();
+
+  const { mutateAsync: deleteGroup } = useMutation(deleteGroupMutationOptions);
   const { mutateAsync: archiveGroup } = useMutation(archiveGroupMutationOptions);
   const { mutateAsync: unarchiveGroup } = useMutation(unarchiveGroupMutationOptions);
-  const { mutateAsync: deleteGroup } = useMutation(deleteGroupMutationOptions);
   const { mutateAsync: expelGroupMember } = useMutation(expelGroupMemberMutationOptions);
 
-  const isArchived = !!group.archivedAt;
+  const { moveToGroupList } = useGroupDetailRouter();
 
-  const handleClickEditGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
-    e.stopPropagation();
-    router.push(`${PATHS.GROUP}/${group.id}/edit?callbackUrl=${currentUrl}`);
-  };
+  const tryToDeleteGroup = () => {
+    if (!group) return;
 
-  const handleClickDeleteGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
-    e.stopPropagation();
     openAlert({
       title: '그룹 삭제',
       description: (
@@ -61,7 +48,7 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
             description: '그룹이 삭제 되었습니다',
             variant: 'success',
           });
-          router.replace(PATHS.HOME);
+          moveToGroupList();
           return true;
         } catch (error) {
           handleAxiosError(error);
@@ -71,8 +58,9 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
     });
   };
 
-  const handleClickArchiveGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
-    e.stopPropagation();
+  const tryToArchiveGroup = () => {
+    if (!group) return;
+
     openAlert({
       title: '그룹 숨김',
       description: (
@@ -101,8 +89,9 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
     });
   };
 
-  const handleClickUnarchiveGroup: ButtonHTMLAttributes<HTMLButtonElement>['onClick'] = (e) => {
-    e.stopPropagation();
+  const tryToUnarchiveGroup = () => {
+    if (!group) return;
+
     openAlert({
       title: '그룹 숨김 해제',
       description: (
@@ -127,7 +116,9 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
     });
   };
 
-  const handleClickOut = () => {
+  const tryToMoveOutFromGroup = () => {
+    if (!group) return;
+
     openAlert({
       title: '그룹에서 나가기',
       description: (
@@ -146,43 +137,24 @@ export default function GroupDetailHeaderButtons({ group }: Props) {
             description: `${group.name} 그룹에서 나왔습니다.`,
             variant: 'success',
           });
-          router.replace(PATHS.HOME);
+          moveToGroupList();
+          return true;
         } catch (e) {
           handleAxiosError(e);
+          return false;
         }
       },
     });
   };
 
-  return (
-    <div className="flex items-center gap-2">
-      {isGroupHost ? (
-        <>
-          <Button type="button" onClick={handleClickEditGroup}>
-            수정
-          </Button>
-          {isArchived ? (
-            <Button type="button" variant="destructive-outline" onClick={handleClickUnarchiveGroup}>
-              숨김 해제
-            </Button>
-          ) : (
-            <Button type="button" variant="destructive-outline" onClick={handleClickArchiveGroup}>
-              숨김
-            </Button>
-          )}
-          <Button type="button" variant="destructive" onClick={handleClickDeleteGroup}>
-            삭제
-          </Button>
-        </>
-      ) : (
-        <Button type="button" variant="destructive" onClick={handleClickOut}>
-          그룹에서 나가기
-        </Button>
-      )}
-    </div>
-  );
+  return {
+    tryToDeleteGroup,
+    tryToArchiveGroup,
+    tryToUnarchiveGroup,
+    tryToMoveOutFromGroup,
+  };
 }
 
-type Props = {
-  group: GroupWithMembers;
+type Args = {
+  group?: GroupWithMembers;
 };

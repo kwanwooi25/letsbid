@@ -3,25 +3,23 @@
 import HostBadge from '@/components/HostBadge';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import PageToolbar from '@/components/PageToolbar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { PATHS } from '@/const/paths';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import { formatDateTime } from '@/lib/datetime';
 import { getAuctionCaseListQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { LucideEyeOff, LucideFilePlus2 } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { LucideEyeOff } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import AuctionCaseList from './AuctionCaseList';
-import GroupDetailTabsList from './GroupDetailTabsList';
-import GroupDetailHeaderButtons from './HeaderButtons';
 import MemberList from './MemberList';
+import GroupDetailPageToolbar from './Toolbar';
+import { useGroupDetailPageActions } from './useGroupDetailPageActions';
+import { useGroupDetailRouter } from './useGroupDetailRouter';
 import { useGroupDetailTabs } from './useGroupDetailTabs';
 
 export default function GroupDetail() {
-  const router = useRouter();
   const params = useParams();
   const groupId = params.groupId as string;
   const [{ data: group }, { data: auctionCases }] = useSuspenseQueries({
@@ -29,21 +27,18 @@ export default function GroupDetail() {
   });
   const { isGroupHost } = useIsGroupHost(group.hostId);
   const { tab, handleTabChange } = useGroupDetailTabs();
+  const { moveToGroupList, moveToEditGroup } = useGroupDetailRouter();
+  const { tryToDeleteGroup, tryToArchiveGroup, tryToUnarchiveGroup, tryToMoveOutFromGroup } =
+    useGroupDetailPageActions({ group });
 
   const isArchived = !!group.archivedAt;
-
-  const handleClickBackButton = () => router.replace(PATHS.HOME);
-
-  const handleClickAddCase = () => {
-    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`);
-  };
 
   return (
     <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
       <PageHeader
         className="max-w-2xl"
         backButton
-        onBackButtonClick={handleClickBackButton}
+        onBackButtonClick={moveToGroupList}
         title={
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
@@ -63,24 +58,35 @@ export default function GroupDetail() {
           </div>
         }
       >
-        <GroupDetailHeaderButtons group={group} />
-      </PageHeader>
-      <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
-        <PageToolbar className="flex items-center gap-4">
-          <GroupDetailTabsList />
-          {isGroupHost && !isArchived && tab === 'auctionCases' && (
-            <Button className="lg:w-full" onClick={handleClickAddCase}>
-              <LucideFilePlus2 className="w-4 h-4 mr-2" />
-              경매 사건 추가
+        <div className="flex items-center gap-2">
+          {isGroupHost ? (
+            <>
+              <Button type="button" onClick={moveToEditGroup}>
+                수정
+              </Button>
+              {isArchived ? (
+                <Button type="button" variant="destructive-outline" onClick={tryToUnarchiveGroup}>
+                  숨김 해제
+                </Button>
+              ) : (
+                <Button type="button" variant="destructive-outline" onClick={tryToArchiveGroup}>
+                  숨김
+                </Button>
+              )}
+              <Button type="button" variant="destructive" onClick={tryToDeleteGroup}>
+                삭제
+              </Button>
+            </>
+          ) : (
+            <Button type="button" variant="destructive" onClick={tryToMoveOutFromGroup}>
+              그룹에서 나가기
             </Button>
           )}
-          {tab === 'members' && (
-            <span className="shrink-0">
-              전체 멤버수:{' '}
-              <b className="text-lg font-bold">{group.members.length.toLocaleString()}</b>명
-            </span>
-          )}
-        </PageToolbar>
+        </div>
+      </PageHeader>
+
+      <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+        <GroupDetailPageToolbar />
         <TabsContent value="auctionCases" className="py-4 mt-0 lg:py-0">
           <AuctionCaseList isGroupHost={isGroupHost} auctionCases={auctionCases} />
         </TabsContent>
