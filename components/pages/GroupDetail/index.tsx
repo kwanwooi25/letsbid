@@ -86,7 +86,7 @@ export default function GroupDetail() {
       </PageHeader>
 
       <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
-        <GroupDetailPageToolbar />
+        <GroupDetailPageToolbar group={group} />
         <TabsContent value="auctionCases" className="py-4 mt-0 lg:py-0">
           <AuctionCaseList isGroupHost={isGroupHost} auctionCases={auctionCases} />
         </TabsContent>
