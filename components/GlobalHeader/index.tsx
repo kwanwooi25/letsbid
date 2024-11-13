@@ -20,7 +20,7 @@ export default function GlobalHeader() {
     >
       <div className="flex md:hidden">{isLoggedIn && <MobileNavigation />}</div>
       <div className="flex-1 flex items-center justify-center md:justify-start gap-10">
-        <Link href={PATHS.HOME} scroll={false}>
+        <Link href={PATHS.HOME}>
           <Logo wide size={36} />
         </Link>
         {isLoggedIn && (

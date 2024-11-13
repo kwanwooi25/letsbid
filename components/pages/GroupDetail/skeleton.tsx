@@ -3,9 +3,9 @@
 import PageBody from '@/components/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import AuctionCaseListSkeleton from './AuctionCaseListSkeleton';
-import GroupDetailTabsList from './GroupDetailTabsList';
-import MemberListSkeleton from './MemberListSkeleton';
+import AuctionCaseListSkeleton from './AuctionCaseList/skeleton';
+import MemberListSkeleton from './MemberList/skeleton';
+import GroupDetailPageToolbarSkeleton from './Toolbar/skeleton';
 import { useGroupDetailTabs } from './useGroupDetailTabs';
 
 export default function GroupDetailSkeleton() {
@@ -15,7 +15,7 @@ export default function GroupDetailSkeleton() {
     <Tabs value={tab}>
       <Skeleton.PageHeader className="max-w-2xl" backButton actionButtonCount={2} />
       <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
-        <GroupDetailTabsList />
+        <GroupDetailPageToolbarSkeleton />
         <TabsContent value="auctionCases" className="py-4 mt-0 lg:py-0">
           <AuctionCaseListSkeleton />
         </TabsContent>

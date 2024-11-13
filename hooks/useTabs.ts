@@ -13,7 +13,7 @@ export function useTabs<T extends string>({ defaultTab }: Args<T>) {
     newSearchParams.set('tab', value);
     const query = newSearchParams.toString();
     const url = `${pathname}?${query}`;
-    router.replace(url, { scroll: false });
+    router.replace(url);
   };
 
   return {

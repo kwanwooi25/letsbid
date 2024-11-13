@@ -3,9 +3,9 @@
 import PageBody from '@/components/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import AuctionCaseIntroductionSkeleton from './AuctionCaseIntroductionSkeleton';
-import AucitonCasePageToolbarSkeleton from './AuctionCasePageToolbarSkeleton';
+import AuctionCaseIntroductionSkeleton from './AuctionCaseIntroduction/skeleton';
 import AuctionCaseTitle from './AuctionCaseTitle';
+import AucitonCasePageToolbarSkeleton from './Toolbar/skeleton';
 import { useAuctionCaseDetailTabs } from './useAuctionCaseDetailTabs';
 
 export default function AuctionCaseSkeleton() {

@@ -2,26 +2,26 @@
 
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { PATHS } from '@/const/paths';
 import { useIsGroupHost } from '@/hooks/useIsGroupHost';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { useSuspenseQueries } from '@tanstack/react-query';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import AuctionCaseBids from './AuctionCaseBids';
 import AuctionCaseIntroduction from './AuctionCaseIntroduction';
-import AucitonCasePageToolbar from './AuctionCasePageToolbar';
 import AuctionCaseTitle from './AuctionCaseTitle';
-import AuctionCaseHeaderButtons from './HeaderButtons';
 import AuctionCaseSkeleton from './skeleton';
+import AucitonCasePageToolbar from './Toolbar';
+import { useAuctionCaseDetailActions } from './useAuctionCaseDetailActions';
+import { useAuctionCaseDetailRouter } from './useAuctionCaseDetailRouter';
 import { useAuctionCaseDetailTabs } from './useAuctionCaseDetailTabs';
 
 export default function AuctionCase() {
-  const router = useRouter();
   const params = useParams();
   const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
@@ -30,7 +30,10 @@ export default function AuctionCase() {
   });
   const { isGroupHost } = useIsGroupHost(group.hostId);
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
+
   const { tab, handleTabChange } = useAuctionCaseDetailTabs();
+  const { moveToGroupDetail, moveToEditAuctionCase } = useAuctionCaseDetailRouter({ auctionCase });
+  const { tryToDeleteAuctionCase } = useAuctionCaseDetailActions({ auctionCase });
 
   useInterval(() => {
     setStatus(getAuctionCaseStatus(auctionCase));
@@ -42,17 +45,28 @@ export default function AuctionCase() {
 
   if (!auctionCase) return <AuctionCaseSkeleton />;
 
-  const handleClickBackButton = () => router.replace(`${PATHS.GROUP}/${groupId}`);
-
   return (
     <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
       <PageHeader
         className="max-w-2xl min-h-[80px]"
         backButton
-        onBackButtonClick={handleClickBackButton}
+        onBackButtonClick={moveToGroupDetail}
         title={<AuctionCaseTitle auctionCase={auctionCase} />}
       >
-        {isGroupHost && <AuctionCaseHeaderButtons auctionCase={auctionCase} />}
+        {isGroupHost && (
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              onClick={moveToEditAuctionCase}
+              disabled={status === 'FINISHED_BIDDING'}
+            >
+              수정
+            </Button>
+            <Button type="button" variant="destructive" onClick={tryToDeleteAuctionCase}>
+              삭제
+            </Button>
+          </div>
+        )}
       </PageHeader>
       <PageBody className="max-w-2xl flex flex-col gap-4 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
         <AucitonCasePageToolbar auctionCase={auctionCase} />

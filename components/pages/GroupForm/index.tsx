@@ -62,7 +62,7 @@ export default function GroupForm() {
         variant: 'success',
       });
       form.reset();
-      router.replace(callbackUrl ? callbackUrl : PATHS.GROUP, { scroll: false });
+      router.replace(callbackUrl ? callbackUrl : PATHS.GROUP);
     } catch (error) {
       handleAxiosError(error);
     }

@@ -46,7 +46,7 @@ export default function MobileNumberChecker() {
     searchParams.set('callbackUrl', currentUrl);
     onClose();
     setIsOpen(false);
-    router.push(`${PATHS.EDIT_USER_PROFILE}?${searchParams.toString()}`, { scroll: false });
+    router.push(`${PATHS.EDIT_USER_PROFILE}?${searchParams.toString()}`);
   };
 
   return (

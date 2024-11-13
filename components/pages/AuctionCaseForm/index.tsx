@@ -75,7 +75,7 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
         variant: 'success',
       });
       form.reset();
-      router.replace(callbackUrl ? callbackUrl : `${PATHS.GROUP}/${groupId}`, { scroll: false });
+      router.replace(callbackUrl ? callbackUrl : `${PATHS.GROUP}/${groupId}`);
     } catch (error) {
       handleAxiosError(error);
     }
