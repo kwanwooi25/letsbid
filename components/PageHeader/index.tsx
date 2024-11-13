@@ -26,12 +26,12 @@ export default function PageHeader({
     }
 
     if (callbackUrl) {
-      router.replace(callbackUrl, { scroll: false });
+      router.replace(callbackUrl);
       return;
     }
 
     if (previousUrl) {
-      router.replace(previousUrl, { scroll: false });
+      router.replace(previousUrl);
       return;
     }
 

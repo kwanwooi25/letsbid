@@ -3,7 +3,7 @@
 import List from '@/components/List';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import UserBidHistoryListItemSkeleton from './UserBidHistoryListItemSkeleton';
+import UserBidHistoryListItem from './UserBidHistoryListItem';
 
 export default function UserBidHistorySkeleton() {
   return (
@@ -12,7 +12,7 @@ export default function UserBidHistorySkeleton() {
       <PageBody className="max-w-lg">
         <List>
           {Array.from(Array(5)).map((n, i) => (
-            <UserBidHistoryListItemSkeleton key={`${n}_${i}`} />
+            <UserBidHistoryListItem.Skeleton key={`${n}_${i}`} />
           ))}
         </List>
       </PageBody>

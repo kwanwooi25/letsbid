@@ -63,7 +63,7 @@ export default function UserForm() {
       });
 
       form.reset();
-      router.replace(callbackUrl ? callbackUrl : PATHS.ME, { scroll: false });
+      router.replace(callbackUrl ? callbackUrl : PATHS.ME);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -86,7 +86,7 @@ export default function UserForm() {
           <Button onClick={submitForm} isLoading={isSubmitting} type="submit">
             저장
           </Button>
-          <Link href={callbackUrl ? callbackUrl : PATHS.ME} passHref scroll={false}>
+          <Link href={callbackUrl ? callbackUrl : PATHS.ME} passHref>
             <Button disabled={isSubmitting} type="button" variant="secondary">
               취소
             </Button>

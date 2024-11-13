@@ -4,6 +4,7 @@ import ListItem from '@/components/ListItem';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { BidWithUserAndAuctionCase } from '@/types/bid';
 import { format } from 'date-fns';
@@ -89,6 +90,23 @@ export default function UserBidHistoryListItem({ bid }: Props) {
     </>
   );
 }
+
+function UserBidHistoryListItemSkeleton() {
+  return (
+    <ListItem className="relative">
+      <BidRankBadge className="absolute top-0 left-0 translate-x-[-15%] translate-y-[-30%]" />
+      <div className="flex flex-col gap-2">
+        <Skeleton className="h-[24px] w-[90px]" />
+        <Skeleton className="h-[20px] w-[180px]" />
+      </div>
+      <div className="flex flex-col items-end justify-start gap-2">
+        <Skeleton className="h-[28px] w-[110px]" />
+      </div>
+    </ListItem>
+  );
+}
+
+UserBidHistoryListItem.Skeleton = UserBidHistoryListItemSkeleton;
 
 type Props = {
   bid: BidWithUserAndAuctionCase;
