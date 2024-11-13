@@ -6,7 +6,7 @@ import { AuctionCaseLike } from '@/types/auctionCase';
 import { LucideCircleCheckBig, LucideCircleX } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import AuctionCaseIntroductionSkeleton from './AuctionCaseIntroductionSkeleton';
+import AuctionCaseIntroductionSkeleton from './skeleton';
 
 export default function AuctionCaseIntroduction({ auctionCase }: Props) {
   if (!auctionCase) return <AuctionCaseIntroductionSkeleton />;

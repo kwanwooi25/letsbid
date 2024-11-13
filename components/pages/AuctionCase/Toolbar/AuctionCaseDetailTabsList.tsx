@@ -2,7 +2,7 @@ import TabNavigation from '@/components/TabNavigation';
 import {
   AUCTION_CASE_DETAIL_TABS,
   AUCTION_CASE_DETAIL_TABS_TRANSLATIONS,
-} from './useAuctionCaseDetailTabs';
+} from '../useAuctionCaseDetailTabs';
 
 export default function AuctionCaseDetailTabsList() {
   return (

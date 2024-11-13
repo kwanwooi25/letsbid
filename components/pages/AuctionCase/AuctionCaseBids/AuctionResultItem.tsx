@@ -2,84 +2,29 @@ import BidRankBadge from '@/components/BidRankBadge';
 import MeBadge from '@/components/MeBadge';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import { useToast } from '@/components/ui/use-toast';
 import WithTooltip from '@/components/WithTooltip';
-import { useAlert } from '@/context/Alert';
-import { useFormDialog } from '@/context/FormDialog';
-import { useAxiosError } from '@/hooks/useAxiosError';
 import { cn } from '@/lib/utils';
-import { updateBidMutationOptions } from '@/queries/bid/mutation';
+import { AuctionCaseLike } from '@/types/auctionCase';
 import { BidWithUser } from '@/types/bid';
-import { useMutation } from '@tanstack/react-query';
 import { LucideScrollText, LucideUserPlus, LucideUserX } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 
 export default function AuctionResultItem({
+  auctionCase,
   bid,
   rank,
   actualRank,
   isGroupHost,
   openBidDetail,
 }: Props) {
+  const { user, biddingPrice, isExcluded, excludedReason } = bid;
   const session = useSession();
-  const { openForm } = useFormDialog();
-  const { openAlert } = useAlert();
-  const { toast } = useToast();
-  const { handleAxiosError } = useAxiosError();
-  const { mutateAsync: updateBid } = useMutation(updateBidMutationOptions);
-  const { id, user, biddingPrice, isExcluded, excludedReason } = bid;
   const isMe = session?.data?.user?.id === user?.id;
 
-  const handleClickExcludeBid = () => {
-    openForm({
-      type: 'BID_EXCLUSION',
-      formProps: { bid },
-    });
-  };
-
-  const handleClickIncludeBid = () => {
-    openAlert({
-      title: '입찰 참여',
-      description: '입찰 제외를 취소하고 참여 처리하시겠습니까?',
-      actionLabel: '입찰 참여 처리',
-      action: async () => {
-        try {
-          await updateBid({ id, isExcluded: false, excludedReason: '' });
-          toast({
-            title: user.name,
-            description: '입찰 참여 처리되었습니다',
-            variant: 'success',
-          });
-          return true;
-        } catch (error) {
-          handleAxiosError(error);
-          return false;
-        }
-      },
-    });
-  };
-
-  const handleClickGiveUpBid = () => {
-    openAlert({
-      title: '입찰 포기',
-      description: '입찰 포기 하시겠습니까?',
-      actionLabel: '입찰 포기',
-      action: async () => {
-        try {
-          await updateBid({ id, isExcluded: true, excludedReason: '입찰 포기' });
-          toast({
-            title: user.name,
-            description: '입찰 포기되었습니다',
-            variant: 'success',
-          });
-          return true;
-        } catch (error) {
-          handleAxiosError(error);
-          return false;
-        }
-      },
-    });
-  };
+  const { tryToExcludeBid, tryToIncludeBid, tryToGiveUpBid } = useAuctionCaseDetailActions({
+    auctionCase,
+  });
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -125,21 +70,21 @@ export default function AuctionResultItem({
           </WithTooltip>
           {isGroupHost && !isExcluded && (
             <WithTooltip tooltip="입찰 제외 처리">
-              <Button size="icon" variant="ghost" onClick={handleClickExcludeBid}>
+              <Button size="icon" variant="ghost" onClick={() => tryToExcludeBid(bid)}>
                 <LucideUserX />
               </Button>
             </WithTooltip>
           )}
           {isExcluded && (isGroupHost || isMe) && (
             <WithTooltip tooltip="입찰 참여 처리">
-              <Button size="icon" variant="ghost" onClick={handleClickIncludeBid}>
+              <Button size="icon" variant="ghost" onClick={() => tryToIncludeBid(bid)}>
                 <LucideUserPlus />
               </Button>
             </WithTooltip>
           )}
           {!isExcluded && !isGroupHost && isMe && (
             <WithTooltip tooltip="입찰 포기">
-              <Button size="icon" variant="ghost" onClick={handleClickGiveUpBid}>
+              <Button size="icon" variant="ghost" onClick={() => tryToGiveUpBid(bid)}>
                 <LucideUserX />
               </Button>
             </WithTooltip>
@@ -151,6 +96,7 @@ export default function AuctionResultItem({
 }
 
 type Props = {
+  auctionCase: AuctionCaseLike;
   bid: BidWithUser;
   rank: number;
   actualRank: number;

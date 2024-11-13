@@ -14,7 +14,7 @@ import { AuctionCaseLike } from '@/types/auctionCase';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import AuctionCaseDetailTabsList from './AuctionCaseDetailTabsList';
-import AucitonCasePageToolbarSkeleton from './AuctionCasePageToolbarSkeleton';
+import AucitonCasePageToolbarSkeleton from './skeleton';
 
 export default function AucitonCasePageToolbar({ auctionCase }: Props) {
   const [remainingTime, setRemainingTime] = useState(getRemainingTimeDisplay(auctionCase));

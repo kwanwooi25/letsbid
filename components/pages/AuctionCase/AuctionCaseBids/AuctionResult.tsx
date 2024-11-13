@@ -78,6 +78,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
             return (
               <AuctionResultItem
                 key={bid.id}
+                auctionCase={auctionCase}
                 bid={bid}
                 rank={index + 1}
                 actualRank={bidRanks[index]}

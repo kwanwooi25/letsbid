@@ -1,20 +1,21 @@
 'use client';
 
 import ListEmpty from '@/components/ListEmpty';
+import { Button } from '@/components/ui/button';
 import { useHasUserBidden } from '@/hooks/useHasUserBidden';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { AuctionCaseLike, AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
+import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 import AuctionResult from './AuctionResult';
 import MyBid from './MyBid';
-import MyBidSkeleton from './MyBidSkeleton';
-import PlaceBidButton from './PlaceBidButton';
 
 export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
 
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
+  const { moveToPlaceBid } = useAuctionCaseDetailRouter({ auctionCase });
 
   useInterval(() => {
     setStatus(getAuctionCaseStatus(auctionCase));
@@ -30,11 +31,15 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
 
   if (status === 'BIDDING') {
     if (!hasBidden) {
-      return <PlaceBidButton auctionCase={auctionCase} />;
+      return (
+        <Button className="my-4 mx-auto" size="lg" type="button" onClick={moveToPlaceBid}>
+          입찰하기
+        </Button>
+      );
     }
     if (hasBidden && bid?.id) {
       return (
-        <Suspense fallback={<MyBidSkeleton />}>
+        <Suspense fallback={<MyBid.Skeleton />}>
           <MyBid bidId={bid.id} auctionCase={auctionCase} />
         </Suspense>
       );
