@@ -29,7 +29,7 @@ export default function GroupListItem({ group, isHost }: Props) {
   const isMaxMemberReached = members.length >= maxMembers;
   const isArchived = !!archivedAt;
 
-  const moveToGroup = () => router.push(`${PATHS.GROUP}/${id}`, { scroll: false });
+  const moveToGroup = () => router.push(`${PATHS.GROUP}/${id}`);
 
   const onSuccess = () => {
     toast({

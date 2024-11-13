@@ -103,7 +103,7 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
       });
       form.reset();
       queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.list(auctionCase.groupId) });
-      router.replace(callbackUrl ? callbackUrl : PREVIOUS_URL, { scroll: false });
+      router.replace(callbackUrl ? callbackUrl : PREVIOUS_URL);
     } catch (error) {
       handleAxiosError(error);
     }

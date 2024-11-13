@@ -32,10 +32,10 @@ export default function GroupDetail() {
 
   const isArchived = !!group.archivedAt;
 
-  const handleClickBackButton = () => router.replace(PATHS.HOME, { scroll: false });
+  const handleClickBackButton = () => router.replace(PATHS.HOME);
 
   const handleClickAddCase = () => {
-    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`, { scroll: false });
+    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`);
   };
 
   return (

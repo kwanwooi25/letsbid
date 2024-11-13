@@ -39,7 +39,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
     } else {
       newSearchParams.delete('selectedBidId');
     }
-    router.replace(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
 
   const openBidDetail =

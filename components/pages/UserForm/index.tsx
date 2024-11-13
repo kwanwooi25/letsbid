@@ -63,7 +63,7 @@ export default function UserForm() {
       });
 
       form.reset();
-      router.replace(callbackUrl ? callbackUrl : PATHS.ME, { scroll: false });
+      router.replace(callbackUrl ? callbackUrl : PATHS.ME);
     } catch (error) {
       handleAxiosError(error);
     }

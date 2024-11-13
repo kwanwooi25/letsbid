@@ -47,13 +47,11 @@ export default function UserMenu({ className }: Props) {
         {isAuthenticated && (
           <>
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => router.push(PATHS.ME, { scroll: false })}>
+              <DropdownMenuItem onClick={() => router.push(PATHS.ME)}>
                 <LucideUser2 className="mr-2 h-4 w-4" />
                 <span>내 정보</span>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push(PATHS.MY_BID_HISTORY, { scroll: false })}
-              >
+              <DropdownMenuItem onClick={() => router.push(PATHS.MY_BID_HISTORY)}>
                 <LucideFileStack className="mr-2 h-4 w-4" />
                 <span>내 입찰 기록</span>
               </DropdownMenuItem>

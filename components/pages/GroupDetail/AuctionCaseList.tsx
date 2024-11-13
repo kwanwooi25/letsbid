@@ -19,7 +19,7 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
   const isEmpty = Object.values(categorizedAuctionCases).every((list) => !list.length);
 
   const handleClickAddCase = () => {
-    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`, { scroll: false });
+    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`);
   };
 
   if (isEmpty) {

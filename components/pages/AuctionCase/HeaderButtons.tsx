@@ -28,7 +28,6 @@ export default function AuctionCaseHeaderButtons({ auctionCase }: Props) {
     e.stopPropagation();
     router.push(
       `${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}/edit?callbackUrl=${currentUrl}`,
-      { scroll: false },
     );
   };
 

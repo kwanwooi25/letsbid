@@ -53,7 +53,7 @@ export default function MemberListItem({ member, group }: Props) {
       newSearchParams.set('selectedUserId', userIdToSelect);
     }
 
-    router.replace(`${pathname}?${newSearchParams.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
 
   const handleClickExpelMember = () => {

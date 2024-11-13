@@ -12,8 +12,7 @@ export default function HeaderButtons() {
   const router = useRouter();
   const currentUrl = useCurrentUrl();
 
-  const moveToCreateGroup = () =>
-    router.push(`${PATHS.CREATE_GROUP}?callbackUrl=${currentUrl}`, { scroll: false });
+  const moveToCreateGroup = () => router.push(`${PATHS.CREATE_GROUP}?callbackUrl=${currentUrl}`);
 
   return (
     <div className="flex items-center gap-2">

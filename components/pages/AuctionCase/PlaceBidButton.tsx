@@ -13,7 +13,6 @@ export default function PlaceBidButton({ auctionCase }: Props) {
   const handleClickPlaceBid = () => {
     router.push(
       `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}${PATHS.BID}?callbackUrl=${currentUrl}`,
-      { scroll: false },
     );
   };
 

@@ -29,9 +29,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
     <ListItem
       className="min-h-[82px] sm:min-h-[94px]"
       color={color}
-      onClick={() =>
-        router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`, { scroll: false })
-      }
+      onClick={() => router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`)}
     >
       <div className="flex flex-col gap-2 flex-1 items-start">
         <AuctionCaseStatusBadge auctionCase={auctionCase} />
