@@ -4,7 +4,6 @@ import ListEmpty from '@/components/ListEmpty';
 import { useHasUserBidden } from '@/hooks/useHasUserBidden';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
 import { AuctionCaseLike, AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
-import { BidWithUser } from '@/types/bid';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import AuctionResult from './AuctionResult';
@@ -24,25 +23,25 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
   if (!auctionCase) return null;
 
   const biddingCount = auctionCase.bids.length ?? 0;
-  const areBidsFinalized = (auctionCase.bids as BidWithUser[]).every((bid) => bid.biddingPrice);
 
   if (status === 'BEFORE_BIDDING') {
     return <ListEmpty>아직 입찰이 시작되지 않았습니다</ListEmpty>;
   }
 
-  if (status === 'BIDDING' && !hasBidden) {
-    return <PlaceBidButton auctionCase={auctionCase} />;
+  if (status === 'BIDDING') {
+    if (!hasBidden) {
+      return <PlaceBidButton auctionCase={auctionCase} />;
+    }
+    if (hasBidden && bid?.id) {
+      return (
+        <Suspense fallback={<MyBidSkeleton />}>
+          <MyBid bidId={bid.id} auctionCase={auctionCase} />
+        </Suspense>
+      );
+    }
   }
 
-  if (status === 'BIDDING' && hasBidden && bid?.id) {
-    return (
-      <Suspense fallback={<MyBidSkeleton />}>
-        <MyBid bidId={bid.id} auctionCase={auctionCase} />
-      </Suspense>
-    );
-  }
-
-  if (status === 'FINISHED_BIDDING' && biddingCount > 0 && areBidsFinalized) {
+  if (status === 'FINISHED_BIDDING' && biddingCount > 0) {
     return (
       <AuctionResult
         auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
