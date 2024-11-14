@@ -40,11 +40,19 @@ export function useAuctionCaseDetailRouter({ auctionCase }: Args) {
     );
   };
 
+  const moveToAddArticle = () => {
+    if (!auctionCase) return;
+    router.push(
+      `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}${PATHS.ARTICLE}?callbackUrl=${currentUrl}`,
+    );
+  };
+
   return {
     moveToGroupDetail,
     moveToEditAuctionCase,
     moveToPlaceBid,
     moveToEditBid,
+    moveToAddArticle,
   };
 }
 
