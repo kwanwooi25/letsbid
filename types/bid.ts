@@ -1,5 +1,7 @@
 import { Bid, User } from '@prisma/client';
-import { AuctionCaseWithBidsAndUser } from './auctionCase';
+import { AuctionCaseWithBidsAndUserAndArticles } from './auctionCase';
 
 export type BidWithUser = Bid & { user: User };
-export type BidWithUserAndAuctionCase = BidWithUser & { auctionCase: AuctionCaseWithBidsAndUser };
+export type BidWithUserAndAuctionCase = BidWithUser & {
+  auctionCase: AuctionCaseWithBidsAndUserAndArticles;
+};
