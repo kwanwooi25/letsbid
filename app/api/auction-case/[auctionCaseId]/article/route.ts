@@ -24,3 +24,24 @@ export async function POST(req: NextRequest, { params }: { params: { auctionCase
     return handlePrismaClientError(e);
   }
 }
+
+export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+  try {
+    const user = await getUserFromSession();
+    const articles = await prisma.article.findMany({
+      where: {
+        auctionCaseId: params.auctionCaseId,
+        OR: [{ isPublished: true }, { isPublished: false, authorId: user?.id }],
+      },
+      include: {
+        author: true,
+        attachments: true,
+        auctionCase: true,
+      },
+      orderBy: [{ isPublished: 'asc' }, { updatedAt: 'desc' }],
+    });
+    return handleSuccess({ data: articles });
+  } catch (e) {
+    return handlePrismaClientError(e);
+  }
+}

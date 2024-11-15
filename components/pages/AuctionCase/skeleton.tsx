@@ -3,8 +3,9 @@
 import PageBody from '@/components/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import AuctionCaseIntroductionSkeleton from './Introduction/skeleton';
+import ArticleListSkeleton from './Articles/skeleton';
 import AuctionCaseTitle from './AuctionCaseTitle';
+import AuctionCaseIntroductionSkeleton from './Introduction/skeleton';
 import AucitonCasePageToolbarSkeleton from './Toolbar/skeleton';
 import { useAuctionCaseDetailTabs } from './useAuctionCaseDetailTabs';
 
@@ -23,6 +24,9 @@ export default function AuctionCaseSkeleton() {
         <AucitonCasePageToolbarSkeleton />
         <TabsContent value="introduction" className="py-4 mt-0 lg:py-0">
           <AuctionCaseIntroductionSkeleton />
+        </TabsContent>
+        <TabsContent value="articles" className="py-4 mt-0 lg:py-0">
+          <ArticleListSkeleton />
         </TabsContent>
       </PageBody>
     </Tabs>

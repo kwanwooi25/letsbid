@@ -6,6 +6,7 @@ import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
 import { getApiUrl, getQueryClient } from '../config';
+import { articleQueryKeys } from './queryKey';
 
 export const createArticleMutaionOptions: MutationOptions<Article, Error, ArticleFormSchema> = {
   mutationFn: async (data) => {
@@ -24,6 +25,7 @@ export const createArticleMutaionOptions: MutationOptions<Article, Error, Articl
   onSettled: (data) => {
     const queryClient = getQueryClient();
     if (data?.auctionCaseId) {
+      queryClient.invalidateQueries({ queryKey: articleQueryKeys.list(data.auctionCaseId) });
       queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId) });
     }
   },
