@@ -14,7 +14,7 @@ import { uploadImageMutationOptions } from '@/queries/image/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { Editor as ToastUIEditor } from '@toast-ui/react-editor';
-import { ComponentProps, useRef } from 'react';
+import { ComponentProps, useEffect, useRef } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { ArticleFormSchema, formSchema } from './formSchema';
 import { useArticleFormActions } from './useArticleFormActions';
@@ -56,6 +56,12 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
     const imageUrl = await uploadImage({ file: blob, fileName });
     callback(imageUrl);
   };
+
+  useEffect(() => {
+    if (article) {
+      ref.current?.getInstance().setHTML(article.contentHtml);
+    }
+  }, [ref, article]);
 
   return (
     <Form {...form}>
