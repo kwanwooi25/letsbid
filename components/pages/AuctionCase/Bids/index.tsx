@@ -4,7 +4,7 @@ import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { useHasUserBidden } from '@/hooks/useHasUserBidden';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
-import { AuctionCaseLike, AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
+import { AuctionCaseLike, AuctionCaseWithBidsAndUserAndArticles } from '@/types/auctionCase';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
@@ -49,7 +49,7 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
   if (status === 'FINISHED_BIDDING' && biddingCount > 0) {
     return (
       <AuctionResult
-        auctionCase={auctionCase as AuctionCaseWithBidsAndUser}
+        auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles}
         isGroupHost={isGroupHost}
       />
     );

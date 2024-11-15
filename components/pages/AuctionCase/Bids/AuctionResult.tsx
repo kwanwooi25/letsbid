@@ -5,7 +5,7 @@ import Divider from '@/components/ui/divider';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Keys } from '@/const/keyboard';
 import { getAuctionCaseStatus } from '@/lib/auctionCase';
-import { AuctionCaseWithBidsAndUser } from '@/types/auctionCase';
+import { AuctionCaseWithBidsAndUserAndArticles } from '@/types/auctionCase';
 import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -125,6 +125,6 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
 }
 
 type Props = {
-  auctionCase: AuctionCaseWithBidsAndUser;
+  auctionCase: AuctionCaseWithBidsAndUserAndArticles;
   isGroupHost?: boolean;
 };

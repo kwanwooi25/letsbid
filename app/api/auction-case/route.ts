@@ -25,6 +25,11 @@ export async function GET(req: NextRequest) {
             user: true,
           },
         },
+        articles: {
+          where: {
+            isPublished: true,
+          },
+        },
       },
       orderBy: [{ bidEndsAt: 'desc' }, { bidStartsAt: 'desc' }],
     });
