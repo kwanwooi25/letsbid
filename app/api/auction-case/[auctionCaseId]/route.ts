@@ -17,6 +17,11 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
             user: true,
           },
         },
+        articles: {
+          where: {
+            isPublished: true,
+          },
+        },
       },
     });
     if (!auctionCase) {

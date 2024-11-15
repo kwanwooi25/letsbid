@@ -1,13 +1,17 @@
-import { AuctionCase, Bid, User } from '@prisma/client';
+import { Article, AuctionCase, Bid, User } from '@prisma/client';
 
 export type AuctionCaseStatus = 'BEFORE_BIDDING' | 'BIDDING' | 'FINISHED_BIDDING';
 
-export type AuctionCaseWithBidsAndUser = AuctionCase & {
+export type AuctionCaseWithBidsAndUserAndArticles = AuctionCase & {
   bids: (Bid & { user: User })[];
+  articles: Article[];
 };
 
-export type AuctionCaseWithBidsSecret = AuctionCase & {
+export type AuctionCaseWithBidsSecretAndArticles = AuctionCase & {
   bids: Pick<Bid, 'id' | 'userId'>[];
+  articles: Article[];
 };
 
-export type AuctionCaseLike = AuctionCaseWithBidsAndUser | AuctionCaseWithBidsSecret;
+export type AuctionCaseLike =
+  | AuctionCaseWithBidsAndUserAndArticles
+  | AuctionCaseWithBidsSecretAndArticles;
