@@ -41,6 +41,13 @@ export function useAuctionCaseDetailRouter({ auctionCase }: Args) {
     );
   };
 
+  const moveToArticleList = () => {
+    if (!auctionCase) return;
+    router.push(
+      `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}?tab=articles`,
+    );
+  };
+
   const moveToAddArticle = () => {
     if (!auctionCase) return;
     router.push(
@@ -55,12 +62,21 @@ export function useAuctionCaseDetailRouter({ auctionCase }: Args) {
     );
   };
 
+  const moveToEditArticle = (articleId: string) => {
+    if (!auctionCase) return;
+    router.push(
+      `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}${PATHS.ARTICLE}/${articleId}/edit?callbackUrl=${currentUrl}`,
+    );
+  };
+
   return {
     moveToGroupDetail,
     moveToEditAuctionCase,
     moveToPlaceBid,
     moveToEditBid,
+    moveToArticleList,
     moveToAddArticle,
+    moveToEditArticle,
     moveToArticleDetail,
   };
 }

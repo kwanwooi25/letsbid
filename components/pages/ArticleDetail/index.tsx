@@ -10,12 +10,17 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { Viewer } from '@toast-ui/react-editor';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
+import { useAuctionCaseDetailActions } from '../AuctionCase/useAuctionCaseDetailActions';
+import { useAuctionCaseDetailRouter } from '../AuctionCase/useAuctionCaseDetailRouter';
 
 export default function ArticleDetail() {
   const session = useSession();
   const params = useParams();
   const articleId = params.articleId as string;
   const { data: article } = useSuspenseQuery(getArticleDetailQueryOptions(articleId));
+
+  const { moveToEditArticle } = useAuctionCaseDetailRouter({ auctionCase: article?.auctionCase });
+  const { tryToDeleteArticle } = useAuctionCaseDetailActions({ auctionCase: article?.auctionCase });
 
   if (!article) return null;
 
@@ -36,8 +41,10 @@ export default function ArticleDetail() {
       >
         {isMyArticle && (
           <div className="flex items-center gap-2">
-            <Button type="button">수정</Button>
-            <Button type="button" variant="destructive">
+            <Button type="button" onClick={() => moveToEditArticle(article.id)}>
+              수정
+            </Button>
+            <Button type="button" variant="destructive" onClick={() => tryToDeleteArticle(article)}>
               삭제
             </Button>
           </div>

@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const formSchema = z
   .object({
     id: z.string().optional(),
-    title: z.string().optional(),
+    title: z.string().optional().nullable(),
     contentHtml: z.string().optional(),
     isPublished: z.boolean().default(false),
     auctionCaseId: z.string().optional().nullable(),

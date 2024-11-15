@@ -7,12 +7,14 @@ import UserImage from '@/components/UserImage';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { ArticleWithAuctionCaseAuthorAttachments } from '@/types/article';
+import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 
 export default function ArticleListItem({ article }: Props) {
   const { id, title, contentHtml, author, updatedAt, isPublished, auctionCase } = article;
 
-  const { moveToArticleDetail } = useAuctionCaseDetailRouter({ auctionCase });
+  const { moveToArticleDetail, moveToEditArticle } = useAuctionCaseDetailRouter({ auctionCase });
+  const { tryToDeleteArticle } = useAuctionCaseDetailActions({ auctionCase });
 
   const handleClick = () => {
     if (!isPublished) return;
@@ -52,8 +54,10 @@ export default function ArticleListItem({ article }: Props) {
           </>
         ) : (
           <>
-            <Button type="button">수정</Button>
-            <Button type="button" variant="destructive">
+            <Button type="button" onClick={() => moveToEditArticle(id)}>
+              수정
+            </Button>
+            <Button type="button" variant="destructive" onClick={() => tryToDeleteArticle(article)}>
               삭제
             </Button>
           </>

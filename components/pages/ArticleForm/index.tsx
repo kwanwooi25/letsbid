@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Form, InputFormField } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { getArticleDetailQueryOptions } from '@/queries/article/query';
 import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
 import { uploadImageMutationOptions } from '@/queries/image/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,21 +20,24 @@ import { ArticleFormSchema, formSchema } from './formSchema';
 import { useArticleFormActions } from './useArticleFormActions';
 import { getDefaultFormValues } from './utils';
 
-export default function ArticleForm({ auctionCaseId }: Props) {
+export default function ArticleForm({ auctionCaseId, articleId }: Props) {
+  const [{ data: auctionCase }, { data: article }] = useSuspenseQueries({
+    queries: [
+      getAuctionCaseDetailQueryOptions(auctionCaseId),
+      getArticleDetailQueryOptions(articleId),
+    ],
+  });
   const ref = useRef<ComponentProps<typeof ToastUIEditor>['ref']>(null);
   const form = useForm<ArticleFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: getDefaultFormValues({ auctionCaseId }),
+    defaultValues: getDefaultFormValues({ auctionCaseId, article }),
   });
   const [isPublished] = useWatch({ control: form.control, name: ['isPublished'] });
-  const [{ data: auctionCase }] = useSuspenseQueries({
-    queries: [getAuctionCaseDetailQueryOptions(auctionCaseId)],
-  });
   const { mutateAsync: uploadImage } = useMutation(uploadImageMutationOptions);
 
-  const { createArticle } = useArticleFormActions();
+  const { createArticle, updateArticle } = useArticleFormActions();
 
-  const isEditMode = false;
+  const isEditMode = !!article;
   const formTitle = isEditMode ? '조사 내용 수정' : '조사 내용 등록';
 
   const handleSave = () => {
@@ -41,7 +45,8 @@ export default function ArticleForm({ auctionCaseId }: Props) {
     form.setValue('contentHtml', content);
 
     form.handleSubmit(async (values: ArticleFormSchema) => {
-      await createArticle(values);
+      const action = isEditMode ? updateArticle : createArticle;
+      action(values);
     })();
   };
 
@@ -95,4 +100,5 @@ export default function ArticleForm({ auctionCaseId }: Props) {
 
 type Props = {
   auctionCaseId: string;
+  articleId?: string;
 };
