@@ -1,12 +1,12 @@
 'use client';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import { EditorProps, Editor as ToastUIEditor } from '@toast-ui/react-editor';
+import { Editor, EditorProps } from '@toast-ui/react-editor';
 import { useTheme } from 'next-themes';
 import { ComponentProps, CSSProperties, forwardRef, useEffect } from 'react';
 import { getToastUIEditorElement } from './utils';
 
-const Editor = forwardRef<ComponentProps<typeof ToastUIEditor>['ref'], Props>(
+const WysiwygEditor = forwardRef<ComponentProps<typeof Editor>['ref'], Props>(
   ({ height, ...props }, ref) => {
     const { resolvedTheme } = useTheme();
 
@@ -19,17 +19,17 @@ const Editor = forwardRef<ComponentProps<typeof ToastUIEditor>['ref'], Props>(
       } else {
         editorElement.classList.remove('toastui-editor-dark');
       }
-    }, [ref, resolvedTheme]);
+    }, [resolvedTheme]);
 
     useEffect(() => {
       const editorContainerElement = getToastUIEditorElement().parentElement;
       if (!editorContainerElement || !height) return;
 
       editorContainerElement.style.setProperty('height', height);
-    }, [ref, height]);
+    }, [height]);
 
     return (
-      <ToastUIEditor
+      <Editor
         ref={ref}
         initialValue="<p></p>"
         initialEditType="wysiwyg"
@@ -51,4 +51,4 @@ type Props = EditorProps & {
   height?: CSSProperties['height'];
 };
 
-export default Editor;
+export default WysiwygEditor;

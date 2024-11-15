@@ -1,9 +1,9 @@
 'use client';
 
-import Editor from '@/components/Editor';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import WithLabel from '@/components/WithLabel';
+import WysiwygEditor from '@/components/WysiwygEditor';
 import { Button } from '@/components/ui/button';
 import { Form, InputFormField } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
@@ -40,13 +40,13 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
   const isEditMode = !!article;
   const formTitle = isEditMode ? '조사 내용 수정' : '조사 내용 등록';
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const content = ref.current?.getInstance().getHTML();
     form.setValue('contentHtml', content);
 
     form.handleSubmit(async (values: ArticleFormSchema) => {
       const action = isEditMode ? updateArticle : createArticle;
-      action(values);
+      await action(values);
     })();
   };
 
@@ -96,7 +96,7 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
             inputProps={{ autoFocus: true }}
           />
           <WithLabel label="내용" required>
-            <Editor ref={ref} height="50vh" hooks={{ addImageBlobHook: handleImageAdd }} />
+            <WysiwygEditor ref={ref} height="50vh" hooks={{ addImageBlobHook: handleImageAdd }} />
           </WithLabel>
         </PageBody>
       </form>
