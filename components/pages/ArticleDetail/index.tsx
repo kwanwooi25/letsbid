@@ -8,15 +8,12 @@ import WysiwygViewer from '@/components/WysiwygViewer';
 import { formatDateTime } from '@/lib/datetime';
 import { getArticleDetailQueryOptions } from '@/queries/article/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { Viewer } from '@toast-ui/react-editor';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
-import { ComponentProps, useRef } from 'react';
 import { useAuctionCaseDetailActions } from '../AuctionCase/useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../AuctionCase/useAuctionCaseDetailRouter';
 
 export default function ArticleDetail() {
-  const ref = useRef<ComponentProps<typeof Viewer>['ref']>(null);
   const session = useSession();
   const params = useParams();
   const articleId = params.articleId as string;
