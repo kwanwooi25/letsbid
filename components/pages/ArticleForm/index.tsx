@@ -16,6 +16,7 @@ import { Editor as ToastUIEditor } from '@toast-ui/react-editor';
 import { ComponentProps, useRef } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { ArticleFormSchema, formSchema } from './formSchema';
+import { useArticleFormActions } from './useArticleFormActions';
 import { getDefaultFormValues } from './utils';
 
 export default function ArticleForm({ auctionCaseId }: Props) {
@@ -30,6 +31,8 @@ export default function ArticleForm({ auctionCaseId }: Props) {
   });
   const { mutateAsync: uploadImage } = useMutation(uploadImageMutationOptions);
 
+  const { createArticle } = useArticleFormActions();
+
   const isEditMode = false;
   const formTitle = isEditMode ? '조사 내용 수정' : '조사 내용 등록';
 
@@ -38,8 +41,7 @@ export default function ArticleForm({ auctionCaseId }: Props) {
     form.setValue('contentHtml', content);
 
     form.handleSubmit(async (values: ArticleFormSchema) => {
-      // TODO:
-      console.log(values);
+      await createArticle(values);
     })();
   };
 
