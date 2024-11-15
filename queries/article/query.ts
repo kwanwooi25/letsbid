@@ -26,3 +26,22 @@ export const getAuctionCaseArticleListQueryOptions = (auctionCaseId?: string) =>
     },
     enabled: !!auctionCaseId,
   });
+
+export const getArticleDetailQueryOptions = (articleId?: string) =>
+  queryOptions({
+    queryKey: articleQueryKeys.detail(articleId),
+    queryFn: async () => {
+      if (!articleId) return null;
+      try {
+        const url = getApiUrl(`${API_ROUTE.ARTICLE}/${articleId}`);
+        const res = await axios<SuccessResponse<ArticleWithAuctionCaseAuthorAttachments>>({
+          method: 'get',
+          url,
+        });
+        return res.data.data;
+      } catch (error) {
+        return null;
+      }
+    },
+    enabled: !!articleId,
+  });

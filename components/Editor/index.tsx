@@ -1,9 +1,6 @@
 'use client';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import { EditorProps, Editor as ToastUIEditor } from '@toast-ui/react-editor';
 import { useTheme } from 'next-themes';
 import { ComponentProps, CSSProperties, forwardRef, useEffect } from 'react';

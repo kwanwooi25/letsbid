@@ -7,13 +7,23 @@ import UserImage from '@/components/UserImage';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { ArticleWithAuctionCaseAuthorAttachments } from '@/types/article';
+import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 
 export default function ArticleListItem({ article }: Props) {
-  const { title, contentHtml, author, updatedAt, isPublished } = article;
+  const { id, title, contentHtml, author, updatedAt, isPublished, auctionCase } = article;
+
+  const { moveToArticleDetail } = useAuctionCaseDetailRouter({ auctionCase });
+
+  const handleClick = () => {
+    if (!isPublished) return;
+
+    moveToArticleDetail(id);
+  };
 
   return (
     <ListItem
       className={cn('min-h-[98px] sm:min-h-[114px]', !isPublished && 'opacity-90 border-dashed')}
+      onClick={handleClick}
     >
       <div className="flex flex-col gap-2 flex-1 items-start">
         <div className="text-base min-h-[24px] sm:text-lg sm:min-h-[28px] font-bold flex items-center gap-2">

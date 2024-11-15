@@ -1,6 +1,7 @@
 import { PATHS } from '@/const/paths';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCase } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 
 export function useAuctionCaseDetailRouter({ auctionCase }: Args) {
@@ -47,15 +48,23 @@ export function useAuctionCaseDetailRouter({ auctionCase }: Args) {
     );
   };
 
+  const moveToArticleDetail = (articleId: string) => {
+    if (!auctionCase) return;
+    router.push(
+      `${PATHS.GROUP}/${auctionCase.groupId}${PATHS.AUCTION_CASE}/${auctionCase.id}${PATHS.ARTICLE}/${articleId}?callbackUrl=${currentUrl}`,
+    );
+  };
+
   return {
     moveToGroupDetail,
     moveToEditAuctionCase,
     moveToPlaceBid,
     moveToEditBid,
     moveToAddArticle,
+    moveToArticleDetail,
   };
 }
 
 type Args = {
-  auctionCase?: AuctionCaseLike | null;
+  auctionCase?: AuctionCaseLike | AuctionCase | null;
 };
