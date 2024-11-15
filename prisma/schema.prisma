@@ -116,6 +116,8 @@ model AuctionCase {
   floorPlan         String? // 구조
   hasElevator       Boolean   @default(false) // 엘리베이터 유무
   completedYear     Int? // 준공연도
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
 
   bids     Bid[]
   articles Article[]
@@ -128,17 +130,19 @@ model Bid {
   userId        String
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  expectedSalePrice Int     @default(0) // 목표 매도가
-  acquisitionCost   Int     @default(0) // 취득비용
-  evacuationCost    Int     @default(0) // 명도비용
-  repairCost        Int     @default(0) // 수리비
-  brokerageFee      Int     @default(0) // 중개수수료
-  estimatedInterest Int     @default(0) // 이자비용
-  otherCost         Int     @default(0) // 기타비용
-  expectedProfit    Int     @default(0) // 기대수익
-  biddingPrice      Int     @default(0) // 입찰가
-  isExcluded        Boolean @default(false) // 낙찰 제외 여부
+  expectedSalePrice Int      @default(0) // 목표 매도가
+  acquisitionCost   Int      @default(0) // 취득비용
+  evacuationCost    Int      @default(0) // 명도비용
+  repairCost        Int      @default(0) // 수리비
+  brokerageFee      Int      @default(0) // 중개수수료
+  estimatedInterest Int      @default(0) // 이자비용
+  otherCost         Int      @default(0) // 기타비용
+  expectedProfit    Int      @default(0) // 기대수익
+  biddingPrice      Int      @default(0) // 입찰가
+  isExcluded        Boolean  @default(false) // 낙찰 제외 여부
   excludedReason    String? // 낙찰 제외 사유
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now()) @updatedAt
 }
 
 model Article {
@@ -150,7 +154,9 @@ model Article {
 
   title       String?
   contentHtml String?
-  isPublished Boolean @default(false)
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 
   attachments Attachment[]
 }
