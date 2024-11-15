@@ -47,6 +47,8 @@ const WysiwygEditor = forwardRef<ComponentProps<typeof Editor>['ref'], Props>(
   },
 );
 
+WysiwygEditor.displayName = 'WysiwygEditor';
+
 type Props = EditorProps & {
   height?: CSSProperties['height'];
 };

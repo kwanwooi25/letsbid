@@ -50,7 +50,7 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
     })();
   };
 
-  const handleImageAdd = async (blob: File, callback: Function) => {
+  const handleImageAdd = async (blob: File, callback: (imageUrl: string) => void) => {
     const [originalfileName, extension] = blob.name.split('.');
     const fileName = `articles/${auctionCaseId}/${originalfileName}_${new Date().getTime()}.${extension}`;
     const imageUrl = await uploadImage({ file: blob, fileName });
