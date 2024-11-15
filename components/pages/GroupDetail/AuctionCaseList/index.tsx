@@ -4,23 +4,16 @@ import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/const/auctionCase';
-import { PATHS } from '@/const/paths';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { LucideFilePlus2 } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
 import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
+import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import AuctionCaseListItem from './ListItem';
 
 export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
-  const router = useRouter();
-  const params = useParams();
-  const groupId = params.groupId as string;
+  const { moveToCreateAuctionCase } = useGroupDetailRouter();
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
   const isEmpty = Object.values(categorizedAuctionCases).every((list) => !list.length);
-
-  const handleClickAddCase = () => {
-    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}`);
-  };
 
   if (isEmpty) {
     return (
@@ -28,7 +21,7 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
         <p>표시할 경매 사건이 없습니다</p>
         {isGroupHost && (
           <p>
-            <Button className="self-end" onClick={handleClickAddCase}>
+            <Button className="self-end" onClick={moveToCreateAuctionCase}>
               <LucideFilePlus2 className="w-4 h-4 mr-2" />
               경매 사건 추가
             </Button>{' '}

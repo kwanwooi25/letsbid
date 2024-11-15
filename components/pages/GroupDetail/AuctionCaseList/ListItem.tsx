@@ -2,10 +2,11 @@
 
 import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
 import ListItem from '@/components/ListItem';
+import WithTooltip from '@/components/WithTooltip';
 import { PATHS } from '@/const/paths';
 import { getAuctionCaseColor, getFullAddress, getRemainingTimeDisplay } from '@/lib/auctionCase';
 import { AuctionCaseLike } from '@/types/auctionCase';
-import { LucideTimer } from 'lucide-react';
+import { LucideNotebookText, LucideTimer, LucideUsersRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -15,6 +16,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
   const [remainingTime, setRemainingTime] = useState(getRemainingTimeDisplay(auctionCase));
   const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
   const [bidderCount, setBidderCount] = useState(auctionCase.bids.length);
+  const [articleCount, setArticleCount] = useState(auctionCase.articles.length);
 
   const { id, groupId, caseName, address, addressDetail } = auctionCase;
   const fullAddress = getFullAddress({ address, addressDetail });
@@ -23,6 +25,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
     setRemainingTime(getRemainingTimeDisplay(auctionCase));
     setColor(getAuctionCaseColor(auctionCase));
     setBidderCount(auctionCase.bids.length);
+    setArticleCount(auctionCase.articles.length);
   }, 1000);
 
   return (
@@ -41,20 +44,31 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-1 justify-between items-end text-right shrink-0">
-        <div className="min-h-[24px] md:min-h-[28px] md:text-lg">
-          {bidderCount > 0 && (
-            <>
-              입찰자: <b>{bidderCount.toLocaleString()}명</b>
-            </>
-          )}
-        </div>
-        <div className="flex items-center text-sm min-h-[20px] sm:text-base sm:min-h-[24px] md:text-lg md:min-h-[28px]">
+      <div className="self-start flex flex-col gap-1 justify-between items-end text-right shrink-0">
+        <div className="min-h-[24px] md:min-h-[28px] md:text-lg flex items-center">
           {remainingTime && (
             <>
               <LucideTimer className="w-4 h-4 mr-1" />
               <b>{remainingTime}</b>
             </>
+          )}
+        </div>
+        <div className="min-h-[24px] md:min-h-[28px] md:text-lg flex items-center gap-2">
+          {articleCount > 0 && (
+            <WithTooltip tooltip="조사 내용">
+              <div className="flex items-center gap-1">
+                <LucideNotebookText className="w-4 h-4 mr-1" />
+                <b>{articleCount.toLocaleString()}</b>
+              </div>
+            </WithTooltip>
+          )}
+          {bidderCount > 0 && (
+            <WithTooltip tooltip="입찰자">
+              <div className="flex items-center gap-1">
+                <LucideUsersRound className="w-4 h-4 mr-1" />
+                <b>{bidderCount.toLocaleString()}</b>
+              </div>
+            </WithTooltip>
           )}
         </div>
       </div>

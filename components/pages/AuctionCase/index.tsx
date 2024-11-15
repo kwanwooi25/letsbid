@@ -12,9 +12,10 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
-import AuctionCaseBids from './AuctionCaseBids';
-import AuctionCaseIntroduction from './AuctionCaseIntroduction';
+import ArticleList from './Articles';
 import AuctionCaseTitle from './AuctionCaseTitle';
+import AuctionCaseBids from './Bids';
+import AuctionCaseIntroduction from './Introduction';
 import AuctionCaseSkeleton from './skeleton';
 import AucitonCasePageToolbar from './Toolbar';
 import { useAuctionCaseDetailActions } from './useAuctionCaseDetailActions';
@@ -72,6 +73,9 @@ export default function AuctionCase() {
         <AucitonCasePageToolbar auctionCase={auctionCase} />
         <TabsContent value="introduction" className="py-4 mt-0 lg:py-0">
           <AuctionCaseIntroduction auctionCase={auctionCase} />
+        </TabsContent>
+        <TabsContent value="articles" className="py-4 mt-0 lg:py-0">
+          <ArticleList auctionCase={auctionCase} />
         </TabsContent>
         <TabsContent value="bids" className="py-4 mt-0 lg:py-0 flex flex-col items-center">
           <AuctionCaseBids auctionCase={auctionCase} isGroupHost={isGroupHost} />

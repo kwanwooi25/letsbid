@@ -7,6 +7,7 @@ export const PATHS = {
   AUCTION_CASE: '/auction-case',
   CREATE_AUCTION_CASE: '/auction-case/create',
   BID: '/bid',
+  ARTICLE: '/article',
   ME: '/me',
   EDIT_USER_PROFILE: '/me/edit',
   MY_BID_HISTORY: '/me/bid-history',
@@ -22,6 +23,8 @@ export const API_ROUTE = {
   ARCHIVED_GROUP: '/api/group/archived',
   AUCTION_CASE: '/api/auction-case',
   BID: '/api/bid',
+  ARTICLE: '/api/article',
+  IMAGE: '/api/image',
 } as const;
 
 export const NAV_LIST = [

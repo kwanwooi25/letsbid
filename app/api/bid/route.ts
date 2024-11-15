@@ -7,7 +7,15 @@ export async function GET() {
     const user = await getUserFromSession();
     const bids = await prisma.bid.findMany({
       where: { userId: user?.id },
-      include: { user: true, auctionCase: { include: { bids: { include: { user: true } } } } },
+      include: {
+        user: true,
+        auctionCase: {
+          include: {
+            bids: { include: { user: true } },
+            articles: { where: { isPublished: true } },
+          },
+        },
+      },
       orderBy: { auctionCase: { bidEndsAt: 'desc' } },
     });
     return handleSuccess({

@@ -2,10 +2,13 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { deleteArticleMutaionOptions } from '@/queries/article/mutation';
 import { deleteAuctionCaseMutationOptions } from '@/queries/auction-case/mutation';
 import { deleteBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
+import { ArticleWithAuctionCaseAuthorAttachments } from '@/types/article';
 import { AuctionCaseLike } from '@/types/auctionCase';
 import { BidWithUser } from '@/types/bid';
+import { AuctionCase } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { useAuctionCaseDetailRouter } from './useAuctionCaseDetailRouter';
 
@@ -18,8 +21,9 @@ export function useAuctionCaseDetailActions({ auctionCase }: Args) {
   const { mutateAsync: deleteAuctionCase } = useMutation(deleteAuctionCaseMutationOptions);
   const { mutateAsync: cancelBid } = useMutation(deleteBidMutationOptions);
   const { mutateAsync: updateBid } = useMutation(updateBidMutationOptions);
+  const { mutateAsync: deleteArticle } = useMutation(deleteArticleMutaionOptions);
 
-  const { moveToGroupDetail } = useAuctionCaseDetailRouter({ auctionCase });
+  const { moveToGroupDetail, moveToArticleList } = useAuctionCaseDetailRouter({ auctionCase });
 
   const tryToDeleteAuctionCase = () => {
     if (!auctionCase) return;
@@ -137,15 +141,40 @@ export function useAuctionCaseDetailActions({ auctionCase }: Args) {
     });
   };
 
+  const tryToDeleteArticle = (article: ArticleWithAuctionCaseAuthorAttachments) => {
+    const { id, auctionCaseId } = article;
+
+    openAlert({
+      title: '조사 내용 삭제',
+      description: '조사 내용을 삭제하시겠습니까?',
+      actionLabel: '삭제',
+      action: async () => {
+        try {
+          await deleteArticle({ auctionCaseId, articleId: id });
+          toast({
+            title: '조사 내용 삭제 완료',
+            variant: 'success',
+          });
+          moveToArticleList();
+          return true;
+        } catch (error) {
+          handleAxiosError(error);
+          return false;
+        }
+      },
+    });
+  };
+
   return {
     tryToDeleteAuctionCase,
     tryToCancelBid,
     tryToExcludeBid,
     tryToIncludeBid,
     tryToGiveUpBid,
+    tryToDeleteArticle,
   };
 }
 
 type Args = {
-  auctionCase?: AuctionCaseLike | null;
+  auctionCase?: AuctionCaseLike | AuctionCase | null;
 };
