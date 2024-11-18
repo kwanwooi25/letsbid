@@ -64,13 +64,11 @@ export default function GroupListItem({ group, isHost }: Props) {
   };
 
   return (
-    <ListItem
-      className={cn('min-h-[86px]', isJoinable && 'hover:cursor-default')}
-      onClick={isJoinable ? undefined : moveToGroup}
-    >
+    <ListItem className={cn('min-h-[86px] hover:cursor-default')}>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <span className="text-xl font-semibold line-clamp-1">{name}</span>
+          {isHost && <HostBadge className="shrink-0" />}
         </div>
         {!!description && (
           <div className="text-xs font-semibold text-primary/50 line-clamp-1">{description}</div>
@@ -99,18 +97,14 @@ export default function GroupListItem({ group, isHost }: Props) {
         </div>
       </div>
 
-      {isHost && <HostBadge className="shrink-0" />}
-
-      {isJoinable && (
-        <Button
-          onClick={handleClickJoin}
-          type="button"
-          isLoading={isPending}
-          disabled={isMaxMemberReached}
-        >
-          참여하기
-        </Button>
-      )}
+      <Button
+        onClick={isJoinable ? handleClickJoin : moveToGroup}
+        type="button"
+        isLoading={isPending}
+        disabled={isMaxMemberReached}
+      >
+        {isJoinable ? '참여하기' : '들어가기'}
+      </Button>
     </ListItem>
   );
 }
