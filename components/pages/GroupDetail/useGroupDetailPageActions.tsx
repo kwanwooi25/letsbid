@@ -1,13 +1,13 @@
 import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
-import { useAxiosError } from '@/hooks/useAxiosError';
 import {
   archiveGroupMutationOptions,
   deleteGroupMutationOptions,
   expelGroupMemberMutationOptions,
   unarchiveGroupMutationOptions,
-} from '@/queries/group/mutation';
-import { GroupWithMembers } from '@/types/group';
+} from '@/features/group/mutation';
+import { GroupWithMembers } from '@/features/group/types';
+import { useAxiosError } from '@/hooks/useAxiosError';
 import { useMutation } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useGroupDetailRouter } from './useGroupDetailRouter';

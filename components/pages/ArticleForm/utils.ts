@@ -1,4 +1,4 @@
-import { ArticleWithAuctionCaseAuthorAttachments } from '@/types/article';
+import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';
 import { ArticleFormSchema } from './formSchema';
 
 export function getDefaultFormValues({

@@ -1,10 +1,10 @@
+import { SuccessResponse } from '@/app/api/types';
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
-import { BidWithUser, BidWithUserAndAuctionCase } from '@/types/bid';
+import { getApiUrl } from '@/lib/query';
 import { queryOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl } from '../config';
 import { bidQueryKeys } from './queryKey';
+import { BidWithUser, BidWithUserAndAuctionCase } from './types';
 
 export const getBidDetailQueryOptions = (bidId?: string) =>
   queryOptions({

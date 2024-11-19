@@ -7,12 +7,12 @@ import Divider from '@/components/ui/divider';
 import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
+import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
+import { auctionCaseQueryKeys } from '@/features/auction-case/queryKey';
+import { placeBidMutationOptions, updateBidMutationOptions } from '@/features/bid/mutation';
+import { getBidDetailQueryOptions } from '@/features/bid/query';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { readNumberInKorean } from '@/lib/number';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
-import { auctionCaseQueryKeys } from '@/queries/auction-case/queryKey';
-import { placeBidMutationOptions, updateBidMutationOptions } from '@/queries/bid/mutation';
-import { getBidDetailQueryOptions } from '@/queries/bid/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -30,8 +30,8 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
   const [{ data: bid }, { data: auctionCase }] = useSuspenseQueries({
     queries: [getBidDetailQueryOptions(bidId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
   });
-  const placeBidMutation = useMutation(placeBidMutationOptions);
-  const updateBidMutation = useMutation(updateBidMutationOptions);
+  const { mutateAsync: placeBid } = useMutation(placeBidMutationOptions);
+  const { mutateAsync: updateBid } = useMutation(updateBidMutationOptions);
   const queryClient = useQueryClient();
   const form = useForm<BiddingFormSchema>({
     resolver: zodResolver(formSchema),
@@ -78,15 +78,6 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
 
   const isEditing = !!bid;
   const formTitle = isEditing ? '입찰 정보 수정' : '입찰표 제출';
-
-  const placeBid = async (values: BiddingFormSchema) => {
-    const placedBid = await placeBidMutation.mutateAsync(values);
-    return placedBid;
-  };
-  const updateBid = async (values: BiddingFormSchema) => {
-    const updatedBid = await updateBidMutation.mutateAsync(values);
-    return updatedBid;
-  };
 
   const submitForm = form.handleSubmit(async (values: BiddingFormSchema) => {
     try {

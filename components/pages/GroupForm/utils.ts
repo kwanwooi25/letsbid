@@ -1,4 +1,4 @@
-import { GroupWithMembers } from '@/types/group';
+import { GroupWithMembers } from '@/features/group/types';
 import { Group } from '@prisma/client';
 import { GroupFormSchema } from './formSchema';
 

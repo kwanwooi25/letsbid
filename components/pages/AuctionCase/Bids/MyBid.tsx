@@ -1,9 +1,9 @@
 import BidDetail from '@/components/BidDetail';
 import BidDetailSkeleton from '@/components/BidDetail/skeleton';
 import { Button } from '@/components/ui/button';
-import { getAuctionCaseStatus } from '@/lib/auctionCase';
-import { getBidDetailQueryOptions } from '@/queries/bid/query';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCaseLike } from '@/features/auction-case/types';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
+import { getBidDetailQueryOptions } from '@/features/bid/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';

@@ -1,8 +1,8 @@
+import { prisma } from '@/lib/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Kakao from 'next-auth/providers/kakao';
-import { prisma } from '../prisma';
 
 const authConfig = {
   debug: process.env.NODE_ENV !== 'production',

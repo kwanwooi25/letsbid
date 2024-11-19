@@ -2,7 +2,7 @@ import DetailRow from '@/components/DetailRow';
 import Divider from '@/components/ui/divider';
 import { formatDateTime } from '@/lib/datetime';
 import { isValidNumber, squareMeterToPY } from '@/lib/number';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { LucideCircleCheckBig, LucideCircleX } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';

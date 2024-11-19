@@ -1,9 +1,9 @@
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { getApiUrl } from '@/lib/query';
+import { SuccessResponse } from '@/app/api/types';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { queryOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl } from '../config';
 import { auctionCaseQueryKeys } from './queryKey';
 
 export const getAuctionCaseListQueryOptions = (groupId: string) =>

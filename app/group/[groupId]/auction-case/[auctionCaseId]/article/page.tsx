@@ -1,8 +1,8 @@
 import ArticleForm from '@/components/pages/ArticleForm';
 import ArticleFormSkeleton from '@/components/pages/ArticleForm/skeleton';
-import { withAuth } from '@/lib/auth/hoc';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
-import { getQueryClient } from '@/queries/config';
+import { withAuth } from '@/features/auth/hoc';
+import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
+import { getQueryClient } from '@/lib/query';
 import { Suspense } from 'react';
 
 export default withAuth(async function ({

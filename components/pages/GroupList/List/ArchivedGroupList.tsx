@@ -2,7 +2,7 @@
 
 import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
-import { getArchivedGroupListQueryOptions } from '@/queries/group/query';
+import { getArchivedGroupListQueryOptions } from '@/features/group/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import GroupListItem from './GroupListItem';

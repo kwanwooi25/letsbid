@@ -3,15 +3,15 @@
 import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
 import PageToolbar from '@/components/PageToolbar';
 import { Button } from '@/components/ui/button';
-import { AUCTION_CASE_PAGE_HEADER_HEIGHT, GNB_HEIGHT } from '@/const/layout';
+import { AUCTION_CASE_PAGE_HEADER_HEIGHT, GNB_HEIGHT } from '@/components/layouts/const';
 import {
   getAuctionCaseColor,
   getAuctionCaseStatus,
   getAuctionCaseTimeRefDisplay,
   getRemainingTimeDisplay,
-} from '@/lib/auctionCase';
+} from '@/features/auction-case/utils';
 import { cn } from '@/lib/utils';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { LucideNotebookPen } from 'lucide-react';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';

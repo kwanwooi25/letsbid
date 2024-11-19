@@ -1,7 +1,7 @@
 'use client';
 
 import List from '@/components/List';
-import { GroupWithMembersAsUsers } from '@/types/group';
+import { GroupWithMembersAsUsers } from '@/features/group/types';
 import MemberListItem from './ListItem';
 
 export default function MemberList({ group }: Props) {

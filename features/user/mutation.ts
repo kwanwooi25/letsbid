@@ -2,11 +2,11 @@ import { SignInFormSchema } from '@/components/pages/SignInForm/formSchema';
 import { SignUpFormSchema } from '@/components/pages/SignUpForm/formSchema';
 import { UserFormSchema } from '@/components/pages/UserForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
+import { getApiUrl } from '@/lib/query';
+import { SuccessResponse } from '@/app/api/types';
 import { User } from '@prisma/client';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl } from '../config';
 
 export const createUserMutationOptions: MutationOptions<User, Error, SignUpFormSchema> = {
   mutationFn: async (data: SignUpFormSchema) => {

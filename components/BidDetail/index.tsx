@@ -1,7 +1,7 @@
 import DetailRow from '@/components/DetailRow';
 import Divider from '@/components/ui/divider';
-import { AuctionCaseLike } from '@/types/auctionCase';
-import { BidWithUser } from '@/types/bid';
+import { AuctionCaseLike } from '@/features/auction-case/types';
+import { BidWithUser } from '@/features/bid/types';
 import BidDetailSkeleton from './skeleton';
 
 export default function BidDetail({ bid, auctionCase }: Props) {

@@ -3,11 +3,11 @@
 import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
-import { getMyGroupListQueryOptions } from '@/queries/group/query';
+import { getMyGroupListQueryOptions } from '@/features/group/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import GroupListItem from './GroupListItem';
 import { useGroupListRouter } from '../useGroupListRouter';
+import GroupListItem from './GroupListItem';
 
 export default function JoinedGroupList() {
   const session = useSession();

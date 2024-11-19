@@ -6,7 +6,7 @@ import { Chip } from '@/components/ui/chip';
 import UserImage from '@/components/UserImage';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
-import { ArticleWithAuctionCaseAuthorAttachments } from '@/types/article';
+import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';
 import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 

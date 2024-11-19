@@ -6,9 +6,9 @@ import {
   ScrollableDialogContent,
 } from '@/components/ui/dialog';
 import { Form, InputFormField } from '@/components/ui/form';
+import { joinGroupMutationOptions } from '@/features/group/mutation';
+import { GroupWithMembers } from '@/features/group/types';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { joinGroupMutationOptions } from '@/queries/group/mutation';
-import { GroupWithMembers } from '@/types/group';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';

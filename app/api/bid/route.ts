@@ -1,5 +1,5 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
-import { getAuctionCaseStatus } from '@/lib/auctionCase';
+import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {

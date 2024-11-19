@@ -4,8 +4,12 @@ import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
 import ListItem from '@/components/ListItem';
 import WithTooltip from '@/components/WithTooltip';
 import { PATHS } from '@/const/paths';
-import { getAuctionCaseColor, getFullAddress, getRemainingTimeDisplay } from '@/lib/auctionCase';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import {
+  getAuctionCaseColor,
+  getFullAddress,
+  getRemainingTimeDisplay,
+} from '@/features/auction-case/utils';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { LucideNotebookText, LucideTimer, LucideUsersRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

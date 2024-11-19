@@ -1,8 +1,8 @@
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
+import { getApiUrl } from '@/lib/query';
+import { SuccessResponse } from '@/app/api/types';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl } from '../config';
 
 export const uploadImageMutationOptions: MutationOptions<
   string,

@@ -1,9 +1,9 @@
 import BiddingForm from '@/components/pages/BiddingForm';
 import BiddingFormSkeleton from '@/components/pages/BiddingForm/skeleton';
-import { withAuth } from '@/lib/auth/hoc';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
-import { getBidDetailQueryOptions } from '@/queries/bid/query';
-import { getQueryClient } from '@/queries/config';
+import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
+import { withAuth } from '@/features/auth/hoc';
+import { getBidDetailQueryOptions } from '@/features/bid/query';
+import { getQueryClient } from '@/lib/query';
 import { Suspense } from 'react';
 
 export default withAuth(async function ({

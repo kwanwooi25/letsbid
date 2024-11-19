@@ -13,14 +13,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { useToast } from '@/components/ui/use-toast';
 import UserImage from '@/components/UserImage';
 import { useAlert } from '@/context/Alert';
-import { useAxiosError } from '@/hooks/useAxiosError';
-import { useIsGroupHost } from '@/hooks/useIsGroupHost';
-import { formatPhoneNumber } from '@/lib/string';
 import {
   changeGroupHostMutationOptions,
   expelGroupMemberMutationOptions,
-} from '@/queries/group/mutation';
-import { GroupWithMembersAsUsers } from '@/types/group';
+} from '@/features/group/mutation';
+import { GroupWithMembersAsUsers } from '@/features/group/types';
+import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { formatPhoneNumber } from '@/lib/string';
 import { useMutation } from '@tanstack/react-query';
 import { LucideCrown, LucideUserMinus2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';

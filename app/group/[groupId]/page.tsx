@@ -1,10 +1,10 @@
+import { getUserFromSession } from '@/app/api/utils';
 import GroupDetail from '@/components/pages/GroupDetail';
 import GroupDetailSkeleton from '@/components/pages/GroupDetail/skeleton';
 import { PATHS } from '@/const/paths';
-import { getUserFromSession } from '@/lib/api';
-import { withAuth } from '@/lib/auth/hoc';
-import { getQueryClient } from '@/queries/config';
-import { getGroupDetailQueryOptions } from '@/queries/group/query';
+import { withAuth } from '@/features/auth/hoc';
+import { getGroupDetailQueryOptions } from '@/features/group/query';
+import { getQueryClient } from '@/lib/query';
 import { redirect, RedirectType } from 'next/navigation';
 import { Suspense } from 'react';
 
