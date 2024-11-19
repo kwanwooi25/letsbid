@@ -1,8 +1,8 @@
 'use client';
 
-import HostBadge from '@/components/HostBadge';
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import HostBadge from '@/components/common/HostBadge';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';

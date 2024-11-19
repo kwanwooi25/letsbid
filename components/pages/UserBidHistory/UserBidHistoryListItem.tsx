@@ -1,6 +1,6 @@
-import BidDetail from '@/components/BidDetail';
-import BidRankBadge from '@/components/BidRankBadge';
-import ListItem from '@/components/ListItem';
+import BidDetail from '@/components/common/BidDetail';
+import BidRankBadge from '@/components/common/BidRankBadge';
+import ListItem from '@/components/common/ListItem';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';

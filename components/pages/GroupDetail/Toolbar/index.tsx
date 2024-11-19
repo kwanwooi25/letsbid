@@ -1,6 +1,6 @@
 'use client';
 
-import PageToolbar from '@/components/PageToolbar';
+import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
 import { useIsGroupHost } from '@/features/group/useIsGroupHost';
 import { GroupWithMembersAsUsers } from '@/features/group/types';

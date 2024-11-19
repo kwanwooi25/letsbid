@@ -1,7 +1,7 @@
 'use client';
 
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import UserDetail from './UserDetail';
 import { useUserProfileRouter } from './useUserProfileRouter';

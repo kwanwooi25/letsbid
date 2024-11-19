@@ -1,13 +1,5 @@
 'use client';
 
-import { LOCAL_STORAGE_KEYS } from '@/const/localStorage';
-import { PATHS } from '@/const/paths';
-import { useCurrentUrl } from '@/hooks/useCurrentUrl';
-import { addDays, isAfter } from 'date-fns';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { ComponentProps, useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -16,10 +8,18 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '../ui/alert-dialog';
-import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
-import { Label } from '../ui/label';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { LOCAL_STORAGE_KEYS } from '@/const/localStorage';
+import { PATHS } from '@/const/paths';
+import { useCurrentUrl } from '@/hooks/useCurrentUrl';
+import { addDays, isAfter } from 'date-fns';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { ComponentProps, useState } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function MobileNumberChecker() {
   const router = useRouter();

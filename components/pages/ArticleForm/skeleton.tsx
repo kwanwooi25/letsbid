@@ -1,5 +1,5 @@
-import PageBody from '@/components/PageBody';
-import WithLabel from '@/components/WithLabel';
+import PageBody from '@/components/layouts/PageBody';
+import WithLabel from '@/components/common/WithLabel';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ArticleFormSkeleton() {

@@ -1,6 +1,6 @@
 'use client';
 
-import PageBody from '@/components/PageBody';
+import PageBody from '@/components/layouts/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import GroupListSkeleton from './List/skeleton';

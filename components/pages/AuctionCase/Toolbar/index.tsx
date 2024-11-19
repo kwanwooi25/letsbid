@@ -1,7 +1,7 @@
 'use client';
 
-import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
-import PageToolbar from '@/components/PageToolbar';
+import AuctionCaseStatusBadge from '@/components/common/AuctionCaseStatusBadge';
+import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_PAGE_HEADER_HEIGHT, GNB_HEIGHT } from '@/components/layouts/const';
 import {

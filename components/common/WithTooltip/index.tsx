@@ -1,5 +1,5 @@
 import { PropsWithChildren, ReactNode } from 'react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 
 export default function WithTooltip({ children, tooltip }: Props) {
   return (

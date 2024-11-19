@@ -1,7 +1,7 @@
 'use client';
 
-import List from '@/components/List';
-import ListEmpty from '@/components/ListEmpty';
+import List from '@/components/common/List';
+import ListEmpty from '@/components/common/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
 import { AuctionCaseLike } from '@/features/auction-case/types';

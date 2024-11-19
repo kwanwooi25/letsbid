@@ -1,6 +1,6 @@
-import HostBadge from '@/components/HostBadge';
-import ListItem from '@/components/ListItem';
-import MeBadge from '@/components/MeBadge';
+import HostBadge from '@/components/common/HostBadge';
+import ListItem from '@/components/common/ListItem';
+import MeBadge from '@/components/common/MeBadge';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
-import UserImage from '@/components/UserImage';
+import UserImage from '@/components/common/UserImage';
 import { useAlert } from '@/context/Alert';
 import {
   changeGroupHostMutationOptions,

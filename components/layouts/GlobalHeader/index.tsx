@@ -1,10 +1,10 @@
 'use client';
 
 import { GNB_HEIGHT } from '@/components/layouts/const';
+import Logo from '@/components/common/Logo';
 import { PATHS } from '@/const/paths';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import Logo from '../Logo';
 import DesktopNavigation from './Navigation/DesktopNavigation';
 import MobileNavigation from './Navigation/MobileNavigation';
 import UserMenu from './UserMenu';

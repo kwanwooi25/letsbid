@@ -1,6 +1,6 @@
-import PageBody from '@/components/PageBody';
+import PageBody from '@/components/layouts/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserImage from '@/components/UserImage';
+import UserImage from '@/components/common/UserImage';
 
 export default function UserFormSkeleton() {
   return (

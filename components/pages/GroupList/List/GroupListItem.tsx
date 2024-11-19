@@ -1,7 +1,7 @@
 'use client';
 
-import HostBadge from '@/components/HostBadge';
-import ListItem from '@/components/ListItem';
+import HostBadge from '@/components/common/HostBadge';
+import ListItem from '@/components/common/ListItem';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';

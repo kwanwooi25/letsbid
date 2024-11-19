@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import PageHeader from '../PageHeader';
+import PageHeader from '../layouts/PageHeader';
 import { ComponentProps, PropsWithChildren } from 'react';
 
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

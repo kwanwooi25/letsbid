@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import UserImage from '@/components/UserImage';
+import UserImage from '@/components/common/UserImage';
 import { cn } from '@/lib/utils';
 import { LucideEdit2, LucidePlus, LucideX } from 'lucide-react';
 import { useSession } from 'next-auth/react';

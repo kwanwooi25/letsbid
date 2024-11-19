@@ -1,6 +1,6 @@
 'use client';
 
-import PageToolbar from '@/components/PageToolbar';
+import PageToolbar from '@/components/layouts/PageToolbar';
 import { Skeleton } from '@/components/ui/skeleton';
 import AuctionCaseDetailTabsList from './AuctionCaseDetailTabsList';
 

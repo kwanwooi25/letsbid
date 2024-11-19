@@ -1,6 +1,6 @@
 'use client';
 
-import List from '@/components/List';
+import List from '@/components/common/List';
 import { GroupWithMembersAsUsers } from '@/features/group/types';
 import MemberListItem from './ListItem';
 

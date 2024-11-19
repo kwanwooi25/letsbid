@@ -1,8 +1,8 @@
 'use client';
 
-import List from '@/components/List';
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import List from '@/components/common/List';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import UserBidHistoryListItem from './UserBidHistoryListItem';
 
 export default function UserBidHistorySkeleton() {

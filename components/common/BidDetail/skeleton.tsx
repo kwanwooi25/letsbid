@@ -1,4 +1,4 @@
-import DetailRow from '@/components/DetailRow';
+import DetailRow from '@/components/common/DetailRow';
 import Divider from '@/components/ui/divider';
 
 export default function BidDetailSkeleton() {

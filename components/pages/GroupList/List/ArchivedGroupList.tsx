@@ -1,9 +1,9 @@
 'use client';
 
-import List from '@/components/List';
-import ListEmpty from '@/components/ListEmpty';
-import Pagination from '@/components/Pagination';
-import { useCurrentPage } from '@/components/Pagination/useCurrentPage';
+import List from '@/components/common/List';
+import ListEmpty from '@/components/common/ListEmpty';
+import Pagination from '@/components/common/Pagination';
+import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { getArchivedGroupListQueryOptions } from '@/features/group/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';

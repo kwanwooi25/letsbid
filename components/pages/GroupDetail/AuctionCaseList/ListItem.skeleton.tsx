@@ -1,6 +1,6 @@
 'use client';
 
-import ListItem from '@/components/ListItem';
+import ListItem from '@/components/common/ListItem';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function AuctionCaseListItemSkeleton() {

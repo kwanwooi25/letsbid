@@ -1,6 +1,6 @@
 'use client';
 
-import Logo from '@/components/Logo';
+import Logo from '@/components/common/Logo';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,

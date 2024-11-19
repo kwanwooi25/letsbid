@@ -1,7 +1,7 @@
 'use client';
 
 import { Skeleton } from '@/components/ui/skeleton';
-import UserImage from '@/components/UserImage';
+import UserImage from '@/components/common/UserImage';
 import { formatPhoneNumber } from '@/lib/string';
 import { useSession } from 'next-auth/react';
 
