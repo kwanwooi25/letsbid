@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
-import { getFullAddress } from '@/lib/auctionCase';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { getFullAddress } from '@/features/auction-case/utils';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 
 export default function AuctionCaseTitle({ auctionCase }: Props) {
   const { caseName, address, addressDetail } = auctionCase;

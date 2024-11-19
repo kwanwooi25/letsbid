@@ -1,9 +1,9 @@
 import { API_ROUTE } from '@/const/paths';
-import type { SuccessResponse } from '@/types/api';
-import type { GroupWithMembers, GroupWithMembersAsUsers } from '@/types/group';
+import { getApiUrl } from '@/lib/query';
+import type { SuccessResponse } from '@/app/api/types';
+import type { GroupWithMembers, GroupWithMembersAsUsers } from '@/features/group/types';
 import { queryOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl } from '../config';
 import { groupQueryKeys } from './queryKey';
 
 export const getMyGroupListQueryOptions = queryOptions({

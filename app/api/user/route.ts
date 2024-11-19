@@ -1,5 +1,5 @@
 import { SignUpFormSchema } from '@/components/pages/SignUpForm/formSchema';
-import { handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { HttpStatusCode } from 'axios';

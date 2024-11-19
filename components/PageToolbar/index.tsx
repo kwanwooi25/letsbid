@@ -1,4 +1,4 @@
-import { GNB_HEIGHT, PAGE_HEADER_HEIGHT } from '@/const/layout';
+import { GNB_HEIGHT, PAGE_HEADER_HEIGHT } from '@/components/layouts/const';
 import { cn } from '@/lib/utils';
 import { HTMLAttributes, PropsWithChildren } from 'react';
 

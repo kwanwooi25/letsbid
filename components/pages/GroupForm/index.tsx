@@ -8,10 +8,10 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
+import { createGroupMutationOptions, updateGroupMutationOptions } from '@/features/group/mutation';
+import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
-import { createGroupMutationOptions, updateGroupMutationOptions } from '@/queries/group/mutation';
-import { getGroupDetailQueryOptions } from '@/queries/group/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { LucideEye, LucideEyeOff } from 'lucide-react';
@@ -29,8 +29,8 @@ export default function GroupForm() {
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
-  const createGroupMutation = useMutation(createGroupMutationOptions);
-  const updateGroupMutation = useMutation(updateGroupMutationOptions);
+  const { mutateAsync: createGroup } = useMutation(createGroupMutationOptions);
+  const { mutateAsync: updateGroup } = useMutation(updateGroupMutationOptions);
   const form = useForm<GroupFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues(group),
@@ -42,22 +42,12 @@ export default function GroupForm() {
   const isEditing = !!group;
   const formTitle = isEditing ? '그룹 수정' : '그룹 생성';
 
-  const createGroup = async (values: GroupFormSchema) => {
-    const createdGroup = await createGroupMutation.mutateAsync(values);
-    return createdGroup.name;
-  };
-
-  const editGroup = async (values: GroupFormSchema) => {
-    const updatedGroup = await updateGroupMutation.mutateAsync(values);
-    return updatedGroup.name;
-  };
-
   const submitForm = form.handleSubmit(async (values: GroupFormSchema) => {
     try {
-      const mutationFn = isEditing ? editGroup : createGroup;
-      const groupName = await mutationFn(values);
+      const mutationFn = isEditing ? updateGroup : createGroup;
+      const { name } = await mutationFn(values);
       toast({
-        title: groupName,
+        title: name,
         description: <p>{formTitle} 성공</p>,
         variant: 'success',
       });

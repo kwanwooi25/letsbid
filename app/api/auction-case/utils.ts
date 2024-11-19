@@ -1,6 +1,6 @@
 import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
-import { deleteImage, uploadImage } from '@/lib/s3';
-import { IMAGE_HOST_URL } from '@/lib/s3/const';
+import { deleteImage, uploadImage } from '@/features/s3';
+import { IMAGE_HOST_URL } from '@/features/s3/const';
 
 export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
   const { imageToUpload, imageToDelete, ...rest } = data;

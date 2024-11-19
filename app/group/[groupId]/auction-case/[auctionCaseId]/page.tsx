@@ -1,6 +1,6 @@
 import AuctionCase from '@/components/pages/AuctionCase';
 import AuctionCaseSkeleton from '@/components/pages/AuctionCase/skeleton';
-import { withAuth } from '@/lib/auth/hoc';
+import { withAuth } from '@/features/auth/hoc';
 import { Suspense } from 'react';
 
 export default withAuth(function () {

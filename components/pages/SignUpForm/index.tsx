@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
+import { createUserMutationOptions } from '@/features/user/mutation';
 import { useAxiosError } from '@/hooks/useAxiosError';
-import { createUserMutationOptions } from '@/queries/user/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LucideLogIn } from 'lucide-react';
@@ -19,7 +19,7 @@ export default function SignUpForm() {
   const { handleAxiosError } = useAxiosError();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const createUserMutation = useMutation(createUserMutationOptions);
+  const { mutateAsync: createUser } = useMutation(createUserMutationOptions);
   const form = useForm<SignUpFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues(searchParams.get('email') ?? ''),
@@ -28,7 +28,7 @@ export default function SignUpForm() {
 
   const submitForm = form.handleSubmit(async (values: SignUpFormSchema) => {
     try {
-      const createdUser = await createUserMutation.mutateAsync(values);
+      const createdUser = await createUser(values);
       toast({
         title: `${createdUser.email} (${createdUser.name})`,
 

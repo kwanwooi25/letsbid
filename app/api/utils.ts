@@ -1,5 +1,5 @@
-import { auth } from '@/lib/auth';
-import type { FailedResponse, SuccessResponse } from '@/types/api';
+import { auth } from '@/features/auth';
+import type { FailedResponse, SuccessResponse } from '@/app/api/types';
 import { Prisma } from '@prisma/client';
 import { HttpStatusCode } from 'axios';
 import { NextResponse } from 'next/server';

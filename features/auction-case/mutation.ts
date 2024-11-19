@@ -1,10 +1,10 @@
 import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { getApiUrl, getQueryClient } from '@/lib/query';
+import { SuccessResponse } from '@/app/api/types';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl, getQueryClient } from '../config';
 import { auctionCaseQueryKeys } from './queryKey';
 
 export const createAuctionCaseMutationOptions: MutationOptions<

@@ -1,4 +1,4 @@
-import { BidWithUser } from '@/types/bid';
+import { BidWithUser } from '@/features/bid/types';
 import { BiddingFormSchema } from './formSchema';
 
 export function getDefaultFormValues({

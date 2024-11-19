@@ -13,8 +13,8 @@ import { squareMeterToPY } from '@/lib/number';
 import {
   createAuctionCaseMutationOptions,
   updateAuctionCaseMutationOptions,
-} from '@/queries/auction-case/mutation';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
+} from '@/features/auction-case/mutation';
+import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { LucideX } from 'lucide-react';

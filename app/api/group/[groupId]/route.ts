@@ -1,5 +1,5 @@
 import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 import { hashPassword } from '../../user/utils';

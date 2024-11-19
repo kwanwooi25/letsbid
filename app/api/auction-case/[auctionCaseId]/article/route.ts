@@ -1,5 +1,10 @@
 import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
-import { getUserFromSession, handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import {
+  getUserFromSession,
+  handleFail,
+  handlePrismaClientError,
+  handleSuccess,
+} from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';

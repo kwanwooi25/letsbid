@@ -3,8 +3,8 @@
 import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
-import { AUCTION_CASE_STATUS_LIST } from '@/const/auctionCase';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';

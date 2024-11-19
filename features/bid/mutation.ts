@@ -1,13 +1,13 @@
+import { SuccessResponse } from '@/app/api/types';
 import { BiddingFormSchema } from '@/components/pages/BiddingForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { BidExclusionFormSchema } from '@/context/FormDialog/BidExclusionForm/formSchema';
-import { SuccessResponse } from '@/types/api';
-import { BidWithUser } from '@/types/bid';
+import { getApiUrl, getQueryClient } from '@/lib/query';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
-import { getApiUrl, getQueryClient } from '../config';
 import { bidQueryKeys } from './queryKey';
+import { BidWithUser } from './types';
 
 export const placeBidMutationOptions: MutationOptions<BidWithUser, Error, BiddingFormSchema> = {
   mutationFn: async (data) => {

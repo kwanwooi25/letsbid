@@ -2,9 +2,12 @@
 
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
-import { useHasUserBidden } from '@/hooks/useHasUserBidden';
-import { getAuctionCaseStatus } from '@/lib/auctionCase';
-import { AuctionCaseLike, AuctionCaseWithBidsAndUserAndArticles } from '@/types/auctionCase';
+import { useHasUserBidden } from '@/features/auction-case/useHasUserBidden';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
+import {
+  AuctionCaseLike,
+  AuctionCaseWithBidsAndUserAndArticles,
+} from '@/features/auction-case/types';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';

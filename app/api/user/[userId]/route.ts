@@ -1,8 +1,8 @@
 import { UserFormSchema } from '@/components/pages/UserForm/formSchema';
-import { handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
-import { deleteImage, uploadImage } from '@/lib/s3';
-import { IMAGE_HOST_URL } from '@/lib/s3/const';
+import { deleteImage, uploadImage } from '@/features/s3';
+import { IMAGE_HOST_URL } from '@/features/s3/const';
 import { formToJSON } from 'axios';
 import { NextRequest } from 'next/server';
 

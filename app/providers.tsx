@@ -3,7 +3,7 @@
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { AlertProvider } from '@/context/Alert';
 import { FormDialogProvider } from '@/context/FormDialog';
-import { getQueryClient } from '@/queries/config';
+import { getQueryClient } from '@/lib/query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';

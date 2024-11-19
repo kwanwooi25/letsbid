@@ -1,5 +1,5 @@
-import { categorizeAuctionCases } from '@/lib/auctionCase';
-import { AuctionCaseLike, AuctionCaseStatus } from '@/types/auctionCase';
+import { categorizeAuctionCases } from '@/features/auction-case/utils';
+import { AuctionCaseLike, AuctionCaseStatus } from '@/features/auction-case/types';
 import { useQuery } from '@tanstack/react-query';
 
 export function useCategorizedAuctionCases(

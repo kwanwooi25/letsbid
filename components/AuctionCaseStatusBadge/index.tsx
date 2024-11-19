@@ -1,9 +1,9 @@
 'use client';
 
-import { AUCTION_CASE_STATUS_TRANSLATIONS } from '@/const/auctionCase';
-import { getAuctionCaseStatus } from '@/lib/auctionCase';
+import { AUCTION_CASE_STATUS_TRANSLATIONS } from '@/features/auction-case/const';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { cn } from '@/lib/utils';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 

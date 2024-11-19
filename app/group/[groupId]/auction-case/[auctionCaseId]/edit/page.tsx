@@ -1,7 +1,7 @@
 import AuctionCaseForm from '@/components/pages/AuctionCaseForm';
-import { withAuth } from '@/lib/auth/hoc';
-import { getAuctionCaseDetailQueryOptions } from '@/queries/auction-case/query';
-import { getQueryClient } from '@/queries/config';
+import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
+import { withAuth } from '@/features/auth/hoc';
+import { getQueryClient } from '@/lib/query';
 
 export default withAuth(async function ({
   params: { groupId, auctionCaseId },

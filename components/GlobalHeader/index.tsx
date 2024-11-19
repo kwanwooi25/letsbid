@@ -1,6 +1,6 @@
 'use client';
 
-import { GNB_HEIGHT } from '@/const/layout';
+import { GNB_HEIGHT } from '@/components/layouts/const';
 import { PATHS } from '@/const/paths';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
