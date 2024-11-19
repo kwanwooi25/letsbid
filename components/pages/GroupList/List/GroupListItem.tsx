@@ -97,14 +97,21 @@ export default function GroupListItem({ group, isHost }: Props) {
         </div>
       </div>
 
-      <Button
-        onClick={isJoinable ? handleClickJoin : moveToGroup}
-        type="button"
-        isLoading={isPending}
-        disabled={isMaxMemberReached}
-      >
-        {isJoinable ? '참여하기' : '들어가기'}
-      </Button>
+      {isJoinable && (
+        <Button
+          onClick={handleClickJoin}
+          type="button"
+          isLoading={isPending}
+          disabled={isMaxMemberReached}
+        >
+          참여하기
+        </Button>
+      )}
+      {!isJoinable && (
+        <Button onClick={moveToGroup} type="button" isLoading={isPending}>
+          들어가기
+        </Button>
+      )}
     </ListItem>
   );
 }

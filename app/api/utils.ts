@@ -1,5 +1,5 @@
+import type { FailedResponse, PaginationMeta, SuccessResponse } from '@/app/api/types';
 import { auth } from '@/features/auth';
-import type { FailedResponse, SuccessResponse } from '@/app/api/types';
 import { Prisma } from '@prisma/client';
 import { HttpStatusCode } from 'axios';
 import { NextResponse } from 'next/server';
@@ -23,23 +23,27 @@ export function handleFail(props?: { status?: number; message?: string }) {
     {
       result: 'FAILED',
       data: null,
+      meta: null,
       message,
     },
     { status },
   );
 }
 
-export function handleSuccess<T>({
+export function handleSuccess<D, M extends PaginationMeta>({
   data,
+  meta,
   status = HttpStatusCode.Ok,
 }: {
-  data: T;
+  data: D;
+  meta?: M;
   status?: number;
 }) {
-  return NextResponse.json<SuccessResponse<T>>(
+  return NextResponse.json<SuccessResponse<D, M>>(
     {
       result: 'SUCCESS',
       data,
+      meta,
     },
     { status },
   );
