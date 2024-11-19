@@ -39,7 +39,7 @@ const PaginationLink = ({ className, isActive, size = 'icon', ...props }: Pagina
         variant: isActive ? 'outline' : 'ghost',
         size,
       }),
-      'cursor-pointer',
+      props['aria-disabled'] ? 'cursor-not-allowed' : 'cursor-pointer',
       className,
     )}
     {...props}

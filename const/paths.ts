@@ -20,7 +20,7 @@ export const API_ROUTE = {
   USER_LOGIN: '/api/user/login',
   GROUP: '/api/group',
   JOINED_GROUP_LIST: '/api/group/joined',
-  MY_GROUP: '/api/group/my',
+  JOINABLE_GROUP_LIST: '/api/group/joinable',
   ARCHIVED_GROUP: '/api/group/archived',
   AUCTION_CASE: '/api/auction-case',
   BID: '/api/bid',

@@ -50,7 +50,7 @@ export default function JoinedGroupList() {
           <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
         ))}
       </List>
-      {typeof meta?.totalPages === 'number' && meta.totalPages > 0 && (
+      {typeof meta?.totalPages === 'number' && meta.totalPages > 1 && (
         <Pagination lastPage={meta.totalPages} />
       )}
     </>

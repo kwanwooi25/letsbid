@@ -2,15 +2,28 @@
 
 import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
-import { getGroupListQueryOptions } from '@/features/group/query';
+import Pagination from '@/components/Pagination';
+import { useCurrentPage } from '@/components/Pagination/useCurrentPage';
+import { getJoinableGroupListQueryOptions } from '@/features/group/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import GroupListItem from './GroupListItem';
 
 export default function JoinableGroupList() {
+  const { currentPage, setCurrentPage } = useCurrentPage();
   const session = useSession();
   const userId = session.data?.user?.id;
-  const { data: groups, isPending } = useSuspenseQuery(getGroupListQueryOptions);
+  const { data, isPending } = useSuspenseQuery(
+    getJoinableGroupListQueryOptions({ page: currentPage }),
+  );
+  const { data: groups, meta } = data;
+
+  useEffect(() => {
+    if (currentPage > 1 && !groups.length) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, groups.length, setCurrentPage]);
 
   if (!isPending && !groups.length) {
     return (
@@ -19,10 +32,15 @@ export default function JoinableGroupList() {
   }
 
   return (
-    <List>
-      {groups.map((group) => (
-        <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
-      ))}
-    </List>
+    <>
+      <List>
+        {groups.map((group) => (
+          <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
+        ))}
+      </List>
+      {typeof meta?.totalPages === 'number' && meta.totalPages > 1 && (
+        <Pagination lastPage={meta.totalPages} />
+      )}
+    </>
   );
 }

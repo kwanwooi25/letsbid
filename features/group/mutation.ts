@@ -26,7 +26,7 @@ export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error
     },
     onSettled: () => {
       const queryClient = getQueryClient();
-      queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
     },
   };
 
@@ -47,7 +47,7 @@ export const updateGroupMutationOptions: MutationOptions<GroupWithMembers, Error
     },
     onSettled: (updatedGroup) => {
       const queryClient = getQueryClient();
-      queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+      queryClient.invalidateQueries({ queryKey: ['groups'] });
       if (updatedGroup?.id) {
         queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
       }
@@ -72,7 +72,7 @@ export const archiveGroupMutationOptions: MutationOptions<GroupWithMembers, Erro
   },
   onSettled: (updatedGroup) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    queryClient.invalidateQueries({ queryKey: ['groups'] });
     if (updatedGroup?.id) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
     }
@@ -96,7 +96,7 @@ export const unarchiveGroupMutationOptions: MutationOptions<GroupWithMembers, Er
   },
   onSettled: (updatedGroup) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    queryClient.invalidateQueries({ queryKey: ['groups'] });
     if (updatedGroup?.id) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
     }
@@ -118,7 +118,7 @@ export const deleteGroupMutationOptions: MutationOptions<string, Error, string> 
   },
   onSettled: () => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    queryClient.invalidateQueries({ queryKey: ['groups'] });
   },
 };
 
@@ -142,7 +142,7 @@ export const joinGroupMutationOptions: MutationOptions<
   },
   onSettled: (result) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    queryClient.invalidateQueries({ queryKey: ['groups'] });
     if (result?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(result.groupId) });
     }
@@ -168,7 +168,7 @@ export const expelGroupMemberMutationOptions: MutationOptions<
   },
   onSettled: (expelledUser) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    queryClient.invalidateQueries({ queryKey: ['groups'] });
     if (expelledUser?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(expelledUser.groupId) });
     }
@@ -195,7 +195,7 @@ export const changeGroupHostMutationOptions: MutationOptions<
   },
   onSettled: (updatedGroup) => {
     const queryClient = getQueryClient();
-    queryClient.invalidateQueries({ queryKey: [groupQueryKeys.list('all')[0]] });
+    queryClient.invalidateQueries({ queryKey: ['groups'] });
     if (updatedGroup?.id) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
     }
