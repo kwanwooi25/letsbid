@@ -1,6 +1,6 @@
 'use client';
 
-import { GNB_HEIGHT } from '@/const/layout';
+import { GNB_HEIGHT } from '@/components/layouts/const';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { cn } from '@/lib/utils';
 import { LucideChevronLeft } from 'lucide-react';

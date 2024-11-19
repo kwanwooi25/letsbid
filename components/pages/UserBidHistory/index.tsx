@@ -3,7 +3,7 @@
 import List from '@/components/List';
 import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
-import { getMyBidHistoryQueryOptions } from '@/queries/bid/query';
+import { getMyBidHistoryQueryOptions } from '@/features/bid/query';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import UserBidHistoryListItem from './UserBidHistoryListItem';

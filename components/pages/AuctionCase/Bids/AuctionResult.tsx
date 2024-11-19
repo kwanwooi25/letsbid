@@ -4,8 +4,8 @@ import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/di
 import Divider from '@/components/ui/divider';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Keys } from '@/const/keyboard';
-import { getAuctionCaseStatus } from '@/lib/auctionCase';
-import { AuctionCaseWithBidsAndUserAndArticles } from '@/types/auctionCase';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
+import { AuctionCaseWithBidsAndUserAndArticles } from '@/features/auction-case/types';
 import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';

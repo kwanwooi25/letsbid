@@ -1,4 +1,4 @@
-import { AuctionCaseStatus } from '@/types/auctionCase';
+import { AuctionCaseStatus } from '@/features/auction-case/types';
 
 export const AUCTION_CASE_STATUS_TRANSLATIONS: Record<AuctionCaseStatus, string> = {
   BEFORE_BIDDING: '입찰 예정',

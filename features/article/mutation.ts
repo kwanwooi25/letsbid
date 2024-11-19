@@ -1,11 +1,11 @@
 import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
-import { ArticleWithAuctionCaseAuthorAttachments } from '@/types/article';
+import { getApiUrl, getQueryClient } from '@/lib/query';
+import { SuccessResponse } from '@/app/api/types';
+import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
-import { getApiUrl, getQueryClient } from '../config';
 import { articleQueryKeys } from './queryKey';
 
 export const createArticleMutaionOptions: MutationOptions<

@@ -1,7 +1,7 @@
 import { ListItemColor } from '@/components/ListItem/types';
-import { AuctionCaseLike, AuctionCaseStatus } from '@/types/auctionCase';
+import { AuctionCaseLike, AuctionCaseStatus } from '@/features/auction-case/types';
 import { differenceInSeconds, format, isAfter } from 'date-fns';
-import { formatSeconds, ONE_DAY, ONE_HOUR } from './time';
+import { formatSeconds, ONE_DAY, ONE_HOUR } from '../../lib/time';
 
 export function getAuctionCaseStatus(auctionCase?: AuctionCaseLike | null): AuctionCaseStatus {
   if (!auctionCase) return 'FINISHED_BIDDING';

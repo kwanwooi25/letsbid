@@ -2,11 +2,11 @@
 
 import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { SuccessResponse } from '@/types/api';
-import { GroupWithMembers } from '@/types/group';
+import { getApiUrl, getQueryClient } from '@/lib/query';
+import { SuccessResponse } from '@/app/api/types';
+import { GroupWithMembers } from '@/features/group/types';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
-import { getApiUrl, getQueryClient } from '../config';
 import { groupQueryKeys } from './queryKey';
 
 export const createGroupMutationOptions: MutationOptions<GroupWithMembers, Error, GroupFormSchema> =

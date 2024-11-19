@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layouts/MainLayout';
 import { Toaster } from '@/components/ui/toaster';
-import { auth } from '@/lib/auth';
+import { auth } from '@/features/auth';
 import { getAppName } from '@/lib/env';
 import { cn } from '@/lib/utils';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';

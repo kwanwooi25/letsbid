@@ -1,6 +1,6 @@
 import { PATHS } from '@/const/paths';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { AuctionCase } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 

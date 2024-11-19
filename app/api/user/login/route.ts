@@ -1,4 +1,4 @@
-import { handleFail, handlePrismaClientError, handleSuccess } from '@/lib/api';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';

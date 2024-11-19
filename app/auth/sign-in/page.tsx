@@ -2,7 +2,7 @@ import PageBody from '@/components/PageBody';
 import PageHeader from '@/components/PageHeader';
 import SignInForm from '@/components/pages/SignInForm';
 import { PATHS } from '@/const/paths';
-import { auth } from '@/lib/auth';
+import { auth } from '@/features/auth';
 import { redirect, RedirectType } from 'next/navigation';
 
 export default async function SignIn() {

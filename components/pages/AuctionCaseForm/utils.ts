@@ -1,4 +1,4 @@
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { addDays, setMinutes } from 'date-fns';
 import { AuctionCaseFormSchema } from './formSchema';
 

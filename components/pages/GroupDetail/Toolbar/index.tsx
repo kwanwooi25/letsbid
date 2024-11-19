@@ -2,8 +2,8 @@
 
 import PageToolbar from '@/components/PageToolbar';
 import { Button } from '@/components/ui/button';
-import { useIsGroupHost } from '@/hooks/useIsGroupHost';
-import { GroupWithMembersAsUsers } from '@/types/group';
+import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { GroupWithMembersAsUsers } from '@/features/group/types';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import { useGroupDetailTabs } from '../useGroupDetailTabs';

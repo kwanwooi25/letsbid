@@ -6,10 +6,10 @@ import Divider from '@/components/ui/divider';
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
+import { loginUserMutationOptions } from '@/features/user/mutation';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { useCreateQueryString } from '@/hooks/useCreateQueryString';
-import { loginUserMutationOptions } from '@/queries/user/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { LucideMail, LucideUserPlus } from 'lucide-react';
@@ -23,7 +23,7 @@ export default function SignInForm() {
   const [isKakaoLoggingIn, setIsKakaoLoggingIn] = useState(false);
   const router = useRouter();
   const createQueryString = useCreateQueryString();
-  const loginUserMutation = useMutation(loginUserMutationOptions);
+  const { mutateAsync: loginUser } = useMutation(loginUserMutationOptions);
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const callbackUrl = useCallbackUrl();
@@ -38,7 +38,7 @@ export default function SignInForm() {
 
   const submitForm = form.handleSubmit(async (values: SignInFormSchema) => {
     try {
-      const loggedInUser = await loginUserMutation.mutateAsync(values);
+      const loggedInUser = await loginUser(values);
       await signIn('credentials', {
         user: JSON.stringify(loggedInUser),
         callbackUrl: callbackUrl ?? PATHS.HOME,

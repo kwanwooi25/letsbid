@@ -1,8 +1,8 @@
 import List from '@/components/List';
 import ListEmpty from '@/components/ListEmpty';
 import { Button } from '@/components/ui/button';
-import { getAuctionCaseArticleListQueryOptions } from '@/queries/article/query';
-import { AuctionCaseLike } from '@/types/auctionCase';
+import { getAuctionCaseArticleListQueryOptions } from '@/features/article/query';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideNotebookPen } from 'lucide-react';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';

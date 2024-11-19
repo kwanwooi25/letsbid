@@ -1,5 +1,5 @@
-import { handleFail, handleSuccess } from '@/lib/api';
-import { uploadImage } from '@/lib/s3';
+import { handleFail, handleSuccess } from '@/app/api/utils';
+import { uploadImage } from '@/features/s3';
 import { formToJSON, HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
 
