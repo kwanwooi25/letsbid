@@ -1,12 +1,14 @@
 import { getUserFromSession } from '@/app/api/utils';
-import GroupDetail from '@/components/pages/GroupDetail';
 import GroupDetailSkeleton from '@/components/pages/GroupDetail/skeleton';
 import { PATHS } from '@/const/paths';
 import { withAuth } from '@/features/auth/hoc';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { getQueryClient } from '@/lib/query';
+import dynamic from 'next/dynamic';
 import { redirect, RedirectType } from 'next/navigation';
 import { Suspense } from 'react';
+
+const GroupDetail = dynamic(() => import('@/components/pages/GroupDetail'), { ssr: false });
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
   try {

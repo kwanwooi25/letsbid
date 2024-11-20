@@ -1,21 +1,25 @@
-import { API_ROUTE } from '@/const/paths';
-import { getApiUrl } from '@/lib/query';
 import { SuccessResponse } from '@/app/api/types';
-import { AuctionCaseLike } from '@/features/auction-case/types';
+import { API_ROUTE } from '@/const/paths';
+import { AuctionCaseLike, AuctionCaseListQueryOptions } from '@/features/auction-case/types';
+import { getApiUrl } from '@/lib/query';
 import { queryOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from './queryKey';
 
-export const getAuctionCaseListQueryOptions = (groupId: string) =>
+export const getAuctionCaseListQueryOptions = (
+  groupId: string,
+  options: AuctionCaseListQueryOptions,
+) =>
   queryOptions({
-    queryKey: auctionCaseQueryKeys.list(groupId),
+    queryKey: auctionCaseQueryKeys.list(groupId, options),
     queryFn: async () => {
-      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}?groupId=${groupId}`);
+      const url = getApiUrl(`${API_ROUTE.AUCTION_CASE_LIST}?groupId=${groupId}`);
       const res = await axios<SuccessResponse<AuctionCaseLike[]>>({
-        method: 'get',
+        method: 'post',
         url,
+        data: options,
       });
-      return res.data.data;
+      return res.data;
     },
     staleTime: 1000 * 60,
   });

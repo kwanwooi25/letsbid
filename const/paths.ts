@@ -22,6 +22,7 @@ export const API_ROUTE = {
   JOINED_GROUP_LIST: '/api/group/joined',
   JOINABLE_GROUP_LIST: '/api/group/joinable',
   ARCHIVED_GROUP: '/api/group/archived',
+  AUCTION_CASE_LIST: '/api/auction-case/list',
   AUCTION_CASE: '/api/auction-case',
   BID: '/api/bid',
   ARTICLE: '/api/article',

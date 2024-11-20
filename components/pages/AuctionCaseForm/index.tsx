@@ -7,14 +7,14 @@ import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import DateTimeFormField from '@/components/ui/form/DateTimeFormField';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
-import { useAxiosError } from '@/hooks/useAxiosError';
-import { useCallbackUrl } from '@/hooks/useCallbackUrl';
-import { squareMeterToPY } from '@/lib/number';
 import {
   createAuctionCaseMutationOptions,
   updateAuctionCaseMutationOptions,
 } from '@/features/auction-case/mutation';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { useCallbackUrl } from '@/hooks/useCallbackUrl';
+import { squareMeterToPY } from '@/lib/number';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { LucideX } from 'lucide-react';
@@ -32,8 +32,8 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const { data: auctionCase } = useSuspenseQuery(getAuctionCaseDetailQueryOptions(auctionCaseId));
-  const createAuctionCaseMutation = useMutation(createAuctionCaseMutationOptions);
-  const updateAuctionCaseMutation = useMutation(updateAuctionCaseMutationOptions);
+  const { mutateAsync: createAuctionCase } = useMutation(createAuctionCaseMutationOptions);
+  const { mutateAsync: updateAuctionCase } = useMutation(updateAuctionCaseMutationOptions);
   const form = useForm<AuctionCaseFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: getDefaultFormValues({ groupId, auctionCase }),
@@ -52,15 +52,6 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
 
   const isEditing = !!auctionCase;
   const formTitle = isEditing ? '경매 사건 수정' : '경매 사건 추가';
-
-  const createAuctionCase = async (values: AuctionCaseFormSchema) => {
-    const createdAuctionCase = await createAuctionCaseMutation.mutateAsync(values);
-    return createdAuctionCase;
-  };
-  const updateAuctionCase = async (values: AuctionCaseFormSchema) => {
-    const updatedAuctionCase = await updateAuctionCaseMutation.mutateAsync(values);
-    return updatedAuctionCase;
-  };
 
   const submitForm = form.handleSubmit(async (values: AuctionCaseFormSchema) => {
     values.bidStartsAt.setSeconds(0);
@@ -102,10 +93,13 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
     e.currentTarget.blur();
     openDaumPostcode({
       onComplete(data) {
-        const address = `${data.roadAddress} (${data.jibunAddress
+        let address = `${data.roadAddress} (${data.jibunAddress
           .replace(data.sido, '')
           .replace(data.sigungu, '')
-          .trim()}, ${data.buildingName})`;
+          .trim()})`;
+        if (data.buildingName) {
+          address = address.replace(')', `, ${data.buildingName})`);
+        }
         form.setValue('address', address);
         form.setFocus('addressDetail');
       },

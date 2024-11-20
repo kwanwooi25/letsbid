@@ -1,3 +1,6 @@
+'use client';
+
+import { GNB_HEIGHT, PAGE_HEADER_HEIGHT } from '@/components/layouts/const';
 import {
   Select,
   SelectContent,
@@ -6,7 +9,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { GNB_HEIGHT, PAGE_HEADER_HEIGHT } from '@/components/layouts/const';
 import { useTabs } from '@/hooks/useTabs';
 import { cn } from '@/lib/utils';
 
