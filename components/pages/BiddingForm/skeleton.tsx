@@ -1,4 +1,4 @@
-import PageBody from '@/components/PageBody';
+import PageBody from '@/components/layouts/PageBody';
 import Divider from '@/components/ui/divider';
 import { Skeleton } from '@/components/ui/skeleton';
 

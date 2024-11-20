@@ -1,4 +1,4 @@
-import DetailRow from '@/components/DetailRow';
+import DetailRow from '@/components/common/DetailRow';
 import Divider from '@/components/ui/divider';
 import { Skeleton } from '@/components/ui/skeleton';
 

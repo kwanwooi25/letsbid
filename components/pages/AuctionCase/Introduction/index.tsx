@@ -1,8 +1,8 @@
-import DetailRow from '@/components/DetailRow';
+import DetailRow from '@/components/common/DetailRow';
 import Divider from '@/components/ui/divider';
+import { AuctionCaseLike } from '@/features/auction-case/types';
 import { formatDateTime } from '@/lib/datetime';
 import { isValidNumber, squareMeterToPY } from '@/lib/number';
-import { AuctionCaseLike } from '@/features/auction-case/types';
 import { LucideCircleCheckBig, LucideCircleX } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';

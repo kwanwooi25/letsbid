@@ -1,7 +1,7 @@
 'use client';
 
-import HostBadge from '@/components/HostBadge';
-import ListItem from '@/components/ListItem';
+import HostBadge from '@/components/common/HostBadge';
+import ListItem from '@/components/common/ListItem';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
@@ -97,14 +97,21 @@ export default function GroupListItem({ group, isHost }: Props) {
         </div>
       </div>
 
-      <Button
-        onClick={isJoinable ? handleClickJoin : moveToGroup}
-        type="button"
-        isLoading={isPending}
-        disabled={isMaxMemberReached}
-      >
-        {isJoinable ? '참여하기' : '들어가기'}
-      </Button>
+      {isJoinable && (
+        <Button
+          onClick={handleClickJoin}
+          type="button"
+          isLoading={isPending}
+          disabled={isMaxMemberReached}
+        >
+          참여하기
+        </Button>
+      )}
+      {!isJoinable && (
+        <Button onClick={moveToGroup} type="button" isLoading={isPending}>
+          들어가기
+        </Button>
+      )}
     </ListItem>
   );
 }

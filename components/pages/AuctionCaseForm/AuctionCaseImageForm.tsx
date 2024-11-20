@@ -1,4 +1,4 @@
-import Dropzone from '@/components/Dropzone/BaseDropzone';
+import Dropzone from '@/components/common/Dropzone/BaseDropzone';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LucideFileUp, LucideX } from 'lucide-react';

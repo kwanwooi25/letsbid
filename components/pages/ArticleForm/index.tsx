@@ -1,9 +1,9 @@
 'use client';
 
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
-import WithLabel from '@/components/WithLabel';
-import WysiwygEditor from '@/components/WysiwygEditor';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
+import WithLabel from '@/components/common/WithLabel';
+import WysiwygEditor from '@/components/common/WysiwygEditor';
 import { Button } from '@/components/ui/button';
 import { Form, InputFormField } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';

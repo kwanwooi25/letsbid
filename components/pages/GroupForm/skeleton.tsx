@@ -1,4 +1,4 @@
-import PageBody from '@/components/PageBody';
+import PageBody from '@/components/layouts/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function GroupFormSkeleton() {

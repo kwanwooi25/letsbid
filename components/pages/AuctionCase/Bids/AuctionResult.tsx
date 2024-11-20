@@ -1,4 +1,4 @@
-import BidDetail from '@/components/BidDetail';
+import BidDetail from '@/components/common/BidDetail';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import Divider from '@/components/ui/divider';

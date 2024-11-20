@@ -1,35 +1,41 @@
 'use client';
 
-import HostBadge from '@/components/HostBadge';
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import HostBadge from '@/components/common/HostBadge';
+import SearchInput from '@/components/common/SearchInput';
+import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { formatDateTime } from '@/lib/datetime';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { cn } from '@/lib/utils';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideEyeOff } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 import AuctionCaseList from './AuctionCaseList';
+import AuctionCaseListSkeleton from './AuctionCaseList/skeleton';
 import MemberList from './MemberList';
+import MemberListSkeleton from './MemberList/skeleton';
 import GroupDetailPageToolbar from './Toolbar';
 import { useGroupDetailPageActions } from './useGroupDetailPageActions';
 import { useGroupDetailRouter } from './useGroupDetailRouter';
-import { useGroupDetailTabs } from './useGroupDetailTabs';
+import { GROUP_DETAIL_TABS_TRANSLATIONS, useGroupDetailTabs } from './useGroupDetailTabs';
 
 export default function GroupDetail() {
   const params = useParams();
   const groupId = params.groupId as string;
-  const [{ data: group }, { data: auctionCases }] = useSuspenseQueries({
-    queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseListQueryOptions(groupId)],
-  });
+  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const { isGroupHost } = useIsGroupHost(group.hostId);
   const { tab, handleTabChange } = useGroupDetailTabs();
-  const { moveToGroupList, moveToEditGroup } = useGroupDetailRouter();
+  const { moveToEditGroup } = useGroupDetailRouter();
   const { tryToDeleteGroup, tryToArchiveGroup, tryToUnarchiveGroup, tryToMoveOutFromGroup } =
     useGroupDetailPageActions({ group });
+  const { search, setSearch } = useSearchInput();
+  const { isScrolled } = useWindowScroll();
 
   const isArchived = !!group.archivedAt;
 
@@ -38,7 +44,6 @@ export default function GroupDetail() {
       <PageHeader
         className="max-w-2xl"
         backButton
-        onBackButtonClick={moveToGroupList}
         title={
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
@@ -85,14 +90,42 @@ export default function GroupDetail() {
         </div>
       </PageHeader>
 
-      <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
-        <GroupDetailPageToolbar group={group} />
-        <TabsContent value="auctionCases" className="py-4 mt-0 lg:py-0">
-          <AuctionCaseList isGroupHost={isGroupHost} auctionCases={auctionCases} />
-        </TabsContent>
-        <TabsContent value="members" className="py-4 mt-0 lg:py-0">
-          <MemberList group={group} />
-        </TabsContent>
+      <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+        <div
+          className={cn(
+            'bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[180px] sm:top-[132px]',
+            isScrolled && 'border-b lg:border-none',
+          )}
+        >
+          <GroupDetailPageToolbar group={group} />
+          <SearchInput
+            className="mt-4 lg:hidden"
+            defaultValue={search}
+            onSearch={setSearch}
+            placeholder={`${GROUP_DETAIL_TABS_TRANSLATIONS[tab]} 검색`}
+          />
+        </div>
+        <div>
+          <SearchInput
+            className={cn(
+              'hidden lg:flex pt-1 pb-4 sticky top-[132px] bg-background',
+              isScrolled && 'border-b',
+            )}
+            defaultValue={search}
+            onSearch={setSearch}
+            placeholder={`${GROUP_DETAIL_TABS_TRANSLATIONS[tab]} 검색`}
+          />
+          <TabsContent value="auctionCases" className="py-0 mt-0">
+            <Suspense fallback={<AuctionCaseListSkeleton />}>
+              <AuctionCaseList isGroupHost={isGroupHost} />
+            </Suspense>
+          </TabsContent>
+          <TabsContent value="members" className="py-0 mt-0">
+            <Suspense fallback={<MemberListSkeleton />}>
+              <MemberList groupHostId={group.hostId} />
+            </Suspense>
+          </TabsContent>
+        </div>
       </PageBody>
     </Tabs>
   );

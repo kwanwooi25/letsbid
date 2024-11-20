@@ -1,5 +1,5 @@
-import List from '@/components/List';
-import ListEmpty from '@/components/ListEmpty';
+import List from '@/components/common/List';
+import ListEmpty from '@/components/common/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { getAuctionCaseArticleListQueryOptions } from '@/features/article/query';
 import { AuctionCaseLike } from '@/features/auction-case/types';

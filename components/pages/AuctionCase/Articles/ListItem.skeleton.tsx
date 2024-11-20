@@ -1,8 +1,8 @@
 'use client';
 
-import ListItem from '@/components/ListItem';
+import ListItem from '@/components/common/ListItem';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserImage from '@/components/UserImage';
+import UserImage from '@/components/common/UserImage';
 
 export default function ArticleListItemSkeleton() {
   return (

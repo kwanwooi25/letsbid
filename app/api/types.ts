@@ -1,13 +1,21 @@
-export type SuccessResponse<T> = {
+export type SuccessResponse<D, M = PaginationMeta> = {
   result: 'SUCCESS';
-  data: T;
+  data: D;
+  meta?: M;
   message?: string;
 };
 
 export type FailedResponse = {
   result: 'FAILED';
   data: null;
+  meta: null;
   message?: string;
 };
 
-export type ApiResponse<T> = SuccessResponse<T> | FailedResponse;
+export type PaginationMeta = {
+  page: number;
+  per: number;
+  totalCount: number;
+  totalPages: number;
+  hasMore: boolean;
+};

@@ -1,5 +1,5 @@
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import SignUpForm from '@/components/pages/SignUpForm';
 
 export default function SignUp() {

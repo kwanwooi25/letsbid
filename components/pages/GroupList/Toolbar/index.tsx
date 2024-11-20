@@ -1,4 +1,4 @@
-import PageToolbar from '@/components/PageToolbar';
+import PageToolbar from '@/components/layouts/PageToolbar';
 import GroupTabsList from './GroupListTabsList';
 
 export default function GroupListPageToolbar() {

@@ -1,4 +1,4 @@
-import TabNavigation from '@/components/TabNavigation';
+import TabNavigation from '@/components/common/TabNavigation';
 import { GROUP_DETAIL_TABS, GROUP_DETAIL_TABS_TRANSLATIONS } from '../useGroupDetailTabs';
 
 export default function GroupDetailTabsList() {

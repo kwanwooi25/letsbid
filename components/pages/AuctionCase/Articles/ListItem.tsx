@@ -1,9 +1,9 @@
 'use client';
 
-import ListItem from '@/components/ListItem';
+import ListItem from '@/components/common/ListItem';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import UserImage from '@/components/UserImage';
+import UserImage from '@/components/common/UserImage';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';

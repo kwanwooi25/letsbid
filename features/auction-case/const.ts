@@ -1,4 +1,4 @@
-import { AuctionCaseStatus } from '@/features/auction-case/types';
+import { AuctionCaseListQueryOptions, AuctionCaseStatus } from '@/features/auction-case/types';
 
 export const AUCTION_CASE_STATUS_TRANSLATIONS: Record<AuctionCaseStatus, string> = {
   BEFORE_BIDDING: '입찰 예정',
@@ -11,3 +11,9 @@ export const AUCTION_CASE_STATUS_LIST: AuctionCaseStatus[] = [
   'BEFORE_BIDDING',
   'FINISHED_BIDDING',
 ];
+
+export const DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS = {
+  page: 1,
+  per: 10,
+  search: '',
+} satisfies AuctionCaseListQueryOptions;

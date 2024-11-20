@@ -15,3 +15,9 @@ export type AuctionCaseWithBidsSecretAndArticles = AuctionCase & {
 export type AuctionCaseLike =
   | AuctionCaseWithBidsAndUserAndArticles
   | AuctionCaseWithBidsSecretAndArticles;
+
+export type AuctionCaseListQueryOptions = {
+  page?: number;
+  per?: number;
+  search?: string;
+};

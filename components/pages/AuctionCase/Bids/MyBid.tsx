@@ -1,5 +1,5 @@
-import BidDetail from '@/components/BidDetail';
-import BidDetailSkeleton from '@/components/BidDetail/skeleton';
+import BidDetail from '@/components/common/BidDetail';
+import BidDetailSkeleton from '@/components/common/BidDetail/skeleton';
 import { Button } from '@/components/ui/button';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';

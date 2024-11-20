@@ -1,35 +1,9 @@
-import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
 import { hashPassword } from '../user/utils';
-
-export async function GET() {
-  try {
-    const user = await getUserFromSession();
-    const userId = user!.id!;
-    const groups = await prisma.group.findMany({
-      where: {
-        members: {
-          none: {
-            userId,
-          },
-        },
-        archivedAt: null,
-      },
-      include: {
-        members: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-    return handleSuccess({ data: groups });
-  } catch (e) {
-    return handlePrismaClientError(e);
-  }
-}
 
 export async function POST(req: NextRequest) {
   try {

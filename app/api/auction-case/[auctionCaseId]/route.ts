@@ -1,14 +1,15 @@
-import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import {
   getUserFromSession,
   handleFail,
   handlePrismaClientError,
   handleSuccess,
 } from '@/app/api/utils';
+import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { filterBidDetails } from '@/features/auction-case/utils';
 import { prisma } from '@/lib/prisma';
 import { formToJSON, HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
+import { DEFAULT_AUCTION_CASE_INCLUDE } from '../const';
 import { getAuctionCaseDataInput } from '../utils';
 
 export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
@@ -16,18 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
     const user = await getUserFromSession();
     const auctionCase = await prisma.auctionCase.findUnique({
       where: { id: params.auctionCaseId },
-      include: {
-        bids: {
-          include: {
-            user: true,
-          },
-        },
-        articles: {
-          where: {
-            isPublished: true,
-          },
-        },
-      },
+      include: DEFAULT_AUCTION_CASE_INCLUDE,
     });
     if (!auctionCase) {
       return handleFail({
@@ -51,9 +41,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { auctionCas
     const updatedAuctionCase = await prisma.auctionCase.update({
       where: { id: params.auctionCaseId },
       data,
-      include: {
-        group: true,
-      },
+      include: DEFAULT_AUCTION_CASE_INCLUDE,
     });
 
     return handleSuccess({ data: updatedAuctionCase });

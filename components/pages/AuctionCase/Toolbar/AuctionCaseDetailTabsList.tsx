@@ -1,4 +1,4 @@
-import TabNavigation from '@/components/TabNavigation';
+import TabNavigation from '@/components/common/TabNavigation';
 import {
   AUCTION_CASE_DETAIL_TABS,
   AUCTION_CASE_DETAIL_TABS_TRANSLATIONS,

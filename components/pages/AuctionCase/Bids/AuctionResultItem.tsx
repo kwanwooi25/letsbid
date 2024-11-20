@@ -1,8 +1,8 @@
-import BidRankBadge from '@/components/BidRankBadge';
-import MeBadge from '@/components/MeBadge';
+import BidRankBadge from '@/components/common/BidRankBadge';
+import MeBadge from '@/components/common/MeBadge';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import WithTooltip from '@/components/WithTooltip';
+import WithTooltip from '@/components/common/WithTooltip';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { BidWithUser } from '@/features/bid/types';
 import { cn } from '@/lib/utils';

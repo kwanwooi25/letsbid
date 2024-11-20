@@ -1,50 +1,10 @@
+import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
-import {
-  getUserFromSession,
-  handleFail,
-  handlePrismaClientError,
-  handleSuccess,
-} from '@/app/api/utils';
-import { filterBidDetails } from '@/features/auction-case/utils';
 import { prisma } from '@/lib/prisma';
 import { formToJSON, HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
+import { DEFAULT_AUCTION_CASE_INCLUDE } from './const';
 import { getAuctionCaseDataInput } from './utils';
-
-export async function GET(req: NextRequest) {
-  try {
-    const url = new URL(req.url);
-    const groupId = url.searchParams.get('groupId');
-    if (!groupId) {
-      return handleFail({
-        status: HttpStatusCode.BadRequest,
-        message: 'groupId required',
-      });
-    }
-    const user = await getUserFromSession();
-    const auctionCases = await prisma.auctionCase.findMany({
-      where: { groupId },
-      include: {
-        bids: {
-          include: {
-            user: true,
-          },
-        },
-        articles: {
-          where: {
-            isPublished: true,
-          },
-        },
-      },
-      orderBy: [{ bidEndsAt: 'desc' }, { bidStartsAt: 'desc' }],
-    });
-    return handleSuccess({
-      data: auctionCases.map((auctionCase) => filterBidDetails(auctionCase, user?.id)),
-    });
-  } catch (e) {
-    return handlePrismaClientError(e);
-  }
-}
 
 export async function POST(req: NextRequest) {
   try {
@@ -55,9 +15,7 @@ export async function POST(req: NextRequest) {
 
     const createdAuctionCase = await prisma.auctionCase.create({
       data,
-      include: {
-        group: true,
-      },
+      include: DEFAULT_AUCTION_CASE_INCLUDE,
     });
     return handleSuccess({ data: createdAuctionCase, status: HttpStatusCode.Created });
   } catch (e) {
