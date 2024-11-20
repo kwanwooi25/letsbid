@@ -20,7 +20,7 @@ export function useSearchInput() {
       newSearchParams.set('page', '1');
     }
 
-    router.push(`${pathname}?${newSearchParams.toString()}`);
+    router.replace(`${pathname}?${newSearchParams.toString()}`);
   };
 
   return {

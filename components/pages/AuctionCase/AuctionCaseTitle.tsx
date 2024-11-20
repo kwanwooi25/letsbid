@@ -11,7 +11,7 @@ export default function AuctionCaseTitle({ auctionCase }: Props) {
     <div className="flex-1 flex flex-col items-start gap-1">
       <span className="text-lg font-bold">{caseName}</span>
       {!!fullAddress && (
-        <span className="text-xs font-semibold text-primary/50">{fullAddress}</span>
+        <span className="text-xs font-semibold text-primary/50 line-clamp-1">{fullAddress}</span>
       )}
     </div>
   );

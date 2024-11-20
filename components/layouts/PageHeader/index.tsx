@@ -56,7 +56,7 @@ export default function PageHeader({
         {!!title && typeof title === 'string' && <h2 className="text-lg font-bold">{title}</h2>}
         {!!title && typeof title !== 'string' && title}
       </div>
-      <div className="flex items-center gap-2 self-end">{children}</div>
+      {!!children && <div className="flex items-center gap-2 self-end">{children}</div>}
     </div>
   );
 }
