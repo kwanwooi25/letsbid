@@ -32,13 +32,26 @@ export async function POST(req: NextRequest) {
       per = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.per,
       search = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.search,
     }: AuctionCaseListQueryOptions = await req.json();
+    const searchSplit = search.trim().split(' ');
 
     const where: Prisma.AuctionCaseWhereInput = {
       groupId,
       OR: [
-        { caseName: { contains: search, mode: 'insensitive' } },
-        { address: { contains: search, mode: 'insensitive' } },
-        { addressDetail: { contains: search, mode: 'insensitive' } },
+        ...searchSplit.map(
+          (word): Prisma.AuctionCaseWhereInput => ({
+            caseName: { contains: word.trim(), mode: 'insensitive' },
+          }),
+        ),
+        ...searchSplit.map(
+          (word): Prisma.AuctionCaseWhereInput => ({
+            address: { contains: word.trim(), mode: 'insensitive' },
+          }),
+        ),
+        ...searchSplit.map(
+          (word): Prisma.AuctionCaseWhereInput => ({
+            addressDetail: { contains: word.trim(), mode: 'insensitive' },
+          }),
+        ),
       ],
     };
 

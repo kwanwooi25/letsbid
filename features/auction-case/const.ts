@@ -14,6 +14,6 @@ export const AUCTION_CASE_STATUS_LIST: AuctionCaseStatus[] = [
 
 export const DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS = {
   page: 1,
-  per: 5,
+  per: 10,
   search: '',
 } satisfies AuctionCaseListQueryOptions;

@@ -15,12 +15,21 @@ export async function POST(req: NextRequest, { params }: { params: { groupId: st
       per = DEFAULT_GROUP_MEMBER_LIST_QUERY_OPTIONS.per,
       search = DEFAULT_GROUP_MEMBER_LIST_QUERY_OPTIONS.search,
     }: GroupMemberListQueryOptions = await req.json();
+    const searchSplit = search.trim().split(' ');
 
     const where: Prisma.UsersOnGroupsWhereInput = {
       groupId,
       OR: [
-        { user: { name: { contains: search, mode: 'insensitive' } } },
-        { user: { email: { contains: search, mode: 'insensitive' } } },
+        ...searchSplit.map(
+          (word): Prisma.UsersOnGroupsWhereInput => ({
+            user: { name: { contains: word.trim(), mode: 'insensitive' } },
+          }),
+        ),
+        ...searchSplit.map(
+          (word): Prisma.UsersOnGroupsWhereInput => ({
+            user: { email: { contains: word.trim(), mode: 'insensitive' } },
+          }),
+        ),
       ],
     };
 
