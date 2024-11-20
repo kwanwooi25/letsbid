@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { NextRequest } from 'next/server';
 import { PaginationMeta } from '../../types';
+import { DEFAULT_GROUP_INCLUDE } from '../const';
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,23 +24,26 @@ export async function POST(req: NextRequest) {
         },
       },
       archivedAt: null,
-      OR: [{ name: { contains: search } }, { description: { contains: search } }],
+      OR: [
+        { name: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ],
     };
 
-    const totalCount = await prisma.group.count({ where });
-    const totalPages = Math.ceil(totalCount / per);
-    const groups = await prisma.group.findMany({
-      where,
-      include: {
-        members: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: per,
-      skip: per * (page - 1),
-    });
+    const [totalCount, groups] = await prisma.$transaction([
+      prisma.group.count({ where }),
+      prisma.group.findMany({
+        where,
+        include: DEFAULT_GROUP_INCLUDE,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: per,
+        skip: per * (page - 1),
+      }),
+    ]);
 
+    const totalPages = Math.ceil(totalCount / per);
     const meta: PaginationMeta = {
       page,
       per,

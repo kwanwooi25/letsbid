@@ -1,6 +1,7 @@
 import HostBadge from '@/components/common/HostBadge';
 import ListItem from '@/components/common/ListItem';
 import MeBadge from '@/components/common/MeBadge';
+import UserImage from '@/components/common/UserImage';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,13 +12,12 @@ import {
 } from '@/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
-import UserImage from '@/components/common/UserImage';
 import { useAlert } from '@/context/Alert';
 import {
   changeGroupHostMutationOptions,
   expelGroupMemberMutationOptions,
 } from '@/features/group/mutation';
-import { GroupWithMembersAsUsers } from '@/features/group/types';
+import { GroupMember } from '@/features/group/types';
 import { useIsGroupHost } from '@/features/group/useIsGroupHost';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { formatPhoneNumber } from '@/lib/string';
@@ -26,13 +26,12 @@ import { LucideCrown, LucideUserMinus2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export default function MemberListItem({ member, group }: Props) {
+export default function MemberListItem({ member, groupHostId }: Props) {
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const session = useSession();
   const loggedInUserId = session?.data?.user?.id;
-  const { user, userId } = member;
-  const { hostId: groupHostId } = group;
+  const { user, userId, groupId } = member;
   const { isGroupHost } = useIsGroupHost(groupHostId, userId);
   const isMe = loggedInUserId === userId;
   const isMeGroupHost = loggedInUserId === groupHostId;
@@ -68,7 +67,7 @@ export default function MemberListItem({ member, group }: Props) {
       action: async () => {
         try {
           await expelGroupMember({
-            groupId: group.id,
+            groupId,
             memberId: userId,
           });
           toast({
@@ -96,7 +95,7 @@ export default function MemberListItem({ member, group }: Props) {
       action: async () => {
         try {
           await changeGroupHost({
-            groupId: group.id,
+            groupId,
             hostId: userId,
           });
           toast({
@@ -189,6 +188,6 @@ export default function MemberListItem({ member, group }: Props) {
 }
 
 type Props = {
-  member: GroupWithMembersAsUsers['members'][number];
-  group: GroupWithMembersAsUsers;
+  member: GroupMember;
+  groupHostId?: string;
 };

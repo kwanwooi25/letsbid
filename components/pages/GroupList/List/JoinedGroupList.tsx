@@ -6,14 +6,14 @@ import Pagination from '@/components/common/Pagination';
 import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { Button } from '@/components/ui/button';
 import { getJoinedGroupListQueryOptions } from '@/features/group/query';
+import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 import { useGroupListRouter } from '../useGroupListRouter';
 import GroupListItem from './GroupListItem';
 
 export default function JoinedGroupList() {
-  const { currentPage, setCurrentPage } = useCurrentPage();
+  const { currentPage } = useCurrentPage();
   const session = useSession();
   const userId = session.data?.user?.id;
   const { moveToJoinableGroupList } = useGroupListRouter();
@@ -23,11 +23,7 @@ export default function JoinedGroupList() {
   );
   const { data: groups, meta } = data;
 
-  useEffect(() => {
-    if (currentPage > 1 && !groups.length) {
-      setCurrentPage(1);
-    }
-  }, [currentPage, groups.length, setCurrentPage]);
+  useCalibrateCurrentPage(!groups.length);
 
   if (!isPending && !groups.length) {
     return (

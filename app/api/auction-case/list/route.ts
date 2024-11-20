@@ -5,8 +5,8 @@ import {
   handleSuccess,
 } from '@/app/api/utils';
 import { DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS } from '@/features/auction-case/const';
+import { AuctionCaseListQueryOptions } from '@/features/auction-case/types';
 import { filterBidDetails } from '@/features/auction-case/utils';
-import { GroupListQueryOptions } from '@/features/group/types';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { HttpStatusCode } from 'axios';
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       page = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.page,
       per = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.per,
       search = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.search,
-    }: GroupListQueryOptions = await req.json();
+    }: AuctionCaseListQueryOptions = await req.json();
 
     const where: Prisma.AuctionCaseWhereInput = {
       groupId,
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       ],
     };
 
-    const [totalCount, auctionCases] = await Promise.all([
+    const [totalCount, auctionCases] = await prisma.$transaction([
       prisma.auctionCase.count({ where }),
       prisma.auctionCase.findMany({
         where,

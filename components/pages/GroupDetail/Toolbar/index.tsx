@@ -2,8 +2,8 @@
 
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
+import { GroupWithMembers } from '@/features/group/types';
 import { useIsGroupHost } from '@/features/group/useIsGroupHost';
-import { GroupWithMembersAsUsers } from '@/features/group/types';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import { useGroupDetailTabs } from '../useGroupDetailTabs';
@@ -35,5 +35,5 @@ export default function GroupDetailPageToolbar({ group }: Props) {
 }
 
 type Props = {
-  group?: GroupWithMembersAsUsers;
+  group?: GroupWithMembers;
 };

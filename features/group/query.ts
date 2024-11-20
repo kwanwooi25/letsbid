@@ -2,8 +2,9 @@ import type { SuccessResponse } from '@/app/api/types';
 import { API_ROUTE } from '@/const/paths';
 import type {
   GroupListQueryOptions,
+  GroupMember,
+  GroupMemberListQueryOptions,
   GroupWithMembers,
-  GroupWithMembersAsUsers,
 } from '@/features/group/types';
 import { getApiUrl } from '@/lib/query';
 import { queryOptions } from '@tanstack/react-query';
@@ -57,10 +58,28 @@ export const getGroupDetailQueryOptions = (groupId: string) =>
     queryKey: groupQueryKeys.detail(groupId),
     queryFn: async () => {
       const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
-      const res = await axios<SuccessResponse<GroupWithMembersAsUsers>>({
+      const res = await axios<SuccessResponse<GroupWithMembers>>({
         method: 'get',
         url,
       });
       return res.data.data;
+    },
+  });
+
+export const getGroupMemberListQueryOptions = (
+  groupId: string,
+  options?: GroupMemberListQueryOptions,
+) =>
+  queryOptions({
+    queryKey: groupQueryKeys.memberList(groupId, options),
+    queryFn: async () => {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}/member`);
+      const res = await axios<SuccessResponse<GroupMember[]>>({
+        method: 'post',
+        url,
+        data: options,
+      });
+
+      return res.data;
     },
   });

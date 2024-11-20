@@ -7,10 +7,10 @@ import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
 import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
+import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
 import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import AuctionCaseListItem from './ListItem';
@@ -18,7 +18,7 @@ import AuctionCaseListItem from './ListItem';
 export default function AuctionCaseList({ isGroupHost }: Props) {
   const params = useParams();
   const groupId = params.groupId as string;
-  const { currentPage, setCurrentPage } = useCurrentPage();
+  const { currentPage } = useCurrentPage();
   const { moveToCreateAuctionCase } = useGroupDetailRouter();
   const { data, isPending } = useSuspenseQuery(
     getAuctionCaseListQueryOptions(groupId, { page: currentPage }),
@@ -27,11 +27,7 @@ export default function AuctionCaseList({ isGroupHost }: Props) {
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
   const isEmpty = !isPending && !auctionCases?.length;
 
-  useEffect(() => {
-    if (currentPage > 1 && !auctionCases?.length) {
-      setCurrentPage(1);
-    }
-  }, [currentPage, auctionCases?.length, setCurrentPage]);
+  useCalibrateCurrentPage(!auctionCases.length);
 
   if (isEmpty) {
     return (

@@ -15,6 +15,7 @@ import { Suspense } from 'react';
 import AuctionCaseList from './AuctionCaseList';
 import AuctionCaseListSkeleton from './AuctionCaseList/skeleton';
 import MemberList from './MemberList';
+import MemberListSkeleton from './MemberList/skeleton';
 import GroupDetailPageToolbar from './Toolbar';
 import { useGroupDetailPageActions } from './useGroupDetailPageActions';
 import { useGroupDetailRouter } from './useGroupDetailRouter';
@@ -92,7 +93,9 @@ export default function GroupDetail() {
           </Suspense>
         </TabsContent>
         <TabsContent value="members" className="py-4 mt-0 lg:py-0">
-          <MemberList group={group} />
+          <Suspense fallback={<MemberListSkeleton />}>
+            <MemberList groupHostId={group.hostId} />
+          </Suspense>
         </TabsContent>
       </PageBody>
     </Tabs>
