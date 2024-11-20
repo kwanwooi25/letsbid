@@ -1,4 +1,4 @@
-import { ListItemColor } from '@/components/ListItem/types';
+import { ListItemColor } from '@/components/common/ListItem/types';
 import { AuctionCaseLike, AuctionCaseStatus } from '@/features/auction-case/types';
 import { differenceInSeconds, format, isAfter } from 'date-fns';
 import { formatSeconds, ONE_DAY, ONE_HOUR } from '../../lib/time';

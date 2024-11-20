@@ -1,10 +1,10 @@
 'use client';
 
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
-import UserImage from '@/components/UserImage';
-import WysiwygViewer from '@/components/WysiwygViewer';
+import UserImage from '@/components/common/UserImage';
+import WysiwygViewer from '@/components/common/WysiwygViewer';
 import { getArticleDetailQueryOptions } from '@/features/article/query';
 import { formatDateTime } from '@/lib/datetime';
 import { useSuspenseQuery } from '@tanstack/react-query';

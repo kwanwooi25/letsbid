@@ -3,6 +3,7 @@ import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/ap
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 import { hashPassword } from '../../user/utils';
+import { DEFAULT_GROUP_INCLUDE } from '../const';
 
 export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
   try {
@@ -11,13 +12,7 @@ export async function GET(req: NextRequest, { params }: { params: { groupId: str
       where: {
         id: params.groupId,
       },
-      include: {
-        members: {
-          include: {
-            user: true,
-          },
-        },
-      },
+      include: DEFAULT_GROUP_INCLUDE,
     });
     return handleSuccess({ data: group });
   } catch (e) {
@@ -42,9 +37,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { groupId: s
           : {}),
         ...(!passwordExcludedGroup.isPrivate ? { password: null } : {}),
       },
-      include: {
-        members: true,
-      },
+      include: DEFAULT_GROUP_INCLUDE,
     });
     return handleSuccess({ data: updatedGroup });
   } catch (e) {

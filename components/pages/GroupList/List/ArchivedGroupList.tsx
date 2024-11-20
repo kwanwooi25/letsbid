@@ -1,26 +1,41 @@
 'use client';
 
-import List from '@/components/List';
-import ListEmpty from '@/components/ListEmpty';
+import List from '@/components/common/List';
+import ListEmpty from '@/components/common/ListEmpty';
+import Pagination from '@/components/common/Pagination';
+import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { getArchivedGroupListQueryOptions } from '@/features/group/query';
+import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import GroupListItem from './GroupListItem';
 
 export default function ArchivedGroupList() {
+  const { currentPage } = useCurrentPage();
   const session = useSession();
   const userId = session.data?.user?.id;
-  const { data: groups, isPending } = useSuspenseQuery(getArchivedGroupListQueryOptions);
+
+  const { data, isPending } = useSuspenseQuery(
+    getArchivedGroupListQueryOptions({ page: currentPage }),
+  );
+  const { data: groups, meta } = data;
+
+  useCalibrateCurrentPage(!groups.length);
 
   if (!isPending && !groups.length) {
     return <ListEmpty className="flex flex-col gap-4 py-8">숨겨진 그룹이 없습니다</ListEmpty>;
   }
 
   return (
-    <List>
-      {groups.map((group) => (
-        <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
-      ))}
-    </List>
+    <>
+      <List>
+        {groups.map((group) => (
+          <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
+        ))}
+      </List>
+      {typeof meta?.totalPages === 'number' && meta.totalPages > 1 && (
+        <Pagination lastPage={meta.totalPages} />
+      )}
+    </>
   );
 }

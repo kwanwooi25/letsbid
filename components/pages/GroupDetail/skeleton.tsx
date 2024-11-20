@@ -1,18 +1,13 @@
-'use client';
-
-import PageBody from '@/components/PageBody';
+import PageBody from '@/components/layouts/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import AuctionCaseListSkeleton from './AuctionCaseList/skeleton';
 import MemberListSkeleton from './MemberList/skeleton';
 import GroupDetailPageToolbarSkeleton from './Toolbar/skeleton';
-import { useGroupDetailTabs } from './useGroupDetailTabs';
 
 export default function GroupDetailSkeleton() {
-  const { tab } = useGroupDetailTabs();
-
   return (
-    <Tabs value={tab}>
+    <Tabs>
       <Skeleton.PageHeader className="max-w-2xl" backButton actionButtonCount={2} />
       <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <GroupDetailPageToolbarSkeleton />

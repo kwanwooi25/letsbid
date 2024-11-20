@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaClient } from '@prisma/client';
 import { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Kakao from 'next-auth/providers/kakao';
@@ -14,7 +15,7 @@ const authConfig = {
       },
     }),
   ],
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma as unknown as PrismaClient),
   session: {
     strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 30,

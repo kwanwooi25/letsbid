@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { LucideChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 
 export default function PageHeader({
   className,

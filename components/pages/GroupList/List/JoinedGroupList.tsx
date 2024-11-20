@@ -1,19 +1,29 @@
 'use client';
 
-import List from '@/components/List';
-import ListEmpty from '@/components/ListEmpty';
+import List from '@/components/common/List';
+import ListEmpty from '@/components/common/ListEmpty';
+import Pagination from '@/components/common/Pagination';
+import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { Button } from '@/components/ui/button';
-import { getMyGroupListQueryOptions } from '@/features/group/query';
+import { getJoinedGroupListQueryOptions } from '@/features/group/query';
+import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useGroupListRouter } from '../useGroupListRouter';
 import GroupListItem from './GroupListItem';
 
 export default function JoinedGroupList() {
+  const { currentPage } = useCurrentPage();
   const session = useSession();
   const userId = session.data?.user?.id;
-  const { data: groups, isPending } = useSuspenseQuery(getMyGroupListQueryOptions);
   const { moveToJoinableGroupList } = useGroupListRouter();
+
+  const { data, isPending } = useSuspenseQuery(
+    getJoinedGroupListQueryOptions({ page: currentPage }),
+  );
+  const { data: groups, meta } = data;
+
+  useCalibrateCurrentPage(!groups.length);
 
   if (!isPending && !groups.length) {
     return (
@@ -30,10 +40,15 @@ export default function JoinedGroupList() {
   }
 
   return (
-    <List>
-      {groups.map((group) => (
-        <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
-      ))}
-    </List>
+    <>
+      <List>
+        {groups.map((group) => (
+          <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
+        ))}
+      </List>
+      {typeof meta?.totalPages === 'number' && meta.totalPages > 1 && (
+        <Pagination lastPage={meta.totalPages} />
+      )}
+    </>
   );
 }

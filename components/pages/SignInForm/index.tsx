@@ -1,6 +1,6 @@
 'use client';
 
-import KakaoIcon from '@/components/KakaoIcon';
+import KakaoIcon from '@/components/common/KakaoIcon';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
 import { Form, InputFormField } from '@/components/ui/form';

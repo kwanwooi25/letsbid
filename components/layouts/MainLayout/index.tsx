@@ -1,5 +1,5 @@
-import GlobalHeader from '@/components/GlobalHeader';
 import { PropsWithChildren } from 'react';
+import GlobalHeader from '../GlobalHeader';
 
 export default function MainLayout({ children }: PropsWithChildren) {
   return (

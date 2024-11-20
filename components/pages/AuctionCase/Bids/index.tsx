@@ -1,6 +1,6 @@
 'use client';
 
-import ListEmpty from '@/components/ListEmpty';
+import ListEmpty from '@/components/common/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { useHasUserBidden } from '@/features/auction-case/useHasUserBidden';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';

@@ -1,5 +1,5 @@
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import SignInForm from '@/components/pages/SignInForm';
 import { PATHS } from '@/const/paths';
 import { auth } from '@/features/auth';

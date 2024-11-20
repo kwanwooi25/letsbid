@@ -1,19 +1,21 @@
 'use client';
 
-import HostBadge from '@/components/HostBadge';
-import PageBody from '@/components/PageBody';
-import PageHeader from '@/components/PageHeader';
+import HostBadge from '@/components/common/HostBadge';
+import PageBody from '@/components/layouts/PageBody';
+import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { useIsGroupHost } from '@/features/group/useIsGroupHost';
 import { formatDateTime } from '@/lib/datetime';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideEyeOff } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { Suspense } from 'react';
 import AuctionCaseList from './AuctionCaseList';
+import AuctionCaseListSkeleton from './AuctionCaseList/skeleton';
 import MemberList from './MemberList';
+import MemberListSkeleton from './MemberList/skeleton';
 import GroupDetailPageToolbar from './Toolbar';
 import { useGroupDetailPageActions } from './useGroupDetailPageActions';
 import { useGroupDetailRouter } from './useGroupDetailRouter';
@@ -22,9 +24,7 @@ import { useGroupDetailTabs } from './useGroupDetailTabs';
 export default function GroupDetail() {
   const params = useParams();
   const groupId = params.groupId as string;
-  const [{ data: group }, { data: auctionCases }] = useSuspenseQueries({
-    queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseListQueryOptions(groupId)],
-  });
+  const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const { isGroupHost } = useIsGroupHost(group.hostId);
   const { tab, handleTabChange } = useGroupDetailTabs();
   const { moveToGroupList, moveToEditGroup } = useGroupDetailRouter();
@@ -88,10 +88,14 @@ export default function GroupDetail() {
       <PageBody className="max-w-2xl w-full lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <GroupDetailPageToolbar group={group} />
         <TabsContent value="auctionCases" className="py-4 mt-0 lg:py-0">
-          <AuctionCaseList isGroupHost={isGroupHost} auctionCases={auctionCases} />
+          <Suspense fallback={<AuctionCaseListSkeleton />}>
+            <AuctionCaseList isGroupHost={isGroupHost} />
+          </Suspense>
         </TabsContent>
         <TabsContent value="members" className="py-4 mt-0 lg:py-0">
-          <MemberList group={group} />
+          <Suspense fallback={<MemberListSkeleton />}>
+            <MemberList groupHostId={group.hostId} />
+          </Suspense>
         </TabsContent>
       </PageBody>
     </Tabs>

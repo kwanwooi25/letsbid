@@ -1,19 +1,33 @@
 'use client';
 
-import List from '@/components/List';
-import ListEmpty from '@/components/ListEmpty';
+import List from '@/components/common/List';
+import ListEmpty from '@/components/common/ListEmpty';
+import Pagination from '@/components/common/Pagination';
+import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
-import { AuctionCaseLike } from '@/features/auction-case/types';
+import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
+import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideFilePlus2 } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import AuctionCaseListItem from './ListItem';
 
-export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
+export default function AuctionCaseList({ isGroupHost }: Props) {
+  const params = useParams();
+  const groupId = params.groupId as string;
+  const { currentPage } = useCurrentPage();
   const { moveToCreateAuctionCase } = useGroupDetailRouter();
+  const { data, isPending } = useSuspenseQuery(
+    getAuctionCaseListQueryOptions(groupId, { page: currentPage }),
+  );
+  const { data: auctionCases, meta } = data;
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);
-  const isEmpty = Object.values(categorizedAuctionCases).every((list) => !list.length);
+  const isEmpty = !isPending && !auctionCases?.length;
+
+  useCalibrateCurrentPage(!auctionCases.length);
 
   if (isEmpty) {
     return (
@@ -33,21 +47,24 @@ export default function AuctionCaseList({ isGroupHost, auctionCases }: Props) {
   }
 
   return (
-    <List>
-      {AUCTION_CASE_STATUS_LIST.map((auctionCaseStatus) => {
-        const auctionCaseList = categorizedAuctionCases[auctionCaseStatus];
-        if (!auctionCaseList?.length) return null;
+    <>
+      <List>
+        {AUCTION_CASE_STATUS_LIST.map((auctionCaseStatus) => {
+          const auctionCaseList = categorizedAuctionCases[auctionCaseStatus];
+          if (!auctionCaseList?.length) return null;
 
-        return auctionCaseList.map((auctionCase) => (
-          <AuctionCaseListItem key={auctionCase.id} auctionCase={auctionCase} />
-        ));
-      })}
-    </List>
+          return auctionCaseList.map((auctionCase) => (
+            <AuctionCaseListItem key={auctionCase.id} auctionCase={auctionCase} />
+          ));
+        })}
+      </List>
+      {!isEmpty && typeof meta?.totalPages === 'number' && meta.totalPages > 1 && (
+        <Pagination lastPage={meta.totalPages} />
+      )}
+    </>
   );
 }
 
 type Props = {
   isGroupHost?: boolean;
-  isArchived?: boolean;
-  auctionCases: AuctionCaseLike[];
 };

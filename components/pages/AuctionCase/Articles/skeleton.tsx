@@ -1,6 +1,6 @@
 'use client';
 
-import List from '@/components/List';
+import List from '@/components/common/List';
 import ArticleListItemSkeleton from './ListItem.skeleton';
 
 export default function ArticleListSkeleton({ count = 5 }: Props) {

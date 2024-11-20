@@ -1,8 +1,8 @@
 'use client';
 
-import AuctionCaseStatusBadge from '@/components/AuctionCaseStatusBadge';
-import ListItem from '@/components/ListItem';
-import WithTooltip from '@/components/WithTooltip';
+import AuctionCaseStatusBadge from '@/components/common/AuctionCaseStatusBadge';
+import ListItem from '@/components/common/ListItem';
+import WithTooltip from '@/components/common/WithTooltip';
 import { PATHS } from '@/const/paths';
 import {
   getAuctionCaseColor,
