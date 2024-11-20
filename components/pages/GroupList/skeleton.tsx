@@ -10,12 +10,18 @@ export default function GroupListPageSkeleton() {
     <Tabs>
       <Skeleton.PageHeader title="그룹 목록" className="max-w-xl lg:max-w-lg" />
       <PageBody className="max-w-xl w-full lg:max-w-4xl lg:grid lg:grid-cols-[240px_1fr_240px] lg:gap-4 lg:items-start">
-        <GroupListPageToolbar />
-        {GROUP_LIST_TABS.map((t) => (
-          <TabsContent className="py-4 mt-0 lg:py-0" key={t} value={t}>
-            <GroupListSkeleton />
-          </TabsContent>
-        ))}
+        <div className="bg-background py-4 -mx-4 px-4 sticky top-[168px] sm:top-[132px]">
+          <GroupListPageToolbar />
+          <Skeleton className="h-[40px] w-full mt-4 lg:hidden" />
+        </div>
+        <div>
+          <Skeleton className="h-[40px] w-full hidden lg:flex py-4 sticky top-[132px] bg-background" />
+          {GROUP_LIST_TABS.map((t) => (
+            <TabsContent className="py-4 mt-0 lg:py-0" key={t} value={t}>
+              <GroupListSkeleton />
+            </TabsContent>
+          ))}
+        </div>
       </PageBody>
     </Tabs>
   );

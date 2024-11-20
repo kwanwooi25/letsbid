@@ -4,6 +4,7 @@ import List from '@/components/common/List';
 import ListEmpty from '@/components/common/ListEmpty';
 import Pagination from '@/components/common/Pagination';
 import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
+import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { getArchivedGroupListQueryOptions } from '@/features/group/query';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -12,11 +13,12 @@ import GroupListItem from './GroupListItem';
 
 export default function ArchivedGroupList() {
   const { currentPage } = useCurrentPage();
+  const { search } = useSearchInput();
   const session = useSession();
   const userId = session.data?.user?.id;
 
   const { data, isPending } = useSuspenseQuery(
-    getArchivedGroupListQueryOptions({ page: currentPage }),
+    getArchivedGroupListQueryOptions({ page: currentPage, search }),
   );
   const { data: groups, meta } = data;
 

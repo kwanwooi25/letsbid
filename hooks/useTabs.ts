@@ -14,6 +14,7 @@ export function useTabs<T extends string>({ defaultTab }: Args<T>) {
     if (newSearchParams.get('page')) {
       newSearchParams.set('page', '1');
     }
+    newSearchParams.delete('search');
     const query = newSearchParams.toString();
     const url = `${pathname}?${query}`;
     router.replace(url);

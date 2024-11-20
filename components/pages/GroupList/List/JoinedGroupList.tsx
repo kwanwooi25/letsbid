@@ -4,6 +4,7 @@ import List from '@/components/common/List';
 import ListEmpty from '@/components/common/ListEmpty';
 import Pagination from '@/components/common/Pagination';
 import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
+import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { Button } from '@/components/ui/button';
 import { getJoinedGroupListQueryOptions } from '@/features/group/query';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
@@ -14,12 +15,13 @@ import GroupListItem from './GroupListItem';
 
 export default function JoinedGroupList() {
   const { currentPage } = useCurrentPage();
+  const { search } = useSearchInput();
   const session = useSession();
   const userId = session.data?.user?.id;
   const { moveToJoinableGroupList } = useGroupListRouter();
 
   const { data, isPending } = useSuspenseQuery(
-    getJoinedGroupListQueryOptions({ page: currentPage }),
+    getJoinedGroupListQueryOptions({ page: currentPage, search }),
   );
   const { data: groups, meta } = data;
 
