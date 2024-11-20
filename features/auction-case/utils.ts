@@ -1,7 +1,8 @@
 import { ListItemColor } from '@/components/common/ListItem/types';
 import { AuctionCaseLike, AuctionCaseStatus } from '@/features/auction-case/types';
-import { differenceInSeconds, format, isAfter } from 'date-fns';
-import { formatSeconds, ONE_DAY, ONE_HOUR } from '../../lib/time';
+import { formatDateTime } from '@/lib/datetime';
+import { formatSeconds, ONE_DAY, ONE_HOUR } from '@/lib/time';
+import { differenceInSeconds, isAfter } from 'date-fns';
 
 export function getAuctionCaseStatus(auctionCase?: AuctionCaseLike | null): AuctionCaseStatus {
   if (!auctionCase) return 'FINISHED_BIDDING';
@@ -15,19 +16,20 @@ export function getAuctionCaseStatus(auctionCase?: AuctionCaseLike | null): Auct
 }
 
 export function getAuctionCaseTimeRefDisplay(auctionCase?: AuctionCaseLike | null) {
-  if (!auctionCase) return '';
-
-  const { bidStartsAt, bidEndsAt } = auctionCase;
-  const status = getAuctionCaseStatus(auctionCase);
-
-  switch (status) {
-    case 'BEFORE_BIDDING':
-      return `시작: ${format(bidStartsAt, 'yyyy/MM/dd HH:mm')}`;
-    case 'BIDDING':
-    case 'FINISHED_BIDDING':
-    default:
-      return `종료: ${format(bidEndsAt, 'yyyy/MM/dd HH:mm')}`;
+  if (!auctionCase) {
+    return {
+      bidStartsAt: '',
+      bidEndsAt: '',
+    };
   }
+
+  const bidStartsAt = formatDateTime(auctionCase.bidStartsAt, 'yyyy/MM/dd HH:mm');
+  const bidEndsAt = formatDateTime(auctionCase.bidEndsAt, 'yyyy/MM/dd HH:mm');
+
+  return {
+    bidStartsAt,
+    bidEndsAt,
+  };
 }
 
 export function getRemainingTimeDisplay(auctionCase?: AuctionCaseLike | null) {

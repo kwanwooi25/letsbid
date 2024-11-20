@@ -11,7 +11,7 @@ const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <div className="w-full flex items-center gap-2">
+  <div className="w-auto flex items-center gap-2">
     <CheckboxPrimitive.Root
       ref={ref}
       className={cn(

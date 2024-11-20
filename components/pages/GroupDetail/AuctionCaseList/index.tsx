@@ -4,6 +4,7 @@ import List from '@/components/common/List';
 import ListEmpty from '@/components/common/ListEmpty';
 import Pagination from '@/components/common/Pagination';
 import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
+import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
 import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
@@ -19,9 +20,10 @@ export default function AuctionCaseList({ isGroupHost }: Props) {
   const params = useParams();
   const groupId = params.groupId as string;
   const { currentPage } = useCurrentPage();
+  const { search } = useSearchInput();
   const { moveToCreateAuctionCase } = useGroupDetailRouter();
   const { data, isPending } = useSuspenseQuery(
-    getAuctionCaseListQueryOptions(groupId, { page: currentPage }),
+    getAuctionCaseListQueryOptions(groupId, { page: currentPage, search }),
   );
   const { data: auctionCases, meta } = data;
   const categorizedAuctionCases = useCategorizedAuctionCases(auctionCases);

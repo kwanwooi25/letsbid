@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       per = DEFAULT_GROUP_LIST_QUERY_OPTIONS.per,
       search = DEFAULT_GROUP_LIST_QUERY_OPTIONS.search,
     }: GroupListQueryOptions = await req.json();
+    const searchSplit = search.trim().split(' ');
 
     const where: Prisma.GroupWhereInput = {
       members: {
@@ -25,8 +26,16 @@ export async function POST(req: NextRequest) {
       },
       archivedAt: null,
       OR: [
-        { name: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
+        ...searchSplit.map(
+          (word): Prisma.GroupWhereInput => ({
+            name: { contains: word.trim(), mode: 'insensitive' },
+          }),
+        ),
+        ...searchSplit.map(
+          (word): Prisma.GroupWhereInput => ({
+            description: { contains: word.trim(), mode: 'insensitive' },
+          }),
+        ),
       ],
     };
 
