@@ -5,10 +5,11 @@ import ArticleListSkeleton from './Articles/skeleton';
 import AuctionCaseTitle from './AuctionCaseTitle';
 import AuctionCaseIntroductionSkeleton from './Introduction/skeleton';
 import AucitonCasePageToolbarSkeleton from './Toolbar/skeleton';
+import { AUCTION_CASE_DETAIL_TABS } from './useAuctionCaseDetailTabs';
 
 export default function AuctionCaseSkeleton() {
   return (
-    <Tabs>
+    <Tabs value={AUCTION_CASE_DETAIL_TABS[0]}>
       <Skeleton.PageHeader
         title={<AuctionCaseTitle.Skeleton />}
         className="max-w-2xl min-h-[80px]"

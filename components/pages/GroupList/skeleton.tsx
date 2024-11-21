@@ -7,7 +7,7 @@ import { GROUP_LIST_TABS } from './useGroupListTabs';
 
 export default function GroupListPageSkeleton() {
   return (
-    <Tabs>
+    <Tabs value={GROUP_LIST_TABS[0]}>
       <Skeleton.PageHeader title="그룹 목록" className="max-w-xl lg:max-w-lg" />
       <PageBody className="max-w-xl w-full pt-0 lg:max-w-4xl lg:grid lg:grid-cols-[240px_1fr_240px] lg:gap-4 lg:items-start">
         <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px]">
