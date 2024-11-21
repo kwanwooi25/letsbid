@@ -1,18 +1,22 @@
 'use client';
 
 import ListItem from '@/components/common/ListItem';
+import UserImage from '@/components/common/UserImage';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import UserImage from '@/components/common/UserImage';
+import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
-import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';
+import { ThumbsUp } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 
 export default function ArticleListItem({ article }: Props) {
-  const { id, title, contentHtml, author, updatedAt, isPublished, auctionCase } = article;
+  const { id, title, contentHtml, author, updatedAt, isPublished, auctionCase, _count } = article;
+  const { likes } = _count;
 
+  const { resolvedTheme } = useTheme();
   const { moveToArticleDetail, moveToEditArticle } = useAuctionCaseDetailRouter({ auctionCase });
   const { tryToDeleteArticle } = useAuctionCaseDetailActions({ auctionCase });
 
@@ -46,12 +50,25 @@ export default function ArticleListItem({ article }: Props) {
           </div>
         )}
       </div>
-      <div className="flex items-center gap-2 self-end">
+      <div className="self-stretch flex items-center gap-2">
         {isPublished ? (
-          <>
-            <UserImage src={author.image} size={24} />
-            <span className="text-xs sm:text-sm font-semibold text-primary/70">{author.name}</span>
-          </>
+          <div className="self-stretch flex flex-col justify-between items-end">
+            {likes > 0 && (
+              <div className="flex items-center gap-1">
+                <ThumbsUp
+                  className="w-4 h-4"
+                  fill={resolvedTheme === 'dark' ? '#075985' : '#bae6fd'}
+                />
+                <span className="text-sm font-semibold text-primary/70">{likes}</span>
+              </div>
+            )}
+            <div className="mt-auto flex items-center gap-2">
+              <UserImage src={author.image} size={24} />
+              <span className="text-xs sm:text-sm font-semibold text-primary/70">
+                {author.name}
+              </span>
+            </div>
+          </div>
         ) : (
           <>
             <Button type="button" onClick={() => moveToEditArticle(id)}>
@@ -68,5 +85,5 @@ export default function ArticleListItem({ article }: Props) {
 }
 
 type Props = {
-  article: ArticleWithAuctionCaseAuthorAttachments;
+  article: ArticleWithAuctionCaseAuthor;
 };

@@ -1,4 +1,4 @@
-import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';
+import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
 import { ArticleFormSchema } from './formSchema';
 
 export function getDefaultFormValues({
@@ -6,7 +6,7 @@ export function getDefaultFormValues({
   article,
 }: {
   auctionCaseId?: string | null;
-  article?: ArticleWithAuctionCaseAuthorAttachments | null;
+  article?: ArticleWithAuctionCaseAuthor | null;
 }): ArticleFormSchema {
   if (!article) {
     return {

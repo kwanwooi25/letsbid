@@ -1,10 +1,11 @@
-import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
+import { DEFAULT_ARTICLE_INCLUDE } from '@/app/api/article/const';
 import {
   getUserFromSession,
   handleFail,
   handlePrismaClientError,
   handleSuccess,
 } from '@/app/api/utils';
+import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
@@ -38,11 +39,7 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
         auctionCaseId: params.auctionCaseId,
         OR: [{ isPublished: true }, { isPublished: false, authorId: user?.id }],
       },
-      include: {
-        author: true,
-        attachments: true,
-        auctionCase: true,
-      },
+      include: DEFAULT_ARTICLE_INCLUDE,
       orderBy: [{ isPublished: 'asc' }, { updatedAt: 'desc' }],
     });
     return handleSuccess({ data: articles });

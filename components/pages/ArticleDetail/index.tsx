@@ -1,14 +1,24 @@
 'use client';
 
+import UserImage from '@/components/common/UserImage';
+import WysiwygViewer from '@/components/common/WysiwygViewer';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
-import UserImage from '@/components/common/UserImage';
-import WysiwygViewer from '@/components/common/WysiwygViewer';
-import { getArticleDetailQueryOptions } from '@/features/article/query';
+import {
+  likeArticleMutaionOptions,
+  unlikeArticleMutaionOptions,
+} from '@/features/article/mutation';
+import {
+  getArticleDetailQueryOptions,
+  getLikesOnArticleQueryOptions,
+} from '@/features/article/query';
 import { formatDateTime } from '@/lib/datetime';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { cn } from '@/lib/utils';
+import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
+import { ThumbsUp } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
 import { useAuctionCaseDetailActions } from '../AuctionCase/useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../AuctionCase/useAuctionCaseDetailRouter';
@@ -17,15 +27,27 @@ export default function ArticleDetail() {
   const session = useSession();
   const params = useParams();
   const articleId = params.articleId as string;
-  const { data: article } = useSuspenseQuery(getArticleDetailQueryOptions(articleId));
+  const auctionCaseId = params.auctionCaseId as string;
+  const { resolvedTheme } = useTheme();
+  const [{ data: article }, { data: likesOnArticle }] = useSuspenseQueries({
+    queries: [getArticleDetailQueryOptions(articleId), getLikesOnArticleQueryOptions(articleId)],
+  });
+  const { totalLikeCount = 0, isMeLiked = false } = likesOnArticle ?? {};
 
   const { moveToEditArticle } = useAuctionCaseDetailRouter({ auctionCase: article?.auctionCase });
   const { tryToDeleteArticle } = useAuctionCaseDetailActions({ auctionCase: article?.auctionCase });
+  const { mutateAsync: likeArticle } = useMutation(likeArticleMutaionOptions);
+  const { mutateAsync: unlikeArticle } = useMutation(unlikeArticleMutaionOptions);
 
   if (!article) return null;
 
   const { auctionCase, title, contentHtml, author, updatedAt } = article;
   const isMyArticle = author.id === session?.data?.user.id;
+
+  const toggleLike = () => {
+    const action = isMeLiked ? unlikeArticle : likeArticle;
+    action({ articleId, auctionCaseId });
+  };
 
   return (
     <>
@@ -51,7 +73,28 @@ export default function ArticleDetail() {
         )}
       </PageHeader>
       <PageBody className="max-w-3xl flex flex-col gap-4">
-        <h6 className="text-xl font-bold">{title}</h6>
+        <div className="flex items-center justify-between">
+          <h6 className="text-xl font-bold">{title}</h6>
+          <div className="flex items-center gap-2">
+            {!!totalLikeCount && (
+              <span className="text-sm font-semibold text-primary/70">{totalLikeCount}</span>
+            )}
+            <Button
+              onClick={toggleLike}
+              className="rounded-full"
+              type="button"
+              variant="ghost"
+              size="icon"
+            >
+              <ThumbsUp
+                className={cn('w-5 h-5', isMeLiked ? 'animate-like' : 'animate-unlike')}
+                fill={
+                  isMeLiked ? (resolvedTheme === 'dark' ? '#075985' : '#bae6fd') : 'transparent'
+                }
+              />
+            </Button>
+          </div>
+        </div>
         <div className="self-end flex items-center gap-2">
           <UserImage src={author.image} size={24} />
           <span className="text-sm font-semibold text-primary/70">{author.name}</span>

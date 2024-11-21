@@ -1,8 +1,6 @@
-'use client';
-
+import UserImage from '@/components/common/UserImage';
 import PageBody from '@/components/layouts/PageBody';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserImage from '@/components/common/UserImage';
 
 export default function ArticleDetailSkeleton() {
   return (
@@ -18,7 +16,13 @@ export default function ArticleDetailSkeleton() {
         actionButtonCount={2}
       />
       <PageBody className="flex flex-col gap-4">
-        <Skeleton className="h-[28px] w-[100px]" />
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-[28px] w-[100px]" />
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-[20px] w-[15px]" />
+            <Skeleton className="h-[40px] w-[40px] rounded-full" />
+          </div>
+        </div>
         <div className="self-end flex items-center gap-2">
           <UserImage size={24} />
           <Skeleton className="h-[20px] w-[40px]" />

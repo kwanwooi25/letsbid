@@ -69,6 +69,20 @@ const config: Config = {
         datetimepicker: '9998',
         header: '999',
       },
+      keyframes: {
+        like: {
+          '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
+          '80%': { transform: 'rotate(-20deg) scale(1.25) translate(-3px, -2px)' },
+        },
+        unlike: {
+          '0%': { fill: '#bae6fd' },
+          '100%': { fill: 'transparent' },
+        },
+      },
+      animation: {
+        like: 'like 0.3s ease-out',
+        unlike: 'unlike 0.3s ease-out',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
