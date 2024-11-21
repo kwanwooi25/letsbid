@@ -1,4 +1,3 @@
-import HostBadge from '@/components/common/HostBadge';
 import ListItem from '@/components/common/ListItem';
 import MeBadge from '@/components/common/MeBadge';
 import UserImage from '@/components/common/UserImage';
@@ -113,7 +112,7 @@ export default function MemberListItem({ member, groupHostId }: Props) {
     <>
       <ListItem className="hover:cursor-default">
         <div className="flex items-center gap-2">
-          <UserImage src={user.image} size={40} />
+          <UserImage src={user.image} size={40} isHost={isGroupHost} />
           <div className="flex items-center gap-2">
             {isMeGroupHost ? (
               <a
@@ -128,8 +127,6 @@ export default function MemberListItem({ member, groupHostId }: Props) {
             {isMe && <MeBadge />}
           </div>
         </div>
-
-        {isGroupHost && <HostBadge />}
 
         {isMeGroupHost && !isMe && (
           <div className="flex items-center gap-2">
