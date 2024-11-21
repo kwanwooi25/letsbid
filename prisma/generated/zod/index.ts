@@ -18,7 +18,7 @@ export const AccountScalarFieldEnumSchema = z.enum(['userId','type','provider','
 
 export const SessionScalarFieldEnumSchema = z.enum(['sessionToken','userId','expires','createdAt','updatedAt']);
 
-export const GroupScalarFieldEnumSchema = z.enum(['id','name','description','hostId','isPrivate','password','maxMembers','createdAt','updatedAt','archivedAt']);
+export const GroupScalarFieldEnumSchema = z.enum(['id','name','description','hostId','viceHostIds','isPrivate','password','maxMembers','createdAt','updatedAt','archivedAt']);
 
 export const UsersOnGroupsScalarFieldEnumSchema = z.enum(['userId','groupId','invitedBy','joinedAt']);
 
@@ -44,7 +44,7 @@ export const AccountOrderByRelevanceFieldEnumSchema = z.enum(['userId','type','p
 
 export const SessionOrderByRelevanceFieldEnumSchema = z.enum(['sessionToken','userId']);
 
-export const GroupOrderByRelevanceFieldEnumSchema = z.enum(['id','name','description','hostId','password']);
+export const GroupOrderByRelevanceFieldEnumSchema = z.enum(['id','name','description','hostId','viceHostIds','password']);
 
 export const UsersOnGroupsOrderByRelevanceFieldEnumSchema = z.enum(['userId','groupId','invitedBy']);
 
@@ -125,6 +125,7 @@ export const GroupSchema = z.object({
   name: z.string(),
   description: z.string().nullable(),
   hostId: z.string(),
+  viceHostIds: z.string().array(),
   isPrivate: z.boolean(),
   password: z.string().nullable(),
   maxMembers: z.number().int(),
@@ -375,6 +376,7 @@ export const GroupSelectSchema: z.ZodType<Prisma.GroupSelect> = z.object({
   name: z.boolean().optional(),
   description: z.boolean().optional(),
   hostId: z.boolean().optional(),
+  viceHostIds: z.boolean().optional(),
   isPrivate: z.boolean().optional(),
   password: z.boolean().optional(),
   maxMembers: z.boolean().optional(),
@@ -855,6 +857,7 @@ export const GroupWhereInputSchema: z.ZodType<Prisma.GroupWhereInput> = z.object
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   hostId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  viceHostIds: z.lazy(() => StringNullableListFilterSchema).optional(),
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   maxMembers: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
@@ -870,6 +873,7 @@ export const GroupOrderByWithRelationInputSchema: z.ZodType<Prisma.GroupOrderByW
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   hostId: z.lazy(() => SortOrderSchema).optional(),
+  viceHostIds: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   maxMembers: z.lazy(() => SortOrderSchema).optional(),
@@ -892,6 +896,7 @@ export const GroupWhereUniqueInputSchema: z.ZodType<Prisma.GroupWhereUniqueInput
   name: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   hostId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  viceHostIds: z.lazy(() => StringNullableListFilterSchema).optional(),
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   maxMembers: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
@@ -907,6 +912,7 @@ export const GroupOrderByWithAggregationInputSchema: z.ZodType<Prisma.GroupOrder
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   hostId: z.lazy(() => SortOrderSchema).optional(),
+  viceHostIds: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   maxMembers: z.lazy(() => SortOrderSchema).optional(),
@@ -928,6 +934,7 @@ export const GroupScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.GroupSc
   name: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   hostId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  viceHostIds: z.lazy(() => StringNullableListFilterSchema).optional(),
   isPrivate: z.union([ z.lazy(() => BoolWithAggregatesFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   maxMembers: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
@@ -1728,6 +1735,7 @@ export const GroupCreateInputSchema: z.ZodType<Prisma.GroupCreateInput> = z.obje
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -1743,6 +1751,7 @@ export const GroupUncheckedCreateInputSchema: z.ZodType<Prisma.GroupUncheckedCre
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -1758,6 +1767,7 @@ export const GroupUpdateInputSchema: z.ZodType<Prisma.GroupUpdateInput> = z.obje
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -1773,6 +1783,7 @@ export const GroupUncheckedUpdateInputSchema: z.ZodType<Prisma.GroupUncheckedUpd
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -1788,6 +1799,7 @@ export const GroupCreateManyInputSchema: z.ZodType<Prisma.GroupCreateManyInput> 
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -1801,6 +1813,7 @@ export const GroupUpdateManyMutationInputSchema: z.ZodType<Prisma.GroupUpdateMan
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -1814,6 +1827,7 @@ export const GroupUncheckedUpdateManyInputSchema: z.ZodType<Prisma.GroupUnchecke
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -2731,6 +2745,14 @@ export const SessionMinOrderByAggregateInputSchema: z.ZodType<Prisma.SessionMinO
   updatedAt: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
+export const StringNullableListFilterSchema: z.ZodType<Prisma.StringNullableListFilter> = z.object({
+  equals: z.string().array().optional().nullable(),
+  has: z.string().optional().nullable(),
+  hasEvery: z.string().array().optional(),
+  hasSome: z.string().array().optional(),
+  isEmpty: z.boolean().optional()
+}).strict();
+
 export const BoolFilterSchema: z.ZodType<Prisma.BoolFilter> = z.object({
   equals: z.boolean().optional(),
   not: z.union([ z.boolean(),z.lazy(() => NestedBoolFilterSchema) ]).optional(),
@@ -2757,6 +2779,7 @@ export const GroupCountOrderByAggregateInputSchema: z.ZodType<Prisma.GroupCountO
   name: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
   hostId: z.lazy(() => SortOrderSchema).optional(),
+  viceHostIds: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.lazy(() => SortOrderSchema).optional(),
   maxMembers: z.lazy(() => SortOrderSchema).optional(),
@@ -3449,6 +3472,10 @@ export const UserUpdateOneRequiredWithoutSessionNestedInputSchema: z.ZodType<Pri
   update: z.union([ z.lazy(() => UserUpdateToOneWithWhereWithoutSessionInputSchema),z.lazy(() => UserUpdateWithoutSessionInputSchema),z.lazy(() => UserUncheckedUpdateWithoutSessionInputSchema) ]).optional(),
 }).strict();
 
+export const GroupCreateviceHostIdsInputSchema: z.ZodType<Prisma.GroupCreateviceHostIdsInput> = z.object({
+  set: z.string().array()
+}).strict();
+
 export const UsersOnGroupsCreateNestedManyWithoutGroupInputSchema: z.ZodType<Prisma.UsersOnGroupsCreateNestedManyWithoutGroupInput> = z.object({
   create: z.union([ z.lazy(() => UsersOnGroupsCreateWithoutGroupInputSchema),z.lazy(() => UsersOnGroupsCreateWithoutGroupInputSchema).array(),z.lazy(() => UsersOnGroupsUncheckedCreateWithoutGroupInputSchema),z.lazy(() => UsersOnGroupsUncheckedCreateWithoutGroupInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => UsersOnGroupsCreateOrConnectWithoutGroupInputSchema),z.lazy(() => UsersOnGroupsCreateOrConnectWithoutGroupInputSchema).array() ]).optional(),
@@ -3475,6 +3502,11 @@ export const AuctionCaseUncheckedCreateNestedManyWithoutGroupInputSchema: z.ZodT
   connectOrCreate: z.union([ z.lazy(() => AuctionCaseCreateOrConnectWithoutGroupInputSchema),z.lazy(() => AuctionCaseCreateOrConnectWithoutGroupInputSchema).array() ]).optional(),
   createMany: z.lazy(() => AuctionCaseCreateManyGroupInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => AuctionCaseWhereUniqueInputSchema),z.lazy(() => AuctionCaseWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const GroupUpdateviceHostIdsInputSchema: z.ZodType<Prisma.GroupUpdateviceHostIdsInput> = z.object({
+  set: z.string().array().optional(),
+  push: z.union([ z.string(),z.string().array() ]).optional(),
 }).strict();
 
 export const BoolFieldUpdateOperationsInputSchema: z.ZodType<Prisma.BoolFieldUpdateOperationsInput> = z.object({
@@ -4735,6 +4767,7 @@ export const GroupCreateWithoutMembersInputSchema: z.ZodType<Prisma.GroupCreateW
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -4749,6 +4782,7 @@ export const GroupUncheckedCreateWithoutMembersInputSchema: z.ZodType<Prisma.Gro
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -4824,6 +4858,7 @@ export const GroupUpdateWithoutMembersInputSchema: z.ZodType<Prisma.GroupUpdateW
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -4838,6 +4873,7 @@ export const GroupUncheckedUpdateWithoutMembersInputSchema: z.ZodType<Prisma.Gro
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -4852,6 +4888,7 @@ export const GroupCreateWithoutAuctionCasesInputSchema: z.ZodType<Prisma.GroupCr
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -4866,6 +4903,7 @@ export const GroupUncheckedCreateWithoutAuctionCasesInputSchema: z.ZodType<Prism
   name: z.string(),
   description: z.string().optional().nullable(),
   hostId: z.string(),
+  viceHostIds: z.union([ z.lazy(() => GroupCreateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
@@ -4976,6 +5014,7 @@ export const GroupUpdateWithoutAuctionCasesInputSchema: z.ZodType<Prisma.GroupUp
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -4990,6 +5029,7 @@ export const GroupUncheckedUpdateWithoutAuctionCasesInputSchema: z.ZodType<Prism
   name: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   hostId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  viceHostIds: z.union([ z.lazy(() => GroupUpdateviceHostIdsInputSchema),z.string().array() ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
