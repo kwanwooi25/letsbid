@@ -16,7 +16,7 @@ import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import AuctionCaseListItem from './ListItem';
 
-export default function AuctionCaseList({ isGroupHost }: Props) {
+export default function AuctionCaseList({ isAbleToCreateAuctionCase }: Props) {
   const params = useParams();
   const groupId = params.groupId as string;
   const { currentPage } = useCurrentPage();
@@ -35,7 +35,7 @@ export default function AuctionCaseList({ isGroupHost }: Props) {
     return (
       <ListEmpty className="flex flex-col gap-4">
         <p>표시할 경매 사건이 없습니다</p>
-        {isGroupHost && (
+        {isAbleToCreateAuctionCase && (
           <p>
             <Button className="self-end" onClick={moveToCreateAuctionCase}>
               <LucideFilePlus2 className="w-4 h-4 mr-2" />
@@ -68,5 +68,5 @@ export default function AuctionCaseList({ isGroupHost }: Props) {
 }
 
 type Props = {
-  isGroupHost?: boolean;
+  isAbleToCreateAuctionCase?: boolean;
 };

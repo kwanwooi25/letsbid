@@ -12,7 +12,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { KeyboardEventHandler } from 'react';
 import AuctionResultItem from './AuctionResultItem';
 
-export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
+export default function AuctionResult({ auctionCase, isGroupHost, isViceGroupHost }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -83,6 +83,7 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
                 rank={index + 1}
                 actualRank={bidRanks[index]}
                 isGroupHost={isGroupHost}
+                isViceGroupHost={isViceGroupHost}
                 openBidDetail={openBidDetail(index)}
               />
             );
@@ -127,4 +128,5 @@ export default function AuctionResult({ auctionCase, isGroupHost }: Props) {
 type Props = {
   auctionCase: AuctionCaseWithBidsAndUserAndArticles;
   isGroupHost?: boolean;
+  isViceGroupHost?: boolean;
 };

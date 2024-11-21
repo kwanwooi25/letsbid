@@ -1,8 +1,8 @@
 import BidRankBadge from '@/components/common/BidRankBadge';
 import MeBadge from '@/components/common/MeBadge';
+import WithTooltip from '@/components/common/WithTooltip';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import WithTooltip from '@/components/common/WithTooltip';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { BidWithUser } from '@/features/bid/types';
 import { cn } from '@/lib/utils';
@@ -16,6 +16,7 @@ export default function AuctionResultItem({
   rank,
   actualRank,
   isGroupHost,
+  isViceGroupHost,
   openBidDetail,
 }: Props) {
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
@@ -68,21 +69,21 @@ export default function AuctionResultItem({
               <LucideScrollText />
             </Button>
           </WithTooltip>
-          {isGroupHost && !isExcluded && (
+          {(isGroupHost || isViceGroupHost) && !isExcluded && (
             <WithTooltip tooltip="입찰 제외 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToExcludeBid(bid)}>
                 <LucideUserX />
               </Button>
             </WithTooltip>
           )}
-          {isExcluded && (isGroupHost || isMe) && (
+          {isExcluded && (isGroupHost || isViceGroupHost || isMe) && (
             <WithTooltip tooltip="입찰 참여 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToIncludeBid(bid)}>
                 <LucideUserPlus />
               </Button>
             </WithTooltip>
           )}
-          {!isExcluded && !isGroupHost && isMe && (
+          {!isExcluded && !(isGroupHost || isViceGroupHost) && isMe && (
             <WithTooltip tooltip="입찰 포기">
               <Button size="icon" variant="ghost" onClick={() => tryToGiveUpBid(bid)}>
                 <LucideUserX />
@@ -101,5 +102,6 @@ type Props = {
   rank: number;
   actualRank: number;
   isGroupHost?: boolean;
+  isViceGroupHost?: boolean;
   openBidDetail: () => void;
 };
