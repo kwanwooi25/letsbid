@@ -201,3 +201,29 @@ export const changeGroupHostMutationOptions: MutationOptions<
     }
   },
 };
+
+export const updateGroupViceHostsMutationOptions: MutationOptions<
+  GroupWithMembers,
+  Error,
+  { groupId: string; viceHostIds: string[] }
+> = {
+  mutationFn: async ({ groupId, viceHostIds }) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.GROUP}/${groupId}`);
+      const res = await axios<SuccessResponse<GroupWithMembers>>({
+        method: 'patch',
+        url,
+        data: { viceHostIds },
+      });
+      return res.data.data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (updatedGroup) => {
+    const queryClient = getQueryClient();
+    if (updatedGroup?.id) {
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(updatedGroup?.id) });
+    }
+  },
+};

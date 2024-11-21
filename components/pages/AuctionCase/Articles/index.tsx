@@ -1,3 +1,5 @@
+'use client';
+
 import List from '@/components/common/List';
 import ListEmpty from '@/components/common/ListEmpty';
 import { Button } from '@/components/ui/button';
@@ -5,8 +7,14 @@ import { getAuctionCaseArticleListQueryOptions } from '@/features/article/query'
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideNotebookPen } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
-import ArticleListItem from './ListItem';
+import ArticleListItemSkeleton from './ListItem.skeleton';
+
+const ArticleListItem = dynamic(() => import('./ListItem'), {
+  ssr: false,
+  loading: () => <ArticleListItemSkeleton />,
+});
 
 export default function ArticleList({ auctionCase }: Props) {
   const { moveToAddArticle } = useAuctionCaseDetailRouter({ auctionCase });

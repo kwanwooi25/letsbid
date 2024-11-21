@@ -8,14 +8,11 @@ import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { getArchivedGroupListQueryOptions } from '@/features/group/query';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import GroupListItem from './GroupListItem';
 
 export default function ArchivedGroupList() {
   const { currentPage } = useCurrentPage();
   const { search } = useSearchInput();
-  const session = useSession();
-  const userId = session.data?.user?.id;
 
   const { data, isPending } = useSuspenseQuery(
     getArchivedGroupListQueryOptions({ page: currentPage, search }),
@@ -32,7 +29,7 @@ export default function ArchivedGroupList() {
     <>
       <List>
         {groups.map((group) => (
-          <GroupListItem key={group.id} group={group} isHost={userId === group.hostId} />
+          <GroupListItem key={group.id} group={group} />
         ))}
       </List>
       {typeof meta?.totalPages === 'number' && meta.totalPages > 1 && (

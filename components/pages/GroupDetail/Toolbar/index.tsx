@@ -12,13 +12,13 @@ import GroupDetailTabsList from './GroupDetailTabsList';
 export default function GroupDetailPageToolbar({ group }: Props) {
   const { tab } = useGroupDetailTabs();
   const { moveToCreateAuctionCase } = useGroupDetailRouter();
-  const { isGroupHost } = useIsGroupHost(group?.hostId);
+  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
   const isArchived = !!group?.archivedAt;
 
   return (
     <PageToolbar className="flex items-center gap-4">
       <GroupDetailTabsList />
-      {isGroupHost && !isArchived && tab === 'auctionCases' && (
+      {(isGroupHost || isViceGroupHost) && !isArchived && tab === 'auctionCases' && (
         <Button className="lg:w-full" onClick={moveToCreateAuctionCase}>
           <LucideFilePlus2 className="w-4 h-4 mr-2" />
           경매 사건 추가

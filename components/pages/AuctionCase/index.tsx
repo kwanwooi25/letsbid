@@ -31,7 +31,7 @@ export default function AuctionCase() {
   const [{ data: group }, { data: auctionCase, refetch: refetchAuctionCase }] = useSuspenseQueries({
     queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
   });
-  const { isGroupHost } = useIsGroupHost(group.hostId);
+  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const { isScrolled } = useWindowScroll();
 
@@ -52,11 +52,14 @@ export default function AuctionCase() {
   return (
     <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
       <PageHeader
-        className={cn('max-w-2xl sm:min-h-[80px]', isGroupHost ? 'min-h-[128px]' : 'min-h-[80px]')}
+        className={cn(
+          'max-w-2xl sm:min-h-[80px]',
+          isGroupHost || isViceGroupHost ? 'min-h-[128px]' : 'min-h-[80px]',
+        )}
         backButton
         title={<AuctionCaseTitle auctionCase={auctionCase} />}
       >
-        {isGroupHost && (
+        {(isGroupHost || isViceGroupHost) && (
           <div className="flex items-center gap-2">
             <Button
               type="button"
@@ -75,7 +78,7 @@ export default function AuctionCase() {
         <div
           className={cn(
             'bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header sm:top-[140px]',
-            isGroupHost ? 'top-[188px]' : 'top-[140px]',
+            isGroupHost || isViceGroupHost ? 'top-[188px]' : 'top-[140px]',
             isScrolled && 'border-b lg:border-none',
           )}
         >
@@ -89,7 +92,11 @@ export default function AuctionCase() {
             <ArticleList auctionCase={auctionCase} />
           </TabsContent>
           <TabsContent value="bids" className="py-0 mt-0 flex flex-col items-center">
-            <AuctionCaseBids auctionCase={auctionCase} isGroupHost={isGroupHost} />
+            <AuctionCaseBids
+              auctionCase={auctionCase}
+              isGroupHost={isGroupHost}
+              isViceGroupHost={isViceGroupHost}
+            />
           </TabsContent>
         </div>
       </PageBody>

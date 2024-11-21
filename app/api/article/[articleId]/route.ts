@@ -1,13 +1,14 @@
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
+import { DEFAULT_ARTICLE_INCLUDE } from '../const';
 
 export async function GET(req: NextRequest, { params }: { params: { articleId: string } }) {
   try {
     await getUserFromSession();
     const article = await prisma.article.findUnique({
       where: { id: params.articleId },
-      include: { author: true, auctionCase: true, attachments: true },
+      include: DEFAULT_ARTICLE_INCLUDE,
     });
     return handleSuccess({ data: article });
   } catch (e) {
@@ -22,7 +23,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { articleId:
     const article = await prisma.article.update({
       where: { id: params.articleId },
       data,
-      include: { author: true, auctionCase: true, attachments: true },
+      include: DEFAULT_ARTICLE_INCLUDE,
     });
     return handleSuccess({ data: article });
   } catch (e) {

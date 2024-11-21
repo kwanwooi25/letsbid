@@ -1,8 +1,8 @@
 'use client';
 
 import ListItem from '@/components/common/ListItem';
-import { Skeleton } from '@/components/ui/skeleton';
 import UserImage from '@/components/common/UserImage';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function MemberListItemSkeleton() {
   return (
@@ -11,8 +11,6 @@ export default function MemberListItemSkeleton() {
         <UserImage size={40} />
         <Skeleton className="h-[24px] sm:h-[28px] w-[100px]" />
       </div>
-
-      <Skeleton className="h-[32px] w-[32px] rounded-full" />
     </ListItem>
   );
 }

@@ -2,7 +2,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
 import { deleteArticleMutaionOptions } from '@/features/article/mutation';
-import { ArticleWithAuctionCaseAuthorAttachments } from '@/features/article/types';
+import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
 import { deleteAuctionCaseMutationOptions } from '@/features/auction-case/mutation';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { deleteBidMutationOptions, updateBidMutationOptions } from '@/features/bid/mutation';
@@ -141,7 +141,7 @@ export function useAuctionCaseDetailActions({ auctionCase }: Args) {
     });
   };
 
-  const tryToDeleteArticle = (article: ArticleWithAuctionCaseAuthorAttachments) => {
+  const tryToDeleteArticle = (article: ArticleWithAuctionCaseAuthor) => {
     const { id, auctionCaseId } = article;
 
     openAlert({

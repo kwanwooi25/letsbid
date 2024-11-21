@@ -29,7 +29,7 @@ export default function GroupDetail() {
   const params = useParams();
   const groupId = params.groupId as string;
   const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
-  const { isGroupHost } = useIsGroupHost(group.hostId);
+  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
   const { tab, handleTabChange } = useGroupDetailTabs();
   const { moveToEditGroup } = useGroupDetailRouter();
   const { tryToDeleteGroup, tryToArchiveGroup, tryToUnarchiveGroup, tryToMoveOutFromGroup } =
@@ -53,7 +53,7 @@ export default function GroupDetail() {
                 </div>
               )}
               <span className="text-xl font-semibold line-clamp-2">{group.name}</span>
-              {isGroupHost && <HostBadge />}
+              {(isGroupHost || isViceGroupHost) && <HostBadge isViceHost={isViceGroupHost} />}
             </div>
             {isArchived && (
               <div className="text-xs text-primary/50 font-semibold">
@@ -64,25 +64,29 @@ export default function GroupDetail() {
         }
       >
         <div className="flex items-center gap-2">
-          {isGroupHost ? (
-            <>
-              <Button type="button" onClick={moveToEditGroup}>
-                수정
-              </Button>
-              {isArchived ? (
-                <Button type="button" variant="destructive-outline" onClick={tryToUnarchiveGroup}>
-                  숨김 해제
-                </Button>
-              ) : (
-                <Button type="button" variant="destructive-outline" onClick={tryToArchiveGroup}>
-                  숨김
-                </Button>
-              )}
-              <Button type="button" variant="destructive" onClick={tryToDeleteGroup}>
-                삭제
-              </Button>
-            </>
-          ) : (
+          {(isGroupHost || isViceGroupHost) && (
+            <Button type="button" onClick={moveToEditGroup}>
+              수정
+            </Button>
+          )}
+
+          {(isGroupHost || isViceGroupHost) && isArchived && (
+            <Button type="button" variant="destructive-outline" onClick={tryToUnarchiveGroup}>
+              숨김 해제
+            </Button>
+          )}
+          {(isGroupHost || isViceGroupHost) && !isArchived && (
+            <Button type="button" variant="destructive-outline" onClick={tryToArchiveGroup}>
+              숨김
+            </Button>
+          )}
+
+          {isGroupHost && (
+            <Button type="button" variant="destructive" onClick={tryToDeleteGroup}>
+              삭제
+            </Button>
+          )}
+          {(isViceGroupHost || !isGroupHost) && (
             <Button type="button" variant="destructive" onClick={tryToMoveOutFromGroup}>
               그룹에서 나가기
             </Button>
@@ -93,7 +97,7 @@ export default function GroupDetail() {
       <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <div
           className={cn(
-            'bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[180px] sm:top-[132px]',
+            'z-header bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[180px] sm:top-[132px]',
             isScrolled && 'border-b lg:border-none',
           )}
         >
@@ -117,12 +121,12 @@ export default function GroupDetail() {
           />
           <TabsContent value="auctionCases" className="py-0 mt-0">
             <Suspense fallback={<AuctionCaseListSkeleton />}>
-              <AuctionCaseList isGroupHost={isGroupHost} />
+              <AuctionCaseList isAbleToCreateAuctionCase={isGroupHost || isViceGroupHost} />
             </Suspense>
           </TabsContent>
           <TabsContent value="members" className="py-0 mt-0">
             <Suspense fallback={<MemberListSkeleton />}>
-              <MemberList groupHostId={group.hostId} />
+              <MemberList group={group} />
             </Suspense>
           </TabsContent>
         </div>

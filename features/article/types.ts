@@ -1,7 +1,10 @@
-import { Article, Attachment, AuctionCase, User } from '@prisma/client';
+import { Article, AuctionCase, User } from '@prisma/client';
 
-export type ArticleWithAuctionCaseAuthorAttachments = Article & {
+export type ArticleWithAuctionCaseAuthor = Article & {
   auctionCase: AuctionCase;
   author: User;
-  attachments: Attachment[];
+  _count: {
+    likes: number;
+    attachments: number;
+  };
 };

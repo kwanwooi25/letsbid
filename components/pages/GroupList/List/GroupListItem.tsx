@@ -8,6 +8,7 @@ import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
 import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
+import { useIsGroupHost } from '@/features/group/useIsGroupHost';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
@@ -15,13 +16,14 @@ import { LucideLock, LucideLockOpen } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-export default function GroupListItem({ group, isHost }: Props) {
+export default function GroupListItem({ group }: Props) {
   const session = useSession();
   const router = useRouter();
   const { toast } = useToast();
   const { mutateAsync: joinGroup, isPending } = useMutation(joinGroupMutationOptions);
   const { handleAxiosError } = useAxiosError();
   const { openForm } = useFormDialog();
+  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
 
   const { id, name, members, maxMembers, isPrivate, description, archivedAt } = group;
   const isJoinable =
@@ -68,7 +70,9 @@ export default function GroupListItem({ group, isHost }: Props) {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <span className="text-xl font-semibold line-clamp-1">{name}</span>
-          {isHost && <HostBadge className="shrink-0" />}
+          {(isGroupHost || isViceGroupHost) && (
+            <HostBadge className="shrink-0" isViceHost={isViceGroupHost} />
+          )}
         </div>
         {!!description && (
           <div className="text-xs font-semibold text-primary/50 line-clamp-1">{description}</div>
@@ -118,5 +122,4 @@ export default function GroupListItem({ group, isHost }: Props) {
 
 type Props = {
   group: GroupWithMembers;
-  isHost?: boolean;
 };

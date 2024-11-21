@@ -8,7 +8,10 @@ import dynamic from 'next/dynamic';
 import { redirect, RedirectType } from 'next/navigation';
 import { Suspense } from 'react';
 
-const GroupDetail = dynamic(() => import('@/components/pages/GroupDetail'), { ssr: false });
+const GroupDetail = dynamic(() => import('@/components/pages/GroupDetail'), {
+  ssr: false,
+  loading: () => <GroupDetailSkeleton />,
+});
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
   try {
