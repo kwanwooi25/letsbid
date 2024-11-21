@@ -74,6 +74,7 @@ model Group {
   name        String
   description String?
   hostId      String
+  viceHostIds String[]
   isPrivate   Boolean   @default(false)
   password    String?
   maxMembers  Int       @default(1000)

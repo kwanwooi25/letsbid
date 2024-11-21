@@ -2,19 +2,19 @@
 
 import ListEmpty from '@/components/common/ListEmpty';
 import { Button } from '@/components/ui/button';
-import { useHasUserBidden } from '@/features/auction-case/useHasUserBidden';
-import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import {
   AuctionCaseLike,
   AuctionCaseWithBidsAndUserAndArticles,
 } from '@/features/auction-case/types';
+import { useHasUserBidden } from '@/features/auction-case/useHasUserBidden';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 import AuctionResult from './AuctionResult';
 import MyBid from './MyBid';
 
-export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
+export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupHost }: Props) {
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
 
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
@@ -54,6 +54,7 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
       <AuctionResult
         auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles}
         isGroupHost={isGroupHost}
+        isViceGroupHost={isViceGroupHost}
       />
     );
   }
@@ -64,4 +65,5 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost }: Props) {
 type Props = {
   auctionCase: AuctionCaseLike | null;
   isGroupHost?: boolean;
+  isViceGroupHost?: boolean;
 };
