@@ -1,4 +1,9 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import {
+  getUserFromSession,
+  handleFail,
+  handlePrismaClientError,
+  handleSuccess,
+} from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
 import { NextRequest } from 'next/server';
@@ -19,9 +24,16 @@ export async function GET(req: NextRequest, { params }: { params: { articleId: s
 export async function POST(req: NextRequest, { params }: { params: { articleId: string } }) {
   try {
     const user = await getUserFromSession();
+    if (!user) {
+      return handleFail({
+        message: 'User not found!',
+        status: HttpStatusCode.BadRequest,
+      });
+    }
+
     const createdLikeOnArticle = await prisma.likeOnArticle.create({
       data: {
-        userId: user?.id!,
+        userId: user.id,
         articleId: params.articleId,
       },
     });
