@@ -22,7 +22,7 @@ export const GroupScalarFieldEnumSchema = z.enum(['id','name','description','hos
 
 export const UsersOnGroupsScalarFieldEnumSchema = z.enum(['userId','groupId','invitedBy','joinedAt']);
 
-export const AuctionCaseScalarFieldEnumSchema = z.enum(['id','groupId','caseName','address','addressDetail','bidStartsAt','bidEndsAt','image','actualBidStartsAt','appraisedValue','startingBid','officialValue','area','floorLevel','floorPlan','hasElevator','completedYear','createdAt','updatedAt']);
+export const AuctionCaseScalarFieldEnumSchema = z.enum(['id','groupId','caseName','address','addressDetail','bidStartsAt','bidEndsAt','image','images','actualBidStartsAt','appraisedValue','startingBid','officialValue','area','floorLevel','floorPlan','hasElevator','completedYear','createdAt','updatedAt']);
 
 export const BidScalarFieldEnumSchema = z.enum(['id','auctionCaseId','userId','expectedSalePrice','acquisitionCost','evacuationCost','repairCost','brokerageFee','estimatedInterest','otherCost','expectedProfit','biddingPrice','isExcluded','excludedReason','createdAt','updatedAt']);
 
@@ -48,7 +48,7 @@ export const GroupOrderByRelevanceFieldEnumSchema = z.enum(['id','name','descrip
 
 export const UsersOnGroupsOrderByRelevanceFieldEnumSchema = z.enum(['userId','groupId','invitedBy']);
 
-export const AuctionCaseOrderByRelevanceFieldEnumSchema = z.enum(['id','groupId','caseName','address','addressDetail','image','floorPlan']);
+export const AuctionCaseOrderByRelevanceFieldEnumSchema = z.enum(['id','groupId','caseName','address','addressDetail','image','images','floorPlan']);
 
 export const BidOrderByRelevanceFieldEnumSchema = z.enum(['id','auctionCaseId','userId','excludedReason']);
 
@@ -162,6 +162,7 @@ export const AuctionCaseSchema = z.object({
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().nullable(),
+  images: z.string().array(),
   actualBidStartsAt: z.coerce.date().nullable(),
   appraisedValue: z.number().int(),
   startingBid: z.number().int(),
@@ -443,6 +444,7 @@ export const AuctionCaseSelectSchema: z.ZodType<Prisma.AuctionCaseSelect> = z.ob
   bidStartsAt: z.boolean().optional(),
   bidEndsAt: z.boolean().optional(),
   image: z.boolean().optional(),
+  images: z.boolean().optional(),
   actualBidStartsAt: z.boolean().optional(),
   appraisedValue: z.boolean().optional(),
   startingBid: z.boolean().optional(),
@@ -1013,6 +1015,7 @@ export const AuctionCaseWhereInputSchema: z.ZodType<Prisma.AuctionCaseWhereInput
   bidStartsAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   bidEndsAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   image: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  images: z.lazy(() => StringNullableListFilterSchema).optional(),
   actualBidStartsAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   appraisedValue: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   startingBid: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
@@ -1038,6 +1041,7 @@ export const AuctionCaseOrderByWithRelationInputSchema: z.ZodType<Prisma.Auction
   bidStartsAt: z.lazy(() => SortOrderSchema).optional(),
   bidEndsAt: z.lazy(() => SortOrderSchema).optional(),
   image: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  images: z.lazy(() => SortOrderSchema).optional(),
   actualBidStartsAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   appraisedValue: z.lazy(() => SortOrderSchema).optional(),
   startingBid: z.lazy(() => SortOrderSchema).optional(),
@@ -1070,6 +1074,7 @@ export const AuctionCaseWhereUniqueInputSchema: z.ZodType<Prisma.AuctionCaseWher
   bidStartsAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   bidEndsAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   image: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  images: z.lazy(() => StringNullableListFilterSchema).optional(),
   actualBidStartsAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   appraisedValue: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   startingBid: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
@@ -1095,6 +1100,7 @@ export const AuctionCaseOrderByWithAggregationInputSchema: z.ZodType<Prisma.Auct
   bidStartsAt: z.lazy(() => SortOrderSchema).optional(),
   bidEndsAt: z.lazy(() => SortOrderSchema).optional(),
   image: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  images: z.lazy(() => SortOrderSchema).optional(),
   actualBidStartsAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   appraisedValue: z.lazy(() => SortOrderSchema).optional(),
   startingBid: z.lazy(() => SortOrderSchema).optional(),
@@ -1125,6 +1131,7 @@ export const AuctionCaseScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.A
   bidStartsAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   bidEndsAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   image: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  images: z.lazy(() => StringNullableListFilterSchema).optional(),
   actualBidStartsAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
   appraisedValue: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
   startingBid: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
@@ -1891,6 +1898,7 @@ export const AuctionCaseCreateInputSchema: z.ZodType<Prisma.AuctionCaseCreateInp
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -1916,6 +1924,7 @@ export const AuctionCaseUncheckedCreateInputSchema: z.ZodType<Prisma.AuctionCase
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -1939,6 +1948,7 @@ export const AuctionCaseUpdateInputSchema: z.ZodType<Prisma.AuctionCaseUpdateInp
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -1964,6 +1974,7 @@ export const AuctionCaseUncheckedUpdateInputSchema: z.ZodType<Prisma.AuctionCase
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -1988,6 +1999,7 @@ export const AuctionCaseCreateManyInputSchema: z.ZodType<Prisma.AuctionCaseCreat
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -2009,6 +2021,7 @@ export const AuctionCaseUpdateManyMutationInputSchema: z.ZodType<Prisma.AuctionC
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -2031,6 +2044,7 @@ export const AuctionCaseUncheckedUpdateManyInputSchema: z.ZodType<Prisma.Auction
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -2893,6 +2907,7 @@ export const AuctionCaseCountOrderByAggregateInputSchema: z.ZodType<Prisma.Aucti
   bidStartsAt: z.lazy(() => SortOrderSchema).optional(),
   bidEndsAt: z.lazy(() => SortOrderSchema).optional(),
   image: z.lazy(() => SortOrderSchema).optional(),
+  images: z.lazy(() => SortOrderSchema).optional(),
   actualBidStartsAt: z.lazy(() => SortOrderSchema).optional(),
   appraisedValue: z.lazy(() => SortOrderSchema).optional(),
   startingBid: z.lazy(() => SortOrderSchema).optional(),
@@ -3597,6 +3612,10 @@ export const GroupUpdateOneRequiredWithoutMembersNestedInputSchema: z.ZodType<Pr
   update: z.union([ z.lazy(() => GroupUpdateToOneWithWhereWithoutMembersInputSchema),z.lazy(() => GroupUpdateWithoutMembersInputSchema),z.lazy(() => GroupUncheckedUpdateWithoutMembersInputSchema) ]).optional(),
 }).strict();
 
+export const AuctionCaseCreateimagesInputSchema: z.ZodType<Prisma.AuctionCaseCreateimagesInput> = z.object({
+  set: z.string().array()
+}).strict();
+
 export const GroupCreateNestedOneWithoutAuctionCasesInputSchema: z.ZodType<Prisma.GroupCreateNestedOneWithoutAuctionCasesInput> = z.object({
   create: z.union([ z.lazy(() => GroupCreateWithoutAuctionCasesInputSchema),z.lazy(() => GroupUncheckedCreateWithoutAuctionCasesInputSchema) ]).optional(),
   connectOrCreate: z.lazy(() => GroupCreateOrConnectWithoutAuctionCasesInputSchema).optional(),
@@ -3629,6 +3648,11 @@ export const ArticleUncheckedCreateNestedManyWithoutAuctionCaseInputSchema: z.Zo
   connectOrCreate: z.union([ z.lazy(() => ArticleCreateOrConnectWithoutAuctionCaseInputSchema),z.lazy(() => ArticleCreateOrConnectWithoutAuctionCaseInputSchema).array() ]).optional(),
   createMany: z.lazy(() => ArticleCreateManyAuctionCaseInputEnvelopeSchema).optional(),
   connect: z.union([ z.lazy(() => ArticleWhereUniqueInputSchema),z.lazy(() => ArticleWhereUniqueInputSchema).array() ]).optional(),
+}).strict();
+
+export const AuctionCaseUpdateimagesInputSchema: z.ZodType<Prisma.AuctionCaseUpdateimagesInput> = z.object({
+  set: z.string().array().optional(),
+  push: z.union([ z.string(),z.string().array() ]).optional(),
 }).strict();
 
 export const NullableFloatFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableFloatFieldUpdateOperationsInput> = z.object({
@@ -4618,6 +4642,7 @@ export const AuctionCaseCreateWithoutGroupInputSchema: z.ZodType<Prisma.AuctionC
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -4641,6 +4666,7 @@ export const AuctionCaseUncheckedCreateWithoutGroupInputSchema: z.ZodType<Prisma
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -4710,6 +4736,7 @@ export const AuctionCaseScalarWhereInputSchema: z.ZodType<Prisma.AuctionCaseScal
   bidStartsAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   bidEndsAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   image: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  images: z.lazy(() => StringNullableListFilterSchema).optional(),
   actualBidStartsAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   appraisedValue: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   startingBid: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
@@ -5079,6 +5106,7 @@ export const AuctionCaseCreateWithoutBidsInputSchema: z.ZodType<Prisma.AuctionCa
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -5103,6 +5131,7 @@ export const AuctionCaseUncheckedCreateWithoutBidsInputSchema: z.ZodType<Prisma.
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -5180,6 +5209,7 @@ export const AuctionCaseUpdateWithoutBidsInputSchema: z.ZodType<Prisma.AuctionCa
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -5204,6 +5234,7 @@ export const AuctionCaseUncheckedUpdateWithoutBidsInputSchema: z.ZodType<Prisma.
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -5310,6 +5341,7 @@ export const AuctionCaseCreateWithoutArticlesInputSchema: z.ZodType<Prisma.Aucti
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -5334,6 +5366,7 @@ export const AuctionCaseUncheckedCreateWithoutArticlesInputSchema: z.ZodType<Pri
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -5463,6 +5496,7 @@ export const AuctionCaseUpdateWithoutArticlesInputSchema: z.ZodType<Prisma.Aucti
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -5487,6 +5521,7 @@ export const AuctionCaseUncheckedUpdateWithoutArticlesInputSchema: z.ZodType<Pri
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -5924,6 +5959,7 @@ export const AuctionCaseCreateManyGroupInputSchema: z.ZodType<Prisma.AuctionCase
   bidStartsAt: z.coerce.date(),
   bidEndsAt: z.coerce.date(),
   image: z.string().optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseCreateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.coerce.date().optional().nullable(),
   appraisedValue: z.number().int().optional(),
   startingBid: z.number().int().optional(),
@@ -5963,6 +5999,7 @@ export const AuctionCaseUpdateWithoutGroupInputSchema: z.ZodType<Prisma.AuctionC
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -5986,6 +6023,7 @@ export const AuctionCaseUncheckedUpdateWithoutGroupInputSchema: z.ZodType<Prisma
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
@@ -6009,6 +6047,7 @@ export const AuctionCaseUncheckedUpdateManyWithoutGroupInputSchema: z.ZodType<Pr
   bidStartsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bidEndsAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   image: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  images: z.union([ z.lazy(() => AuctionCaseUpdateimagesInputSchema),z.string().array() ]).optional(),
   actualBidStartsAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   appraisedValue: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   startingBid: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
