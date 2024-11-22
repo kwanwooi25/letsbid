@@ -107,7 +107,6 @@ model AuctionCase {
   addressDetail     String?
   bidStartsAt       DateTime
   bidEndsAt         DateTime
-  image             String?
   images            String[]  @default([])
   actualBidStartsAt DateTime? // 실제 입찰일
   appraisedValue    Int       @default(0) // 감정가
