@@ -118,7 +118,7 @@ export default function AuctionCaseIntroduction({ auctionCase }: Props) {
               <Image
                 key={image}
                 className={cn(
-                  'h-full rounded-md aspect-square object-cover hover:cursor-pointer transition-transform',
+                  'h-full w-auto rounded-md aspect-square object-cover hover:cursor-pointer transition-transform',
                   selectedImageIndex === index &&
                     'border-2 p-0.5 border-yellow-300 dark:border-yellow-500 scale-110',
                 )}
