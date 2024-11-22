@@ -1,9 +1,8 @@
 import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { deleteImage, uploadImage } from '@/features/s3';
-import { IMAGE_HOST_URL } from '@/features/s3/const';
 
 export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
-  const { imageToUpload, imageToDelete, ...rest } = data;
+  const { imagesToUpload = [], imagesToDelete = [], ...rest } = data;
   const {
     appraisedValue,
     startingBid,
@@ -13,21 +12,25 @@ export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
     completedYear,
     hasElevator,
     groupId,
+    images = [],
+    caseName,
   } = rest;
 
-  let imageUrl = '';
-  if (imageToUpload) {
-    imageUrl = await uploadImage({
-      file: imageToUpload,
-      fileName: `auction-case/${rest.caseName}_${imageToUpload.name}`,
-    });
-    if (rest.image && rest.image.startsWith(IMAGE_HOST_URL)) {
-      await deleteImage(rest.image);
-    }
+  let imageUrls = [...images];
+  if (imagesToUpload) {
+    const uploadedImageUrls = await Promise.all(
+      imagesToUpload.map((imageToUpload) =>
+        uploadImage({
+          file: imageToUpload,
+          fileName: `auction-case/${caseName}_${imageToUpload.name}`,
+        }),
+      ),
+    );
+    imageUrls = [...imageUrls, ...uploadedImageUrls];
   }
 
-  if (imageToDelete && imageToDelete.startsWith(IMAGE_HOST_URL)) {
-    await deleteImage(imageToDelete);
+  if (imagesToDelete.length) {
+    await Promise.all(imagesToDelete.map((imageToDelete) => deleteImage(imageToDelete)));
   }
 
   const unknownHasElevator = hasElevator as unknown;
@@ -44,7 +47,7 @@ export async function getAuctionCaseDataInput(data: AuctionCaseFormSchema) {
       typeof unknownHasElevator === 'boolean'
         ? !!unknownHasElevator
         : unknownHasElevator === 'true',
-    image: imageUrl || rest.image,
+    images: imageUrls,
     groupId: groupId as string,
   };
 }

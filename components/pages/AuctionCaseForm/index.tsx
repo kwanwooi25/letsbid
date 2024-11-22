@@ -17,11 +17,14 @@ import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { squareMeterToPY } from '@/lib/number';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import uniq from 'lodash/uniq';
+import uniqWith from 'lodash/uniqWith';
 import { LucideX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ComponentProps, FocusEventHandler } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useForm, useWatch } from 'react-hook-form';
+import AuctionCaseImage from './AuctionCaseImage';
 import AuctionCaseImageForm from './AuctionCaseImageForm';
 import { AuctionCaseFormSchema, formSchema } from './formSchema';
 import { getDefaultFormValues } from './utils';
@@ -39,9 +42,9 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
     defaultValues: getDefaultFormValues({ groupId, auctionCase }),
   });
   const { isSubmitting } = form.formState;
-  const [image, imageToUpload, area, address] = useWatch({
+  const [images, imagesToUpload, imagesToDelete, area, address] = useWatch({
     control: form.control,
-    name: ['image', 'imageToUpload', 'area', 'address'],
+    name: ['images', 'imagesToUpload', 'imagesToDelete', 'area', 'address'],
   });
   const openDaumPostcode = useDaumPostcodePopup();
 
@@ -72,21 +75,28 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
     }
   });
 
-  const handleImageChange: ComponentProps<typeof AuctionCaseImageForm>['onChange'] = ({
-    imageFile,
-  }) => {
-    form.setValue('imageToUpload', imageFile);
-    if (image) {
-      form.setValue('imageToDelete', image);
-    }
+  const handleImageDrop: ComponentProps<typeof AuctionCaseImageForm>['onDrop'] = (imageFiles) => {
+    const newImagesToUpload = uniqWith(
+      [...imagesToUpload, ...imageFiles],
+      (a: File, b: File) =>
+        a.webkitRelativePath === b.webkitRelativePath &&
+        a.name === b.name &&
+        a.size === b.size &&
+        a.lastModified === b.lastModified,
+    );
+    form.setValue('imagesToUpload', newImagesToUpload);
   };
 
-  const handleImageRemove: ComponentProps<typeof AuctionCaseImageForm>['onRemove'] = () => {
-    form.setValue('imageToUpload', undefined);
-    if (image) {
-      form.setValue('imageToDelete', image);
-      form.setValue('image', undefined);
-    }
+  const handleImageRemove = (imageUrl: string) => () => {
+    const newImages = images.filter((img) => img !== imageUrl);
+    const newImagesToDelete = uniq([...imagesToDelete, imageUrl]);
+    form.setValue('images', newImages);
+    form.setValue('imagesToDelete', newImagesToDelete);
+  };
+
+  const handleImageFileRemove = (imageFile: File) => () => {
+    const newImagesToUpload = uniq(imagesToUpload.filter((img) => img !== imageFile));
+    form.setValue('imagesToUpload', newImagesToUpload);
   };
 
   const handleFocusAddressInput: FocusEventHandler<HTMLInputElement> = (e) => {
@@ -240,13 +250,25 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
               label="엘리베이터"
             />
           </div>
-          <AuctionCaseImageForm
-            className="my-8"
-            imageFile={imageToUpload}
-            imageUrl={image}
-            onChange={handleImageChange}
-            onRemove={handleImageRemove}
-          />
+
+          <AuctionCaseImageForm className="mt-8" onDrop={handleImageDrop} />
+
+          <div className="mb-8 grid grid-cols-4 gap-3 flex-wrap">
+            {images.map((imageUrl) => (
+              <AuctionCaseImage
+                key={imageUrl}
+                imageUrl={imageUrl}
+                onRemove={handleImageRemove(imageUrl)}
+              />
+            ))}
+            {imagesToUpload.map((imageFile: File, index: number) => (
+              <AuctionCaseImage
+                key={`${imageFile.name}_${index}`}
+                imageFile={imageFile}
+                onRemove={handleImageFileRemove(imageFile)}
+              />
+            ))}
+          </div>
         </PageBody>
       </form>
     </Form>

@@ -18,12 +18,13 @@ export const formSchema = z
     floorPlan: z.string().optional().nullable(),
     hasElevator: z.boolean().default(false),
     completedYear: z.coerce.number().int().optional().nullable(),
-    image: z.string().optional(),
-    imageToUpload: z
-      .any()
-      .refine((file) => !file || file?.type.includes('image'), '이미지 파일만 업로드 가능합니다')
-      .optional(),
-    imageToDelete: z.string().optional(),
+    images: z.array(z.string().url()),
+    imagesToUpload: z.array(
+      z
+        .any()
+        .refine((file) => !file || file?.type.includes('image'), '이미지 파일만 업로드 가능합니다'),
+    ),
+    imagesToDelete: z.array(z.string()),
     groupId: z.string().optional(),
   })
   .refine((data) => isAfter(data.bidEndsAt, data.bidStartsAt), {
