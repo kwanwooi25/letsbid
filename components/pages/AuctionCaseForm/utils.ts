@@ -10,14 +10,16 @@ export function getDefaultFormValues({
   auctionCase?: AuctionCaseLike | null;
 }): AuctionCaseFormSchema {
   if (auctionCase) {
-    const { address, addressDetail, image, bidStartsAt, bidEndsAt, actualBidStartsAt } =
+    const { address, addressDetail, images, bidStartsAt, bidEndsAt, actualBidStartsAt } =
       auctionCase;
 
     return {
       ...auctionCase,
       address: address ?? '',
       addressDetail: addressDetail ?? '',
-      image: image ?? '',
+      images,
+      imagesToUpload: [],
+      imagesToDelete: [],
       bidStartsAt: new Date(bidStartsAt),
       bidEndsAt: new Date(bidEndsAt),
       actualBidStartsAt: actualBidStartsAt ? new Date(actualBidStartsAt) : undefined,
@@ -28,7 +30,9 @@ export function getDefaultFormValues({
     caseName: '',
     address: '',
     addressDetail: '',
-    image: '',
+    images: [],
+    imagesToUpload: [],
+    imagesToDelete: [],
     bidStartsAt: setMinutes(new Date(), 0),
     bidEndsAt: setMinutes(addDays(new Date(), 1), 0),
     appraisedValue: 0,

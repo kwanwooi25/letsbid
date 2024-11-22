@@ -73,3 +73,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .scrollbar-hide {
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* firefox */
+    scrollbar-width: none;
+  }
+
+  /* safari and chrome */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-default {
+    /* IE and Edge */
+    -ms-overflow-style: auto;
+    /* firefox */
+    scrollbar-width: auto;
+  }
+
+  /* safari and chrome */
+  .scrollbar-default::-webkit-scrollbar {
+    display: block;
+  }
+}

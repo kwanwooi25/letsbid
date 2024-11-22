@@ -1,19 +1,25 @@
+'use client';
+
 import DetailRow from '@/components/common/DetailRow';
 import Divider from '@/components/ui/divider';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { formatDateTime } from '@/lib/datetime';
 import { isValidNumber, squareMeterToPY } from '@/lib/number';
+import { cn } from '@/lib/utils';
 import { LucideCircleCheckBig, LucideCircleX } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import AuctionCaseIntroductionSkeleton from './skeleton';
 
 export default function AuctionCaseIntroduction({ auctionCase }: Props) {
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
   if (!auctionCase) return <AuctionCaseIntroductionSkeleton />;
 
   const {
     caseName,
-    image,
+    images = [],
     appraisedValue,
     startingBid,
     officialValue,
@@ -104,11 +110,34 @@ export default function AuctionCaseIntroduction({ auctionCase }: Props) {
           <DetailRow label="준공연도" value={isValidNumber(completedYear) ? completedYear : '-'} />
         </div>
       </div>
-      {image && (
+      {!!images.length && (
         <>
           <Divider />
-          <Link href={image} rel="noreferrer noopener" target="_blank">
-            <Image src={image} alt={caseName} width={1000} height={700} />
+          <div className="flex items-center h-[80px] py-1 -mx-4 px-4 overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-7 sm:h-auto gap-3">
+            {images.map((image, index) => (
+              <Image
+                key={image}
+                className={cn(
+                  'h-full rounded-md aspect-square object-cover hover:cursor-pointer transition-transform',
+                  selectedImageIndex === index &&
+                    'border-2 p-0.5 border-yellow-300 dark:border-yellow-500 scale-110',
+                )}
+                src={image}
+                alt={caseName}
+                width={500}
+                height={500}
+                onClick={() => setSelectedImageIndex(index)}
+              />
+            ))}
+          </div>
+          <Link href={images[selectedImageIndex]}>
+            <Image
+              className="w-full rounded-md object-cover"
+              src={images[selectedImageIndex]}
+              alt={caseName}
+              width={500}
+              height={500}
+            />
           </Link>
         </>
       )}
