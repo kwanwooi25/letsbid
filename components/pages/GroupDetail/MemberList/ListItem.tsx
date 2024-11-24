@@ -21,18 +21,18 @@ import {
 import { GroupMember, GroupWithMembers } from '@/features/group/types';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { formatPhoneNumber } from '@/lib/string';
 import { useMutation } from '@tanstack/react-query';
 import uniq from 'lodash/uniq';
 import { LucideUserMinus2 } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function MemberListItem({ member, group }: Props) {
   const { openAlert } = useAlert();
   const { toast } = useToast();
-  const session = useSession();
-  const loggedInUserId = session?.data?.user?.id;
+  const { loggedInUser } = useLoggedInUser();
+  const loggedInUserId = loggedInUser?.id;
   const { user, userId, groupId } = member;
   const { isGroupHost, isViceGroupHost } = useIsGroupMember(group, userId);
   const { isGroupHost: isMeGroupHost, isViceGroupHost: isMeViceGroupHost } =

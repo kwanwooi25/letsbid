@@ -8,13 +8,13 @@ import {
 } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { useMutation } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import { useGroupDetailRouter } from './useGroupDetailRouter';
 
 export function useGroupDetailPageActions({ group }: Args) {
-  const session = useSession();
-  const loggedInUserId = session?.data?.user?.id;
+  const { loggedInUser } = useLoggedInUser();
+  const loggedInUserId = loggedInUser?.id;
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();

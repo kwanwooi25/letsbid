@@ -6,9 +6,9 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
 import { Suspense } from 'react';
 import { GROUP_CREATION_ALLOWED_USERS } from './const';
 import GroupListSkeleton from './List/skeleton';
@@ -22,7 +22,7 @@ import {
 } from './useGroupListTabs';
 
 export default function GroupList() {
-  const session = useSession();
+  const { loggedInUser } = useLoggedInUser();
   const { tab, handleTabChange } = useGroupListTabs();
   const { moveToCreateGroup } = useGroupListRouter();
   const { search, setSearch } = useSearchInput();
@@ -32,12 +32,11 @@ export default function GroupList() {
     <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
       <PageHeader title="그룹 목록" className="max-w-2xl flex-row items-center">
         <div className="flex items-center gap-2">
-          {!!session?.data?.user?.email &&
-            GROUP_CREATION_ALLOWED_USERS.includes(session?.data?.user?.email) && (
-              <Button type="button" onClick={moveToCreateGroup}>
-                그룹 생성
-              </Button>
-            )}
+          {!!loggedInUser?.email && GROUP_CREATION_ALLOWED_USERS.includes(loggedInUser?.email) && (
+            <Button type="button" onClick={moveToCreateGroup}>
+              그룹 생성
+            </Button>
+          )}
         </div>
       </PageHeader>
       <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">

@@ -1,28 +1,26 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import UserImage from '@/components/common/UserImage';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { formatPhoneNumber } from '@/lib/string';
-import { useSession } from 'next-auth/react';
 
 export default function UserDetail() {
-  const session = useSession();
+  const { loggedInUser } = useLoggedInUser();
 
-  if (!session?.data?.user) return null;
+  if (!loggedInUser) return null;
 
-  const { user } = session.data;
+  const { name, image, email, mobile } = loggedInUser;
 
   return (
     <div className="flex items-center gap-4">
-      <UserImage className="self-start" src={user.image} alt={user.name} />
+      <UserImage className="self-start" src={image} alt={name} />
 
       <div className="flex flex-col gap-2">
-        <span className="text-xl font-bold">{user.name}</span>
-        <span className="text-sm font-semibold text-primary/50">{user.email}</span>
-        {user.mobile && (
-          <span className="text-sm font-semibold text-primary/50">
-            {formatPhoneNumber(user.mobile)}
-          </span>
+        <span className="text-xl font-bold">{name}</span>
+        <span className="text-sm font-semibold text-primary/50">{email}</span>
+        {mobile && (
+          <span className="text-sm font-semibold text-primary/50">{formatPhoneNumber(mobile)}</span>
         )}
       </div>
     </div>

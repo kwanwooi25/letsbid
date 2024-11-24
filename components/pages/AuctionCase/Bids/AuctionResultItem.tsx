@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { BidWithUser } from '@/features/bid/types';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { LucideScrollText, LucideUserPlus, LucideUserX } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 
 export default function AuctionResultItem({
@@ -20,8 +20,8 @@ export default function AuctionResultItem({
   openBidDetail,
 }: Props) {
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
-  const session = useSession();
-  const isMe = session?.data?.user?.id === user?.id;
+  const { loggedInUser } = useLoggedInUser();
+  const isMe = loggedInUser?.id === user?.id;
 
   const { tryToExcludeBid, tryToIncludeBid, tryToGiveUpBid } = useAuctionCaseDetailActions({
     auctionCase,

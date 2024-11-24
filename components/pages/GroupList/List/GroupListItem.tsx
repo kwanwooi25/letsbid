@@ -10,14 +10,14 @@ import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
 import { LucideLock, LucideLockOpen } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function GroupListItem({ group }: Props) {
-  const session = useSession();
+  const { loggedInUser } = useLoggedInUser();
   const router = useRouter();
   const { toast } = useToast();
   const { mutateAsync: joinGroup, isPending } = useMutation(joinGroupMutationOptions);
@@ -26,8 +26,7 @@ export default function GroupListItem({ group }: Props) {
   const { isGroupHost, isViceGroupHost } = useIsGroupMember(group);
 
   const { id, name, members, maxMembers, isPrivate, description, archivedAt } = group;
-  const isJoinable =
-    members.filter((member) => member.userId === session?.data?.user.id).length === 0;
+  const isJoinable = members.filter((member) => member.userId === loggedInUser?.id).length === 0;
   const isMaxMemberReached = members.length >= maxMembers;
   const isArchived = !!archivedAt;
 
