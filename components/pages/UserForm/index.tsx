@@ -9,9 +9,9 @@ import { PATHS } from '@/const/paths';
 import { updateUserMutationOptions } from '@/features/user/mutation';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ComponentProps } from 'react';
@@ -21,8 +21,7 @@ import UserImageForm from './UserImageForm';
 
 export default function UserForm() {
   const router = useRouter();
-  const session = useSession();
-  const user = session?.data?.user;
+  const { loggedInUser, updateLoggedInUser } = useLoggedInUser();
 
   const callbackUrl = useCallbackUrl();
   const { toast } = useToast();
@@ -32,11 +31,11 @@ export default function UserForm() {
   const form = useForm<UserFormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: user?.id,
-      name: user?.name,
-      email: user?.email,
-      mobile: user?.mobile ?? '',
-      image: user?.image ?? '',
+      id: loggedInUser?.id,
+      name: loggedInUser?.name,
+      email: loggedInUser?.email,
+      mobile: loggedInUser?.mobile ?? '',
+      image: loggedInUser?.image ?? '',
     },
   });
 
@@ -45,7 +44,7 @@ export default function UserForm() {
     name: ['image', 'imageToUpload'],
   });
 
-  if (!user) return null;
+  if (!loggedInUser) return null;
 
   const { isSubmitting } = form.formState;
 
@@ -57,10 +56,7 @@ export default function UserForm() {
         variant: 'success',
       });
 
-      session?.update({
-        ...session,
-        user: updatedUser,
-      });
+      updateLoggedInUser(updatedUser);
 
       form.reset();
       router.replace(callbackUrl ? callbackUrl : PATHS.ME);
@@ -72,7 +68,7 @@ export default function UserForm() {
   const handleRemoveImage = () => {
     form.setValue('image', '');
     form.setValue('imageToUpload', null);
-    form.setValue('imageToDelete', user.image ?? '');
+    form.setValue('imageToDelete', loggedInUser?.image ?? '');
   };
 
   const handleChangeImage: ComponentProps<typeof UserImageForm>['onChange'] = (imageFile) => {

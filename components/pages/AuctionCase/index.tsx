@@ -7,7 +7,7 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
-import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
 import { useSuspenseQueries } from '@tanstack/react-query';
@@ -31,7 +31,7 @@ export default function AuctionCase() {
   const [{ data: group }, { data: auctionCase, refetch: refetchAuctionCase }] = useSuspenseQueries({
     queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
   });
-  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
+  const { isGroupHost, isViceGroupHost, isGroupMember } = useIsGroupMember(group);
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const { isScrolled } = useWindowScroll();
 
@@ -46,6 +46,8 @@ export default function AuctionCase() {
   useEffect(() => {
     if (status === 'FINISHED_BIDDING') refetchAuctionCase();
   }, [status, refetchAuctionCase]);
+
+  if (!isGroupMember) return null;
 
   if (!auctionCase) return <AuctionCaseSkeleton />;
 

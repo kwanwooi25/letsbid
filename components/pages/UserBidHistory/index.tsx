@@ -4,17 +4,15 @@ import List from '@/components/common/List';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { getMyBidHistoryQueryOptions } from '@/features/bid/query';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import UserBidHistoryListItem from './UserBidHistoryListItem';
 
 export default function UserBidHistory() {
-  const session = useSession();
-  const { data: bidHistory } = useSuspenseQuery(
-    getMyBidHistoryQueryOptions(session?.data?.user?.id),
-  );
+  const { loggedInUser } = useLoggedInUser();
+  const { data: bidHistory } = useSuspenseQuery(getMyBidHistoryQueryOptions(loggedInUser?.id));
 
-  if (!session?.data?.user) return null;
+  if (!loggedInUser) return null;
 
   return (
     <>

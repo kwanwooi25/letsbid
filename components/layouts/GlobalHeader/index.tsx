@@ -1,17 +1,16 @@
 'use client';
 
-import { GNB_HEIGHT } from '@/components/layouts/const';
 import Logo from '@/components/common/Logo';
+import { GNB_HEIGHT } from '@/components/layouts/const';
 import { PATHS } from '@/const/paths';
-import { useSession } from 'next-auth/react';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import Link from 'next/link';
 import DesktopNavigation from './Navigation/DesktopNavigation';
 import MobileNavigation from './Navigation/MobileNavigation';
 import UserMenu from './UserMenu';
 
 export default function GlobalHeader() {
-  const session = useSession();
-  const isLoggedIn = !!session.data?.user;
+  const { isLoggedIn } = useLoggedInUser();
 
   return (
     <header

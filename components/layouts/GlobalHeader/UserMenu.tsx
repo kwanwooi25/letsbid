@@ -1,5 +1,6 @@
 'use client';
 
+import UserImage from '@/components/common/UserImage';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,8 +14,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import UserImage from '@/components/common/UserImage';
 import { PATHS } from '@/const/paths';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import {
   LucideFileStack,
   LucideLogIn,
@@ -24,27 +25,26 @@ import {
   LucideSun,
   LucideUser2,
 } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function UserMenu({ className }: Props) {
   const { theme, setTheme } = useTheme();
-  const session = useSession();
+  const { isLoggedIn, loggedInUser } = useLoggedInUser();
   const router = useRouter();
-  const isAuthenticated = session.status === 'authenticated';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <UserImage src={session.data?.user?.image} alt={session.data?.user?.name} size={40} />
+          <UserImage src={loggedInUser?.image} alt={loggedInUser?.name} size={40} />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className={className}>
-        {isAuthenticated && (
+        {isLoggedIn && (
           <>
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => router.push(PATHS.ME)}>
@@ -87,7 +87,7 @@ export default function UserMenu({ className }: Props) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {isAuthenticated ? (
+          {isLoggedIn ? (
             <DropdownMenuItem onClick={() => signOut()}>
               <LucideLogOut className="mr-2 h-4 w-4" />
               <span>로그아웃</span>

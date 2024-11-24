@@ -8,7 +8,7 @@ import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
-import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
@@ -29,7 +29,7 @@ export default function GroupDetail() {
   const params = useParams();
   const groupId = params.groupId as string;
   const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
-  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
+  const { isGroupHost, isViceGroupHost } = useIsGroupMember(group);
   const { tab, handleTabChange } = useGroupDetailTabs();
   const { moveToEditGroup } = useGroupDetailRouter();
   const { tryToDeleteGroup, tryToArchiveGroup, tryToUnarchiveGroup, tryToMoveOutFromGroup } =

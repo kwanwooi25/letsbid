@@ -1,7 +1,7 @@
 import BiddingForm from '@/components/pages/BiddingForm';
 import BiddingFormSkeleton from '@/components/pages/BiddingForm/skeleton';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
-import { withAuth } from '@/features/auth/hoc';
+import { withAuth } from '@/features/auth/withAuth';
 import { getBidDetailQueryOptions } from '@/features/bid/query';
 import { getQueryClient } from '@/lib/query';
 import { Suspense } from 'react';

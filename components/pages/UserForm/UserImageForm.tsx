@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
 import UserImage from '@/components/common/UserImage';
+import { Button } from '@/components/ui/button';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { LucideEdit2, LucidePlus, LucideX } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { HTMLAttributes, InputHTMLAttributes, useRef } from 'react';
 
 export default function UserImageForm({
@@ -13,8 +13,7 @@ export default function UserImageForm({
   onRemove,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const session = useSession();
-  const loggedInUser = session?.data?.user;
+  const { loggedInUser } = useLoggedInUser();
   const hasImage = !!userImageToUpload || !!userImage;
 
   const handleClickEditImage = () => {

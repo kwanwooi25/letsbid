@@ -13,18 +13,18 @@ import {
   getArticleDetailQueryOptions,
   getLikesOnArticleQueryOptions,
 } from '@/features/article/query';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { ThumbsUp } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
 import { useAuctionCaseDetailActions } from '../AuctionCase/useAuctionCaseDetailActions';
 import { useAuctionCaseDetailRouter } from '../AuctionCase/useAuctionCaseDetailRouter';
 
 export default function ArticleDetail() {
-  const session = useSession();
+  const { loggedInUser } = useLoggedInUser();
   const params = useParams();
   const articleId = params.articleId as string;
   const auctionCaseId = params.auctionCaseId as string;
@@ -42,7 +42,7 @@ export default function ArticleDetail() {
   if (!article) return null;
 
   const { auctionCase, title, contentHtml, author, updatedAt } = article;
-  const isMyArticle = author.id === session?.data?.user.id;
+  const isMyArticle = author.id === loggedInUser?.id;
 
   const toggleLike = () => {
     const action = isMeLiked ? unlikeArticle : likeArticle;
