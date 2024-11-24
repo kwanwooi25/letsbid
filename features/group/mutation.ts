@@ -1,10 +1,10 @@
 'use client';
 
+import { SuccessResponse } from '@/app/api/types';
 import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
-import { getApiUrl, getQueryClient } from '@/lib/query';
-import { SuccessResponse } from '@/app/api/types';
 import { GroupWithMembers } from '@/features/group/types';
+import { getApiUrl, getQueryClient } from '@/lib/query';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { groupQueryKeys } from './queryKey';
@@ -171,6 +171,7 @@ export const expelGroupMemberMutationOptions: MutationOptions<
     queryClient.invalidateQueries({ queryKey: ['groups'] });
     if (expelledUser?.groupId) {
       queryClient.invalidateQueries({ queryKey: groupQueryKeys.detail(expelledUser.groupId) });
+      queryClient.invalidateQueries({ queryKey: groupQueryKeys.memberList(expelledUser.groupId) });
     }
   },
 };

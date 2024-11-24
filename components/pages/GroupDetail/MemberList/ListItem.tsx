@@ -19,7 +19,7 @@ import {
   updateGroupViceHostsMutationOptions,
 } from '@/features/group/mutation';
 import { GroupMember, GroupWithMembers } from '@/features/group/types';
-import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { formatPhoneNumber } from '@/lib/string';
 import { useMutation } from '@tanstack/react-query';
@@ -34,8 +34,9 @@ export default function MemberListItem({ member, group }: Props) {
   const session = useSession();
   const loggedInUserId = session?.data?.user?.id;
   const { user, userId, groupId } = member;
-  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group, userId);
-  const { isGroupHost: isMeGroupHost, isViceGroupHost: isMeViceGroupHost } = useIsGroupHost(group);
+  const { isGroupHost, isViceGroupHost } = useIsGroupMember(group, userId);
+  const { isGroupHost: isMeGroupHost, isViceGroupHost: isMeViceGroupHost } =
+    useIsGroupMember(group);
   const isMe = loggedInUserId === userId;
   const { mutateAsync: expelGroupMember } = useMutation(expelGroupMemberMutationOptions);
   const { mutateAsync: changeGroupHost } = useMutation(changeGroupHostMutationOptions);

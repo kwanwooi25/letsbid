@@ -8,7 +8,7 @@ import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
 import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
-import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
@@ -23,7 +23,7 @@ export default function GroupListItem({ group }: Props) {
   const { mutateAsync: joinGroup, isPending } = useMutation(joinGroupMutationOptions);
   const { handleAxiosError } = useAxiosError();
   const { openForm } = useFormDialog();
-  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
+  const { isGroupHost, isViceGroupHost } = useIsGroupMember(group);
 
   const { id, name, members, maxMembers, isPrivate, description, archivedAt } = group;
   const isJoinable =

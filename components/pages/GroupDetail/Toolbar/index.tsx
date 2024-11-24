@@ -3,7 +3,7 @@
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
 import { GroupWithMembers } from '@/features/group/types';
-import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import { useGroupDetailTabs } from '../useGroupDetailTabs';
@@ -12,7 +12,7 @@ import GroupDetailTabsList from './GroupDetailTabsList';
 export default function GroupDetailPageToolbar({ group }: Props) {
   const { tab } = useGroupDetailTabs();
   const { moveToCreateAuctionCase } = useGroupDetailRouter();
-  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
+  const { isGroupHost, isViceGroupHost } = useIsGroupMember(group);
   const isArchived = !!group?.archivedAt;
 
   return (
