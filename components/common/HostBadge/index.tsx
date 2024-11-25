@@ -14,7 +14,7 @@ export default function HostBadge({ className, isViceHost, ...props }: Props) {
     >
       <LucideCrown
         className={cn(
-          'w-[55%] h-[55%] text-yellow-700 dark:text-primary-foreground',
+          'w-[60%] h-[60%] text-yellow-700 dark:text-primary-foreground',
           isViceHost && 'text-gray-700',
         )}
         strokeWidth={2}

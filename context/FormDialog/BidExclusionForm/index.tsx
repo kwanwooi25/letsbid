@@ -8,7 +8,7 @@ import {
 import { Form, InputFormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { updateBidMutationOptions } from '@/features/bid/mutation';
-import { BidWithUser } from '@/features/bid/types';
+import { BidWithUser, BidWithUserAndAuctionCase } from '@/features/bid/types';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -71,6 +71,6 @@ export default function BidExclusionForm({ bid, onSubmit }: Props) {
 }
 
 type Props = {
-  bid?: BidWithUser;
+  bid?: BidWithUser | BidWithUserAndAuctionCase;
   onSubmit?: () => void | Promise<void>;
 };

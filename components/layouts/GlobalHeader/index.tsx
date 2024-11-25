@@ -14,21 +14,23 @@ export default function GlobalHeader() {
 
   return (
     <header
-      className="py-2 px-4 sticky w-full top-0 z-header shadow-sm bg-background border-b border-border/70 flex justify-between items-center"
+      className="sticky w-full top-0 z-header shadow-sm bg-background border-b border-border/70"
       style={{ height: GNB_HEIGHT }}
     >
-      <div className="flex md:hidden">{isLoggedIn && <MobileNavigation />}</div>
-      <div className="flex-1 flex items-center justify-center md:justify-start gap-10">
-        <Link href={PATHS.HOME}>
-          <Logo wide size={36} />
-        </Link>
-        {isLoggedIn && (
-          <div className="hidden md:flex">
-            <DesktopNavigation />
-          </div>
-        )}
+      <div className="max-w-2xl mx-auto lg:max-w-5xl py-2 px-4 flex justify-between items-center">
+        <div className="flex lg:hidden">{isLoggedIn && <MobileNavigation />}</div>
+        <div className="flex-1 flex items-center justify-center lg:justify-start gap-10">
+          <Link href={PATHS.HOME}>
+            <Logo wide size={36} />
+          </Link>
+          {isLoggedIn && (
+            <div className="hidden lg:flex">
+              <DesktopNavigation />
+            </div>
+          )}
+        </div>
+        <UserMenu />
       </div>
-      <UserMenu />
     </header>
   );
 }

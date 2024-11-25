@@ -3,10 +3,11 @@ import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
 import { getApiUrl, getQueryClient } from '@/lib/query';
-import { LikeOnArticle } from '@prisma/client';
+import { AuctionCase, LikeOnArticle } from '@prisma/client';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
+import { AuctionCaseLike } from '../auction-case/types';
 import { articleQueryKeys } from './queryKey';
 
 export const createArticleMutaionOptions: MutationOptions<
@@ -32,6 +33,9 @@ export const createArticleMutaionOptions: MutationOptions<
     if (data?.auctionCaseId) {
       queryClient.invalidateQueries({ queryKey: articleQueryKeys.list(data.auctionCaseId) });
       queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId) });
+      queryClient.invalidateQueries({
+        queryKey: auctionCaseQueryKeys.list(data.auctionCase.groupId),
+      });
     }
   },
 };
@@ -59,15 +63,18 @@ export const updateArticleMutaionOptions: MutationOptions<
     if (data?.auctionCaseId) {
       queryClient.invalidateQueries({ queryKey: articleQueryKeys.list(data.auctionCaseId) });
       queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId) });
+      queryClient.invalidateQueries({
+        queryKey: auctionCaseQueryKeys.list(data.auctionCase.groupId),
+      });
     }
     queryClient.invalidateQueries({ queryKey: articleQueryKeys.detail(data?.id) });
   },
 };
 
 export const deleteArticleMutaionOptions: MutationOptions<
-  { auctionCaseId?: string | null; articleId: string },
+  { auctionCase?: AuctionCaseLike | AuctionCase | null; articleId: string },
   Error,
-  { auctionCaseId?: string | null; articleId: string }
+  { auctionCase?: AuctionCaseLike | AuctionCase | null; articleId: string }
 > = {
   mutationFn: async (data) => {
     try {
@@ -83,9 +90,12 @@ export const deleteArticleMutaionOptions: MutationOptions<
   },
   onSettled: (data) => {
     const queryClient = getQueryClient();
-    if (data?.auctionCaseId) {
-      queryClient.invalidateQueries({ queryKey: articleQueryKeys.list(data.auctionCaseId) });
-      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCaseId) });
+    if (data?.auctionCase) {
+      queryClient.invalidateQueries({ queryKey: articleQueryKeys.list(data.auctionCase.id) });
+      queryClient.invalidateQueries({ queryKey: auctionCaseQueryKeys.detail(data.auctionCase.id) });
+      queryClient.invalidateQueries({
+        queryKey: auctionCaseQueryKeys.list(data.auctionCase.groupId),
+      });
     }
   },
 };

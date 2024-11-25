@@ -77,8 +77,8 @@ export default function UserForm() {
 
   return (
     <Form {...form}>
-      <form>
-        <PageHeader className="max-w-lg" title="내 정보 수정">
+      <form className="max-w-2xl lg:max-w-5xl mx-auto">
+        <PageHeader className="lg:mx-[176px]" title="내 정보 수정">
           <Button onClick={submitForm} isLoading={isSubmitting} type="submit">
             저장
           </Button>
@@ -88,7 +88,7 @@ export default function UserForm() {
             </Button>
           </Link>
         </PageHeader>
-        <PageBody className="max-w-lg flex items-center gap-4">
+        <PageBody className="lg:mx-[176px] flex items-center gap-4">
           <UserImageForm
             className="self-start"
             userImage={userImage}

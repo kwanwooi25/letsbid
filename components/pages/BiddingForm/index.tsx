@@ -4,7 +4,9 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
-import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
+import { Form, InputFormField } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
@@ -40,6 +42,7 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
   const { isSubmitting } = form.formState;
 
   const [
+    isExcluded,
     expectedSalePrice,
     acquisitionCost,
     evacuationCost,
@@ -51,6 +54,7 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
   ] = useWatch({
     control: form.control,
     name: [
+      'isExcluded',
       'expectedSalePrice',
       'acquisitionCost',
       'evacuationCost',
@@ -102,25 +106,31 @@ export default function BiddingForm({ auctionCaseId, bidId }: Props) {
 
   return (
     <Form {...form}>
-      <form className="max-w-lg mx-auto">
+      <form className="max-w-2xl lg:max-w-5xl mx-auto">
         <PageHeader
+          className="lg:mx-[176px]"
+          backButton
           title={
             <div className="flex flex-col gap-1">
               <span className="text-lg font-bold">{formTitle}</span>
               <span className="text-sm font-semibold opacity-50">{auctionCase!.caseName}</span>
             </div>
           }
-          backButton
         >
-          <div className="flex items-center gap-2">
-            <CheckboxFormField control={form.control} name="isExcluded" label="모의 입찰" />
-            <Button onClick={submitForm} isLoading={isSubmitting}>
-              {isEditing ? '수정' : '제출'}
-            </Button>
+          <div className="h-[40px] flex items-center space-x-2 shrink-0">
+            <Switch
+              id="isExcluded"
+              checked={isExcluded}
+              onCheckedChange={(checked) => form.setValue('isExcluded', checked)}
+            />
+            <Label htmlFor="isExcluded">모의 입찰</Label>
           </div>
+          <Button onClick={submitForm} isLoading={isSubmitting}>
+            {isEditing ? '수정' : '제출'}
+          </Button>
         </PageHeader>
 
-        <PageBody className="flex flex-col gap-4 mb-8">
+        <PageBody className="flex flex-col gap-4 mb-8 lg:mx-[176px]">
           <InputFormField
             control={form.control}
             name="expectedSalePrice"

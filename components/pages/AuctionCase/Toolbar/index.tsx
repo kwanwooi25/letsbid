@@ -5,6 +5,7 @@ import { AUCTION_CASE_PAGE_HEADER_HEIGHT, GNB_HEIGHT } from '@/components/layout
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
+import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import {
   getAuctionCaseColor,
@@ -16,14 +17,13 @@ import { cn } from '@/lib/utils';
 import { LucideChevronRight, LucideNotebookPen } from 'lucide-react';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
-import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 import { useAuctionCaseDetailTabs } from '../useAuctionCaseDetailTabs';
 import AuctionCaseDetailTabsList from './AuctionCaseDetailTabsList';
 import AucitonCasePageToolbarSkeleton from './skeleton';
 
 export default function AuctionCasePageToolbar({ auctionCase }: Props) {
   const { tab } = useAuctionCaseDetailTabs();
-  const { moveToAddArticle } = useAuctionCaseDetailRouter({ auctionCase });
+  const { moveToAddArticle } = useArticleRouter();
 
   const [remainingTime, setRemainingTime] = useState(getRemainingTimeDisplay(auctionCase));
   const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
@@ -50,7 +50,7 @@ export default function AuctionCasePageToolbar({ auctionCase }: Props) {
       <div className="flex items-center gap-4 lg:flex-col">
         <AuctionCaseDetailTabsList />
         {tab === 'articles' && (
-          <Button onClick={moveToAddArticle}>
+          <Button onClick={() => moveToAddArticle(auctionCase)}>
             <LucideNotebookPen className="w-4 h-4 mr-2" />
             조사 내용 등록
           </Button>

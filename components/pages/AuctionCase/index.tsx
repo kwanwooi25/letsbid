@@ -2,15 +2,15 @@
 
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
+import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
-import { getGroupDetailQueryOptions } from '@/features/group/query';
+import { useGroupRouter } from '@/features/group/useGroupRouter';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
-import { useSuspenseQueries } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -20,24 +20,20 @@ import AuctionCaseBids from './Bids';
 import AuctionCaseIntroduction from './Introduction';
 import AuctionCaseSkeleton from './skeleton';
 import AuctionCasePageToolbar from './Toolbar';
-import { useAuctionCaseDetailActions } from './useAuctionCaseDetailActions';
-import { useAuctionCaseDetailRouter } from './useAuctionCaseDetailRouter';
 import { useAuctionCaseDetailTabs } from './useAuctionCaseDetailTabs';
 
 export default function AuctionCase() {
   const params = useParams();
-  const groupId = params.groupId as string;
   const auctionCaseId = params.auctionCaseId as string;
-  const [{ data: group }, { data: auctionCase, refetch: refetchAuctionCase }] = useSuspenseQueries({
-    queries: [getGroupDetailQueryOptions(groupId), getAuctionCaseDetailQueryOptions(auctionCaseId)],
-  });
-  const { isGroupHost, isViceGroupHost, isGroupMember } = useIsGroupMember(group);
+  const { data: auctionCase, refetch: refetchAuctionCase } = useSuspenseQuery(
+    getAuctionCaseDetailQueryOptions(auctionCaseId),
+  );
+  const { isGroupMember } = useIsGroupMember(auctionCase?.group);
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const { isScrolled } = useWindowScroll();
 
   const { tab, handleTabChange } = useAuctionCaseDetailTabs();
-  const { moveToEditAuctionCase } = useAuctionCaseDetailRouter({ auctionCase });
-  const { tryToDeleteAuctionCase } = useAuctionCaseDetailActions({ auctionCase });
+  const { moveToGroupDetail } = useGroupRouter();
 
   useInterval(() => {
     setStatus(getAuctionCaseStatus(auctionCase));
@@ -52,35 +48,25 @@ export default function AuctionCase() {
   if (!auctionCase) return <AuctionCaseSkeleton />;
 
   return (
-    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+    <Tabs
+      className="max-w-2xl lg:max-w-5xl mx-auto"
+      defaultValue={tab}
+      value={tab}
+      onValueChange={(value) => handleTabChange(value as typeof tab)}
+    >
       <PageHeader
-        className={cn(
-          'max-w-2xl sm:min-h-[80px]',
-          isGroupHost || isViceGroupHost ? 'min-h-[128px]' : 'min-h-[80px]',
-        )}
+        className={cn('max-w-2xl min-h-[80px] lg:mx-[176px]')}
         backButton
+        onBackButtonClick={() => moveToGroupDetail(auctionCase.groupId)}
         title={<AuctionCaseTitle auctionCase={auctionCase} />}
+        hideBottomBorderOnScroll
       >
-        {(isGroupHost || isViceGroupHost) && (
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              onClick={moveToEditAuctionCase}
-              disabled={status === 'FINISHED_BIDDING'}
-            >
-              수정
-            </Button>
-            <Button type="button" variant="destructive" onClick={tryToDeleteAuctionCase}>
-              삭제
-            </Button>
-          </div>
-        )}
+        <AuctionCaseMenu auctionCase={auctionCase} />
       </PageHeader>
-      <PageBody className="max-w-2xl pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <div
           className={cn(
-            'bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header sm:top-[140px]',
-            isGroupHost || isViceGroupHost ? 'top-[188px]' : 'top-[140px]',
+            'bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header top-[140px] lg:mx-0 lg:px-0',
             isScrolled && 'border-b lg:border-none',
           )}
         >
@@ -94,11 +80,7 @@ export default function AuctionCase() {
             <ArticleList auctionCase={auctionCase} />
           </TabsContent>
           <TabsContent value="bids" className="py-0 mt-0 flex flex-col items-center">
-            <AuctionCaseBids
-              auctionCase={auctionCase}
-              isGroupHost={isGroupHost}
-              isViceGroupHost={isViceGroupHost}
-            />
+            <AuctionCaseBids auctionCase={auctionCase} />
           </TabsContent>
         </div>
       </PageBody>

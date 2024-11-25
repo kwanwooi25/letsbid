@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import PageHeader from '../layouts/PageHeader';
 import { ComponentProps, PropsWithChildren } from 'react';
+import PageHeader from '../layouts/PageHeader';
 
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn('animate-pulse rounded-md bg-muted', className)} {...props} />;
@@ -16,7 +16,9 @@ function InputSkeleton({ className, hideLabel }: { className?: string; hideLabel
 }
 
 function ButtonSkeleton({ className, icon }: { className?: string; icon?: boolean }) {
-  return <Skeleton className={cn('h-[40px] w-[60px]', icon && 'w-[40px]', className)} />;
+  return (
+    <Skeleton className={cn('h-[40px] w-[60px]', icon && 'w-[40px] rounded-full', className)} />
+  );
 }
 
 function PageHeaderSkeleton({
@@ -25,11 +27,13 @@ function PageHeaderSkeleton({
   title,
   backButton,
   actionButtonCount = 0,
+  actionButtonType = 'default',
 }: PropsWithChildren<{
   className?: ComponentProps<typeof PageHeader>['className'];
   title?: ComponentProps<typeof PageHeader>['title'];
   backButton?: boolean;
   actionButtonCount?: number;
+  actionButtonType?: 'default' | 'icon';
 }>) {
   return (
     <PageHeader
@@ -40,7 +44,13 @@ function PageHeaderSkeleton({
       {children}
       {actionButtonCount > 0 &&
         Array.from(Array(actionButtonCount)).map((n, i) => (
-          <Skeleton key={`${n}_${i}`} className="h-10 w-14" />
+          <Skeleton
+            key={`${n}_${i}`}
+            className={cn(
+              actionButtonType === 'default' && 'h-10 w-14',
+              actionButtonType === 'icon' && 'w-10 h-10 rounded-full',
+            )}
+          />
         ))}
     </PageHeader>
   );

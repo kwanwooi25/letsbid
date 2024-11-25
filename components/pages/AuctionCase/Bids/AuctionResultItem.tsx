@@ -3,29 +3,20 @@ import MeBadge from '@/components/common/MeBadge';
 import WithTooltip from '@/components/common/WithTooltip';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import { AuctionCaseLike } from '@/features/auction-case/types';
-import { BidWithUser } from '@/features/bid/types';
+import { BidWithUserAndAuctionCase } from '@/features/bid/types';
+import { useBidActions } from '@/features/bid/useBidActions';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { LucideScrollText, LucideUserPlus, LucideUserX } from 'lucide-react';
-import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 
-export default function AuctionResultItem({
-  auctionCase,
-  bid,
-  rank,
-  actualRank,
-  isGroupHost,
-  isViceGroupHost,
-  openBidDetail,
-}: Props) {
+export default function AuctionResultItem({ bid, rank, actualRank, openBidDetail }: Props) {
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
+  const { isGroupAdmin } = useIsGroupMember();
   const { loggedInUser } = useLoggedInUser();
   const isMe = loggedInUser?.id === user?.id;
 
-  const { tryToExcludeBid, tryToIncludeBid, tryToGiveUpBid } = useAuctionCaseDetailActions({
-    auctionCase,
-  });
+  const { tryToExcludeBid, tryToIncludeBid, tryToGiveUpBid } = useBidActions();
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -69,21 +60,21 @@ export default function AuctionResultItem({
               <LucideScrollText />
             </Button>
           </WithTooltip>
-          {(isGroupHost || isViceGroupHost) && !isExcluded && (
+          {isGroupAdmin && !isExcluded && (
             <WithTooltip tooltip="입찰 제외 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToExcludeBid(bid)}>
                 <LucideUserX />
               </Button>
             </WithTooltip>
           )}
-          {isExcluded && (isGroupHost || isViceGroupHost || isMe) && (
+          {isExcluded && (isGroupAdmin || isMe) && (
             <WithTooltip tooltip="입찰 참여 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToIncludeBid(bid)}>
                 <LucideUserPlus />
               </Button>
             </WithTooltip>
           )}
-          {!isExcluded && !(isGroupHost || isViceGroupHost) && isMe && (
+          {!isExcluded && !isGroupAdmin && isMe && (
             <WithTooltip tooltip="입찰 포기">
               <Button size="icon" variant="ghost" onClick={() => tryToGiveUpBid(bid)}>
                 <LucideUserX />
@@ -97,11 +88,8 @@ export default function AuctionResultItem({
 }
 
 type Props = {
-  auctionCase: AuctionCaseLike;
-  bid: BidWithUser;
+  bid: BidWithUserAndAuctionCase;
   rank: number;
   actualRank: number;
-  isGroupHost?: boolean;
-  isViceGroupHost?: boolean;
   openBidDetail: () => void;
 };

@@ -5,6 +5,7 @@ import { HTMLAttributes } from 'react';
 import HostBadge from '../HostBadge';
 
 export default function UserImage({
+  containerClassName,
   className,
   src,
   alt = 'user image',
@@ -14,7 +15,7 @@ export default function UserImage({
   isViceHost,
 }: Props) {
   return (
-    <div className="relative">
+    <div className={cn('relative', containerClassName)}>
       {!!src ? (
         <Image
           className={cn('rounded-full object-cover', className)}
@@ -53,6 +54,7 @@ export default function UserImage({
 }
 
 type Props = {
+  containerClassName?: HTMLAttributes<HTMLDivElement>['className'];
   className?: HTMLAttributes<HTMLDivElement>['className'];
   src?: string | null;
   alt?: string;

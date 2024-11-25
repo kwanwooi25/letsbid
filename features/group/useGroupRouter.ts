@@ -1,12 +1,10 @@
 import { PATHS } from '@/const/paths';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-export function useGroupDetailRouter() {
+export function useGroupRouter() {
   const router = useRouter();
-  const params = useParams();
-  const groupId = params.groupId as string;
   const callbackUrl = useCallbackUrl();
   const currentUrl = useCurrentUrl();
 
@@ -14,17 +12,22 @@ export function useGroupDetailRouter() {
     router.replace(callbackUrl ? callbackUrl : PATHS.GROUP);
   };
 
-  const moveToEditGroup = () => {
+  const moveToCreateGroup = () => router.push(`${PATHS.CREATE_GROUP}?callbackUrl=${currentUrl}`);
+
+  const moveToEditGroup = (groupId: string) => {
     router.push(`${PATHS.GROUP}/${groupId}/edit?callbackUrl=${currentUrl}`);
   };
 
-  const moveToCreateAuctionCase = () => {
-    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}?callbackUrl=${currentUrl}`);
+  const moveToGroupDetail = (groupId?: string) => {
+    if (!groupId) return;
+
+    router.replace(`${PATHS.GROUP}/${groupId}?tab=auctionCases`);
   };
 
   return {
     moveToGroupList,
+    moveToCreateGroup,
     moveToEditGroup,
-    moveToCreateAuctionCase,
+    moveToGroupDetail,
   };
 }

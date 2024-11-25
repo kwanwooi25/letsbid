@@ -3,24 +3,24 @@
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
+import { useUserRouter } from '@/features/user/useUserRouter';
 import UserDetail from './UserDetail';
-import { useUserProfileRouter } from './useUserProfileRouter';
 
 export default function UserProfile() {
-  const { moveToEditUserProfile } = useUserProfileRouter();
+  const { moveToEditUserProfile } = useUserRouter();
 
   return (
-    <>
-      <PageHeader className="max-w-lg" title="내 정보">
+    <div className="max-w-2xl lg:max-w-5xl mx-auto">
+      <PageHeader className="lg:mx-[176px]" title="내 정보">
         <div className="flex items-center gap-2">
           <Button onClick={moveToEditUserProfile} type="button">
             정보 수정
           </Button>
         </div>
       </PageHeader>
-      <PageBody className="max-w-lg">
+      <PageBody className="py-4 lg:mx-[176px]">
         <UserDetail />
       </PageBody>
-    </>
+    </div>
   );
 }

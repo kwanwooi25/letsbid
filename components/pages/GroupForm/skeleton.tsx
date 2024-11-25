@@ -3,10 +3,10 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function GroupFormSkeleton() {
   return (
-    <div className="max-w-lg mx-auto">
-      <Skeleton.PageHeader backButton actionButtonCount={1} />
+    <div className="max-w-2xl lg:max-w-5xl mx-auto">
+      <Skeleton.PageHeader className="lg:mx-[176px]" backButton actionButtonCount={1} />
 
-      <PageBody className="flex flex-col gap-4">
+      <PageBody className="flex flex-col gap-4 lg:mx-[176px]">
         <Skeleton.Input />
         <Skeleton.Input />
         <Skeleton.Input />

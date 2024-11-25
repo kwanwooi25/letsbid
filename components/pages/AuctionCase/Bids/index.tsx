@@ -8,17 +8,17 @@ import {
 } from '@/features/auction-case/types';
 import { useHasUserBidden } from '@/features/auction-case/useHasUserBidden';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
+import { useBidRouter } from '@/features/bid/useBidRouter';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
-import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 import AuctionResult from './AuctionResult';
 import MyBid from './MyBid';
 
-export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupHost }: Props) {
+export default function AuctionCaseBids({ auctionCase }: Props) {
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
 
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
-  const { moveToPlaceBid } = useAuctionCaseDetailRouter({ auctionCase });
+  const { moveToPlaceBid } = useBidRouter();
 
   useInterval(() => {
     setStatus(getAuctionCaseStatus(auctionCase));
@@ -35,7 +35,12 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupH
   if (status === 'BIDDING') {
     if (!hasBidden) {
       return (
-        <Button className="my-4 mx-auto" size="lg" type="button" onClick={moveToPlaceBid}>
+        <Button
+          className="my-4 mx-auto"
+          size="lg"
+          type="button"
+          onClick={() => moveToPlaceBid(auctionCase)}
+        >
           입찰하기
         </Button>
       );
@@ -50,13 +55,7 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupH
   }
 
   if (status === 'FINISHED_BIDDING' && biddingCount > 0) {
-    return (
-      <AuctionResult
-        auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles}
-        isGroupHost={isGroupHost}
-        isViceGroupHost={isViceGroupHost}
-      />
-    );
+    return <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles} />;
   }
 
   return null;
@@ -64,6 +63,4 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupH
 
 type Props = {
   auctionCase: AuctionCaseLike | null;
-  isGroupHost?: boolean;
-  isViceGroupHost?: boolean;
 };

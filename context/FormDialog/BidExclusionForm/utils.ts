@@ -1,7 +1,9 @@
-import { BidWithUser } from '@/features/bid/types';
+import { BidWithUser, BidWithUserAndAuctionCase } from '@/features/bid/types';
 import { BidExclusionFormSchema } from './formSchema';
 
-export function getDefaultFormValues(bid?: BidWithUser): BidExclusionFormSchema {
+export function getDefaultFormValues(
+  bid?: BidWithUser | BidWithUserAndAuctionCase,
+): BidExclusionFormSchema {
   if (!bid) {
     return {
       isExcluded: true,

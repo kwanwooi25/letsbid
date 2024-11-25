@@ -4,14 +4,14 @@ import { Button } from '@/components/ui/button';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { getBidDetailQueryOptions } from '@/features/bid/query';
+import { useBidActions } from '@/features/bid/useBidActions';
+import { useBidRouter } from '@/features/bid/useBidRouter';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
-import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 
 export default function MyBid({ bidId, auctionCase }: Props) {
   const { data: bid } = useSuspenseQuery(getBidDetailQueryOptions(bidId));
-  const { moveToEditBid } = useAuctionCaseDetailRouter({ auctionCase });
-  const { tryToCancelBid } = useAuctionCaseDetailActions({ auctionCase });
+  const { moveToEditBid } = useBidRouter();
+  const { tryToCancelBid } = useBidActions();
 
   const status = getAuctionCaseStatus(auctionCase);
 
@@ -23,10 +23,10 @@ export default function MyBid({ bidId, auctionCase }: Props) {
 
       {status === 'BIDDING' && (
         <div className="flex items-center justify-between gap-4 mt-4">
-          <Button className="mt-4" variant="outline" onClick={() => moveToEditBid(bidId)}>
+          <Button className="mt-4" variant="outline" onClick={() => moveToEditBid(bid)}>
             입찰표 수정
           </Button>
-          <Button className="mt-4" variant="destructive" onClick={() => tryToCancelBid(bidId)}>
+          <Button className="mt-4" variant="destructive" onClick={() => tryToCancelBid(bid)}>
             입찰 취소
           </Button>
         </div>

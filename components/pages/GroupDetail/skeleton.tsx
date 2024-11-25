@@ -7,10 +7,15 @@ import GroupDetailPageToolbarSkeleton from './Toolbar/skeleton';
 
 export default function GroupDetailSkeleton() {
   return (
-    <Tabs>
-      <Skeleton.PageHeader className="max-w-2xl" backButton actionButtonCount={2} />
-      <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
-        <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[180px] sm:top-[132px]">
+    <Tabs className="max-w-2xl lg:max-w-5xl mx-auto">
+      <Skeleton.PageHeader
+        className="lg:mx-[176px]"
+        backButton
+        actionButtonCount={1}
+        actionButtonType="icon"
+      />
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+        <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[180px] sm:top-[132px] lg:mx-0 lg:px-0">
           <GroupDetailPageToolbarSkeleton />
           <Skeleton className="h-[40px] w-full mt-4 lg:hidden" />
         </div>

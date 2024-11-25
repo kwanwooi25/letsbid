@@ -2,7 +2,7 @@ import { PATHS } from '@/const/paths';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { useRouter } from 'next/navigation';
 
-export function useUserProfileRouter() {
+export function useUserRouter() {
   const router = useRouter();
   const currentUrl = useCurrentUrl();
 

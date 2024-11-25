@@ -5,8 +5,8 @@ import SearchInput from '@/components/common/SearchInput';
 import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
+import GroupMenu from '@/features/group/GroupMenu';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
@@ -21,28 +21,28 @@ import AuctionCaseListSkeleton from './AuctionCaseList/skeleton';
 import MemberList from './MemberList';
 import MemberListSkeleton from './MemberList/skeleton';
 import GroupDetailPageToolbar from './Toolbar';
-import { useGroupDetailPageActions } from './useGroupDetailPageActions';
-import { useGroupDetailRouter } from './useGroupDetailRouter';
 import { GROUP_DETAIL_TABS_TRANSLATIONS, useGroupDetailTabs } from './useGroupDetailTabs';
 
 export default function GroupDetail() {
   const params = useParams();
   const groupId = params.groupId as string;
   const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
-  const { isGroupHost, isViceGroupHost } = useIsGroupMember(group);
+  const { isViceGroupHost, isGroupAdmin } = useIsGroupMember(group);
   const { tab, handleTabChange } = useGroupDetailTabs();
-  const { moveToEditGroup } = useGroupDetailRouter();
-  const { tryToDeleteGroup, tryToArchiveGroup, tryToUnarchiveGroup, tryToMoveOutFromGroup } =
-    useGroupDetailPageActions({ group });
   const { search, setSearch } = useSearchInput();
   const { isScrolled } = useWindowScroll();
 
   const isArchived = !!group.archivedAt;
 
   return (
-    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+    <Tabs
+      className="max-w-2xl lg:max-w-5xl mx-auto"
+      defaultValue={tab}
+      value={tab}
+      onValueChange={(value) => handleTabChange(value as typeof tab)}
+    >
       <PageHeader
-        className="max-w-2xl"
+        className="lg:mx-[176px] lg:border-none"
         backButton
         title={
           <div className="flex flex-col gap-1">
@@ -53,7 +53,7 @@ export default function GroupDetail() {
                 </div>
               )}
               <span className="text-xl font-semibold line-clamp-2">{group.name}</span>
-              {(isGroupHost || isViceGroupHost) && <HostBadge isViceHost={isViceGroupHost} />}
+              {isGroupAdmin && <HostBadge isViceHost={isViceGroupHost} />}
             </div>
             {isArchived && (
               <div className="text-xs text-primary/50 font-semibold">
@@ -63,41 +63,13 @@ export default function GroupDetail() {
           </div>
         }
       >
-        <div className="flex items-center gap-2">
-          {(isGroupHost || isViceGroupHost) && (
-            <Button type="button" onClick={moveToEditGroup}>
-              수정
-            </Button>
-          )}
-
-          {(isGroupHost || isViceGroupHost) && isArchived && (
-            <Button type="button" variant="destructive-outline" onClick={tryToUnarchiveGroup}>
-              숨김 해제
-            </Button>
-          )}
-          {(isGroupHost || isViceGroupHost) && !isArchived && (
-            <Button type="button" variant="destructive-outline" onClick={tryToArchiveGroup}>
-              숨김
-            </Button>
-          )}
-
-          {isGroupHost && (
-            <Button type="button" variant="destructive" onClick={tryToDeleteGroup}>
-              삭제
-            </Button>
-          )}
-          {(isViceGroupHost || !isGroupHost) && (
-            <Button type="button" variant="destructive" onClick={tryToMoveOutFromGroup}>
-              그룹에서 나가기
-            </Button>
-          )}
-        </div>
+        <GroupMenu group={group} />
       </PageHeader>
 
-      <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <div
           className={cn(
-            'z-header bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[180px] sm:top-[132px]',
+            'z-header bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px] lg:mx-0 lg:px-0',
             isScrolled && 'border-b lg:border-none',
           )}
         >
@@ -112,7 +84,7 @@ export default function GroupDetail() {
         <div>
           <SearchInput
             className={cn(
-              'hidden lg:flex pt-1 pb-4 sticky top-[132px] bg-background',
+              'hidden lg:flex pt-1 pb-4 sticky top-[132px] bg-background z-header',
               isScrolled && 'border-b',
             )}
             defaultValue={search}
@@ -121,7 +93,7 @@ export default function GroupDetail() {
           />
           <TabsContent value="auctionCases" className="py-0 mt-0">
             <Suspense fallback={<AuctionCaseListSkeleton />}>
-              <AuctionCaseList isAbleToCreateAuctionCase={isGroupHost || isViceGroupHost} />
+              <AuctionCaseList isAbleToCreateAuctionCase={isGroupAdmin && !isArchived} />
             </Suspense>
           </TabsContent>
           <TabsContent value="members" className="py-0 mt-0">
