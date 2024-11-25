@@ -11,7 +11,6 @@ import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
 import { Suspense } from 'react';
-import { GROUP_CREATION_ALLOWED_USERS } from './const';
 import GroupListSkeleton from './List/skeleton';
 import GroupListPageToolbar from './Toolbar';
 import {
@@ -22,7 +21,7 @@ import {
 } from './useGroupListTabs';
 
 export default function GroupList() {
-  const { loggedInUser } = useLoggedInUser();
+  const { isAdmin } = useLoggedInUser();
   const { tab, handleTabChange } = useGroupListTabs();
   const { moveToCreateGroup } = useGroupRouter();
   const { search, setSearch } = useSearchInput();
@@ -41,7 +40,7 @@ export default function GroupList() {
         hideBottomBorderOnScroll
       >
         <div className="flex items-center gap-2">
-          {!!loggedInUser?.email && GROUP_CREATION_ALLOWED_USERS.includes(loggedInUser?.email) && (
+          {isAdmin && (
             <Button type="button" onClick={moveToCreateGroup}>
               그룹 생성
             </Button>

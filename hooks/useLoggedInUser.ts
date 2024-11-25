@@ -16,6 +16,7 @@ export function useLoggedInUser() {
   return {
     loggedInUser: session?.data?.user,
     isLoggedIn: !!session?.data?.user,
+    isAdmin: session?.data?.user.role === 'ADMIN',
     updateLoggedInUser,
   };
 }
