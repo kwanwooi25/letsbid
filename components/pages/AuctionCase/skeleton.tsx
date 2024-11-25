@@ -8,16 +8,16 @@ import AucitonCasePageToolbarSkeleton from './Toolbar/skeleton';
 
 export default function AuctionCaseSkeleton() {
   return (
-    <Tabs>
+    <Tabs className="max-w-2xl lg:max-w-5xl mx-auto">
       <Skeleton.PageHeader
         title={<AuctionCaseTitle.Skeleton />}
-        className="max-w-2xl min-h-[80px]"
+        className="max-w-2xl min-h-[80px] lg:mx-[176px]"
         backButton
         actionButtonCount={1}
         actionButtonType="icon"
       />
-      <PageBody className="max-w-2xl pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
-        <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header top-[140px]">
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+        <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header top-[140px] lg:mx-0 lg:px-0">
           <AucitonCasePageToolbarSkeleton />
         </div>
         <div className="pt-1">

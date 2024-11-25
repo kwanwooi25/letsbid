@@ -47,21 +47,23 @@ export default function AuctionCase() {
 
   return (
     <Tabs
+      className="max-w-2xl lg:max-w-5xl mx-auto"
       defaultValue={tab}
       value={tab}
       onValueChange={(value) => handleTabChange(value as typeof tab)}
     >
       <PageHeader
-        className={cn('max-w-2xl min-h-[80px]')}
+        className={cn('max-w-2xl min-h-[80px] lg:mx-[176px]')}
         backButton
         title={<AuctionCaseTitle auctionCase={auctionCase} />}
+        hideBottomBorderOnScroll
       >
         <AuctionCaseMenu auctionCase={auctionCase} />
       </PageHeader>
-      <PageBody className="max-w-2xl pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <div
           className={cn(
-            'bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header top-[140px]',
+            'bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header top-[140px] lg:mx-0 lg:px-0',
             isScrolled && 'border-b lg:border-none',
           )}
         >

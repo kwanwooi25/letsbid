@@ -2,6 +2,7 @@
 
 import { GNB_HEIGHT } from '@/components/layouts/const';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
+import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
 import { LucideChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -15,9 +16,11 @@ export default function PageHeader({
   backButton,
   previousUrl,
   onBackButtonClick,
+  hideBottomBorderOnScroll = false,
 }: Props) {
   const router = useRouter();
   const callbackUrl = useCallbackUrl();
+  const { isScrolled } = useWindowScroll();
 
   const handleClickBackButton = () => {
     if (onBackButtonClick) {
@@ -42,6 +45,7 @@ export default function PageHeader({
     <div
       className={cn(
         'flex items-center justify-between gap-2 p-4 mx-auto sticky bg-background z-header min-h-[72px]',
+        isScrolled && !hideBottomBorderOnScroll && 'border-b',
         className,
       )}
       style={{ top: GNB_HEIGHT }}
@@ -67,4 +71,5 @@ type Props = PropsWithChildren & {
   backButton?: boolean | ReactNode;
   previousUrl?: string;
   onBackButtonClick?: () => void;
+  hideBottomBorderOnScroll?: boolean;
 };

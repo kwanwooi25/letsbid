@@ -44,9 +44,9 @@ export default function ArticleDetail() {
   };
 
   return (
-    <>
+    <div className="max-w-2xl lg:max-w-5xl mx-auto">
       <PageHeader
-        className="max-w-3xl"
+        className="lg:mx-[176px]"
         title={
           <div className="flex flex-col gap-1">
             <span className="text-lg font-bold">조사 내용</span>
@@ -57,7 +57,7 @@ export default function ArticleDetail() {
       >
         <ArticleMenu article={article} />
       </PageHeader>
-      <PageBody className="max-w-3xl flex flex-col gap-4">
+      <PageBody className="lg:mx-[176px] flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h6 className="text-xl font-bold">{title}</h6>
           <div className="flex items-center gap-2">
@@ -89,6 +89,6 @@ export default function ArticleDetail() {
         </span>
         <WysiwygViewer key={contentHtml} width="100%" initialValue={contentHtml} />
       </PageBody>
-    </>
+    </div>
   );
 }

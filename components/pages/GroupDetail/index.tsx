@@ -36,12 +36,13 @@ export default function GroupDetail() {
 
   return (
     <Tabs
+      className="max-w-2xl lg:max-w-5xl mx-auto"
       defaultValue={tab}
       value={tab}
       onValueChange={(value) => handleTabChange(value as typeof tab)}
     >
       <PageHeader
-        className="max-w-2xl"
+        className="lg:mx-[176px] lg:border-none"
         backButton
         title={
           <div className="flex flex-col gap-1">
@@ -65,10 +66,10 @@ export default function GroupDetail() {
         <GroupMenu group={group} />
       </PageHeader>
 
-      <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <div
           className={cn(
-            'z-header bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px]',
+            'z-header bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px] lg:mx-0 lg:px-0',
             isScrolled && 'border-b lg:border-none',
           )}
         >
@@ -83,7 +84,7 @@ export default function GroupDetail() {
         <div>
           <SearchInput
             className={cn(
-              'hidden lg:flex pt-1 pb-4 sticky top-[132px] bg-background',
+              'hidden lg:flex pt-1 pb-4 sticky top-[132px] bg-background z-header',
               isScrolled && 'border-b',
             )}
             defaultValue={search}

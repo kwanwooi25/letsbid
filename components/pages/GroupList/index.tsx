@@ -30,11 +30,16 @@ export default function GroupList() {
 
   return (
     <Tabs
+      className="max-w-2xl lg:max-w-5xl mx-auto"
       defaultValue={tab}
       value={tab}
       onValueChange={(value) => handleTabChange(value as typeof tab)}
     >
-      <PageHeader title="그룹 목록" className="max-w-2xl flex-row items-center">
+      <PageHeader
+        title="그룹 목록"
+        className="flex-row items-center lg:mx-[176px]"
+        hideBottomBorderOnScroll
+      >
         <div className="flex items-center gap-2">
           {!!loggedInUser?.email && GROUP_CREATION_ALLOWED_USERS.includes(loggedInUser?.email) && (
             <Button type="button" onClick={moveToCreateGroup}>
@@ -43,10 +48,10 @@ export default function GroupList() {
           )}
         </div>
       </PageHeader>
-      <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
         <div
           className={cn(
-            'bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px]',
+            'bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px] lg:mx-0 lg:px-0',
             isScrolled && 'border-b lg:border-none',
           )}
         >

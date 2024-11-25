@@ -65,8 +65,9 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
 
   return (
     <Form {...form}>
-      <form className="max-w-3xl mx-auto">
+      <form className="max-w-2xl lg:max-w-5xl mx-auto">
         <PageHeader
+          className="px-4 lg:mx-[176px]"
           title={
             <div className="flex flex-col gap-1">
               <span className="text-lg font-bold">{formTitle}</span>
@@ -87,7 +88,7 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
             저장
           </Button>
         </PageHeader>
-        <PageBody className="flex flex-col gap-4">
+        <PageBody className="flex flex-col gap-4 lg:mx-[176px] px-4">
           <InputFormField
             control={form.control}
             name="title"
