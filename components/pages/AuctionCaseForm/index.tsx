@@ -5,6 +5,7 @@ import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { CheckboxFormField, Form, InputFormField } from '@/components/ui/form';
 import DateTimeFormField from '@/components/ui/form/DateTimeFormField';
+import Icon from '@/components/ui/icon';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import {
@@ -19,7 +20,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import uniq from 'lodash/uniq';
 import uniqWith from 'lodash/uniqWith';
-import { LucideX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ComponentProps, FocusEventHandler } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
@@ -151,7 +151,7 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
                   type="button"
                   variant="ghost"
                 >
-                  <LucideX />
+                  <Icon name="x" />
                 </Button>
               ) : null
             }

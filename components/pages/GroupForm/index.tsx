@@ -4,6 +4,7 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Form, InputFormField } from '@/components/ui/form';
+import Icon from '@/components/ui/icon';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
@@ -14,7 +15,6 @@ import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { LucideEye, LucideEyeOff } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -107,7 +107,7 @@ export default function GroupForm() {
                   size="icon"
                   type="button"
                 >
-                  {showPassword ? <LucideEyeOff /> : <LucideEye />}
+                  <Icon name={showPassword ? 'eye-off' : 'eye'} />
                 </Button>
               </div>
             )}

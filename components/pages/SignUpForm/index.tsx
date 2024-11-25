@@ -2,13 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { Form, InputFormField } from '@/components/ui/form';
+import Icon from '@/components/ui/icon';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { createUserMutationOptions } from '@/features/user/mutation';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { LucideLogIn } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { formSchema, SignUpFormSchema } from './formSchema';
@@ -86,7 +86,7 @@ export default function SignUpForm() {
         </Button>
 
         <Button onClick={moveToSignIn} type="button" variant="link">
-          <LucideLogIn className="mr-2 h-4 w-4" />
+          <Icon name="log-in" className="mr-2 h-4 w-4" />
           로그인 하러가기
         </Button>
       </form>

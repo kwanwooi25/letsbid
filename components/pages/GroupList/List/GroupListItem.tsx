@@ -2,6 +2,7 @@
 
 import HostBadge from '@/components/common/HostBadge';
 import ListItem from '@/components/common/ListItem';
+import Icon from '@/components/ui/icon';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
@@ -12,7 +13,6 @@ import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
-import { LucideLock, LucideLockOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function GroupListItem({ group }: Props) {
@@ -91,8 +91,10 @@ export default function GroupListItem({ group }: Props) {
                 !isPrivate && 'bg-green-100',
               )}
             >
-              {isPrivate && <LucideLock className="w-3 h-3 text-destructive" />}
-              {!isPrivate && <LucideLockOpen className="w-3 h-3 text-green-700" />}
+              <Icon
+                name={isPrivate ? 'lock' : 'lock-open'}
+                className={cn('w-3 h-3', isPrivate ? 'text-destructive' : 'text-green-700')}
+              />
             </div>
           )}
         </div>

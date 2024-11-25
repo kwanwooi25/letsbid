@@ -1,5 +1,5 @@
+import Icon from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
-import { LucideUser2 } from 'lucide-react';
 import Image from 'next/image';
 import { HTMLAttributes } from 'react';
 import HostBadge from '../HostBadge';
@@ -38,7 +38,7 @@ export default function UserImage({
           )}
           style={{ minWidth: size, minHeight: size, width: size, height: size }}
         >
-          <LucideUser2 className="w-[60%] h-[60%]" />
+          <Icon name="user" className="w-[60%] h-[60%]" />
         </div>
       )}
 
