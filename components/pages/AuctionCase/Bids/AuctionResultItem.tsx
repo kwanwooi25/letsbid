@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { BidWithUser } from '@/features/bid/types';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { LucideScrollText, LucideUserPlus, LucideUserX } from 'lucide-react';
@@ -15,11 +16,10 @@ export default function AuctionResultItem({
   bid,
   rank,
   actualRank,
-  isGroupHost,
-  isViceGroupHost,
   openBidDetail,
 }: Props) {
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
+  const { isGroupAdmin } = useIsGroupMember();
   const { loggedInUser } = useLoggedInUser();
   const isMe = loggedInUser?.id === user?.id;
 
@@ -69,21 +69,21 @@ export default function AuctionResultItem({
               <LucideScrollText />
             </Button>
           </WithTooltip>
-          {(isGroupHost || isViceGroupHost) && !isExcluded && (
+          {isGroupAdmin && !isExcluded && (
             <WithTooltip tooltip="입찰 제외 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToExcludeBid(bid)}>
                 <LucideUserX />
               </Button>
             </WithTooltip>
           )}
-          {isExcluded && (isGroupHost || isViceGroupHost || isMe) && (
+          {isExcluded && (isGroupAdmin || isMe) && (
             <WithTooltip tooltip="입찰 참여 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToIncludeBid(bid)}>
                 <LucideUserPlus />
               </Button>
             </WithTooltip>
           )}
-          {!isExcluded && !(isGroupHost || isViceGroupHost) && isMe && (
+          {!isExcluded && !isGroupAdmin && isMe && (
             <WithTooltip tooltip="입찰 포기">
               <Button size="icon" variant="ghost" onClick={() => tryToGiveUpBid(bid)}>
                 <LucideUserX />
@@ -101,7 +101,5 @@ type Props = {
   bid: BidWithUser;
   rank: number;
   actualRank: number;
-  isGroupHost?: boolean;
-  isViceGroupHost?: boolean;
   openBidDetail: () => void;
 };

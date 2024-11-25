@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import PageHeader from '../layouts/PageHeader';
 import { ComponentProps, PropsWithChildren } from 'react';
+import PageHeader from '../layouts/PageHeader';
 
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cn('animate-pulse rounded-md bg-muted', className)} {...props} />;
@@ -16,7 +16,9 @@ function InputSkeleton({ className, hideLabel }: { className?: string; hideLabel
 }
 
 function ButtonSkeleton({ className, icon }: { className?: string; icon?: boolean }) {
-  return <Skeleton className={cn('h-[40px] w-[60px]', icon && 'w-[40px]', className)} />;
+  return (
+    <Skeleton className={cn('h-[40px] w-[60px]', icon && 'w-[40px] rounded-full', className)} />
+  );
 }
 
 function PageHeaderSkeleton({

@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export const DEFAULT_ARTICLE_INCLUDE: Prisma.ArticleInclude = {
+export const DEFAULT_ARTICLE_INCLUDE = {
   author: true,
   auctionCase: true,
   _count: {
@@ -9,4 +9,4 @@ export const DEFAULT_ARTICLE_INCLUDE: Prisma.ArticleInclude = {
       attachments: true,
     },
   },
-};
+} satisfies Prisma.ArticleInclude;

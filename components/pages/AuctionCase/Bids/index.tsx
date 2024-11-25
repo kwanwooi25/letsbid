@@ -14,7 +14,7 @@ import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 import AuctionResult from './AuctionResult';
 import MyBid from './MyBid';
 
-export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupHost }: Props) {
+export default function AuctionCaseBids({ auctionCase }: Props) {
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
 
   const { hasBidden, bid } = useHasUserBidden(auctionCase);
@@ -50,13 +50,7 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupH
   }
 
   if (status === 'FINISHED_BIDDING' && biddingCount > 0) {
-    return (
-      <AuctionResult
-        auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles}
-        isGroupHost={isGroupHost}
-        isViceGroupHost={isViceGroupHost}
-      />
-    );
+    return <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles} />;
   }
 
   return null;
@@ -64,6 +58,4 @@ export default function AuctionCaseBids({ auctionCase, isGroupHost, isViceGroupH
 
 type Props = {
   auctionCase: AuctionCaseLike | null;
-  isGroupHost?: boolean;
-  isViceGroupHost?: boolean;
 };

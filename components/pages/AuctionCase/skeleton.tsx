@@ -13,7 +13,8 @@ export default function AuctionCaseSkeleton() {
         title={<AuctionCaseTitle.Skeleton />}
         className="max-w-2xl min-h-[80px]"
         backButton
-        actionButtonCount={2}
+        actionButtonCount={1}
+        actionButtonType="icon"
       />
       <PageBody className="max-w-2xl pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
         <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky z-header top-[140px]">

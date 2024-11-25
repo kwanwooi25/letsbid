@@ -1,6 +1,7 @@
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { prisma } from '@/lib/prisma';
+import { DEFAULT_AUCTION_CASE_INCLUDE } from '../auction-case/const';
 
 export async function GET() {
   try {
@@ -10,10 +11,7 @@ export async function GET() {
       include: {
         user: true,
         auctionCase: {
-          include: {
-            bids: { include: { user: true } },
-            articles: { where: { isPublished: true } },
-          },
+          include: DEFAULT_AUCTION_CASE_INCLUDE,
         },
       },
       orderBy: { auctionCase: { bidEndsAt: 'desc' } },

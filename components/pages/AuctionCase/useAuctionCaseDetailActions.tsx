@@ -142,7 +142,7 @@ export function useAuctionCaseDetailActions({ auctionCase }: Args) {
   };
 
   const tryToDeleteArticle = (article: ArticleWithAuctionCaseAuthor) => {
-    const { id, auctionCaseId } = article;
+    const { id } = article;
 
     openAlert({
       title: '조사 내용 삭제',
@@ -150,7 +150,7 @@ export function useAuctionCaseDetailActions({ auctionCase }: Args) {
       actionLabel: '삭제',
       action: async () => {
         try {
-          await deleteArticle({ auctionCaseId, articleId: id });
+          await deleteArticle({ auctionCase, articleId: id });
           toast({
             title: '조사 내용 삭제 완료',
             variant: 'success',
