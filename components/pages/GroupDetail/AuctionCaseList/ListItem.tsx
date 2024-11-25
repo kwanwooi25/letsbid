@@ -3,6 +3,7 @@
 import AuctionCaseStatusBadge from '@/components/common/AuctionCaseStatusBadge';
 import ListItem from '@/components/common/ListItem';
 import WithTooltip from '@/components/common/WithTooltip';
+import Icon from '@/components/ui/icon';
 import { PATHS } from '@/const/paths';
 import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
 import { AuctionCaseLike } from '@/features/auction-case/types';
@@ -11,7 +12,6 @@ import {
   getFullAddress,
   getRemainingTimeDisplay,
 } from '@/features/auction-case/utils';
-import { LucideNotebookText, LucideTimer, LucideUsersRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -45,7 +45,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
           {remainingTime && (
             <WithTooltip tooltip="남은 시간">
               <div className="flex items-center gap-1">
-                <LucideTimer className="w-4 h-4 mr-1" />
+                <Icon name="timer" className="w-4 h-4 mr-1" />
                 <b>{remainingTime}</b>
               </div>
             </WithTooltip>
@@ -55,7 +55,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
           {articleCount > 0 && (
             <WithTooltip tooltip="조사 내용">
               <div className="flex items-center gap-1">
-                <LucideNotebookText className="w-4 h-4 mr-1" />
+                <Icon name="notebook-text" className="w-4 h-4 mr-1" />
                 <b>{articleCount.toLocaleString()}</b>
               </div>
             </WithTooltip>
@@ -63,7 +63,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
           {bidderCount > 0 && (
             <WithTooltip tooltip="입찰자">
               <div className="flex items-center gap-1">
-                <LucideUsersRound className="w-4 h-4 mr-1" />
+                <Icon name="users-round" className="w-4 h-4 mr-1" />
                 <b>{bidderCount.toLocaleString()}</b>
               </div>
             </WithTooltip>

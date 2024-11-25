@@ -2,12 +2,12 @@ import BidDetail from '@/components/common/BidDetail';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
 import Divider from '@/components/ui/divider';
+import Icon from '@/components/ui/icon';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Keys } from '@/const/keyboard';
 import { AuctionCaseWithBidsAndUserAndArticles } from '@/features/auction-case/types';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import orderBy from 'lodash/orderBy';
-import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { KeyboardEventHandler } from 'react';
 import AuctionResultItem from './AuctionResultItem';
@@ -103,7 +103,7 @@ export default function AuctionResult({ auctionCase }: Props) {
             <PaginationContent>
               <PaginationItem>
                 <Button variant="ghost" size="icon" onClick={handleClickPrevious}>
-                  <LucideChevronLeft />
+                  <Icon name="chevron-left" />
                 </Button>
               </PaginationItem>
               <PaginationItem className="mx-4">
@@ -111,7 +111,7 @@ export default function AuctionResult({ auctionCase }: Props) {
               </PaginationItem>
               <PaginationItem>
                 <Button variant="ghost" size="icon" onClick={handleClickNext}>
-                  <LucideChevronRight />
+                  <Icon name="chevron-right" />
                 </Button>
               </PaginationItem>
             </PaginationContent>

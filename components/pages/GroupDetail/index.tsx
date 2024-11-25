@@ -5,6 +5,7 @@ import SearchInput from '@/components/common/SearchInput';
 import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
+import Icon from '@/components/ui/icon';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import GroupMenu from '@/features/group/GroupMenu';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
@@ -13,7 +14,6 @@ import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { LucideEyeOff } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { Suspense } from 'react';
 import AuctionCaseList from './AuctionCaseList';
@@ -49,7 +49,7 @@ export default function GroupDetail() {
             <div className="flex items-center gap-2">
               {isArchived && (
                 <div className="w-[28px] h-[28px] rounded-full flex items-center justify-center shrink-0 bg-secondary">
-                  <LucideEyeOff className="w-4 h-4" />
+                  <Icon name="eye-off" className="w-4 h-4" />
                 </div>
               )}
               <span className="text-xl font-semibold line-clamp-2">{group.name}</span>
