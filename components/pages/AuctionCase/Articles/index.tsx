@@ -8,13 +8,7 @@ import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideNotebookPen } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import ArticleListItemSkeleton from './ListItem.skeleton';
-
-const ArticleListItem = dynamic(() => import('./ListItem'), {
-  ssr: false,
-  loading: () => <ArticleListItemSkeleton />,
-});
+import ArticleListItem from './ListItem';
 
 export default function ArticleList({ auctionCase }: Props) {
   const { moveToAddArticle } = useArticleRouter();

@@ -167,6 +167,7 @@ model Article {
 
   attachments Attachment[]
   likes       LikeOnArticle[]
+  views       ViewOnArticle[]
 }
 
 model LikeOnArticle {
@@ -175,7 +176,14 @@ model LikeOnArticle {
   articleId String
   article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ViewOnArticle {
+  id        String   @id @default(cuid())
+  userId    String
+  articleId String
+  article   Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 model Attachment {

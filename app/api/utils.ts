@@ -6,13 +6,7 @@ import { NextResponse } from 'next/server';
 
 export async function getUserFromSession() {
   const session = await auth();
-
-  if (!session || !session.user) {
-    handleFail({ status: HttpStatusCode.Unauthorized });
-    return;
-  }
-
-  return session.user;
+  return session?.user;
 }
 
 export function handleFail(props?: { status?: number; message?: string }) {

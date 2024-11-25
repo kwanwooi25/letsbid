@@ -10,10 +10,12 @@ import ArticleMenu from '@/features/article/ArticleMenu';
 import {
   likeArticleMutaionOptions,
   unlikeArticleMutaionOptions,
+  viewArticleMutaionOptions,
 } from '@/features/article/mutation';
 import {
   getArticleDetailQueryOptions,
   getLikesOnArticleQueryOptions,
+  getViewsOnArticleQueryOptions,
 } from '@/features/article/query';
 import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { formatDateTime } from '@/lib/datetime';
@@ -22,21 +24,35 @@ import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { ThumbsUp } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ArticleDetail() {
   const params = useParams();
   const articleId = params.articleId as string;
   const auctionCaseId = params.auctionCaseId as string;
   const { resolvedTheme } = useTheme();
-  const [{ data: article }, { data: likesOnArticle }] = useSuspenseQueries({
-    queries: [getArticleDetailQueryOptions(articleId), getLikesOnArticleQueryOptions(articleId)],
-  });
+  const [{ data: article }, { data: likesOnArticle }, { data: viewsOnArticle }] =
+    useSuspenseQueries({
+      queries: [
+        getArticleDetailQueryOptions(articleId),
+        getLikesOnArticleQueryOptions(articleId),
+        getViewsOnArticleQueryOptions(articleId),
+      ],
+    });
   const { totalLikeCount = 0, isMeLiked = false } = likesOnArticle ?? {};
+  const { isMeViewed = false } = viewsOnArticle ?? {};
 
   const { mutateAsync: likeArticle } = useMutation(likeArticleMutaionOptions);
   const { mutateAsync: unlikeArticle } = useMutation(unlikeArticleMutaionOptions);
+  const { mutateAsync: viewArticle } = useMutation(viewArticleMutaionOptions);
 
   const { moveToArticleList } = useArticleRouter();
+
+  useEffect(() => {
+    if (!isMeViewed) {
+      viewArticle({ articleId, auctionCaseId });
+    }
+  }, [articleId, auctionCaseId, isMeViewed, viewArticle]);
 
   if (!article) return null;
 
@@ -78,7 +94,7 @@ export default function ArticleDetail() {
           <h6 className="text-xl font-bold">{title}</h6>
           <div className="flex items-center gap-2">
             {!!totalLikeCount && (
-              <span className="text-sm font-semibold text-primary/70">{totalLikeCount}</span>
+              <span className="text-sm font-semibold text-foreground/70">{totalLikeCount}</span>
             )}
             <Button
               onClick={toggleLike}
@@ -98,9 +114,9 @@ export default function ArticleDetail() {
         </div>
         <div className="self-end flex items-center gap-2">
           <UserImage src={author.image} size={24} />
-          <span className="text-sm font-semibold text-primary/70">{author.name}</span>
+          <span className="text-sm font-semibold text-foreground/70">{author.name}</span>
         </div>
-        <span className="self-end text-sm text-primary/50">
+        <span className="self-end text-sm text-foreground/50">
           최종 업데이트: {formatDateTime(updatedAt, 'yyyy. MM. dd. HH:mm')}
         </span>
         <WysiwygViewer key={contentHtml} width="100%" initialValue={contentHtml} />

@@ -64,3 +64,22 @@ export const getLikesOnArticleQueryOptions = (articleId?: string) =>
     },
     enabled: !!articleId,
   });
+
+export const getViewsOnArticleQueryOptions = (articleId?: string) =>
+  queryOptions({
+    queryKey: articleQueryKeys.views(articleId),
+    queryFn: async () => {
+      if (!articleId) return null;
+      try {
+        const url = getApiUrl(`${API_ROUTE.ARTICLE}/${articleId}/view`);
+        const res = await axios<SuccessResponse<{ totalViewCount: number; isMeViewed: boolean }>>({
+          method: 'get',
+          url,
+        });
+        return res.data.data;
+      } catch (error) {
+        return null;
+      }
+    },
+    enabled: !!articleId,
+  });
