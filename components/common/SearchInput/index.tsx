@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
-import { LucideSearch, LucideX } from 'lucide-react';
 import { FormEventHandler, HTMLAttributes, useEffect, useRef, useState } from 'react';
 
 export default function SearchInput({
@@ -34,7 +34,10 @@ export default function SearchInput({
   return (
     <form className={className} onSubmit={handleSubmit}>
       <div className="relative w-full">
-        <LucideSearch className="absolute top-[50%] -translate-y-[50%] left-0 mx-3 w-4 h-4 text-primary" />
+        <Icon
+          name="search"
+          className="absolute top-[50%] -translate-y-[50%] left-0 mx-3 w-4 h-4 text-primary"
+        />
         <Input
           ref={ref}
           className="px-9"
@@ -50,7 +53,7 @@ export default function SearchInput({
             size="icon"
             onClick={removeInputValue}
           >
-            <LucideX className="w-4 h-4" />
+            <Icon name="x" className="w-4 h-4" />
           </Button>
         )}
       </div>

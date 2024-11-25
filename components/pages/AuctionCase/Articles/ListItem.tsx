@@ -3,16 +3,16 @@
 import ListItem from '@/components/common/ListItem';
 import UserImage from '@/components/common/UserImage';
 import { Chip } from '@/components/ui/chip';
+import Icon from '@/components/ui/icon';
 import ArticleMenu from '@/features/article/ArticleMenu';
 import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
 import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
-import { ThumbsUp } from 'lucide-react';
 
 export default function ArticleListItem({ article }: Props) {
   const { title, contentHtml, author, updatedAt, isPublished, _count } = article;
-  const { likes } = _count;
+  const { likes, views } = _count;
 
   const { moveToArticleDetail } = useArticleRouter();
 
@@ -33,9 +33,15 @@ export default function ArticleListItem({ article }: Props) {
 
         {isPublished && (
           <div className="flex items-center gap-4">
+            {views > 0 && (
+              <div className="flex items-center gap-1">
+                <Icon name="eye" className="w-4 h-4" />
+                <span className="text-sm font-semibold text-primary/70">{views}</span>
+              </div>
+            )}
             {likes > 0 && (
               <div className="flex items-center gap-1">
-                <ThumbsUp className="w-4 h-4" />
+                <Icon name="thumbs-up" className="w-4 h-4" />
                 <span className="text-sm font-semibold text-primary/70">{likes}</span>
               </div>
             )}

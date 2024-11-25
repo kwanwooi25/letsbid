@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
 import { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '.';
 import { Button } from '../button';
 import DatePicker from '../date-picker';
+import Icon from '../icon';
 
 export default function DateFormField<
   TFieldValues extends FieldValues = FieldValues,
@@ -27,7 +27,7 @@ export default function DateFormField<
                     )}
                   >
                     {field.value ? format(field.value, 'yyyy-MM-dd') : <span>{label} 선택</span>}
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    <Icon name="calendar" className="ml-auto h-4 w-4 opacity-50" />
                   </Button>
                 </FormControl>
               }

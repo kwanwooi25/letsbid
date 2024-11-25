@@ -6,6 +6,7 @@ export type ArticleWithAuctionCaseAuthor = Article & {
   author: User;
   _count: {
     likes: number;
+    views: number;
     attachments: number;
   };
 };

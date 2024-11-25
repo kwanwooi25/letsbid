@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
-import { LucideX } from 'lucide-react';
 import type { HTMLAttributes } from 'react';
 
 export default function AuctionCaseImage({ className, imageFile, imageUrl, onRemove }: Props) {
@@ -20,7 +20,7 @@ export default function AuctionCaseImage({ className, imageFile, imageUrl, onRem
         type="button"
         tabIndex={-1}
       >
-        <LucideX />
+        <Icon name="x" />
       </Button>
     </div>
   );

@@ -1,5 +1,5 @@
+import Icon from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
-import { LucideCrown } from 'lucide-react';
 import { HTMLAttributes } from 'react';
 
 export default function HostBadge({ className, isViceHost, ...props }: Props) {
@@ -12,7 +12,8 @@ export default function HostBadge({ className, isViceHost, ...props }: Props) {
       )}
       {...props}
     >
-      <LucideCrown
+      <Icon
+        name="crown"
         className={cn(
           'w-[60%] h-[60%] text-yellow-700 dark:text-primary-foreground',
           isViceHost && 'text-gray-700',

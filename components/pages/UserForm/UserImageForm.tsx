@@ -1,8 +1,8 @@
 import UserImage from '@/components/common/UserImage';
 import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
-import { LucideEdit2, LucidePlus, LucideX } from 'lucide-react';
 import { HTMLAttributes, InputHTMLAttributes, useRef } from 'react';
 
 export default function UserImageForm({
@@ -47,7 +47,7 @@ export default function UserImageForm({
               size="icon"
               type="button"
             >
-              <LucideEdit2 size="14" />
+              <Icon name="pen" size="14" />
             </Button>
             <Button
               onClick={onRemove}
@@ -56,7 +56,7 @@ export default function UserImageForm({
               size="icon"
               type="button"
             >
-              <LucideX size="14" />
+              <Icon name="x" size="14" />
             </Button>
           </>
         ) : (
@@ -67,7 +67,7 @@ export default function UserImageForm({
             size="icon"
             type="button"
           >
-            <LucidePlus size="14" />
+            <Icon name="plus" size="14" />
           </Button>
         )}
         <input

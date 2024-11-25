@@ -3,13 +3,13 @@ import BidRankBadge from '@/components/common/BidRankBadge';
 import ListItem from '@/components/common/ListItem';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/dialog';
+import Icon from '@/components/ui/icon';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BidWithUserAndAuctionCase } from '@/features/bid/types';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import orderBy from 'lodash/orderBy';
-import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 export default function UserBidHistoryListItem({ bid }: Props) {
@@ -72,7 +72,7 @@ export default function UserBidHistoryListItem({ bid }: Props) {
             <PaginationContent>
               <PaginationItem>
                 <Button variant="ghost" size="icon" onClick={handleClickPrevious}>
-                  <LucideChevronLeft />
+                  <Icon name="chevron-left" />
                 </Button>
               </PaginationItem>
               <PaginationItem className="mx-4">
@@ -80,7 +80,7 @@ export default function UserBidHistoryListItem({ bid }: Props) {
               </PaginationItem>
               <PaginationItem>
                 <Button variant="ghost" size="icon" onClick={handleClickNext}>
-                  <LucideChevronRight />
+                  <Icon name="chevron-right" />
                 </Button>
               </PaginationItem>
             </PaginationContent>

@@ -3,7 +3,7 @@ import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
 import { API_ROUTE } from '@/const/paths';
 import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
 import { getApiUrl, getQueryClient } from '@/lib/query';
-import { AuctionCase, LikeOnArticle } from '@prisma/client';
+import { AuctionCase, LikeOnArticle, ViewOnArticle } from '@prisma/client';
 import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
@@ -152,6 +152,34 @@ export const unlikeArticleMutaionOptions: MutationOptions<
     }
     if (data?.articleId) {
       queryClient.invalidateQueries({ queryKey: articleQueryKeys.likes(data.articleId) });
+    }
+  },
+};
+
+export const viewArticleMutaionOptions: MutationOptions<
+  { auctionCaseId: string; articleId: string },
+  Error,
+  { auctionCaseId: string; articleId: string }
+> = {
+  mutationFn: async (data) => {
+    try {
+      const url = getApiUrl(`${API_ROUTE.ARTICLE}/${data.articleId}/view`);
+      await axios<SuccessResponse<ViewOnArticle>>({
+        method: 'post',
+        url,
+      });
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  },
+  onSettled: (data) => {
+    const queryClient = getQueryClient();
+    if (data?.auctionCaseId) {
+      queryClient.invalidateQueries({ queryKey: articleQueryKeys.list(data.auctionCaseId) });
+    }
+    if (data?.articleId) {
+      queryClient.invalidateQueries({ queryKey: articleQueryKeys.views(data.articleId) });
     }
   },
 };

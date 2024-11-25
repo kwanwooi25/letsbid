@@ -5,6 +5,7 @@ import { AUCTION_CASE_PAGE_HEADER_HEIGHT, GNB_HEIGHT } from '@/components/layout
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
+import Icon from '@/components/ui/icon';
 import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import {
@@ -14,7 +15,6 @@ import {
   getRemainingTimeDisplay,
 } from '@/features/auction-case/utils';
 import { cn } from '@/lib/utils';
-import { LucideChevronRight, LucideNotebookPen } from 'lucide-react';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { useAuctionCaseDetailTabs } from '../useAuctionCaseDetailTabs';
@@ -51,7 +51,7 @@ export default function AuctionCasePageToolbar({ auctionCase }: Props) {
         <AuctionCaseDetailTabsList />
         {tab === 'articles' && (
           <Button onClick={() => moveToAddArticle(auctionCase)}>
-            <LucideNotebookPen className="w-4 h-4 mr-2" />
+            <Icon name="notebook-pen" className="w-4 h-4 mr-2" />
             조사 내용 등록
           </Button>
         )}
@@ -77,7 +77,7 @@ export default function AuctionCasePageToolbar({ auctionCase }: Props) {
               >
                 {bidStartsAt}
               </span>
-              <LucideChevronRight className="w-3 h-3 lg:rotate-90 text-primary/70" />
+              <Icon name="chevron-right" className="w-3 h-3 lg:rotate-90 text-primary/70" />
               <span
                 className={cn(
                   'text-xs sm:text-sm text-primary/70',

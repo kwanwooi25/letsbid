@@ -7,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Icon from '@/components/ui/icon';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
-import { LucideBookOpen, LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
 import { ArticleWithAuctionCaseAuthor } from './types';
 import { useArticleActions } from './useArticleActions';
@@ -31,7 +31,7 @@ export default function ArticleMenu({ className, trigger, triggerClassName, arti
           trigger
         ) : (
           <Button className={triggerClassName} variant="ghost" size="icon">
-            <LucideMoreVertical className="w-6 h-6" />
+            <Icon name="ellipsis-vertical" className="w-6 h-6" />
           </Button>
         )}
       </DropdownMenuTrigger>
@@ -51,7 +51,7 @@ export default function ArticleMenu({ className, trigger, triggerClassName, arti
             );
           }}
         >
-          <LucideBookOpen className="mr-2 h-4 w-4" />
+          <Icon name="book-open" className="mr-2 h-4 w-4" />
           <span>{isPublished ? '게시 해제' : '게시하기'}</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -60,7 +60,7 @@ export default function ArticleMenu({ className, trigger, triggerClassName, arti
             moveToEditArticle(article);
           }}
         >
-          <LucideEdit2 className="mr-2 h-4 w-4" />
+          <Icon name="pen" className="mr-2 h-4 w-4" />
           <span>조사 내용 수정</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -70,7 +70,7 @@ export default function ArticleMenu({ className, trigger, triggerClassName, arti
             tryToDeleteArticle(article);
           }}
         >
-          <LucideTrash2 className="mr-2 h-4 w-4" />
+          <Icon name="trash-2" className="mr-2 h-4 w-4" />
           <span>조사 내용 삭제</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
