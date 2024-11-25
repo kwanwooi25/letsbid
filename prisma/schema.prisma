@@ -29,6 +29,7 @@ model User {
   image         String?
   mobile        String?
   points        Int       @default(0)
+  role          UserRole  @default(USER)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -37,6 +38,11 @@ model User {
   groups   UsersOnGroups[]
   bids     Bid[]
   articles Article[]
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
 
 model Account {
