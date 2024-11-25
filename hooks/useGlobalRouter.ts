@@ -3,7 +3,7 @@
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { useRouter } from 'next/navigation';
 
-export function useArticleFormRouter() {
+export function useGlobalRouter() {
   const router = useRouter();
   const callbackUrl = useCallbackUrl();
 

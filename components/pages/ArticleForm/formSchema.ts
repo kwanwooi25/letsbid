@@ -4,7 +4,7 @@ export const formSchema = z
   .object({
     id: z.string().optional(),
     title: z.string().optional().nullable(),
-    contentHtml: z.string().optional(),
+    contentHtml: z.string().optional().nullable(),
     isPublished: z.boolean().default(false),
     auctionCaseId: z.string().optional().nullable(),
   })

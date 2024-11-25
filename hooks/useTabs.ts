@@ -8,7 +8,7 @@ export function useTabs<T extends string>({ defaultTab }: Args<T>) {
   const searchParams = useSearchParams();
 
   const tab = (searchParams.get('tab') as T) ?? defaultTab;
-  const handleTabChange = (value: T | string) => {
+  const handleTabChange = (value: T) => {
     const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
     newSearchParams.set('tab', value);
     if (newSearchParams.get('page')) {

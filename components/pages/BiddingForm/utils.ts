@@ -1,4 +1,4 @@
-import { BidWithUser } from '@/features/bid/types';
+import { BidWithUserAndAuctionCase } from '@/features/bid/types';
 import { BiddingFormSchema } from './formSchema';
 
 export function getDefaultFormValues({
@@ -6,11 +6,11 @@ export function getDefaultFormValues({
   bid,
 }: {
   auctionCaseId?: string;
-  bid?: BidWithUser;
+  bid?: BidWithUserAndAuctionCase;
 }): BiddingFormSchema {
   if (bid) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { user, ...restBid } = bid;
+    const { user, auctionCase, ...restBid } = bid;
     return {
       ...restBid,
       excludedReason: restBid.excludedReason ?? '',

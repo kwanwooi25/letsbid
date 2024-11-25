@@ -15,8 +15,8 @@ import { Label } from '@/components/ui/label';
 import { LOCAL_STORAGE_KEYS } from '@/const/localStorage';
 import { PATHS } from '@/const/paths';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { addDays, isAfter } from 'date-fns';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ComponentProps, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -24,7 +24,7 @@ import { useLocalStorage } from 'usehooks-ts';
 export default function MobileNumberChecker() {
   const router = useRouter();
   const currentUrl = useCurrentUrl();
-  const session = useSession();
+  const { loggedInUser } = useLoggedInUser();
   const [remindAt, setRemindAt] = useLocalStorage<string | undefined>(
     LOCAL_STORAGE_KEYS.MOBILE_NUMBER_ALERT_REMINDER,
     undefined,
@@ -32,7 +32,6 @@ export default function MobileNumberChecker() {
   const [shouldNotRemind, setShouldNotRemind] = useState<
     ComponentProps<typeof Checkbox>['checked']
   >(isAfter(new Date(String(remindAt)), new Date()));
-  const loggedInUser = session?.data?.user;
   const [isOpen, setIsOpen] = useState(!shouldNotRemind && !loggedInUser?.mobile);
 
   const onClose = () => {

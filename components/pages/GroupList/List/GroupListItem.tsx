@@ -2,32 +2,28 @@
 
 import HostBadge from '@/components/common/HostBadge';
 import ListItem from '@/components/common/ListItem';
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
+import GroupMenu from '@/features/group/GroupMenu';
 import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
-import { useIsGroupHost } from '@/features/group/useIsGroupHost';
+import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
 import { LucideLock, LucideLockOpen } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function GroupListItem({ group }: Props) {
-  const session = useSession();
   const router = useRouter();
   const { toast } = useToast();
-  const { mutateAsync: joinGroup, isPending } = useMutation(joinGroupMutationOptions);
+  const { mutateAsync: joinGroup } = useMutation(joinGroupMutationOptions);
   const { handleAxiosError } = useAxiosError();
   const { openForm } = useFormDialog();
-  const { isGroupHost, isViceGroupHost } = useIsGroupHost(group);
+  const { isViceGroupHost, isGroupAdmin, isGroupMember } = useIsGroupMember(group);
 
   const { id, name, members, maxMembers, isPrivate, description, archivedAt } = group;
-  const isJoinable =
-    members.filter((member) => member.userId === session?.data?.user.id).length === 0;
   const isMaxMemberReached = members.length >= maxMembers;
   const isArchived = !!archivedAt;
 
@@ -66,13 +62,14 @@ export default function GroupListItem({ group }: Props) {
   };
 
   return (
-    <ListItem className={cn('min-h-[86px] hover:cursor-default')}>
+    <ListItem
+      onClick={isGroupMember ? moveToGroup : handleClickJoin}
+      className={cn('min-h-[86px]')}
+    >
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <span className="text-xl font-semibold line-clamp-1">{name}</span>
-          {(isGroupHost || isViceGroupHost) && (
-            <HostBadge className="shrink-0" isViceHost={isViceGroupHost} />
-          )}
+          {isGroupAdmin && <HostBadge className="shrink-0" isViceHost={isViceGroupHost} />}
         </div>
         {!!description && (
           <div className="text-xs font-semibold text-primary/50 line-clamp-1">{description}</div>
@@ -100,22 +97,7 @@ export default function GroupListItem({ group }: Props) {
           )}
         </div>
       </div>
-
-      {isJoinable && (
-        <Button
-          onClick={handleClickJoin}
-          type="button"
-          isLoading={isPending}
-          disabled={isMaxMemberReached}
-        >
-          참여하기
-        </Button>
-      )}
-      {!isJoinable && (
-        <Button onClick={moveToGroup} type="button" isLoading={isPending}>
-          들어가기
-        </Button>
-      )}
+      <GroupMenu triggerClassName="shrink-0" group={group} />
     </ListItem>
   );
 }

@@ -113,23 +113,25 @@ export default function AuctionCaseIntroduction({ auctionCase }: Props) {
       {!!images.length && (
         <>
           <Divider />
-          <div className="flex items-center h-[80px] py-1 -mx-4 px-4 overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-7 sm:h-auto gap-3">
-            {images.map((image, index) => (
-              <Image
-                key={image}
-                className={cn(
-                  'h-full w-auto rounded-md aspect-square object-cover hover:cursor-pointer transition-transform',
-                  selectedImageIndex === index &&
-                    'border-2 p-0.5 border-yellow-300 dark:border-yellow-500 scale-110',
-                )}
-                src={image}
-                alt={caseName}
-                width={500}
-                height={500}
-                onClick={() => setSelectedImageIndex(index)}
-              />
-            ))}
-          </div>
+          {images.length > 1 && (
+            <div className="flex items-center h-[80px] py-1 -mx-4 px-4 overflow-x-auto scrollbar-hide sm:grid sm:grid-cols-7 sm:h-auto gap-3">
+              {images.map((image, index) => (
+                <Image
+                  key={image}
+                  className={cn(
+                    'h-full w-auto rounded-md aspect-square object-cover hover:cursor-pointer transition-transform',
+                    selectedImageIndex === index &&
+                      'border-2 p-0.5 border-yellow-300 dark:border-yellow-500 scale-110',
+                  )}
+                  src={image}
+                  alt={caseName}
+                  width={500}
+                  height={500}
+                  onClick={() => setSelectedImageIndex(index)}
+                />
+              ))}
+            </div>
+          )}
           <Link href={images[selectedImageIndex]}>
             <Image
               className="w-full rounded-md object-cover"

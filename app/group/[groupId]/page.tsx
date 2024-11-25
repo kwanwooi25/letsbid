@@ -1,7 +1,9 @@
 import { getUserFromSession } from '@/app/api/utils';
+import NeedToJoinGroup from '@/components/pages/GroupDetail/NeedToJoin';
+import GroupOverCrowded from '@/components/pages/GroupDetail/OverCrowded';
 import GroupDetailSkeleton from '@/components/pages/GroupDetail/skeleton';
 import { PATHS } from '@/const/paths';
-import { withAuth } from '@/features/auth/hoc';
+import { withAuth } from '@/features/auth/withAuth';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { getQueryClient } from '@/lib/query';
 import dynamic from 'next/dynamic';
@@ -14,22 +16,36 @@ const GroupDetail = dynamic(() => import('@/components/pages/GroupDetail'), {
 });
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
-  try {
-    const user = await getUserFromSession();
-    const queryClient = getQueryClient();
-    const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(groupId));
+  const user = await getUserFromSession();
+  const queryClient = getQueryClient();
+  const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(groupId));
 
-    // 해당 그룹의 멤버가 아니면 진입할 수 없음
-    if (!group || group.members.filter((member) => member.userId === user?.id).length <= 0) {
-      return redirect(PATHS.GROUP, RedirectType.replace);
-    }
+  if (!group || !user) {
+    return redirect(PATHS.GROUP, RedirectType.replace);
+  }
 
+  // 이미 그룹의 멤버인 경우만 진입 가능
+  if (group.members.filter((member) => member.userId === user?.id).length > 0) {
     return (
       <Suspense fallback={<GroupDetailSkeleton />}>
         <GroupDetail />
       </Suspense>
     );
-  } catch (error) {
-    return redirect(PATHS.GROUP, RedirectType.replace);
   }
+
+  // 정원 초과
+  if (group.members.length >= group.maxMembers) {
+    return <GroupOverCrowded />;
+  }
+
+  // 아직 그룹 멤버가 아닌 경우
+  if (group.members.filter((member) => member.userId === user?.id).length <= 0) {
+    return (
+      <Suspense fallback={<GroupDetailSkeleton />}>
+        <NeedToJoinGroup />
+      </Suspense>
+    );
+  }
+
+  return redirect(PATHS.GROUP, RedirectType.replace);
 });

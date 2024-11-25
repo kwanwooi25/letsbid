@@ -5,6 +5,8 @@ import WysiwygViewer from '@/components/common/WysiwygViewer';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
+import ArticleMenu from '@/features/article/ArticleMenu';
 import {
   likeArticleMutaionOptions,
   unlikeArticleMutaionOptions,
@@ -13,18 +15,15 @@ import {
   getArticleDetailQueryOptions,
   getLikesOnArticleQueryOptions,
 } from '@/features/article/query';
+import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { ThumbsUp } from 'lucide-react';
-import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
-import { useAuctionCaseDetailActions } from '../AuctionCase/useAuctionCaseDetailActions';
-import { useAuctionCaseDetailRouter } from '../AuctionCase/useAuctionCaseDetailRouter';
 
 export default function ArticleDetail() {
-  const session = useSession();
   const params = useParams();
   const articleId = params.articleId as string;
   const auctionCaseId = params.auctionCaseId as string;
@@ -34,15 +33,14 @@ export default function ArticleDetail() {
   });
   const { totalLikeCount = 0, isMeLiked = false } = likesOnArticle ?? {};
 
-  const { moveToEditArticle } = useAuctionCaseDetailRouter({ auctionCase: article?.auctionCase });
-  const { tryToDeleteArticle } = useAuctionCaseDetailActions({ auctionCase: article?.auctionCase });
   const { mutateAsync: likeArticle } = useMutation(likeArticleMutaionOptions);
   const { mutateAsync: unlikeArticle } = useMutation(unlikeArticleMutaionOptions);
 
+  const { moveToArticleList } = useArticleRouter();
+
   if (!article) return null;
 
-  const { auctionCase, title, contentHtml, author, updatedAt } = article;
-  const isMyArticle = author.id === session?.data?.user.id;
+  const { isPublished, auctionCase, title, contentHtml, author, updatedAt } = article;
 
   const toggleLike = () => {
     const action = isMeLiked ? unlikeArticle : likeArticle;
@@ -50,29 +48,32 @@ export default function ArticleDetail() {
   };
 
   return (
-    <>
+    <div className="max-w-2xl lg:max-w-5xl mx-auto">
       <PageHeader
-        className="max-w-3xl"
+        className="lg:mx-[176px]"
+        backButton
+        onBackButtonClick={() => moveToArticleList(auctionCase)}
         title={
           <div className="flex flex-col gap-1">
-            <span className="text-lg font-bold">조사 내용</span>
+            <div className="flex items-center gap-2 font-bold">
+              {!isPublished && (
+                <Chip
+                  className="text-sm text-secondary-foreground/50"
+                  size="sm"
+                  variant="secondary"
+                >
+                  임시저장
+                </Chip>
+              )}
+              <span className="text-lg">조사 내용</span>
+            </div>
             <span className="text-sm font-semibold opacity-50">{auctionCase!.caseName}</span>
           </div>
         }
-        backButton
       >
-        {isMyArticle && (
-          <div className="flex items-center gap-2">
-            <Button type="button" onClick={() => moveToEditArticle(article.id)}>
-              수정
-            </Button>
-            <Button type="button" variant="destructive" onClick={() => tryToDeleteArticle(article)}>
-              삭제
-            </Button>
-          </div>
-        )}
+        <ArticleMenu article={article} />
       </PageHeader>
-      <PageBody className="max-w-3xl flex flex-col gap-4">
+      <PageBody className="lg:mx-[176px] flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h6 className="text-xl font-bold">{title}</h6>
           <div className="flex items-center gap-2">
@@ -104,6 +105,6 @@ export default function ArticleDetail() {
         </span>
         <WysiwygViewer key={contentHtml} width="100%" initialValue={contentHtml} />
       </PageBody>
-    </>
+    </div>
   );
 }

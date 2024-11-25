@@ -4,15 +4,15 @@ import { Dialog, DialogTitle, ScrollableDialogContent } from '@/components/ui/di
 import Divider from '@/components/ui/divider';
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Keys } from '@/const/keyboard';
-import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { AuctionCaseWithBidsAndUserAndArticles } from '@/features/auction-case/types';
+import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import orderBy from 'lodash/orderBy';
 import { LucideChevronLeft, LucideChevronRight } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { KeyboardEventHandler } from 'react';
 import AuctionResultItem from './AuctionResultItem';
 
-export default function AuctionResult({ auctionCase, isGroupHost, isViceGroupHost }: Props) {
+export default function AuctionResult({ auctionCase }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -78,12 +78,9 @@ export default function AuctionResult({ auctionCase, isGroupHost, isViceGroupHos
             return (
               <AuctionResultItem
                 key={bid.id}
-                auctionCase={auctionCase}
-                bid={bid}
+                bid={{ ...bid, auctionCase }}
                 rank={index + 1}
                 actualRank={bidRanks[index]}
-                isGroupHost={isGroupHost}
-                isViceGroupHost={isViceGroupHost}
                 openBidDetail={openBidDetail(index)}
               />
             );
@@ -127,6 +124,4 @@ export default function AuctionResult({ auctionCase, isGroupHost, isViceGroupHos
 
 type Props = {
   auctionCase: AuctionCaseWithBidsAndUserAndArticles;
-  isGroupHost?: boolean;
-  isViceGroupHost?: boolean;
 };

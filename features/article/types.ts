@@ -1,7 +1,8 @@
-import { Article, AuctionCase, User } from '@prisma/client';
+import { Article, User } from '@prisma/client';
+import { AuctionCaseLike } from '../auction-case/types';
 
 export type ArticleWithAuctionCaseAuthor = Article & {
-  auctionCase: AuctionCase;
+  auctionCase: AuctionCaseLike;
   author: User;
   _count: {
     likes: number;

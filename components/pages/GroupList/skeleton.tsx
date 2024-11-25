@@ -7,10 +7,10 @@ import { GROUP_LIST_TABS } from './useGroupListTabs';
 
 export default function GroupListPageSkeleton() {
   return (
-    <Tabs>
-      <Skeleton.PageHeader title="그룹 목록" className="max-w-xl lg:max-w-lg" />
-      <PageBody className="max-w-xl w-full pt-0 lg:max-w-4xl lg:grid lg:grid-cols-[240px_1fr_240px] lg:gap-4 lg:items-start">
-        <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px]">
+    <Tabs className="max-w-2xl lg:max-w-5xl mx-auto">
+      <Skeleton.PageHeader title="그룹 목록" className="lg:mx-[176px]" />
+      <PageBody className="w-full pt-0 lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">
+        <div className="bg-background -mx-4 px-4 pt-1 pb-4 sticky top-[132px] lg:mx-0 lg:px-0">
           <GroupListPageToolbar />
           <Skeleton className="h-[40px] w-full mt-4 lg:hidden" />
         </div>

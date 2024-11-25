@@ -1,6 +1,6 @@
 import ArticleForm from '@/components/pages/ArticleForm';
 import ArticleFormSkeleton from '@/components/pages/ArticleForm/skeleton';
-import { withAuth } from '@/features/auth/hoc';
+import { withAuth } from '@/features/auth/withAuth';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { getQueryClient } from '@/lib/query';
 import { Suspense } from 'react';

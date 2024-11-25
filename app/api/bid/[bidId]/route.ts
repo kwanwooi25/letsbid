@@ -1,13 +1,14 @@
 import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { prisma } from '@/lib/prisma';
 import { NextRequest } from 'next/server';
+import { DEFAULT_BID_INCLUDE } from '../const';
 
 export async function GET(req: NextRequest, { params }: { params: { bidId: string } }) {
   try {
     const user = await getUserFromSession();
     const bid = await prisma.bid.findUnique({
       where: { id: params.bidId, userId: user?.id },
-      include: { user: true },
+      include: DEFAULT_BID_INCLUDE,
     });
     return handleSuccess({ data: bid });
   } catch (e) {
@@ -22,7 +23,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { bidId: str
     const bid = await prisma.bid.update({
       where: { id: params.bidId },
       data,
-      include: { user: true },
+      include: DEFAULT_BID_INCLUDE,
     });
     return handleSuccess({ data: bid });
   } catch (e) {

@@ -123,13 +123,13 @@ export default function AuctionCaseForm({ groupId, auctionCaseId }: Props) {
 
   return (
     <Form {...form}>
-      <form className="max-w-2xl mx-auto">
-        <PageHeader title={formTitle} backButton>
+      <form className="max-w-2xl lg:max-w-5xl mx-auto">
+        <PageHeader className="lg:mx-[176px]" title={formTitle} backButton>
           <Button onClick={submitForm} isLoading={isSubmitting}>
             <span>저장</span>
           </Button>
         </PageHeader>
-        <PageBody className="flex flex-col gap-4 md:gap-6">
+        <PageBody className="flex flex-col gap-4 md:gap-6 lg:mx-[176px]">
           <InputFormField
             control={form.control}
             name="caseName"
