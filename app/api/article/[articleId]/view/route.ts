@@ -18,11 +18,11 @@ export async function GET(req: NextRequest, { params }: { params: { articleId: s
       });
     }
 
-    const [totalLikeCount, likeOfMe] = await prisma.$transaction([
-      prisma.likeOnArticle.count({ where: { articleId: params.articleId } }),
-      prisma.likeOnArticle.count({ where: { userId: user?.id, articleId: params.articleId } }),
+    const [totalViewCount, viewOfMe] = await prisma.$transaction([
+      prisma.viewOnArticle.count({ where: { articleId: params.articleId } }),
+      prisma.viewOnArticle.count({ where: { userId: user?.id, articleId: params.articleId } }),
     ]);
-    return handleSuccess({ data: { totalLikeCount, isMeLiked: !!likeOfMe } });
+    return handleSuccess({ data: { totalViewCount, isMeViewed: !!viewOfMe } });
   } catch (e) {
     return handlePrismaClientError(e);
   }
@@ -34,17 +34,17 @@ export async function POST(req: NextRequest, { params }: { params: { articleId: 
     if (!user) {
       return handleFail({
         message: 'User not found!',
-        status: HttpStatusCode.BadRequest,
+        status: HttpStatusCode.Unauthorized,
       });
     }
 
-    const createdLikeOnArticle = await prisma.likeOnArticle.create({
+    const createdViewOnArticle = await prisma.viewOnArticle.create({
       data: {
         userId: user.id,
         articleId: params.articleId,
       },
     });
-    return handleSuccess({ data: createdLikeOnArticle, status: HttpStatusCode.Created });
+    return handleSuccess({ data: createdViewOnArticle, status: HttpStatusCode.Created });
   } catch (e) {
     return handlePrismaClientError(e);
   }
@@ -60,7 +60,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { articleId
       });
     }
 
-    await prisma.likeOnArticle.deleteMany({
+    await prisma.viewOnArticle.deleteMany({
       where: { userId: user?.id, articleId: params.articleId },
     });
     return handleSuccess({ data: { userId: user?.id, articleId: params.articleId } });

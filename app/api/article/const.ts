@@ -9,6 +9,7 @@ export const DEFAULT_ARTICLE_INCLUDE = {
   _count: {
     select: {
       likes: true,
+      views: true,
       attachments: true,
     },
   },
