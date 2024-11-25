@@ -15,7 +15,6 @@ import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { LucideLock, LucideLockOpen } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useGroupDetailRouter } from './useGroupDetailRouter';
 
 export default function NeedToJoinGroup() {
   const router = useRouter();
@@ -25,7 +24,6 @@ export default function NeedToJoinGroup() {
   const groupId = params.groupId as string;
   const { data: group } = useSuspenseQuery(getGroupDetailQueryOptions(groupId));
   const { mutateAsync: joinGroup } = useMutation(joinGroupMutationOptions);
-  const {} = useGroupDetailRouter();
   const { handleAxiosError } = useAxiosError();
   const callbackUrl = useCallbackUrl();
 

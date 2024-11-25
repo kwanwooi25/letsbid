@@ -1,34 +1,30 @@
 import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
+import { useAxiosError } from '@/hooks/useAxiosError';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
+import { useMutation } from '@tanstack/react-query';
 import {
   archiveGroupMutationOptions,
   deleteGroupMutationOptions,
   expelGroupMemberMutationOptions,
   unarchiveGroupMutationOptions,
-} from '@/features/group/mutation';
-import { GroupWithMembers } from '@/features/group/types';
-import { useAxiosError } from '@/hooks/useAxiosError';
-import { useLoggedInUser } from '@/hooks/useLoggedInUser';
-import { useMutation } from '@tanstack/react-query';
-import { useGroupDetailRouter } from './useGroupDetailRouter';
+} from '../mutation';
+import { GroupWithMembers } from '../types';
+import { useGroupDetailMenuRouter } from './useGroupDetailMenuRouter';
 
-export function useGroupDetailPageActions({ group }: Args) {
-  const { loggedInUser } = useLoggedInUser();
-  const loggedInUserId = loggedInUser?.id;
+export function useGroupDetailMenuActions() {
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
+  const { loggedInUser } = useLoggedInUser();
+  const { moveToGroupList } = useGroupDetailMenuRouter();
 
   const { mutateAsync: deleteGroup } = useMutation(deleteGroupMutationOptions);
   const { mutateAsync: archiveGroup } = useMutation(archiveGroupMutationOptions);
   const { mutateAsync: unarchiveGroup } = useMutation(unarchiveGroupMutationOptions);
   const { mutateAsync: expelGroupMember } = useMutation(expelGroupMemberMutationOptions);
 
-  const { moveToGroupList } = useGroupDetailRouter();
-
-  const tryToDeleteGroup = () => {
-    if (!group) return;
-
+  const tryToDeleteGroup = (group: GroupWithMembers) => {
     openAlert({
       title: '그룹 삭제',
       description: (
@@ -58,9 +54,7 @@ export function useGroupDetailPageActions({ group }: Args) {
     });
   };
 
-  const tryToArchiveGroup = () => {
-    if (!group) return;
-
+  const tryToArchiveGroup = (group: GroupWithMembers) => {
     openAlert({
       title: '그룹 숨김',
       description: (
@@ -89,9 +83,7 @@ export function useGroupDetailPageActions({ group }: Args) {
     });
   };
 
-  const tryToUnarchiveGroup = () => {
-    if (!group) return;
-
+  const tryToUnarchiveGroup = (group: GroupWithMembers) => {
     openAlert({
       title: '그룹 숨김 해제',
       description: (
@@ -116,8 +108,8 @@ export function useGroupDetailPageActions({ group }: Args) {
     });
   };
 
-  const tryToMoveOutFromGroup = () => {
-    if (!group) return;
+  const tryToMoveOutFromGroup = (group: GroupWithMembers) => {
+    if (!loggedInUser) return;
 
     openAlert({
       title: '그룹에서 나가기',
@@ -131,7 +123,7 @@ export function useGroupDetailPageActions({ group }: Args) {
         try {
           await expelGroupMember({
             groupId: group.id,
-            memberId: loggedInUserId!,
+            memberId: loggedInUser.id,
           });
           toast({
             description: `${group.name} 그룹에서 나왔습니다.`,
@@ -154,7 +146,3 @@ export function useGroupDetailPageActions({ group }: Args) {
     tryToMoveOutFromGroup,
   };
 }
-
-type Args = {
-  group?: GroupWithMembers;
-};

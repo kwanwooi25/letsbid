@@ -12,9 +12,9 @@ import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useCategorizedAuctionCases } from '../useCategorizedAuctionCases';
 import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import AuctionCaseListItem from './ListItem';
+import { useCategorizedAuctionCases } from './useCategorizedAuctionCases';
 
 export default function AuctionCaseList({ isAbleToCreateAuctionCase }: Props) {
   const params = useParams();

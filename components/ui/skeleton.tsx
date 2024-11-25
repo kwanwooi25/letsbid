@@ -25,11 +25,13 @@ function PageHeaderSkeleton({
   title,
   backButton,
   actionButtonCount = 0,
+  actionButtonType = 'default',
 }: PropsWithChildren<{
   className?: ComponentProps<typeof PageHeader>['className'];
   title?: ComponentProps<typeof PageHeader>['title'];
   backButton?: boolean;
   actionButtonCount?: number;
+  actionButtonType?: 'default' | 'icon';
 }>) {
   return (
     <PageHeader
@@ -40,7 +42,13 @@ function PageHeaderSkeleton({
       {children}
       {actionButtonCount > 0 &&
         Array.from(Array(actionButtonCount)).map((n, i) => (
-          <Skeleton key={`${n}_${i}`} className="h-10 w-14" />
+          <Skeleton
+            key={`${n}_${i}`}
+            className={cn(
+              actionButtonType === 'default' && 'h-10 w-14',
+              actionButtonType === 'icon' && 'w-10 h-10 rounded-full',
+            )}
+          />
         ))}
     </PageHeader>
   );

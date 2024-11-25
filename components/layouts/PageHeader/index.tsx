@@ -41,7 +41,7 @@ export default function PageHeader({
   return (
     <div
       className={cn(
-        'flex items-start flex-col sm:flex-row sm:items-center justify-between gap-2 p-4 mx-auto sticky bg-background z-header min-h-[72px]',
+        'flex items-center justify-between gap-2 p-4 mx-auto sticky bg-background z-header min-h-[72px]',
         className,
       )}
       style={{ top: GNB_HEIGHT }}

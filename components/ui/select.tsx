@@ -78,6 +78,11 @@ const SelectContent = React.forwardRef<
          * @link https://github.com/shadcn-ui/ui/issues/486#issuecomment-2198803684
          */
         instance.ontouchstart = (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        };
+        instance.ontouchend = (e) => {
+          e.stopPropagation();
           e.preventDefault();
         };
       }}

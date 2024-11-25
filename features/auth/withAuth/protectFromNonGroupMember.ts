@@ -18,6 +18,8 @@ export async function protectFromNonGroupMember({ session }: Args) {
   const queryClient = getQueryClient();
   const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(groupId));
 
+  if (!!groupId && !group) return redirect(PATHS.GROUP, RedirectType.replace);
+
   if (
     !!childPath &&
     group.members.filter((member) => member.userId === session?.user?.id).length <= 0
