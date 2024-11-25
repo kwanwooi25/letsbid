@@ -24,6 +24,7 @@ export async function POST(req: NextRequest, { params }: { params: { auctionCase
         auctionCaseId: params.auctionCaseId,
         authorId: user.id,
       },
+      include: DEFAULT_ARTICLE_INCLUDE,
     });
     return handleSuccess({ data: createdArticle, status: HttpStatusCode.Created });
   } catch (e) {

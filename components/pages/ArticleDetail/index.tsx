@@ -5,6 +5,7 @@ import WysiwygViewer from '@/components/common/WysiwygViewer';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
+import ArticleDetailMenu from '@/features/article/ArticleDetailMenu';
 import {
   likeArticleMutaionOptions,
   unlikeArticleMutaionOptions,
@@ -13,18 +14,14 @@ import {
   getArticleDetailQueryOptions,
   getLikesOnArticleQueryOptions,
 } from '@/features/article/query';
-import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { ThumbsUp } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
-import { useAuctionCaseDetailActions } from '../AuctionCase/useAuctionCaseDetailActions';
-import { useAuctionCaseDetailRouter } from '../AuctionCase/useAuctionCaseDetailRouter';
 
 export default function ArticleDetail() {
-  const { loggedInUser } = useLoggedInUser();
   const params = useParams();
   const articleId = params.articleId as string;
   const auctionCaseId = params.auctionCaseId as string;
@@ -34,15 +31,12 @@ export default function ArticleDetail() {
   });
   const { totalLikeCount = 0, isMeLiked = false } = likesOnArticle ?? {};
 
-  const { moveToEditArticle } = useAuctionCaseDetailRouter({ auctionCase: article?.auctionCase });
-  const { tryToDeleteArticle } = useAuctionCaseDetailActions({ auctionCase: article?.auctionCase });
   const { mutateAsync: likeArticle } = useMutation(likeArticleMutaionOptions);
   const { mutateAsync: unlikeArticle } = useMutation(unlikeArticleMutaionOptions);
 
   if (!article) return null;
 
   const { auctionCase, title, contentHtml, author, updatedAt } = article;
-  const isMyArticle = author.id === loggedInUser?.id;
 
   const toggleLike = () => {
     const action = isMeLiked ? unlikeArticle : likeArticle;
@@ -61,16 +55,7 @@ export default function ArticleDetail() {
         }
         backButton
       >
-        {isMyArticle && (
-          <div className="flex items-center gap-2">
-            <Button type="button" onClick={() => moveToEditArticle(article.id)}>
-              수정
-            </Button>
-            <Button type="button" variant="destructive" onClick={() => tryToDeleteArticle(article)}>
-              삭제
-            </Button>
-          </div>
-        )}
+        <ArticleDetailMenu article={article} />
       </PageHeader>
       <PageBody className="max-w-3xl flex flex-col gap-4">
         <div className="flex items-center justify-between">
