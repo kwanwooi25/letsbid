@@ -2,10 +2,10 @@
 
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
-import Icon from '@/components/ui/icon';
 import { useAuctionCaseRouter } from '@/features/auction-case/useAuctionCaseRouter';
 import { GroupWithMembers } from '@/features/group/types';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { LucideFilePlus2 } from 'lucide-react';
 import { useGroupDetailTabs } from '../useGroupDetailTabs';
 import GroupDetailTabsList from './GroupDetailTabsList';
 
@@ -20,7 +20,7 @@ export default function GroupDetailPageToolbar({ group }: Props) {
       <GroupDetailTabsList />
       {(isGroupHost || isViceGroupHost) && !isArchived && tab === 'auctionCases' && (
         <Button className="lg:w-full" onClick={() => moveToCreateAuctionCase(group?.id)}>
-          <Icon name="file-plus-2" className="w-4 h-4 mr-2" />
+          <LucideFilePlus2 className="w-4 h-4 mr-2" />
           경매 사건 추가
         </Button>
       )}

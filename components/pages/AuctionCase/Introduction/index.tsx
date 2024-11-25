@@ -2,11 +2,11 @@
 
 import DetailRow from '@/components/common/DetailRow';
 import Divider from '@/components/ui/divider';
-import Icon from '@/components/ui/icon';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { formatDateTime } from '@/lib/datetime';
 import { isValidNumber, squareMeterToPY } from '@/lib/number';
 import { cn } from '@/lib/utils';
+import { LucideCircleCheckBig, LucideCircleX } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -68,9 +68,9 @@ export default function AuctionCaseIntroduction({ auctionCase }: Props) {
       <span className="flex items-center">
         엘베
         {hasElevator ? (
-          <Icon name="circle-check-big" className="w-4 h-4 ml-1 text-green-500" />
+          <LucideCircleCheckBig className="w-4 h-4 ml-1 text-green-500" />
         ) : (
-          <Icon name="circle-x" className="w-4 h-4 ml-1 text-destructive" />
+          <LucideCircleX className="w-4 h-4 ml-1 text-destructive" />
         )}
       </span>
     );

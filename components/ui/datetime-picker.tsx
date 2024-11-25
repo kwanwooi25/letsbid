@@ -9,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 import { add, format } from 'date-fns';
 import { type Locale, enUS } from 'date-fns/locale';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import * as React from 'react';
 import { useImperativeHandle, useRef } from 'react';
 
@@ -20,7 +21,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { DayPicker } from 'react-day-picker';
-import Icon from './icon';
 
 // ---------- utils start ----------
 /**
@@ -291,12 +291,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Chevron: ({ ...props }) => (
-          <Icon
-            name={props.orientation === 'left' ? 'chevron-left' : 'chevron-right'}
-            className="w-4 h-4"
-          />
-        ),
+        Chevron: ({ ...props }) =>
+          props.orientation === 'left' ? (
+            <ChevronLeft className="h-4 w-4" />
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          ),
         MonthCaption: ({ calendarMonth }) => {
           return (
             <div className="inline-flex gap-2">
@@ -554,7 +554,7 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
     return (
       <div className="flex items-center justify-center gap-2">
         <label htmlFor="datetime-picker-hour-input" className="cursor-pointer">
-          <Icon name="clock" className="mr-2 h-4 w-4" />
+          <Clock className="mr-2 h-4 w-4" />
         </label>
         <TimePickerInput
           picker={hourCycle === 24 ? 'hours' : '12hours'}
@@ -724,7 +724,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
             )}
             ref={buttonRef}
           >
-            <Icon name="calendar" className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4" />
             {value ? (
               format(value, hourCycle === 24 ? initHourFormat.hour24 : initHourFormat.hour12, {
                 locale: loc,

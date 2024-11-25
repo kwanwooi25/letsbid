@@ -6,12 +6,12 @@ import Pagination from '@/components/common/Pagination';
 import { useCurrentPage } from '@/components/common/Pagination/useCurrentPage';
 import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { Button } from '@/components/ui/button';
-import Icon from '@/components/ui/icon';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
 import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
 import { useAuctionCaseRouter } from '@/features/auction-case/useAuctionCaseRouter';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { LucideFilePlus2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import AuctionCaseListItem from './ListItem';
 import { useCategorizedAuctionCases } from './useCategorizedAuctionCases';
@@ -38,7 +38,7 @@ export default function AuctionCaseList({ isAbleToCreateAuctionCase }: Props) {
         {isAbleToCreateAuctionCase && (
           <p>
             <Button className="self-end" onClick={() => moveToCreateAuctionCase(groupId)}>
-              <Icon name="file-plus-2" className="w-4 h-4 mr-2" />
+              <LucideFilePlus2 className="w-4 h-4 mr-2" />
               경매 사건 추가
             </Button>{' '}
             버튼을 눌러 사건을 추가해주세요

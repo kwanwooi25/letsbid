@@ -10,7 +10,6 @@ import {
   DialogTitle,
   ScrollableDialogContent,
 } from '@/components/ui/dialog';
-import Icon from '@/components/ui/icon';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
@@ -26,6 +25,7 @@ import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { formatPhoneNumber } from '@/lib/string';
 import { useMutation } from '@tanstack/react-query';
 import uniq from 'lodash/uniq';
+import { LucideUserMinus2 } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function MemberListItem({ member, group }: Props) {
@@ -184,7 +184,7 @@ export default function MemberListItem({ member, group }: Props) {
                   size="icon"
                   onClick={handleClickExpelMember}
                 >
-                  <Icon name="user-minus" />
+                  <LucideUserMinus2 />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>내보내기</TooltipContent>

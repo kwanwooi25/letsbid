@@ -7,7 +7,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Icon from '@/components/ui/icon';
+import {
+  LucideEdit2,
+  LucideEye,
+  LucideEyeOff,
+  LucideLogOut,
+  LucideMoreVertical,
+  LucideTrash2,
+} from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
 import { GroupWithMembers } from './types';
 import { useGroupActions } from './useGroupActions';
@@ -32,7 +39,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
           trigger
         ) : (
           <Button className={triggerClassName} variant="ghost" size="icon">
-            <Icon name="ellipsis-vertical" className="w-6 h-6" />
+            <LucideMoreVertical className="w-6 h-6" />
           </Button>
         )}
       </DropdownMenuTrigger>
@@ -45,7 +52,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
               moveToEditGroup(group.id);
             }}
           >
-            <Icon name="pen" className="mr-2 h-4 w-4" />
+            <LucideEdit2 className="mr-2 h-4 w-4" />
             <span>그룹 수정</span>
           </DropdownMenuItem>
         )}
@@ -56,7 +63,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
               tryToArchiveGroup(group);
             }}
           >
-            <Icon name="eye-off" className="mr-2 h-4 w-4" />
+            <LucideEyeOff className="mr-2 h-4 w-4" />
             <span>그룹 숨김</span>
           </DropdownMenuItem>
         )}
@@ -67,7 +74,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
               tryToUnarchiveGroup(group);
             }}
           >
-            <Icon name="eye" className="mr-2 h-4 w-4" />
+            <LucideEye className="mr-2 h-4 w-4" />
             <span>그룹 숨김 해제</span>
           </DropdownMenuItem>
         )}
@@ -79,7 +86,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
               tryToDeleteGroup(group);
             }}
           >
-            <Icon name="trash-2" className="mr-2 h-4 w-4" />
+            <LucideTrash2 className="mr-2 h-4 w-4" />
             <span>그룹 삭제</span>
           </DropdownMenuItem>
         )}
@@ -91,7 +98,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
               tryToMoveOutFromGroup(group);
             }}
           >
-            <Icon name="log-out" className="mr-2 h-4 w-4" />
+            <LucideLogOut className="mr-2 h-4 w-4" />
             <span>그룹 나가기</span>
           </DropdownMenuItem>
         )}
