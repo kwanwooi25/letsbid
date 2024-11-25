@@ -6,6 +6,7 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
+import { useGroupRouter } from '@/features/group/useGroupRouter';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
@@ -32,6 +33,7 @@ export default function AuctionCase() {
   const { isScrolled } = useWindowScroll();
 
   const { tab, handleTabChange } = useAuctionCaseDetailTabs();
+  const { moveToGroupDetail } = useGroupRouter();
 
   useInterval(() => {
     setStatus(getAuctionCaseStatus(auctionCase));
@@ -55,6 +57,7 @@ export default function AuctionCase() {
       <PageHeader
         className={cn('max-w-2xl min-h-[80px] lg:mx-[176px]')}
         backButton
+        onBackButtonClick={() => moveToGroupDetail(auctionCase.groupId)}
         title={<AuctionCaseTitle auctionCase={auctionCase} />}
         hideBottomBorderOnScroll
       >

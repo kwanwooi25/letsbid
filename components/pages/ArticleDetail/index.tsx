@@ -15,6 +15,7 @@ import {
   getArticleDetailQueryOptions,
   getLikesOnArticleQueryOptions,
 } from '@/features/article/query';
+import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
@@ -35,6 +36,8 @@ export default function ArticleDetail() {
   const { mutateAsync: likeArticle } = useMutation(likeArticleMutaionOptions);
   const { mutateAsync: unlikeArticle } = useMutation(unlikeArticleMutaionOptions);
 
+  const { moveToArticleList } = useArticleRouter();
+
   if (!article) return null;
 
   const { isPublished, auctionCase, title, contentHtml, author, updatedAt } = article;
@@ -48,6 +51,8 @@ export default function ArticleDetail() {
     <div className="max-w-2xl lg:max-w-5xl mx-auto">
       <PageHeader
         className="lg:mx-[176px]"
+        backButton
+        onBackButtonClick={() => moveToArticleList(auctionCase)}
         title={
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 font-bold">
@@ -65,7 +70,6 @@ export default function ArticleDetail() {
             <span className="text-sm font-semibold opacity-50">{auctionCase!.caseName}</span>
           </div>
         }
-        backButton
       >
         <ArticleMenu article={article} />
       </PageHeader>

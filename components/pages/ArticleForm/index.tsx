@@ -68,13 +68,13 @@ export default function ArticleForm({ auctionCaseId, articleId }: Props) {
       <form className="max-w-2xl lg:max-w-5xl mx-auto">
         <PageHeader
           className="px-4 lg:mx-[176px]"
+          backButton
           title={
             <div className="flex flex-col gap-1">
               <span className="text-lg font-bold">{formTitle}</span>
               <span className="text-sm font-semibold opacity-50">{auctionCase!.caseName}</span>
             </div>
           }
-          backButton
         >
           <div className="h-[40px] flex items-center space-x-2 shrink-0">
             <Switch
