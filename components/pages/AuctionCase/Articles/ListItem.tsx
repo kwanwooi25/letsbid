@@ -16,16 +16,10 @@ export default function ArticleListItem({ article }: Props) {
 
   const { moveToArticleDetail } = useArticleRouter();
 
-  const handleClick = () => {
-    if (!isPublished) return;
-
-    moveToArticleDetail(article);
-  };
-
   return (
     <ListItem
       className={cn('flex-col', !isPublished && 'opacity-85 border-dashed')}
-      onClick={handleClick}
+      onClick={() => moveToArticleDetail(article)}
     >
       <div className="w-full flex items-center justify-between gap-4">
         <div className="text-base min-h-[24px] sm:text-lg sm:min-h-[28px] font-bold flex items-center gap-2">

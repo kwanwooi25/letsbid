@@ -37,14 +37,23 @@ export function useArticleActions() {
     }
   };
 
-  const updateArticle = async (formValues: ArticleFormSchema) => {
+  const updateArticle = async (
+    formValues: ArticleFormSchema,
+    options?: {
+      successMessage?: string;
+      moveToPreviousPageOnSuccess?: boolean;
+    },
+  ) => {
+    const { successMessage = '조사 내용 수정 완료', moveToPreviousPageOnSuccess = true } =
+      options ?? {};
+
     try {
       await updateArticleMutation(formValues);
       toast({
-        title: '조사 내용 수정 완료',
+        title: successMessage,
         variant: 'success',
       });
-      moveToPreviousPage();
+      moveToPreviousPageOnSuccess && moveToPreviousPage();
     } catch (error) {
       handleAxiosError(error);
     }

@@ -5,6 +5,7 @@ import WysiwygViewer from '@/components/common/WysiwygViewer';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
+import { Chip } from '@/components/ui/chip';
 import ArticleMenu from '@/features/article/ArticleMenu';
 import {
   likeArticleMutaionOptions,
@@ -36,7 +37,7 @@ export default function ArticleDetail() {
 
   if (!article) return null;
 
-  const { auctionCase, title, contentHtml, author, updatedAt } = article;
+  const { isPublished, auctionCase, title, contentHtml, author, updatedAt } = article;
 
   const toggleLike = () => {
     const action = isMeLiked ? unlikeArticle : likeArticle;
@@ -49,7 +50,18 @@ export default function ArticleDetail() {
         className="lg:mx-[176px]"
         title={
           <div className="flex flex-col gap-1">
-            <span className="text-lg font-bold">조사 내용</span>
+            <div className="flex items-center gap-2 font-bold">
+              {!isPublished && (
+                <Chip
+                  className="text-sm text-secondary-foreground/50"
+                  size="sm"
+                  variant="secondary"
+                >
+                  임시저장
+                </Chip>
+              )}
+              <span className="text-lg">조사 내용</span>
+            </div>
             <span className="text-sm font-semibold opacity-50">{auctionCase!.caseName}</span>
           </div>
         }

@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
-import { LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
+import { LucideBookOpen, LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
 import { ArticleWithAuctionCaseAuthor } from './types';
 import { useArticleActions } from './useArticleActions';
@@ -17,9 +17,10 @@ import { useArticleRouter } from './useArticleRouter';
 export default function ArticleMenu({ className, trigger, triggerClassName, article }: Props) {
   const { loggedInUser } = useLoggedInUser();
   const { moveToEditArticle } = useArticleRouter();
-  const { tryToDeleteArticle } = useArticleActions();
+  const { updateArticle, tryToDeleteArticle } = useArticleActions();
 
-  const isMyArticle = loggedInUser?.id === article.authorId;
+  const { id, isPublished, authorId } = article;
+  const isMyArticle = loggedInUser?.id === authorId;
 
   if (!isMyArticle) return null;
 
@@ -36,6 +37,23 @@ export default function ArticleMenu({ className, trigger, triggerClassName, arti
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className={className}>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            updateArticle(
+              { id, isPublished: !isPublished },
+              {
+                successMessage: isPublished
+                  ? '조사 내용을 게시하지 않습니다'
+                  : '조사 내용을 게시합니다',
+                moveToPreviousPageOnSuccess: false,
+              },
+            );
+          }}
+        >
+          <LucideBookOpen className="mr-2 h-4 w-4" />
+          <span>{isPublished ? '게시 해제' : '게시하기'}</span>
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={(e) => {
             e.stopPropagation();
