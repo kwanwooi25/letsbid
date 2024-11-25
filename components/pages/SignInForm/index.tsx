@@ -4,7 +4,6 @@ import KakaoIcon from '@/components/common/KakaoIcon';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
 import { Form, InputFormField } from '@/components/ui/form';
-import Icon from '@/components/ui/icon';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { loginUserMutationOptions } from '@/features/user/mutation';
@@ -13,6 +12,7 @@ import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { useCreateQueryString } from '@/hooks/useCreateQueryString';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { LucideMail, LucideUserPlus } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -96,12 +96,12 @@ export default function SignInForm() {
           />
 
           <Button isLoading={isSubmitting} size="lg">
-            {!isSubmitting && <Icon name="mail" className="mr-2 h-4 w-4" />}
+            {!isSubmitting && <LucideMail className="mr-2 h-4 w-4" />}
             이메일 로그인
           </Button>
 
           <Button onClick={moveToSignUp} type="button" variant="link">
-            <Icon name="user-plus" className="mr-2 h-4 w-4" />
+            <LucideUserPlus className="mr-2 h-4 w-4" />
             이메일로 가입
           </Button>
         </form>

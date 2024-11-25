@@ -2,7 +2,6 @@
 
 import Logo from '@/components/common/Logo';
 import { Button } from '@/components/ui/button';
-import Icon from '@/components/ui/icon';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -13,6 +12,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { NAV_LIST, PATHS } from '@/const/paths';
 import { cn } from '@/lib/utils';
+import { LucideMenu } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -27,7 +27,7 @@ export default function MobileNavigation() {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button size="icon" variant="ghost" type="button">
-          <Icon name="menu" />
+          <LucideMenu />
         </Button>
       </SheetTrigger>
       <SheetContent

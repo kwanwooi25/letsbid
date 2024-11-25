@@ -3,7 +3,6 @@
 import PageBody from '@/components/layouts/PageBody';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
-import Icon from '@/components/ui/icon';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
@@ -13,6 +12,7 @@ import { useAxiosError } from '@/hooks/useAxiosError';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { LucideLock, LucideLockOpen } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -79,8 +79,8 @@ export default function NeedToJoinGroup() {
               !isPrivate && 'bg-green-100',
             )}
           >
-            {isPrivate && <Icon name="lock" className="w-3 h-3 text-destructive" />}
-            {!isPrivate && <Icon name="lock-open" className="w-3 h-3 text-green-700" />}
+            {isPrivate && <LucideLock className="w-3 h-3 text-destructive" />}
+            {!isPrivate && <LucideLockOpen className="w-3 h-3 text-green-700" />}
           </div>
         </h5>
         {!!description && <p className="font-semibold text-foreground/70">{description}</p>}

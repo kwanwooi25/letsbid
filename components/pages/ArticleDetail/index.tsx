@@ -6,7 +6,6 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import Icon from '@/components/ui/icon';
 import ArticleMenu from '@/features/article/ArticleMenu';
 import {
   likeArticleMutaionOptions,
@@ -22,6 +21,7 @@ import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
+import { ThumbsUp } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -103,8 +103,7 @@ export default function ArticleDetail() {
               variant="ghost"
               size="icon"
             >
-              <Icon
-                name="thumbs-up"
+              <ThumbsUp
                 className={cn('w-5 h-5', isMeLiked ? 'animate-like' : 'animate-unlike')}
                 fill={
                   isMeLiked ? (resolvedTheme === 'dark' ? '#075985' : '#bae6fd') : 'transparent'

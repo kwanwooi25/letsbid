@@ -3,12 +3,12 @@ import MeBadge from '@/components/common/MeBadge';
 import WithTooltip from '@/components/common/WithTooltip';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import Icon from '@/components/ui/icon';
 import { BidWithUserAndAuctionCase } from '@/features/bid/types';
 import { useBidActions } from '@/features/bid/useBidActions';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
+import { LucideScrollText, LucideUserPlus, LucideUserX } from 'lucide-react';
 
 export default function AuctionResultItem({ bid, rank, actualRank, openBidDetail }: Props) {
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
@@ -57,27 +57,27 @@ export default function AuctionResultItem({ bid, rank, actualRank, openBidDetail
         <div className="flex items-center">
           <WithTooltip tooltip="입찰표 보기">
             <Button size="icon" variant="ghost" onClick={openBidDetail}>
-              <Icon name="scroll-text" />
+              <LucideScrollText />
             </Button>
           </WithTooltip>
           {isGroupAdmin && !isExcluded && (
             <WithTooltip tooltip="입찰 제외 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToExcludeBid(bid)}>
-                <Icon name="user-x" />
+                <LucideUserX />
               </Button>
             </WithTooltip>
           )}
           {isExcluded && (isGroupAdmin || isMe) && (
             <WithTooltip tooltip="입찰 참여 처리">
               <Button size="icon" variant="ghost" onClick={() => tryToIncludeBid(bid)}>
-                <Icon name="user-plus" />
+                <LucideUserPlus />
               </Button>
             </WithTooltip>
           )}
           {!isExcluded && !isGroupAdmin && isMe && (
             <WithTooltip tooltip="입찰 포기">
               <Button size="icon" variant="ghost" onClick={() => tryToGiveUpBid(bid)}>
-                <Icon name="user-x" />
+                <LucideUserX />
               </Button>
             </WithTooltip>
           )}

@@ -1,10 +1,10 @@
 'use client';
 
 import { GNB_HEIGHT } from '@/components/layouts/const';
-import Icon from '@/components/ui/icon';
 import { useCallbackUrl } from '@/hooks/useCallbackUrl';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
+import { LucideChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Button } from '../../ui/button';
@@ -53,7 +53,7 @@ export default function PageHeader({
       <div className="flex items-center gap-2 flex-1">
         {!!backButton && (
           <Button onClick={handleClickBackButton} variant="ghost" size="icon" type={'button'}>
-            <Icon name="chevron-left" />
+            <LucideChevronLeft />
           </Button>
         )}
         {!!backButton && typeof backButton !== 'boolean' && backButton}

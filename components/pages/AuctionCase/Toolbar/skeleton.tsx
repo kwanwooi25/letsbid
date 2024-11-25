@@ -1,8 +1,8 @@
 import PageToolbar from '@/components/layouts/PageToolbar';
 import Divider from '@/components/ui/divider';
 import { Skeleton } from '@/components/ui/skeleton';
+import { LucideChevronRight } from 'lucide-react';
 import AuctionCaseDetailTabsList from './AuctionCaseDetailTabsList';
-import Icon from '@/components/ui/icon';
 
 export default function AuctionCasePageToolbarSkeleton() {
   return (
@@ -18,7 +18,7 @@ export default function AuctionCasePageToolbarSkeleton() {
           <div className="flex flex-col gap-1 lg:w-full lg:items-center">
             <div className="flex items-center gap-2 lg:flex-col">
               <Skeleton className="h-[16px] sm:h-[20px] w-[110px]" />
-              <Icon name="chevron-right" className="w-3 h-3 lg:rotate-90 text-primary/70" />
+              <LucideChevronRight className="w-3 h-3 lg:rotate-90 text-primary/70" />
               <Skeleton className="h-[16px] sm:h-[20px] w-[110px]" />
             </div>
             <Divider className="w-full my-1 lg:my-4" />

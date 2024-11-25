@@ -7,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import Icon from '@/components/ui/icon';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import { AuctionCaseLike } from './types';
@@ -40,7 +40,7 @@ export default function AuctionCaseMenu({
           trigger
         ) : (
           <Button className={triggerClassName} variant="ghost" size="icon">
-            <Icon name="ellipsis-vertical" className="w-6 h-6" />
+            <LucideMoreVertical className="w-6 h-6" />
           </Button>
         )}
       </DropdownMenuTrigger>
@@ -53,7 +53,7 @@ export default function AuctionCaseMenu({
               moveToEditAuctionCase(auctionCase);
             }}
           >
-            <Icon name="pen" className="mr-2 h-4 w-4" />
+            <LucideEdit2 className="mr-2 h-4 w-4" />
             <span>경매 사건 수정</span>
           </DropdownMenuItem>
         )}
@@ -65,7 +65,7 @@ export default function AuctionCaseMenu({
               tryToDeleteAuctionCase(auctionCase);
             }}
           >
-            <Icon name="trash-2" className="mr-2 h-4 w-4" />
+            <LucideTrash2 className="mr-2 h-4 w-4" />
             <span>경매 사건 삭제</span>
           </DropdownMenuItem>
         )}
