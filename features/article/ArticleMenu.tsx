@@ -10,19 +10,14 @@ import {
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
-import { ArticleWithAuctionCaseAuthor } from '../types';
-import { useArticleDetailMenuRouter } from './useArticleDetailMenuRouter';
-import { useArticleDetailMenuActions } from './useAuctionCaseDetailMenuActions';
+import { ArticleWithAuctionCaseAuthor } from './types';
+import { useArticleActions } from './useArticleActions';
+import { useArticleRouter } from './useArticleRouter';
 
-export default function ArticleDetailMenu({
-  className,
-  trigger,
-  triggerClassName,
-  article,
-}: Props) {
+export default function ArticleMenu({ className, trigger, triggerClassName, article }: Props) {
   const { loggedInUser } = useLoggedInUser();
-  const { moveToEditArticle } = useArticleDetailMenuRouter();
-  const { tryToDeleteArticle } = useArticleDetailMenuActions();
+  const { moveToEditArticle } = useArticleRouter();
+  const { tryToDeleteArticle } = useArticleActions();
 
   const isMyArticle = loggedInUser?.id === article.authorId;
 

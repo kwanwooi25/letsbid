@@ -5,7 +5,7 @@ import ListItem from '@/components/common/ListItem';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
-import GroupDetailMenu from '@/features/group/GroupDetailMenu';
+import GroupMenu from '@/features/group/GroupMenu';
 import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
@@ -97,7 +97,7 @@ export default function GroupListItem({ group }: Props) {
           )}
         </div>
       </div>
-      <GroupDetailMenu triggerClassName="shrink-0" group={group} />
+      <GroupMenu triggerClassName="shrink-0" group={group} />
     </ListItem>
   );
 }

@@ -3,7 +3,7 @@
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import AuctionCaseDetailMenu from '@/features/auction-case/AuctionCaseDetailMenu';
+import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
@@ -46,13 +46,17 @@ export default function AuctionCase() {
   if (!auctionCase) return <AuctionCaseSkeleton />;
 
   return (
-    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+    <Tabs
+      defaultValue={tab}
+      value={tab}
+      onValueChange={(value) => handleTabChange(value as typeof tab)}
+    >
       <PageHeader
         className={cn('max-w-2xl min-h-[80px]')}
         backButton
         title={<AuctionCaseTitle auctionCase={auctionCase} />}
       >
-        <AuctionCaseDetailMenu auctionCase={auctionCase} />
+        <AuctionCaseMenu auctionCase={auctionCase} />
       </PageHeader>
       <PageBody className="max-w-2xl pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-8 lg:items-start">
         <div

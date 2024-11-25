@@ -8,16 +8,16 @@ import {
   deleteGroupMutationOptions,
   expelGroupMemberMutationOptions,
   unarchiveGroupMutationOptions,
-} from '../mutation';
-import { GroupWithMembers } from '../types';
-import { useGroupDetailMenuRouter } from './useGroupDetailMenuRouter';
+} from './mutation';
+import { GroupWithMembers } from './types';
+import { useGroupRouter } from './useGroupRouter';
 
-export function useGroupDetailMenuActions() {
+export function useGroupActions() {
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
   const { loggedInUser } = useLoggedInUser();
-  const { moveToGroupList } = useGroupDetailMenuRouter();
+  const { moveToGroupList } = useGroupRouter();
 
   const { mutateAsync: deleteGroup } = useMutation(deleteGroupMutationOptions);
   const { mutateAsync: archiveGroup } = useMutation(archiveGroupMutationOptions);

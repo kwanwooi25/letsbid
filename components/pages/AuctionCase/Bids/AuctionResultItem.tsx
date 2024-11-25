@@ -3,29 +3,20 @@ import MeBadge from '@/components/common/MeBadge';
 import WithTooltip from '@/components/common/WithTooltip';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import { AuctionCaseLike } from '@/features/auction-case/types';
-import { BidWithUser } from '@/features/bid/types';
+import { BidWithUserAndAuctionCase } from '@/features/bid/types';
+import { useBidActions } from '@/features/bid/useBidActions';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { LucideScrollText, LucideUserPlus, LucideUserX } from 'lucide-react';
-import { useAuctionCaseDetailActions } from '../useAuctionCaseDetailActions';
 
-export default function AuctionResultItem({
-  auctionCase,
-  bid,
-  rank,
-  actualRank,
-  openBidDetail,
-}: Props) {
+export default function AuctionResultItem({ bid, rank, actualRank, openBidDetail }: Props) {
   const { user, biddingPrice, isExcluded, excludedReason } = bid;
   const { isGroupAdmin } = useIsGroupMember();
   const { loggedInUser } = useLoggedInUser();
   const isMe = loggedInUser?.id === user?.id;
 
-  const { tryToExcludeBid, tryToIncludeBid, tryToGiveUpBid } = useAuctionCaseDetailActions({
-    auctionCase,
-  });
+  const { tryToExcludeBid, tryToIncludeBid, tryToGiveUpBid } = useBidActions();
 
   return (
     <div className="flex items-center justify-between gap-4">
@@ -97,8 +88,7 @@ export default function AuctionResultItem({
 }
 
 type Props = {
-  auctionCase: AuctionCaseLike;
-  bid: BidWithUser;
+  bid: BidWithUserAndAuctionCase;
   rank: number;
   actualRank: number;
   openBidDetail: () => void;

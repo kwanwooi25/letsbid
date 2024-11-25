@@ -5,7 +5,7 @@ import WysiwygViewer from '@/components/common/WysiwygViewer';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
-import ArticleDetailMenu from '@/features/article/ArticleDetailMenu';
+import ArticleMenu from '@/features/article/ArticleMenu';
 import {
   likeArticleMutaionOptions,
   unlikeArticleMutaionOptions,
@@ -55,7 +55,7 @@ export default function ArticleDetail() {
         }
         backButton
       >
-        <ArticleDetailMenu article={article} />
+        <ArticleMenu article={article} />
       </PageHeader>
       <PageBody className="max-w-3xl flex flex-col gap-4">
         <div className="flex items-center justify-between">

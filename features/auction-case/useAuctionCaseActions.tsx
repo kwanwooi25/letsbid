@@ -2,18 +2,18 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
 import { deleteAuctionCaseMutationOptions } from '@/features/auction-case/mutation';
 import { AuctionCaseLike } from '@/features/auction-case/types';
+import { useGroupRouter } from '@/features/group/useGroupRouter';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useMutation } from '@tanstack/react-query';
-import { useAuctionCaseDetailMenuRouter } from './useAuctionCaseDetailMenuRouter';
 
-export function useAuctionCaseDetailMenuActions() {
+export function useAuctionCaseActions() {
   const { openAlert } = useAlert();
   const { toast } = useToast();
   const { handleAxiosError } = useAxiosError();
 
   const { mutateAsync: deleteAuctionCase } = useMutation(deleteAuctionCaseMutationOptions);
 
-  const { moveToGroupDetail } = useAuctionCaseDetailMenuRouter();
+  const { moveToGroupDetail } = useGroupRouter();
 
   const tryToDeleteAuctionCase = (auctionCase: AuctionCaseLike) => {
     const { caseName, id, groupId } = auctionCase;
@@ -39,7 +39,7 @@ export function useAuctionCaseDetailMenuActions() {
             description: '경매 사건이 삭제 되었습니다',
             variant: 'success',
           });
-          moveToGroupDetail(auctionCase);
+          moveToGroupDetail(groupId);
           return true;
         } catch (error) {
           handleAxiosError(error);

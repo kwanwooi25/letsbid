@@ -6,7 +6,7 @@ import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import GroupDetailMenu from '@/features/group/GroupDetailMenu';
+import GroupMenu from '@/features/group/GroupMenu';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
@@ -35,7 +35,11 @@ export default function GroupDetail() {
   const isArchived = !!group.archivedAt;
 
   return (
-    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+    <Tabs
+      defaultValue={tab}
+      value={tab}
+      onValueChange={(value) => handleTabChange(value as typeof tab)}
+    >
       <PageHeader
         className="max-w-2xl"
         backButton
@@ -58,7 +62,7 @@ export default function GroupDetail() {
           </div>
         }
       >
-        <GroupDetailMenu group={group} />
+        <GroupMenu group={group} />
       </PageHeader>
 
       <PageBody className="max-w-2xl w-full pt-0 lg:max-w-5xl lg:grid lg:grid-cols-[160px_1fr_160px] lg:gap-4 lg:items-start">

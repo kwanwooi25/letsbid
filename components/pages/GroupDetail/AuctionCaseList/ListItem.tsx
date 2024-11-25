@@ -4,7 +4,7 @@ import AuctionCaseStatusBadge from '@/components/common/AuctionCaseStatusBadge';
 import ListItem from '@/components/common/ListItem';
 import WithTooltip from '@/components/common/WithTooltip';
 import { PATHS } from '@/const/paths';
-import AuctionCaseDetailMenu from '@/features/auction-case/AuctionCaseDetailMenu';
+import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import {
   getAuctionCaseColor,
@@ -81,7 +81,7 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
           </div>
         </div>
 
-        <AuctionCaseDetailMenu triggerClassName="shrink-0" auctionCase={auctionCase} />
+        <AuctionCaseMenu triggerClassName="shrink-0" auctionCase={auctionCase} />
       </div>
     </ListItem>
   );

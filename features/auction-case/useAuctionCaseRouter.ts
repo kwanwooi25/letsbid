@@ -1,15 +1,16 @@
 import { PATHS } from '@/const/paths';
-import { AuctionCaseLike } from '@/features/auction-case/types';
 import { useCurrentUrl } from '@/hooks/useCurrentUrl';
 import { useRouter } from 'next/navigation';
+import { AuctionCaseLike } from './types';
 
-export function useAuctionCaseDetailMenuRouter() {
+export function useAuctionCaseRouter() {
   const router = useRouter();
   const currentUrl = useCurrentUrl();
 
-  const moveToGroupDetail = (auctionCase: AuctionCaseLike) => {
-    const { groupId } = auctionCase;
-    router.replace(`${PATHS.GROUP}/${groupId}?tab=auctionCases`);
+  const moveToCreateAuctionCase = (groupId?: string) => {
+    if (!groupId) return;
+
+    router.push(`${PATHS.GROUP}/${groupId}${PATHS.CREATE_AUCTION_CASE}?callbackUrl=${currentUrl}`);
   };
 
   const moveToEditAuctionCase = (auctionCase: AuctionCaseLike) => {
@@ -20,7 +21,7 @@ export function useAuctionCaseDetailMenuRouter() {
   };
 
   return {
-    moveToGroupDetail,
+    moveToCreateAuctionCase,
     moveToEditAuctionCase,
   };
 }

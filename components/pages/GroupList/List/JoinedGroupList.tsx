@@ -9,13 +9,13 @@ import { Button } from '@/components/ui/button';
 import { getJoinedGroupListQueryOptions } from '@/features/group/query';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useGroupListRouter } from '../useGroupListRouter';
+import { useGroupListTabs } from '../useGroupListTabs';
 import GroupListItem from './GroupListItem';
 
 export default function JoinedGroupList() {
   const { currentPage } = useCurrentPage();
   const { search } = useSearchInput();
-  const { moveToJoinableGroupList } = useGroupListRouter();
+  const { handleTabChange } = useGroupListTabs();
 
   const { data, isPending } = useSuspenseQuery(
     getJoinedGroupListQueryOptions({ page: currentPage, search }),
@@ -29,7 +29,7 @@ export default function JoinedGroupList() {
       <ListEmpty className="flex flex-col gap-4 py-8">
         <p>참여중인 그룹이 없습니다</p>
         <p>
-          <Button type="button" onClick={moveToJoinableGroupList}>
+          <Button type="button" onClick={() => handleTabChange('joinable')}>
             참여 가능한 그룹
           </Button>
           <span className="ml-2">에서 그룹을 찾아보세요.</span>

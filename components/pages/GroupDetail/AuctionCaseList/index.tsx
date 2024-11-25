@@ -8,11 +8,11 @@ import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
 import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
+import { useAuctionCaseRouter } from '@/features/auction-case/useAuctionCaseRouter';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-import { useGroupDetailRouter } from '../useGroupDetailRouter';
 import AuctionCaseListItem from './ListItem';
 import { useCategorizedAuctionCases } from './useCategorizedAuctionCases';
 
@@ -21,7 +21,7 @@ export default function AuctionCaseList({ isAbleToCreateAuctionCase }: Props) {
   const groupId = params.groupId as string;
   const { currentPage } = useCurrentPage();
   const { search } = useSearchInput();
-  const { moveToCreateAuctionCase } = useGroupDetailRouter();
+  const { moveToCreateAuctionCase } = useAuctionCaseRouter();
   const { data, isPending } = useSuspenseQuery(
     getAuctionCaseListQueryOptions(groupId, { page: currentPage, search }),
   );
@@ -37,7 +37,7 @@ export default function AuctionCaseList({ isAbleToCreateAuctionCase }: Props) {
         <p>표시할 경매 사건이 없습니다</p>
         {isAbleToCreateAuctionCase && (
           <p>
-            <Button className="self-end" onClick={moveToCreateAuctionCase}>
+            <Button className="self-end" onClick={() => moveToCreateAuctionCase(groupId)}>
               <LucideFilePlus2 className="w-4 h-4 mr-2" />
               경매 사건 추가
             </Button>{' '}

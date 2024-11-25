@@ -6,6 +6,7 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { useGroupRouter } from '@/features/group/useGroupRouter';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
@@ -13,7 +14,6 @@ import { Suspense } from 'react';
 import { GROUP_CREATION_ALLOWED_USERS } from './const';
 import GroupListSkeleton from './List/skeleton';
 import GroupListPageToolbar from './Toolbar';
-import { useGroupListRouter } from './useGroupListRouter';
 import {
   GROUP_LIST_TABS,
   GROUP_LIST_TABS_CONTENT,
@@ -24,12 +24,16 @@ import {
 export default function GroupList() {
   const { loggedInUser } = useLoggedInUser();
   const { tab, handleTabChange } = useGroupListTabs();
-  const { moveToCreateGroup } = useGroupListRouter();
+  const { moveToCreateGroup } = useGroupRouter();
   const { search, setSearch } = useSearchInput();
   const { isScrolled } = useWindowScroll();
 
   return (
-    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange}>
+    <Tabs
+      defaultValue={tab}
+      value={tab}
+      onValueChange={(value) => handleTabChange(value as typeof tab)}
+    >
       <PageHeader title="그룹 목록" className="max-w-2xl flex-row items-center">
         <div className="flex items-center gap-2">
           {!!loggedInUser?.email && GROUP_CREATION_ALLOWED_USERS.includes(loggedInUser?.email) && (

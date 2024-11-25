@@ -3,11 +3,11 @@
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
+import { useUserRouter } from '@/features/user/useUserRouter';
 import UserDetail from './UserDetail';
-import { useUserProfileRouter } from './useUserProfileRouter';
 
 export default function UserProfile() {
-  const { moveToEditUserProfile } = useUserProfileRouter();
+  const { moveToEditUserProfile } = useUserRouter();
 
   return (
     <>

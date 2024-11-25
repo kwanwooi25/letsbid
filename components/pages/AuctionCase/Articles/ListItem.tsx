@@ -3,23 +3,23 @@
 import ListItem from '@/components/common/ListItem';
 import UserImage from '@/components/common/UserImage';
 import { Chip } from '@/components/ui/chip';
-import ArticleDetailMenu from '@/features/article/ArticleDetailMenu';
+import ArticleMenu from '@/features/article/ArticleMenu';
 import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
+import { useArticleRouter } from '@/features/article/useArticleRouter';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { ThumbsUp } from 'lucide-react';
-import { useAuctionCaseDetailRouter } from '../useAuctionCaseDetailRouter';
 
 export default function ArticleListItem({ article }: Props) {
-  const { id, title, contentHtml, author, updatedAt, isPublished, auctionCase, _count } = article;
+  const { title, contentHtml, author, updatedAt, isPublished, _count } = article;
   const { likes } = _count;
 
-  const { moveToArticleDetail } = useAuctionCaseDetailRouter({ auctionCase });
+  const { moveToArticleDetail } = useArticleRouter();
 
   const handleClick = () => {
     if (!isPublished) return;
 
-    moveToArticleDetail(id);
+    moveToArticleDetail(article);
   };
 
   return (
@@ -66,7 +66,7 @@ export default function ArticleListItem({ article }: Props) {
           </div>
         </div>
 
-        <ArticleDetailMenu className="shrink-0" article={article} />
+        <ArticleMenu className="shrink-0" article={article} />
       </div>
     </ListItem>
   );

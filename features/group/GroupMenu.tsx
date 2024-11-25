@@ -16,16 +16,16 @@ import {
   LucideTrash2,
 } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
-import { GroupWithMembers } from '../types';
-import { useIsGroupMember } from '../useIsGroupMember';
-import { useGroupDetailMenuActions } from './useGroupDetailMenuActions';
-import { useGroupDetailMenuRouter } from './useGroupDetailMenuRouter';
+import { GroupWithMembers } from './types';
+import { useGroupActions } from './useGroupActions';
+import { useGroupRouter } from './useGroupRouter';
+import { useIsGroupMember } from './useIsGroupMember';
 
-export default function GroupDetailMenu({ className, trigger, triggerClassName, group }: Props) {
+export default function GroupMenu({ className, trigger, triggerClassName, group }: Props) {
   const { isGroupHost, isViceGroupHost, isGroupMember } = useIsGroupMember(group);
-  const { moveToEditGroup } = useGroupDetailMenuRouter();
+  const { moveToEditGroup } = useGroupRouter();
   const { tryToArchiveGroup, tryToUnarchiveGroup, tryToDeleteGroup, tryToMoveOutFromGroup } =
-    useGroupDetailMenuActions();
+    useGroupActions();
 
   const isGroupAdmin = isGroupHost || isViceGroupHost;
   const isArchived = !!group.archivedAt;

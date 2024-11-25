@@ -11,12 +11,12 @@ import { useIsGroupMember } from '@/features/group/useIsGroupMember';
 import { LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
-import { AuctionCaseLike } from '../types';
-import { getAuctionCaseStatus } from '../utils';
-import { useAuctionCaseDetailMenuActions } from './useAuctionCaseDetailMenuActions';
-import { useAuctionCaseDetailMenuRouter } from './useAuctionCaseDetailMenuRouter';
+import { AuctionCaseLike } from './types';
+import { useAuctionCaseActions } from './useAuctionCaseActions';
+import { useAuctionCaseRouter } from './useAuctionCaseRouter';
+import { getAuctionCaseStatus } from './utils';
 
-export default function AuctionCaseDetailMenu({
+export default function AuctionCaseMenu({
   className,
   trigger,
   triggerClassName,
@@ -24,8 +24,8 @@ export default function AuctionCaseDetailMenu({
 }: Props) {
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
   const { isGroupAdmin } = useIsGroupMember(auctionCase.group);
-  const { moveToEditAuctionCase } = useAuctionCaseDetailMenuRouter();
-  const { tryToDeleteAuctionCase } = useAuctionCaseDetailMenuActions();
+  const { moveToEditAuctionCase } = useAuctionCaseRouter();
+  const { tryToDeleteAuctionCase } = useAuctionCaseActions();
 
   useInterval(() => {
     setStatus(getAuctionCaseStatus(auctionCase));

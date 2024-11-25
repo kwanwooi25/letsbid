@@ -78,8 +78,7 @@ export default function AuctionResult({ auctionCase }: Props) {
             return (
               <AuctionResultItem
                 key={bid.id}
-                auctionCase={auctionCase}
-                bid={bid}
+                bid={{ ...bid, auctionCase }}
                 rank={index + 1}
                 actualRank={bidRanks[index]}
                 openBidDetail={openBidDetail(index)}

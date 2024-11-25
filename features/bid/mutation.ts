@@ -7,13 +7,17 @@ import { MutationOptions } from '@tanstack/react-query';
 import axios from 'axios';
 import { auctionCaseQueryKeys } from '../auction-case/queryKey';
 import { bidQueryKeys } from './queryKey';
-import { BidWithUser } from './types';
+import { BidWithUserAndAuctionCase } from './types';
 
-export const placeBidMutationOptions: MutationOptions<BidWithUser, Error, BiddingFormSchema> = {
+export const placeBidMutationOptions: MutationOptions<
+  BidWithUserAndAuctionCase,
+  Error,
+  BiddingFormSchema
+> = {
   mutationFn: async (data) => {
     try {
       const url = getApiUrl(`${API_ROUTE.AUCTION_CASE}/${data.auctionCaseId}/bid`);
-      const res = await axios<SuccessResponse<BidWithUser>>({
+      const res = await axios<SuccessResponse<BidWithUserAndAuctionCase>>({
         method: 'post',
         url,
         data,
@@ -32,14 +36,14 @@ export const placeBidMutationOptions: MutationOptions<BidWithUser, Error, Biddin
 };
 
 export const updateBidMutationOptions: MutationOptions<
-  BidWithUser,
+  BidWithUserAndAuctionCase,
   Error,
   BiddingFormSchema | BidExclusionFormSchema
 > = {
   mutationFn: async (data) => {
     try {
       const url = getApiUrl(`${API_ROUTE.BID}/${data.id}`);
-      const res = await axios<SuccessResponse<BidWithUser>>({
+      const res = await axios<SuccessResponse<BidWithUserAndAuctionCase>>({
         method: 'patch',
         url,
         data,
