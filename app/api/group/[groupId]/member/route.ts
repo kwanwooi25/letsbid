@@ -1,15 +1,14 @@
 import { PaginationMeta } from '@/app/api/types';
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { auth } from '@/features/auth';
 import { DEFAULT_GROUP_MEMBER_LIST_QUERY_OPTIONS } from '@/features/group/const';
 import { GroupMemberListQueryOptions } from '@/features/group/types';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
-import { NextRequest } from 'next/server';
 
-export async function POST(req: NextRequest, { params }: { params: { groupId: string } }) {
+export const POST = auth(async function POST(req, { params }) {
   try {
-    const groupId = params.groupId;
-    await getUserFromSession();
+    const groupId = String(params?.groupId);
     const {
       page = DEFAULT_GROUP_MEMBER_LIST_QUERY_OPTIONS.page,
       per = DEFAULT_GROUP_MEMBER_LIST_QUERY_OPTIONS.per,
@@ -62,4 +61,4 @@ export async function POST(req: NextRequest, { params }: { params: { groupId: st
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

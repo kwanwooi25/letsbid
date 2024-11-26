@@ -68,7 +68,7 @@ export default function AuctionResult({ auctionCase }: Props) {
 
   return (
     <>
-      <div className="w-full max-w-lg mx-auto px-6 py-8 flex flex-col gap-4 border border-primary-foreground shadow-lg">
+      <div className="w-full mx-auto px-6 py-8 flex flex-col gap-4 border border-primary-foreground shadow-lg">
         <h5 className="text-2xl text-center font-bold">입 찰 결 과</h5>
 
         <Divider />

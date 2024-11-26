@@ -1,19 +1,18 @@
 import { hashPassword } from '@/app/api/user/utils';
-import {
-  getUserFromSession,
-  handleFail,
-  handlePrismaClientError,
-  handleSuccess,
-} from '@/app/api/utils';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 
-export async function POST(req: NextRequest, { params }: { params: { groupId: string } }) {
+export const POST = auth(async function POST(req, { params }) {
   try {
-    const user = await getUserFromSession();
-    const userId = user!.id!;
-    const groupId = params.groupId;
+    const user = req.auth?.user;
+    if (!user) {
+      return handleFail({ status: HttpStatusCode.Unauthorized });
+    }
+
+    const { id: userId } = user;
+    const groupId = String(params?.groupId);
     const data = await req.json();
     const group = await prisma.group.findUnique({
       where: { id: groupId },
@@ -54,4 +53,4 @@ export async function POST(req: NextRequest, { params }: { params: { groupId: st
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

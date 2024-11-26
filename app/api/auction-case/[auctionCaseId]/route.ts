@@ -1,22 +1,19 @@
-import {
-  getUserFromSession,
-  handleFail,
-  handlePrismaClientError,
-  handleSuccess,
-} from '@/app/api/utils';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
 import { filterBidDetails } from '@/features/auction-case/utils';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
 import { formToJSON, HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 import { DEFAULT_AUCTION_CASE_INCLUDE } from '../const';
 import { getAuctionCaseDataInput } from '../utils';
 
-export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+export const GET = auth(async function GET(req, { params }) {
   try {
-    const user = await getUserFromSession();
+    const user = req.auth?.user;
+    const auctionCaseId = String(params?.auctionCaseId);
+
     const auctionCase = await prisma.auctionCase.findUnique({
-      where: { id: params.auctionCaseId },
+      where: { id: auctionCaseId },
       include: DEFAULT_AUCTION_CASE_INCLUDE,
     });
     if (!auctionCase) {
@@ -29,17 +26,18 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function PATCH(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+export const PATCH = auth(async function PATCH(req, { params }) {
   try {
-    await getUserFromSession();
+    const auctionCaseId = String(params?.auctionCaseId);
+
     const formData = await req.formData();
     const json = formToJSON(formData) as AuctionCaseFormSchema;
     const data = await getAuctionCaseDataInput(json);
 
     const updatedAuctionCase = await prisma.auctionCase.update({
-      where: { id: params.auctionCaseId },
+      where: { id: auctionCaseId },
       data,
       include: DEFAULT_AUCTION_CASE_INCLUDE,
     });
@@ -48,16 +46,17 @@ export async function PATCH(req: NextRequest, { params }: { params: { auctionCas
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function DELETE(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+export const DELETE = auth(async function DELETE(req, { params }) {
   try {
-    await getUserFromSession();
+    const auctionCaseId = String(params?.auctionCaseId);
+
     await prisma.auctionCase.delete({
-      where: { id: params.auctionCaseId },
+      where: { id: auctionCaseId },
     });
-    return handleSuccess({ data: { id: params.auctionCaseId } });
+    return handleSuccess({ data: { id: auctionCaseId } });
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

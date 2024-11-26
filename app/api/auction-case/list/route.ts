@@ -1,20 +1,15 @@
-import {
-  getUserFromSession,
-  handleFail,
-  handlePrismaClientError,
-  handleSuccess,
-} from '@/app/api/utils';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS } from '@/features/auction-case/const';
 import { AuctionCaseListQueryOptions } from '@/features/auction-case/types';
 import { filterBidDetails } from '@/features/auction-case/utils';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 import { PaginationMeta } from '../../types';
 import { DEFAULT_AUCTION_CASE_INCLUDE } from '../const';
 
-export async function POST(req: NextRequest) {
+export const POST = auth(async function POST(req) {
   try {
     const url = new URL(req.url);
     const groupId = url.searchParams.get('groupId');
@@ -25,8 +20,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const user = await getUserFromSession();
-    const userId = user!.id!;
+    const user = req.auth?.user;
     const {
       page = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.page,
       per = DEFAULT_AUCTION_CASE_LIST_QUERY_OPTIONS.per,
@@ -76,7 +70,7 @@ export async function POST(req: NextRequest) {
     };
 
     const bidFilteredAuctionCases = auctionCases.map((auctionCase) =>
-      filterBidDetails(auctionCase, userId),
+      filterBidDetails(auctionCase, user?.id),
     );
 
     return handleSuccess({
@@ -86,4 +80,4 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

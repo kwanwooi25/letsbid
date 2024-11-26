@@ -1,27 +1,23 @@
 import { DEFAULT_ARTICLE_INCLUDE } from '@/app/api/article/const';
-import {
-  getUserFromSession,
-  handleFail,
-  handlePrismaClientError,
-  handleSuccess,
-} from '@/app/api/utils';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { ArticleFormSchema } from '@/components/pages/ArticleForm/formSchema';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 
-export async function POST(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+export const POST = auth(async function POST(req, { params }) {
   try {
-    const user = await getUserFromSession();
+    const user = req.auth?.user;
+    const auctionCaseId = String(params?.auctionCaseId);
     if (!user) {
-      return handleFail({ message: 'User not found', status: HttpStatusCode.Unauthorized });
+      return handleFail({ status: HttpStatusCode.Unauthorized });
     }
 
     const data = (await req.json()) as ArticleFormSchema;
     const createdArticle = await prisma.article.create({
       data: {
         ...data,
-        auctionCaseId: params.auctionCaseId,
+        auctionCaseId,
         authorId: user.id,
       },
       include: DEFAULT_ARTICLE_INCLUDE,
@@ -30,19 +26,20 @@ export async function POST(req: NextRequest, { params }: { params: { auctionCase
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function GET(req: NextRequest, { params }: { params: { auctionCaseId: string } }) {
+export const GET = auth(async function GET(req, { params }) {
   try {
-    const user = await getUserFromSession();
+    const user = req.auth?.user;
+    const auctionCaseId = String(params?.auctionCaseId);
     if (!user) {
-      return handleFail({ message: 'User not found!', status: HttpStatusCode.Unauthorized });
+      return handleFail({ status: HttpStatusCode.Unauthorized });
     }
 
     const articles = await prisma.article.findMany({
       where: {
-        auctionCaseId: params.auctionCaseId,
-        OR: [{ isPublished: true }, { isPublished: false, authorId: { equals: user?.id } }],
+        auctionCaseId,
+        OR: [{ isPublished: true }, { isPublished: false, authorId: { equals: user.id } }],
       },
       include: DEFAULT_ARTICLE_INCLUDE,
       orderBy: [{ isPublished: 'asc' }, { updatedAt: 'desc' }],
@@ -51,4 +48,4 @@ export async function GET(req: NextRequest, { params }: { params: { auctionCaseI
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
