@@ -1,13 +1,7 @@
 import type { FailedResponse, PaginationMeta, SuccessResponse } from '@/app/api/types';
-import { auth } from '@/features/auth';
 import { Prisma } from '@prisma/client';
 import { HttpStatusCode } from 'axios';
 import { NextResponse } from 'next/server';
-
-export async function getUserFromSession() {
-  const session = await auth();
-  return session?.user;
-}
 
 export function handleFail(props?: { status?: number; message?: string }) {
   const { status = HttpStatusCode.InternalServerError, message = 'Internal Server Error' } =

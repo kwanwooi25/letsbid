@@ -1,27 +1,25 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
-import { NextRequest } from 'next/server';
 import { DEFAULT_ARTICLE_INCLUDE } from '../const';
 
-export async function GET(req: NextRequest, { params }: { params: { articleId: string } }) {
+export const GET = auth(async function GET(req, { params }) {
   try {
-    await getUserFromSession();
     const article = await prisma.article.findUnique({
-      where: { id: params.articleId },
+      where: { id: String(params?.articleId) },
       include: DEFAULT_ARTICLE_INCLUDE,
     });
     return handleSuccess({ data: article });
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function PATCH(req: NextRequest, { params }: { params: { articleId: string } }) {
+export const PATCH = auth(async function PATCH(req, { params }) {
   try {
-    await getUserFromSession();
     const data = await req.json();
     const article = await prisma.article.update({
-      where: { id: params.articleId },
+      where: { id: String(params?.articleId) },
       data,
       include: DEFAULT_ARTICLE_INCLUDE,
     });
@@ -29,16 +27,16 @@ export async function PATCH(req: NextRequest, { params }: { params: { articleId:
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function DELETE(req: NextRequest, { params }: { params: { articleId: string } }) {
+export const DELETE = auth(async function DELETE(req, { params }) {
   try {
-    const user = await getUserFromSession();
+    const user = req.auth?.user;
     await prisma.article.delete({
-      where: { id: params.articleId, authorId: user?.id },
+      where: { id: String(params?.articleId), authorId: user?.id },
     });
-    return handleSuccess({ data: { id: params.articleId } });
+    return handleSuccess({ data: { id: String(params?.articleId) } });
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

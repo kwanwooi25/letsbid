@@ -1,14 +1,13 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { AuctionCaseFormSchema } from '@/components/pages/AuctionCaseForm/formSchema';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
 import { formToJSON, HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 import { DEFAULT_AUCTION_CASE_INCLUDE } from './const';
 import { getAuctionCaseDataInput } from './utils';
 
-export async function POST(req: NextRequest) {
+export const POST = auth(async function POST(req) {
   try {
-    await getUserFromSession();
     const formData = await req.formData();
     const json = formToJSON(formData) as AuctionCaseFormSchema;
     const data = await getAuctionCaseDataInput(json);
@@ -21,4 +20,4 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

@@ -1,13 +1,14 @@
-import { UserFormSchema } from '@/components/pages/UserForm/formSchema';
 import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
-import { prisma } from '@/lib/prisma';
+import { UserFormSchema } from '@/components/pages/UserForm/formSchema';
+import { auth } from '@/features/auth';
 import { deleteImage, uploadImage } from '@/features/s3';
 import { IMAGE_HOST_URL } from '@/features/s3/const';
+import { prisma } from '@/lib/prisma';
 import { formToJSON } from 'axios';
-import { NextRequest } from 'next/server';
 
-export async function PATCH(req: NextRequest, { params }: { params: { userId: string } }) {
+export const PATCH = auth(async function PATCH(req, { params }) {
   try {
+    const userId = String(params?.userId);
     const formData = await req.formData();
     const { imageToUpload, imageToDelete, ...data } = formToJSON(formData) as UserFormSchema;
     let imageUrl = '';
@@ -25,7 +26,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
       await deleteImage(imageToDelete);
     }
     const updatedUser = await prisma.user.update({
-      where: { id: params.userId },
+      where: { id: userId },
       data: {
         ...data,
         image: imageUrl || data.image,
@@ -35,4 +36,4 @@ export async function PATCH(req: NextRequest, { params }: { params: { userId: st
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

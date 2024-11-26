@@ -1,9 +1,9 @@
 import { handleFail, handleSuccess } from '@/app/api/utils';
+import { auth } from '@/features/auth';
 import { uploadImage } from '@/features/s3';
 import { formToJSON, HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export const POST = auth(async function POST(req) {
   try {
     const formData = await req.formData();
     const { file, fileName } = formToJSON(formData) as {
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
       fileName: string;
     };
     if (!file) {
-      return handleFail({ message: 'Unable to find image', status: HttpStatusCode.BadRequest });
+      return handleFail({ message: 'Image not found', status: HttpStatusCode.BadRequest });
     }
 
     const imageUrl = await uploadImage({
@@ -21,4 +21,4 @@ export async function POST(req: NextRequest) {
 
     return handleSuccess({ data: imageUrl });
   } catch (error) {}
-}
+});
