@@ -31,28 +31,10 @@ export default function ArticleListItem({ article }: Props) {
           <span>{title}</span>
         </div>
 
-        {isPublished && (
-          <div className="flex items-center gap-4">
-            {views > 0 && (
-              <div className="flex items-center gap-1">
-                <LucideEye className="w-4 h-4" />
-                <span className="text-sm font-semibold text-primary/70">{views}</span>
-              </div>
-            )}
-            {likes > 0 && (
-              <div className="flex items-center gap-1">
-                <ThumbsUp className="w-4 h-4" />
-                <span className="text-sm font-semibold text-primary/70">{likes}</span>
-              </div>
-            )}
-            <div className="mt-auto flex items-center gap-2">
-              <UserImage src={author.image} size={24} />
-              <span className="text-xs sm:text-sm font-semibold text-primary/70">
-                {author.name}
-              </span>
-            </div>
-          </div>
-        )}
+        <div className="mt-auto flex items-center gap-2 shrink-0">
+          <UserImage src={author.image} size={24} />
+          <span className="text-xs sm:text-sm font-semibold text-primary/70">{author.name}</span>
+        </div>
       </div>
 
       <div className="w-full flex items-center gap-4">
@@ -61,8 +43,23 @@ export default function ArticleListItem({ article }: Props) {
             className="text-xs min-h-[16px] sm:text-sm sm:min-h-[20px] font-semibold text-primary/70 line-clamp-1"
             dangerouslySetInnerHTML={{ __html: contentHtml?.replace(/<img(.*?)>/gi, '') ?? '' }}
           />
-          <div className="text-xs min-h-[16px] sm:text-sm sm:min-h-[20px] text-primary/50">
-            {formatDateTime(updatedAt, 'yyyy. MM. dd. HH:mm')}
+          <div className="text-xs min-h-[16px] sm:text-sm sm:min-h-[20px] text-primary/50 flex items-center gap-4">
+            <span>{formatDateTime(updatedAt, 'yyyy. MM. dd. HH:mm')}</span>
+
+            <div className="flex items-center gap-4 shrink-0">
+              {isPublished && views > 0 && (
+                <div className="flex items-center gap-1">
+                  <LucideEye className="w-4 h-4" />
+                  <span className="text-sm font-semibold text-primary/70">{views}</span>
+                </div>
+              )}
+              {isPublished && likes > 0 && (
+                <div className="flex items-center gap-1">
+                  <ThumbsUp className="w-4 h-4" />
+                  <span className="text-sm font-semibold text-primary/70">{likes}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

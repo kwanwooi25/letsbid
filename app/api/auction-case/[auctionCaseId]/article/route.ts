@@ -32,14 +32,11 @@ export const GET = auth(async function GET(req, { params }) {
   try {
     const user = req.auth?.user;
     const auctionCaseId = String(params?.auctionCaseId);
-    if (!user) {
-      return handleFail({ status: HttpStatusCode.Unauthorized });
-    }
 
     const articles = await prisma.article.findMany({
       where: {
         auctionCaseId,
-        OR: [{ isPublished: true }, { isPublished: false, authorId: { equals: user.id } }],
+        OR: [{ isPublished: true }, { isPublished: false, authorId: { equals: user?.id } }],
       },
       include: DEFAULT_ARTICLE_INCLUDE,
       orderBy: [{ isPublished: 'asc' }, { updatedAt: 'desc' }],
