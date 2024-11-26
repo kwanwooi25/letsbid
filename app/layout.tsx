@@ -20,9 +20,6 @@ export const metadata: Metadata = {
   icons: {
     icon: '/letsbid_logo.png',
   },
-  openGraph: {
-    images: '/letsbid_og.png',
-  },
 };
 
 export default async function RootLayout({
