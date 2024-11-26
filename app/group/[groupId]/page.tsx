@@ -1,8 +1,8 @@
-import { getUserFromSession } from '@/app/api/utils';
 import NeedToJoinGroup from '@/components/pages/GroupDetail/NeedToJoin';
 import GroupOverCrowded from '@/components/pages/GroupDetail/OverCrowded';
 import GroupDetailSkeleton from '@/components/pages/GroupDetail/skeleton';
 import { PATHS } from '@/const/paths';
+import { auth } from '@/features/auth';
 import { withAuth } from '@/features/auth/withAuth';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { getQueryClient } from '@/lib/query';
@@ -16,7 +16,8 @@ const GroupDetail = dynamic(() => import('@/components/pages/GroupDetail'), {
 });
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
-  const user = await getUserFromSession();
+  const session = await auth();
+  const { user } = session ?? {};
   const queryClient = getQueryClient();
   const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(groupId));
 
