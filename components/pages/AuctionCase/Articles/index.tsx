@@ -12,11 +12,11 @@ import ArticleListItem from './ListItem';
 
 export default function ArticleList({ auctionCase }: Props) {
   const { moveToAddArticle } = useArticleRouter();
-  const { data: articles } = useSuspenseQuery(
+  const { data: articles, isPending } = useSuspenseQuery(
     getAuctionCaseArticleListQueryOptions(auctionCase?.id),
   );
 
-  if (!articles.length) {
+  if (!isPending && !articles.length) {
     return (
       <ListEmpty className="flex flex-col gap-4">
         <p>조사 내용이 없습니다</p>

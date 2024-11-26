@@ -12,9 +12,10 @@ import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import ArticleList from './Articles';
+import ArticleListSkeleton from './Articles/skeleton';
 import AuctionCaseTitle from './AuctionCaseTitle';
 import AuctionCaseBids from './Bids';
 import AuctionCaseIntroduction from './Introduction';
@@ -77,7 +78,9 @@ export default function AuctionCase() {
             <AuctionCaseIntroduction auctionCase={auctionCase} />
           </TabsContent>
           <TabsContent value="articles" className="py-0 mt-0">
-            <ArticleList auctionCase={auctionCase} />
+            <Suspense fallback={<ArticleListSkeleton />}>
+              <ArticleList auctionCase={auctionCase} />
+            </Suspense>
           </TabsContent>
           <TabsContent value="bids" className="py-0 mt-0 flex flex-col items-center">
             <AuctionCaseBids auctionCase={auctionCase} />

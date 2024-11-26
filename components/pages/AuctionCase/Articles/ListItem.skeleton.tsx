@@ -8,15 +8,9 @@ export default function ArticleListItemSkeleton() {
       <div className="w-full flex items-center justify-between gap-4">
         <Skeleton className="h-[24px] sm:h-[28px] w-[100px]" />
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            <Skeleton className="h-[16px] w-[16px] rounded-full" />
-            <Skeleton className="h-[20px] w-[15px]" />
-          </div>
-          <div className="mt-auto flex items-center gap-2">
-            <UserImage size={24} />
-            <Skeleton className="h-[16px] sm:h-[20px] w-[40px]" />
-          </div>
+        <div className="mt-auto flex items-center gap-2">
+          <UserImage size={24} />
+          <Skeleton className="h-[16px] sm:h-[20px] w-[40px]" />
         </div>
       </div>
 
