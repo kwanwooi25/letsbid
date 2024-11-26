@@ -1,16 +1,17 @@
+import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
-import { NextRequest } from 'next/server';
 import { hashPassword } from '../../user/utils';
 import { DEFAULT_GROUP_INCLUDE } from '../const';
 
-export async function GET(req: NextRequest, { params }: { params: { groupId: string } }) {
+export const GET = auth(async function GET(req, { params }) {
   try {
-    await getUserFromSession();
+    const groupId = String(params?.groupId);
+
     const group = await prisma.group.findUnique({
       where: {
-        id: params.groupId,
+        id: groupId,
       },
       include: DEFAULT_GROUP_INCLUDE,
     });
@@ -18,17 +19,17 @@ export async function GET(req: NextRequest, { params }: { params: { groupId: str
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function PATCH(req: NextRequest, { params }: { params: { groupId: string } }) {
+export const PATCH = auth(async function PATCH(req, { params }) {
   try {
-    await getUserFromSession();
+    const groupId = String(params?.groupId);
     const data = (await req.json()) as GroupFormSchema;
     const { password, ...passwordExcludedGroup } = data;
 
     const updatedGroup = await prisma.group.update({
       where: {
-        id: params.groupId,
+        id: groupId,
       },
       data: {
         ...passwordExcludedGroup,
@@ -43,18 +44,18 @@ export async function PATCH(req: NextRequest, { params }: { params: { groupId: s
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
 
-export async function DELETE(req: NextRequest, { params }: { params: { groupId: string } }) {
+export const DELETE = auth(async function DELETE(req, { params }) {
   try {
-    await getUserFromSession();
+    const groupId = String(params?.groupId);
     await prisma.group.delete({
       where: {
-        id: params.groupId,
+        id: groupId,
       },
     });
-    return handleSuccess({ data: { id: params.groupId } });
+    return handleSuccess({ data: { id: groupId } });
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

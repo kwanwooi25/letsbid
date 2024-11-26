@@ -1,33 +1,29 @@
-import {
-  getUserFromSession,
-  handleFail,
-  handlePrismaClientError,
-  handleSuccess,
-} from '@/app/api/utils';
+import { handleFail, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
 import { GroupFormSchema } from '@/components/pages/GroupForm/formSchema';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
 import { HttpStatusCode } from 'axios';
-import { NextRequest } from 'next/server';
 import { hashPassword } from '../user/utils';
 import { DEFAULT_GROUP_INCLUDE } from './const';
 
-export async function POST(req: NextRequest) {
+export const POST = auth(async function POST(req) {
   try {
-    const user = await getUserFromSession();
-    if (user?.role !== 'ADMIN') {
-      return handleFail({ message: 'Unable to create group', status: HttpStatusCode.Unauthorized });
+    const user = req.auth?.user;
+    if (!user || user?.role !== 'ADMIN') {
+      return handleFail({ status: HttpStatusCode.Unauthorized });
     }
-    const userId = user!.id!;
+
+    const { id } = user;
     const data = (await req.json()) as GroupFormSchema;
     const createdGroup = await prisma.group.create({
       data: {
         ...data,
         password: hashPassword(data.password),
-        hostId: userId,
+        hostId: id,
         members: {
           create: {
-            userId: userId,
-            invitedBy: userId,
+            userId: id,
+            invitedBy: id,
           },
         },
       },
@@ -37,4 +33,4 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});

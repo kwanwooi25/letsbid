@@ -1,23 +1,22 @@
-import { getUserFromSession, handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { handlePrismaClientError, handleSuccess } from '@/app/api/utils';
+import { auth } from '@/features/auth';
 import { prisma } from '@/lib/prisma';
-import { NextRequest } from 'next/server';
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { groupId: string; memberId: string } },
-) {
+export const DELETE = auth(async function DELETE(req, { params }) {
   try {
-    await getUserFromSession();
+    const userId = String(params?.memberId);
+    const groupId = String(params?.groupId);
+
     await prisma.usersOnGroups.delete({
       where: {
         userId_groupId: {
-          userId: params.memberId,
-          groupId: params.groupId,
+          userId,
+          groupId,
         },
       },
     });
-    return handleSuccess({ data: { groupId: params.groupId, memberId: params.memberId } });
+    return handleSuccess({ data: { groupId, memberId: userId } });
   } catch (e) {
     return handlePrismaClientError(e);
   }
-}
+});
