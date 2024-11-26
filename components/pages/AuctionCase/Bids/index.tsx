@@ -58,6 +58,10 @@ export default function AuctionCaseBids({ auctionCase }: Props) {
     return <AuctionResult auctionCase={auctionCase as AuctionCaseWithBidsAndUserAndArticles} />;
   }
 
+  if (status === 'FINISHED_BIDDING' && biddingCount <= 0) {
+    return <ListEmpty>입찰자가 없습니다</ListEmpty>;
+  }
+
   return null;
 }
 
