@@ -26,13 +26,27 @@ export const POST = auth(async function POST(req, { params }) {
       return handleFail({ status: HttpStatusCode.Unauthorized });
     }
 
-    const createdViewOnArticle = await prisma.viewOnArticle.create({
-      data: {
-        userId: user.id,
-        articleId,
-      },
+    const viewOnArticle = await prisma.$transaction(async (tx) => {
+      const existingViewOnArticle = await tx.viewOnArticle.findFirst({
+        where: {
+          userId: user.id,
+          articleId,
+        },
+      });
+
+      if (existingViewOnArticle) {
+        return existingViewOnArticle;
+      }
+
+      return await tx.viewOnArticle.create({
+        data: {
+          userId: user.id,
+          articleId,
+        },
+      });
     });
-    return handleSuccess({ data: createdViewOnArticle, status: HttpStatusCode.Created });
+
+    return handleSuccess({ data: viewOnArticle, status: HttpStatusCode.Created });
   } catch (e) {
     return handlePrismaClientError(e);
   }
