@@ -5,9 +5,7 @@ import { PATHS } from '@/const/paths';
 import { auth } from '@/features/auth';
 import { withAuth } from '@/features/auth/withAuth';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
-import { getAppName } from '@/lib/env';
 import { getQueryClient } from '@/lib/query';
-import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { redirect, RedirectType } from 'next/navigation';
 import { Suspense } from 'react';
@@ -16,20 +14,6 @@ const GroupDetail = dynamic(() => import('@/components/pages/GroupDetail'), {
   ssr: false,
   loading: () => <GroupDetailSkeleton />,
 });
-
-export async function generateMetadata({
-  params,
-}: {
-  params: { groupId: string };
-}): Promise<Metadata> {
-  const queryClient = getQueryClient();
-  const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(params.groupId));
-
-  return {
-    title: `${group.name} | ${getAppName()}`,
-    description: group.description,
-  };
-}
 
 export default withAuth(async function ({ params: { groupId } }: { params: { groupId: string } }) {
   const session = await auth();
