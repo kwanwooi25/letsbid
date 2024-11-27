@@ -18,6 +18,8 @@ export default async function Image({ params }: { params: { groupId: string } })
   const logoData = await readFile(join(process.cwd(), 'public/letsbid_logo_with_text_1000w.png'));
   const logoSrc = Uint8Array.from(logoData).buffer as unknown as string;
 
+  console.log(logoSrc);
+
   const queryClient = getQueryClient();
   const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(params.groupId));
 
