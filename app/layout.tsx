@@ -25,6 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: '/letsbid_logo.png',
     },
+    openGraph: {
+      images: '/api/image/og',
+    },
+    twitter: {
+      images: '/api/image/og',
+    },
   };
 }
 
