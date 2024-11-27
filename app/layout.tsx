@@ -8,19 +8,25 @@ import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
+import { headers } from 'next/headers';
 import NextTopLoader from 'nextjs-toploader';
 import './globals.css';
 import Providers from './providers';
 
 const notoSans = Noto_Sans_KR({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: getAppName(),
-  description: '부동산 경매 모의 입찰 시스템',
-  icons: {
-    icon: '/letsbid_logo.png',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const host = headers().get('host');
+
+  return {
+    metadataBase: new URL(`https://${host}`),
+    title: getAppName(),
+    description: '부동산 경매 모의 입찰 시스템',
+    icons: {
+      icon: '/letsbid_logo.png',
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
