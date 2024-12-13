@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters", "fullTextSearch", "omitApi"]
+  previewFeatures = ["driverAdapters", "fullTextSearchPostgres", "omitApi"]
   binaryTargets   = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -42,6 +42,8 @@ model User {
 
 enum UserRole {
   USER
+  PAID_USER
+  VIP_USER
   ADMIN
 }
 
