@@ -5,9 +5,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
+  LucideCopy,
   LucideEdit2,
   LucideEye,
   LucideEyeOff,
@@ -24,8 +26,13 @@ import { useIsGroupMember } from './useIsGroupMember';
 export default function GroupMenu({ className, trigger, triggerClassName, group }: Props) {
   const { isGroupHost, isViceGroupHost, isGroupMember } = useIsGroupMember(group);
   const { moveToEditGroup } = useGroupRouter();
-  const { tryToArchiveGroup, tryToUnarchiveGroup, tryToDeleteGroup, tryToMoveOutFromGroup } =
-    useGroupActions();
+  const {
+    tryToArchiveGroup,
+    tryToUnarchiveGroup,
+    tryToDeleteGroup,
+    tryToMoveOutFromGroup,
+    copyGroupDetailLink,
+  } = useGroupActions();
 
   const isGroupAdmin = isGroupHost || isViceGroupHost;
   const isArchived = !!group.archivedAt;
@@ -101,6 +108,20 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
             <LucideLogOut className="mr-2 h-4 w-4" />
             <span>그룹 나가기</span>
           </DropdownMenuItem>
+        )}
+        {!isArchived && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                copyGroupDetailLink(group);
+              }}
+            >
+              <LucideCopy className="mr-2 h-4 w-4" />
+              <span>링크 복사</span>
+            </DropdownMenuItem>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
