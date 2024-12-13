@@ -18,7 +18,7 @@ export const AccountScalarFieldEnumSchema = z.enum(['userId','type','provider','
 
 export const SessionScalarFieldEnumSchema = z.enum(['sessionToken','userId','expires','createdAt','updatedAt']);
 
-export const GroupScalarFieldEnumSchema = z.enum(['id','name','description','hostId','viceHostIds','isPrivate','password','maxMembers','createdAt','updatedAt','archivedAt']);
+export const GroupScalarFieldEnumSchema = z.enum(['id','name','description','hostId','viceHostIds','isPrivate','password','maxMembers','userRoles','createdAt','updatedAt','archivedAt']);
 
 export const UsersOnGroupsScalarFieldEnumSchema = z.enum(['userId','groupId','invitedBy','joinedAt']);
 
@@ -131,6 +131,7 @@ export type Session = z.infer<typeof SessionSchema>
 /////////////////////////////////////////
 
 export const GroupSchema = z.object({
+  userRoles: UserRoleSchema.array(),
   id: z.string().cuid(),
   name: z.string(),
   description: z.string().nullable(),
@@ -403,6 +404,7 @@ export const GroupSelectSchema: z.ZodType<Prisma.GroupSelect> = z.object({
   isPrivate: z.boolean().optional(),
   password: z.boolean().optional(),
   maxMembers: z.boolean().optional(),
+  userRoles: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   archivedAt: z.boolean().optional(),
@@ -911,6 +913,7 @@ export const GroupWhereInputSchema: z.ZodType<Prisma.GroupWhereInput> = z.object
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   maxMembers: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
+  userRoles: z.lazy(() => EnumUserRoleNullableListFilterSchema).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   archivedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
@@ -927,6 +930,7 @@ export const GroupOrderByWithRelationInputSchema: z.ZodType<Prisma.GroupOrderByW
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   maxMembers: z.lazy(() => SortOrderSchema).optional(),
+  userRoles: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   archivedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
@@ -950,6 +954,7 @@ export const GroupWhereUniqueInputSchema: z.ZodType<Prisma.GroupWhereUniqueInput
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   maxMembers: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
+  userRoles: z.lazy(() => EnumUserRoleNullableListFilterSchema).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   archivedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
@@ -966,6 +971,7 @@ export const GroupOrderByWithAggregationInputSchema: z.ZodType<Prisma.GroupOrder
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   maxMembers: z.lazy(() => SortOrderSchema).optional(),
+  userRoles: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   archivedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
@@ -988,6 +994,7 @@ export const GroupScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.GroupSc
   isPrivate: z.union([ z.lazy(() => BoolWithAggregatesFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   maxMembers: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
+  userRoles: z.lazy(() => EnumUserRoleNullableListFilterSchema).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   archivedAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
@@ -1848,6 +1855,7 @@ export const GroupCreateInputSchema: z.ZodType<Prisma.GroupCreateInput> = z.obje
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable(),
@@ -1864,6 +1872,7 @@ export const GroupUncheckedCreateInputSchema: z.ZodType<Prisma.GroupUncheckedCre
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable(),
@@ -1880,6 +1889,7 @@ export const GroupUpdateInputSchema: z.ZodType<Prisma.GroupUpdateInput> = z.obje
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -1896,6 +1906,7 @@ export const GroupUncheckedUpdateInputSchema: z.ZodType<Prisma.GroupUncheckedUpd
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -1912,6 +1923,7 @@ export const GroupCreateManyInputSchema: z.ZodType<Prisma.GroupCreateManyInput> 
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable()
@@ -1926,6 +1938,7 @@ export const GroupUpdateManyMutationInputSchema: z.ZodType<Prisma.GroupUpdateMan
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -1940,6 +1953,7 @@ export const GroupUncheckedUpdateManyInputSchema: z.ZodType<Prisma.GroupUnchecke
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -2932,6 +2946,14 @@ export const BoolFilterSchema: z.ZodType<Prisma.BoolFilter> = z.object({
   not: z.union([ z.boolean(),z.lazy(() => NestedBoolFilterSchema) ]).optional(),
 }).strict();
 
+export const EnumUserRoleNullableListFilterSchema: z.ZodType<Prisma.EnumUserRoleNullableListFilter> = z.object({
+  equals: z.lazy(() => UserRoleSchema).array().optional().nullable(),
+  has: z.lazy(() => UserRoleSchema).optional().nullable(),
+  hasEvery: z.lazy(() => UserRoleSchema).array().optional(),
+  hasSome: z.lazy(() => UserRoleSchema).array().optional(),
+  isEmpty: z.boolean().optional()
+}).strict();
+
 export const AuctionCaseListRelationFilterSchema: z.ZodType<Prisma.AuctionCaseListRelationFilter> = z.object({
   every: z.lazy(() => AuctionCaseWhereInputSchema).optional(),
   some: z.lazy(() => AuctionCaseWhereInputSchema).optional(),
@@ -2957,6 +2979,7 @@ export const GroupCountOrderByAggregateInputSchema: z.ZodType<Prisma.GroupCountO
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.lazy(() => SortOrderSchema).optional(),
   maxMembers: z.lazy(() => SortOrderSchema).optional(),
+  userRoles: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   archivedAt: z.lazy(() => SortOrderSchema).optional()
@@ -3686,6 +3709,10 @@ export const GroupCreateviceHostIdsInputSchema: z.ZodType<Prisma.GroupCreatevice
   set: z.string().array()
 }).strict();
 
+export const GroupCreateuserRolesInputSchema: z.ZodType<Prisma.GroupCreateuserRolesInput> = z.object({
+  set: z.lazy(() => UserRoleSchema).array()
+}).strict();
+
 export const UsersOnGroupsCreateNestedManyWithoutGroupInputSchema: z.ZodType<Prisma.UsersOnGroupsCreateNestedManyWithoutGroupInput> = z.object({
   create: z.union([ z.lazy(() => UsersOnGroupsCreateWithoutGroupInputSchema),z.lazy(() => UsersOnGroupsCreateWithoutGroupInputSchema).array(),z.lazy(() => UsersOnGroupsUncheckedCreateWithoutGroupInputSchema),z.lazy(() => UsersOnGroupsUncheckedCreateWithoutGroupInputSchema).array() ]).optional(),
   connectOrCreate: z.union([ z.lazy(() => UsersOnGroupsCreateOrConnectWithoutGroupInputSchema),z.lazy(() => UsersOnGroupsCreateOrConnectWithoutGroupInputSchema).array() ]).optional(),
@@ -3721,6 +3748,11 @@ export const GroupUpdateviceHostIdsInputSchema: z.ZodType<Prisma.GroupUpdatevice
 
 export const BoolFieldUpdateOperationsInputSchema: z.ZodType<Prisma.BoolFieldUpdateOperationsInput> = z.object({
   set: z.boolean().optional()
+}).strict();
+
+export const GroupUpdateuserRolesInputSchema: z.ZodType<Prisma.GroupUpdateuserRolesInput> = z.object({
+  set: z.lazy(() => UserRoleSchema).array().optional(),
+  push: z.union([ z.lazy(() => UserRoleSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
 }).strict();
 
 export const UsersOnGroupsUpdateManyWithoutGroupNestedInputSchema: z.ZodType<Prisma.UsersOnGroupsUpdateManyWithoutGroupNestedInput> = z.object({
@@ -5077,6 +5109,7 @@ export const GroupCreateWithoutMembersInputSchema: z.ZodType<Prisma.GroupCreateW
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable(),
@@ -5092,6 +5125,7 @@ export const GroupUncheckedCreateWithoutMembersInputSchema: z.ZodType<Prisma.Gro
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable(),
@@ -5170,6 +5204,7 @@ export const GroupUpdateWithoutMembersInputSchema: z.ZodType<Prisma.GroupUpdateW
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -5185,6 +5220,7 @@ export const GroupUncheckedUpdateWithoutMembersInputSchema: z.ZodType<Prisma.Gro
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -5200,6 +5236,7 @@ export const GroupCreateWithoutAuctionCasesInputSchema: z.ZodType<Prisma.GroupCr
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable(),
@@ -5215,6 +5252,7 @@ export const GroupUncheckedCreateWithoutAuctionCasesInputSchema: z.ZodType<Prism
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   maxMembers: z.number().int().optional(),
+  userRoles: z.union([ z.lazy(() => GroupCreateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   archivedAt: z.coerce.date().optional().nullable(),
@@ -5328,6 +5366,7 @@ export const GroupUpdateWithoutAuctionCasesInputSchema: z.ZodType<Prisma.GroupUp
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -5343,6 +5382,7 @@ export const GroupUncheckedUpdateWithoutAuctionCasesInputSchema: z.ZodType<Prism
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   maxMembers: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
+  userRoles: z.union([ z.lazy(() => GroupUpdateuserRolesInputSchema),z.lazy(() => UserRoleSchema).array() ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   archivedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
