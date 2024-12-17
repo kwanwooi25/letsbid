@@ -285,12 +285,12 @@ export const UserIncludeSchema: z.ZodType<Prisma.UserInclude> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const UserArgsSchema: z.object({
+export const UserArgsSchema: z.ZodType<Prisma.UserDefaultArgs> = z.object({
   select: z.lazy(() => UserSelectSchema).optional(),
   include: z.lazy(() => UserIncludeSchema).optional(),
 }).strict();
 
-export const UserCountOutputTypeArgsSchema: z.object({
+export const UserCountOutputTypeArgsSchema: z.ZodType<Prisma.UserCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => UserCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -329,7 +329,7 @@ export const AccountIncludeSchema: z.ZodType<Prisma.AccountInclude> = z.object({
   user: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
 }).strict()
 
-export const AccountArgsSchema: z.object({
+export const AccountArgsSchema: z.ZodType<Prisma.AccountDefaultArgs> = z.object({
   select: z.lazy(() => AccountSelectSchema).optional(),
   include: z.lazy(() => AccountIncludeSchema).optional(),
 }).strict();
@@ -358,7 +358,7 @@ export const SessionIncludeSchema: z.ZodType<Prisma.SessionInclude> = z.object({
   user: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
 }).strict()
 
-export const SessionArgsSchema: z.object({
+export const SessionArgsSchema: z.ZodType<Prisma.SessionDefaultArgs> = z.object({
   select: z.lazy(() => SessionSelectSchema).optional(),
   include: z.lazy(() => SessionIncludeSchema).optional(),
 }).strict();
@@ -381,12 +381,12 @@ export const GroupIncludeSchema: z.ZodType<Prisma.GroupInclude> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => GroupCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const GroupArgsSchema: z.object({
+export const GroupArgsSchema: z.ZodType<Prisma.GroupDefaultArgs> = z.object({
   select: z.lazy(() => GroupSelectSchema).optional(),
   include: z.lazy(() => GroupIncludeSchema).optional(),
 }).strict();
 
-export const GroupCountOutputTypeArgsSchema: z.object({
+export const GroupCountOutputTypeArgsSchema: z.ZodType<Prisma.GroupCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => GroupCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -421,7 +421,7 @@ export const UsersOnGroupsIncludeSchema: z.ZodType<Prisma.UsersOnGroupsInclude> 
   group: z.union([z.boolean(),z.lazy(() => GroupArgsSchema)]).optional(),
 }).strict()
 
-export const UsersOnGroupsArgsSchema: z.object({
+export const UsersOnGroupsArgsSchema: z.ZodType<Prisma.UsersOnGroupsDefaultArgs> = z.object({
   select: z.lazy(() => UsersOnGroupsSelectSchema).optional(),
   include: z.lazy(() => UsersOnGroupsIncludeSchema).optional(),
 }).strict();
@@ -445,12 +445,12 @@ export const AuctionCaseIncludeSchema: z.ZodType<Prisma.AuctionCaseInclude> = z.
   _count: z.union([z.boolean(),z.lazy(() => AuctionCaseCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const AuctionCaseArgsSchema: z.object({
+export const AuctionCaseArgsSchema: z.ZodType<Prisma.AuctionCaseDefaultArgs> = z.object({
   select: z.lazy(() => AuctionCaseSelectSchema).optional(),
   include: z.lazy(() => AuctionCaseIncludeSchema).optional(),
 }).strict();
 
-export const AuctionCaseCountOutputTypeArgsSchema: z.object({
+export const AuctionCaseCountOutputTypeArgsSchema: z.ZodType<Prisma.AuctionCaseCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => AuctionCaseCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -493,7 +493,7 @@ export const BidIncludeSchema: z.ZodType<Prisma.BidInclude> = z.object({
   user: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
 }).strict()
 
-export const BidArgsSchema: z.object({
+export const BidArgsSchema: z.ZodType<Prisma.BidDefaultArgs> = z.object({
   select: z.lazy(() => BidSelectSchema).optional(),
   include: z.lazy(() => BidIncludeSchema).optional(),
 }).strict();
@@ -531,12 +531,12 @@ export const ArticleIncludeSchema: z.ZodType<Prisma.ArticleInclude> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => ArticleCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const ArticleArgsSchema: z.object({
+export const ArticleArgsSchema: z.ZodType<Prisma.ArticleDefaultArgs> = z.object({
   select: z.lazy(() => ArticleSelectSchema).optional(),
   include: z.lazy(() => ArticleIncludeSchema).optional(),
 }).strict();
 
-export const ArticleCountOutputTypeArgsSchema: z.object({
+export const ArticleCountOutputTypeArgsSchema: z.ZodType<Prisma.ArticleCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => ArticleCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -570,7 +570,7 @@ export const LikeOnArticleIncludeSchema: z.ZodType<Prisma.LikeOnArticleInclude> 
   article: z.union([z.boolean(),z.lazy(() => ArticleArgsSchema)]).optional(),
 }).strict()
 
-export const LikeOnArticleArgsSchema: z.object({
+export const LikeOnArticleArgsSchema: z.ZodType<Prisma.LikeOnArticleDefaultArgs> = z.object({
   select: z.lazy(() => LikeOnArticleSelectSchema).optional(),
   include: z.lazy(() => LikeOnArticleIncludeSchema).optional(),
 }).strict();
@@ -590,7 +590,7 @@ export const ViewOnArticleIncludeSchema: z.ZodType<Prisma.ViewOnArticleInclude> 
   article: z.union([z.boolean(),z.lazy(() => ArticleArgsSchema)]).optional(),
 }).strict()
 
-export const ViewOnArticleArgsSchema: z.object({
+export const ViewOnArticleArgsSchema: z.ZodType<Prisma.ViewOnArticleDefaultArgs> = z.object({
   select: z.lazy(() => ViewOnArticleSelectSchema).optional(),
   include: z.lazy(() => ViewOnArticleIncludeSchema).optional(),
 }).strict();
@@ -610,7 +610,7 @@ export const AttachmentIncludeSchema: z.ZodType<Prisma.AttachmentInclude> = z.ob
   article: z.union([z.boolean(),z.lazy(() => ArticleArgsSchema)]).optional(),
 }).strict()
 
-export const AttachmentArgsSchema: z.object({
+export const AttachmentArgsSchema: z.ZodType<Prisma.AttachmentDefaultArgs> = z.object({
   select: z.lazy(() => AttachmentSelectSchema).optional(),
   include: z.lazy(() => AttachmentIncludeSchema).optional(),
 }).strict();

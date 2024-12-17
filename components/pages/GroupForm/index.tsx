@@ -19,6 +19,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { formSchema, GroupFormSchema } from './formSchema';
+import UserRolesSelect from './UserRolesSelect';
 import { getDefaultFormValues } from './utils';
 
 export default function GroupForm() {
@@ -75,12 +76,22 @@ export default function GroupForm() {
             inputProps={{ autoFocus: true }}
           />
           <InputFormField control={form.control} name="description" label="한줄 소개" />
-          <InputFormField
-            control={form.control}
-            name="maxMembers"
-            label="최대인원"
-            inputProps={{ format: 'thousandSeparator', max: 1000 }}
-          />
+          <div className="w-full flex gap-4">
+            <InputFormField
+              className="w-full"
+              control={form.control}
+              name="maxMembers"
+              label="최대인원"
+              inputProps={{ format: 'thousandSeparator', max: 1000 }}
+            />
+
+            <UserRolesSelect
+              className="w-full"
+              label="최소 회원 등급"
+              placeholder="최소 회원 등급 선택"
+              name="userRoles"
+            />
+          </div>
           <div className="flex gap-4 items-start mt-7">
             <div className="h-[40px] flex items-center space-x-2 shrink-0">
               <Switch
