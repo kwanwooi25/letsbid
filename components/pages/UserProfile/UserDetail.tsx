@@ -10,11 +10,11 @@ export default function UserDetail() {
 
   if (!loggedInUser) return null;
 
-  const { name, image, email, mobile } = loggedInUser;
+  const { name, image, email, mobile, role } = loggedInUser;
 
   return (
     <div className="flex items-center gap-4">
-      <UserImage className="self-start" src={image} alt={name} />
+      <UserImage className="self-start" src={image} alt={name} role={role} />
 
       <div className="flex flex-col gap-2">
         <span className="text-xl font-bold">{name}</span>

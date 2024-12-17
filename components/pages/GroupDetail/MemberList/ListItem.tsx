@@ -158,7 +158,13 @@ export default function MemberListItem({ member, group }: Props) {
     <>
       <ListItem className="hover:cursor-default">
         <div className="flex items-center gap-2">
-          <UserImage src={user.image} size={40} isHost={isGroupHost} isViceHost={isViceGroupHost} />
+          <UserImage
+            src={user.image}
+            role={user.role}
+            size={40}
+            isHost={isGroupHost}
+            isViceHost={isViceGroupHost}
+          />
           <div className="flex items-center gap-2">
             {isMeGroupHost || isMeViceGroupHost ? (
               <a
@@ -245,6 +251,7 @@ export default function MemberListItem({ member, group }: Props) {
               badgeSize={48}
               isHost={isGroupHost}
               isViceHost={isViceGroupHost}
+              role={user.role}
             />
             <div className="w-full flex flex-col gap-2">
               <span className="text-xl font-bold">{user.name}</span>
