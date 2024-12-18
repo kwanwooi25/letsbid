@@ -35,8 +35,8 @@ export default function MemberListItem({ member, group }: Props) {
   const loggedInUserId = loggedInUser?.id;
   const { user, userId, groupId } = member;
   const { isGroupHost, isViceGroupHost } = useIsGroupMember(group, userId);
-  const { isGroupHost: isMeGroupHost, isViceGroupHost: isMeViceGroupHost } =
-    useIsGroupMember(group);
+  const { isGroupHost: isMeGroupHost, isGroupAdmin: isMeGroupAdmin } = useIsGroupMember(group);
+  const isMeActable = loggedInUser && group.userRoles.includes(loggedInUser.role);
   const isMe = loggedInUserId === userId;
   const { mutateAsync: expelGroupMember } = useMutation(expelGroupMemberMutationOptions);
   const { mutateAsync: changeGroupHost } = useMutation(changeGroupHostMutationOptions);
@@ -166,7 +166,7 @@ export default function MemberListItem({ member, group }: Props) {
             isViceHost={isViceGroupHost}
           />
           <div className="flex items-center gap-2">
-            {isMeGroupHost || isMeViceGroupHost ? (
+            {isMeGroupAdmin && isMeActable ? (
               <a
                 className="font-bold hover:underline hover:cursor-pointer"
                 onClick={() => setSelectedUser(userId)}
@@ -181,7 +181,7 @@ export default function MemberListItem({ member, group }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
-          {(isMeGroupHost || isMeViceGroupHost) && !isMe && !isGroupHost && (
+          {isMeGroupAdmin && isMeActable && !isMe && !isGroupHost && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

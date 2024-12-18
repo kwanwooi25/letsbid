@@ -11,20 +11,30 @@ import {
   getFullAddress,
   getRemainingTimeDisplay,
 } from '@/features/auction-case/utils';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
+import { cn } from '@/lib/utils';
 import { LucideNotebookText, LucideTimer, LucideUsersRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 
 export default function AuctionCaseListItem({ auctionCase }: Props) {
+  const { loggedInUser } = useLoggedInUser();
   const router = useRouter();
   const [remainingTime, setRemainingTime] = useState(getRemainingTimeDisplay(auctionCase));
   const [color, setColor] = useState(getAuctionCaseColor(auctionCase));
   const [bidderCount, setBidderCount] = useState(auctionCase.bids.length);
   const [articleCount, setArticleCount] = useState(auctionCase.articles.length);
 
-  const { id, groupId, caseName, address, addressDetail } = auctionCase;
+  const { id, groupId, caseName, address, addressDetail, group } = auctionCase;
+  const isViewable = loggedInUser && group.userRoles.includes(loggedInUser.role);
   const fullAddress = getFullAddress({ address, addressDetail });
+
+  const handleClickListItem = () => {
+    if (!isViewable) return;
+
+    router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`);
+  };
 
   useInterval(() => {
     setRemainingTime(getRemainingTimeDisplay(auctionCase));
@@ -35,9 +45,9 @@ export default function AuctionCaseListItem({ auctionCase }: Props) {
 
   return (
     <ListItem
-      className="flex-col"
+      className={cn('flex-col', !isViewable && '!cursor-not-allowed')}
       color={color}
-      onClick={() => router.push(`${PATHS.GROUP}/${groupId}${PATHS.AUCTION_CASE}/${id}`)}
+      onClick={handleClickListItem}
     >
       <div className="w-full flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
