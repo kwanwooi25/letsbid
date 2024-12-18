@@ -19,3 +19,10 @@ export const GROUP_MEMBER_ROLE: Record<UserRole, UserRole[]> = {
   [UserRole.VIP_USER]: [UserRole.VIP_USER, UserRole.ADMIN],
   [UserRole.ADMIN]: [UserRole.ADMIN],
 };
+
+export const MINIMUM_USER_ROLE_TRANSLATION: Record<UserRole, string> = {
+  [UserRole.USER]: '일반 회원',
+  [UserRole.PAID_USER]: '유료 회원',
+  [UserRole.VIP_USER]: 'VIP 회원',
+  [UserRole.ADMIN]: '관리자',
+};

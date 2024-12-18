@@ -6,8 +6,8 @@ export default function HostBadge({ className, isViceHost, ...props }: Props) {
   return (
     <div
       className={cn(
-        'w-[24px] h-[24px] rounded-full bg-yellow-300 dark:bg-yellow-500 flex items-center justify-center shrink-0',
-        isViceHost && 'bg-gray-300 dark:bg-gray-500',
+        'w-[24px] h-[24px] rounded-full flex items-center justify-center shrink-0 gradient-gold',
+        isViceHost && 'gradient-silver',
         className,
       )}
       {...props}

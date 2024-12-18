@@ -9,13 +9,16 @@ import GroupMenu from '@/features/group/GroupMenu';
 import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { GroupWithMembers } from '@/features/group/types';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { getMinimumUserRole } from '@/features/group/utils';
 import { useAxiosError } from '@/hooks/useAxiosError';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
 import { LucideLock, LucideLockOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function GroupListItem({ group }: Props) {
+  const { loggedInUser } = useLoggedInUser();
   const router = useRouter();
   const { toast } = useToast();
   const { mutateAsync: joinGroup } = useMutation(joinGroupMutationOptions);
@@ -23,9 +26,12 @@ export default function GroupListItem({ group }: Props) {
   const { openForm } = useFormDialog();
   const { isViceGroupHost, isGroupAdmin, isGroupMember } = useIsGroupMember(group);
 
-  const { id, name, members, maxMembers, isPrivate, description, archivedAt } = group;
+  const { id, name, members, maxMembers, isPrivate, description, archivedAt, userRoles } = group;
   const isMaxMemberReached = members.length >= maxMembers;
   const isArchived = !!archivedAt;
+  const isJoinable =
+    !isArchived && !isMaxMemberReached && !!loggedInUser && userRoles.includes(loggedInUser.role);
+  const minimumRole = getMinimumUserRole(userRoles);
 
   const moveToGroup = () => router.push(`${PATHS.GROUP}/${id}`);
 
@@ -63,8 +69,15 @@ export default function GroupListItem({ group }: Props) {
 
   return (
     <ListItem
-      onClick={isGroupMember ? moveToGroup : handleClickJoin}
-      className={cn('min-h-[86px]')}
+      onClick={isGroupMember ? moveToGroup : isJoinable ? handleClickJoin : undefined}
+      className={cn(
+        'min-h-[86px] hover:opacity-90 border-0',
+        minimumRole === 'USER' && 'gradient-bronze',
+        minimumRole === 'PAID_USER' && 'gradient-silver',
+        minimumRole === 'VIP_USER' && 'gradient-gold',
+        minimumRole === 'ADMIN' && 'gradient-emerald',
+        !isGroupMember && !isJoinable && '!cursor-not-allowed hover:opacity-100',
+      )}
     >
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">

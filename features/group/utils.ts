@@ -1,9 +1,9 @@
-import { GROUP_MEMBER_ROLE } from '@/features/group/const';
 import { UserRole } from '@prisma/client';
+import { GROUP_MEMBER_ROLE } from './const';
 
-export function getSelectValueByFieldValue(fieldValue: UserRole[]): UserRole {
+export function getMinimumUserRole(userRoles: UserRole[]): UserRole {
   const option = Object.entries(GROUP_MEMBER_ROLE).find(([, value]) => {
-    if (value.every((role) => fieldValue.includes(role))) {
+    if (value.every((role) => userRoles.includes(role))) {
       return true;
     }
     return false;

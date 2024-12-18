@@ -8,10 +8,10 @@ export default function UserRoleBadge({ className, role, ...props }: Props) {
     <div
       className={cn(
         'w-[24px] h-[24px] rounded-full flex items-center justify-center shrink-0',
-        role === 'USER' && 'bg-yellow-600 dark:bg-yellow-800',
-        role === 'PAID_USER' && 'bg-gray-300 dark:bg-gray-500',
-        role === 'VIP_USER' && 'bg-yellow-300 dark:bg-yellow-500',
-        role === 'ADMIN' && 'bg-green-400 dark:bg-green-600',
+        role === 'USER' && 'gradient-bronze',
+        role === 'PAID_USER' && 'gradient-silver',
+        role === 'VIP_USER' && 'gradient-gold',
+        role === 'ADMIN' && 'gradient-emerald',
         className,
       )}
       {...props}

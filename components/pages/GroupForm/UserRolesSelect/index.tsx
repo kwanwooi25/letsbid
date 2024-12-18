@@ -7,9 +7,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { GROUP_MEMBER_ROLE } from '@/features/group/const';
+import { getMinimumUserRole } from '@/features/group/utils';
 import { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
 import { USER_ROLES_SELECT_OPTIONS } from './const';
-import { getSelectValueByFieldValue } from './utils';
 
 export default function UserRolesSelect<
   TFieldValues extends FieldValues = FieldValues,
@@ -18,7 +18,7 @@ export default function UserRolesSelect<
   return (
     <FormField
       render={({ field }) => {
-        const displayValue = getSelectValueByFieldValue(field.value);
+        const displayValue = getMinimumUserRole(field.value);
         const handleValueChange = (value: TFieldValues[TName]) => {
           field.onChange(GROUP_MEMBER_ROLE[value]);
         };
