@@ -9,7 +9,10 @@ export default function GroupFormSkeleton() {
       <PageBody className="flex flex-col gap-4 lg:mx-[176px]">
         <Skeleton.Input />
         <Skeleton.Input />
-        <Skeleton.Input />
+        <div className="w-full flex gap-4">
+          <Skeleton.Input className="w-full" />
+          <Skeleton.Input className="w-full" />
+        </div>
         <div className="flex gap-4 items-start mt-7">
           <div className="h-[40px] flex items-center space-x-2 shrink-0">
             <Skeleton className="h-[24px] w-[44px] rounded-full" />

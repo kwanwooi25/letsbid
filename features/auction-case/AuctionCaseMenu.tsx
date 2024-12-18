@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
@@ -22,8 +23,11 @@ export default function AuctionCaseMenu({
   triggerClassName,
   auctionCase,
 }: Props) {
+  const { group } = auctionCase;
+  const { loggedInUser } = useLoggedInUser();
   const [status, setStatus] = useState(getAuctionCaseStatus(auctionCase));
-  const { isGroupAdmin } = useIsGroupMember(auctionCase.group);
+  const { isGroupAdmin } = useIsGroupMember(group);
+  const isEditable = isGroupAdmin && loggedInUser && group.userRoles.includes(loggedInUser.role);
   const { moveToEditAuctionCase } = useAuctionCaseRouter();
   const { tryToDeleteAuctionCase } = useAuctionCaseActions();
 
@@ -31,7 +35,7 @@ export default function AuctionCaseMenu({
     setStatus(getAuctionCaseStatus(auctionCase));
   }, 1000);
 
-  if (!isGroupAdmin) return null;
+  if (!isEditable) return null;
 
   return (
     <DropdownMenu>
@@ -46,7 +50,7 @@ export default function AuctionCaseMenu({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className={className}>
-        {isGroupAdmin && status !== 'FINISHED_BIDDING' && (
+        {isEditable && status !== 'FINISHED_BIDDING' && (
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
@@ -57,7 +61,7 @@ export default function AuctionCaseMenu({
             <span>경매 사건 수정</span>
           </DropdownMenuItem>
         )}
-        {isGroupAdmin && (
+        {isEditable && (
           <DropdownMenuItem
             className="text-destructive"
             onClick={(e) => {

@@ -39,7 +39,12 @@ export default function UserMenu({ className }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <UserImage src={loggedInUser?.image} alt={loggedInUser?.name} size={40} />
+          <UserImage
+            src={loggedInUser?.image}
+            alt={loggedInUser?.name}
+            role={loggedInUser?.role}
+            size={40}
+          />
         </Button>
       </DropdownMenuTrigger>
 

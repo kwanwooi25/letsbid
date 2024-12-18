@@ -1,3 +1,5 @@
+import { GROUP_MEMBER_ROLE } from '@/features/group/const';
+import { UserRole } from '@prisma/client';
 import { z } from 'zod';
 
 export const formSchema = z
@@ -8,6 +10,7 @@ export const formSchema = z
     isPrivate: z.boolean().default(false),
     password: z.string().optional().nullable(),
     maxMembers: z.coerce.number().int().default(1000),
+    userRoles: z.array(z.nativeEnum(UserRole)).default(GROUP_MEMBER_ROLE.USER),
   })
   .refine((data) => !data.isPrivate || (data.isPrivate && !!data.password), {
     message: '비공개 그룹은 비밀번호가 필요합니다',

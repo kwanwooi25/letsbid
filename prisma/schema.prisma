@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters", "fullTextSearch", "omitApi"]
+  previewFeatures = ["driverAdapters", "fullTextSearchPostgres", "omitApi"]
   binaryTargets   = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -42,6 +42,8 @@ model User {
 
 enum UserRole {
   USER
+  PAID_USER
+  VIP_USER
   ADMIN
 }
 
@@ -76,16 +78,17 @@ model Session {
 }
 
 model Group {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String?
   hostId      String
   viceHostIds String[]
-  isPrivate   Boolean   @default(false)
+  isPrivate   Boolean    @default(false)
   password    String?
-  maxMembers  Int       @default(1000)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  maxMembers  Int        @default(1000)
+  userRoles   UserRole[] @default([USER, PAID_USER, VIP_USER, ADMIN])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   archivedAt  DateTime?
 
   members      UsersOnGroups[]

@@ -1,8 +1,10 @@
 import { cn } from '@/lib/utils';
+import { UserRole } from '@prisma/client';
 import { LucideUser2 } from 'lucide-react';
 import Image from 'next/image';
 import { HTMLAttributes } from 'react';
 import HostBadge from '../HostBadge';
+import UserRoleBadge from '../UserRoleBadge';
 
 export default function UserImage({
   containerClassName,
@@ -13,6 +15,7 @@ export default function UserImage({
   badgeSize = size / 1.8,
   isHost,
   isViceHost,
+  role,
 }: Props) {
   return (
     <div className={cn('relative', containerClassName)}>
@@ -49,6 +52,14 @@ export default function UserImage({
           isViceHost={isViceHost}
         />
       )}
+
+      {!!role && (
+        <UserRoleBadge
+          className="absolute bottom-0 right-0 translate-x-[40%] translate-y-[40%] border-2 border-background"
+          style={{ width: badgeSize, height: badgeSize }}
+          role={role}
+        />
+      )}
     </div>
   );
 }
@@ -62,4 +73,5 @@ type Props = {
   badgeSize?: number;
   isHost?: boolean;
   isViceHost?: boolean;
+  role?: UserRole;
 };

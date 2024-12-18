@@ -1,25 +1,37 @@
-import { ReactNode } from 'react';
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { GROUP_MEMBER_ROLE } from '@/features/group/const';
+import { getMinimumUserRole } from '@/features/group/utils';
 import { ControllerProps, FieldPath, FieldValues } from 'react-hook-form';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '.';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../select';
+import { USER_ROLES_SELECT_OPTIONS } from './const';
 
-export default function SelectFormField<
+export default function UserRolesSelect<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ className, label, placeholder, selectOptions = [], ...props }: Props<TFieldValues, TName>) {
+>({ className, label, placeholder, ...props }: Props<TFieldValues, TName>) {
   return (
     <FormField
       render={({ field }) => {
+        const displayValue = getMinimumUserRole(field.value);
+        const handleValueChange = (value: TFieldValues[TName]) => {
+          field.onChange(GROUP_MEMBER_ROLE[value]);
+        };
         return (
           <FormItem className={className}>
             {!!label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <Select onValueChange={field.onChange} value={field.value}>
+              <Select onValueChange={handleValueChange} value={displayValue}>
                 <SelectTrigger>
                   <SelectValue placeholder={<span className="opacity-50">{placeholder}</span>} />
                 </SelectTrigger>
                 <SelectContent>
-                  {selectOptions.map(({ value, label }) => (
+                  {USER_ROLES_SELECT_OPTIONS.map(({ value, label }) => (
                     <SelectItem key={value} value={value}>
                       {label}
                     </SelectItem>
@@ -27,7 +39,6 @@ export default function SelectFormField<
                 </SelectContent>
               </Select>
             </FormControl>
-            <FormMessage />
           </FormItem>
         );
       }}
@@ -39,11 +50,8 @@ export default function SelectFormField<
 type Props<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = Omit<ControllerProps<TFieldValues, TName>, 'render'> & DefaultSelectProps<TFieldValues[TName]>;
-
-type DefaultSelectProps<Value> = {
-  className?: string;
+> = Omit<ControllerProps<TFieldValues, TName>, 'render'> & {
   label?: string;
+  className?: string;
   placeholder?: string;
-  selectOptions: { value: Value; label: ReactNode }[];
 };

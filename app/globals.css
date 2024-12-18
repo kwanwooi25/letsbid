@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -97,5 +91,18 @@
   /* safari and chrome */
   .scrollbar-default::-webkit-scrollbar {
     display: block;
+  }
+
+  .gradient-bronze {
+    @apply bg-gradient-to-br from-amber-300 via-amber-700 via-70% to-amber-600 dark:from-amber-800/70 dark:via-amber-500/70 dark:to-amber-600/70;
+  }
+  .gradient-silver {
+    @apply bg-gradient-to-br from-gray-100 via-gray-300 via-70% to-gray-200 dark:from-gray-500/70 dark:via-gray-200/70 dark:to-gray-300/70;
+  }
+  .gradient-gold {
+    @apply bg-gradient-to-br from-yellow-100 via-yellow-400 via-70% to-yellow-300 dark:from-yellow-400/80 dark:via-yellow-200/80 dark:to-yellow-300/80;
+  }
+  .gradient-emerald {
+    @apply bg-gradient-to-br from-green-400 via-green-600 via-70% to-green-500 dark:from-green-600/70 dark:via-green-400/70 dark:to-green-500/80;
   }
 }

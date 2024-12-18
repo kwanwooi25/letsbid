@@ -139,10 +139,22 @@ export function useGroupActions() {
     });
   };
 
+  const copyGroupDetailLink = (group: GroupWithMembers) => {
+    if (!navigator?.clipboard?.writeText) return;
+
+    const url = `${window.location.origin}/group/${group.id}`;
+    navigator.clipboard.writeText(url);
+    toast({
+      description: '그룹 링크가 복사되었습니다.',
+      variant: 'success',
+    });
+  };
+
   return {
     tryToDeleteGroup,
     tryToArchiveGroup,
     tryToUnarchiveGroup,
     tryToMoveOutFromGroup,
+    copyGroupDetailLink,
   };
 }

@@ -5,9 +5,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import {
+  LucideCopy,
   LucideEdit2,
   LucideEye,
   LucideEyeOff,
@@ -22,13 +25,19 @@ import { useGroupRouter } from './useGroupRouter';
 import { useIsGroupMember } from './useIsGroupMember';
 
 export default function GroupMenu({ className, trigger, triggerClassName, group }: Props) {
-  const { isGroupHost, isViceGroupHost, isGroupMember } = useIsGroupMember(group);
+  const { loggedInUser } = useLoggedInUser();
+  const { isGroupHost, isGroupAdmin, isGroupMember } = useIsGroupMember(group);
   const { moveToEditGroup } = useGroupRouter();
-  const { tryToArchiveGroup, tryToUnarchiveGroup, tryToDeleteGroup, tryToMoveOutFromGroup } =
-    useGroupActions();
+  const {
+    tryToArchiveGroup,
+    tryToUnarchiveGroup,
+    tryToDeleteGroup,
+    tryToMoveOutFromGroup,
+    copyGroupDetailLink,
+  } = useGroupActions();
 
-  const isGroupAdmin = isGroupHost || isViceGroupHost;
   const isArchived = !!group.archivedAt;
+  const isActable = loggedInUser && group.userRoles.includes(loggedInUser.role);
 
   if (!isGroupMember) return null;
 
@@ -45,7 +54,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className={className}>
-        {isGroupAdmin && !isArchived && (
+        {isActable && isGroupAdmin && !isArchived && (
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
@@ -56,7 +65,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
             <span>그룹 수정</span>
           </DropdownMenuItem>
         )}
-        {isGroupAdmin && !isArchived && (
+        {isActable && isGroupAdmin && !isArchived && (
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
@@ -67,7 +76,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
             <span>그룹 숨김</span>
           </DropdownMenuItem>
         )}
-        {isGroupAdmin && isArchived && (
+        {isActable && isGroupAdmin && isArchived && (
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
@@ -78,7 +87,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
             <span>그룹 숨김 해제</span>
           </DropdownMenuItem>
         )}
-        {isGroupHost && (
+        {isActable && isGroupHost && (
           <DropdownMenuItem
             className="text-destructive"
             onClick={(e) => {
@@ -90,7 +99,7 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
             <span>그룹 삭제</span>
           </DropdownMenuItem>
         )}
-        {!isGroupHost && isGroupMember && (
+        {isActable && !isGroupHost && isGroupMember && (
           <DropdownMenuItem
             className="text-destructive"
             onClick={(e) => {
@@ -100,6 +109,18 @@ export default function GroupMenu({ className, trigger, triggerClassName, group 
           >
             <LucideLogOut className="mr-2 h-4 w-4" />
             <span>그룹 나가기</span>
+          </DropdownMenuItem>
+        )}
+        {isActable && !isArchived && <DropdownMenuSeparator />}
+        {!isArchived && (
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              copyGroupDetailLink(group);
+            }}
+          >
+            <LucideCopy className="mr-2 h-4 w-4" />
+            <span>링크 복사</span>
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
