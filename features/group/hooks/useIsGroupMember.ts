@@ -1,7 +1,7 @@
 'use client';
 
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
-import { GroupWithMembers } from './types';
+import { GroupWithMembers } from '../types';
 
 export function useIsGroupMember(group?: GroupWithMembers, userId?: string) {
   const { loggedInUser } = useLoggedInUser();

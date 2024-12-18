@@ -8,8 +8,8 @@ import {
   deleteGroupMutationOptions,
   expelGroupMemberMutationOptions,
   unarchiveGroupMutationOptions,
-} from './mutation';
-import { GroupWithMembers } from './types';
+} from '../mutation';
+import { GroupWithMembers } from '../types';
 import { useGroupRouter } from './useGroupRouter';
 
 export function useGroupActions() {

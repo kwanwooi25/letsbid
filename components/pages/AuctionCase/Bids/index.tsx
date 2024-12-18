@@ -6,9 +6,9 @@ import {
   AuctionCaseLike,
   AuctionCaseWithBidsAndUserAndArticles,
 } from '@/features/auction-case/types';
-import { useHasUserBidden } from '@/features/auction-case/useHasUserBidden';
+import { useHasUserBidden } from '@/features/auction-case/hooks/useHasUserBidden';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
-import { useBidRouter } from '@/features/bid/useBidRouter';
+import { useBidRouter } from '@/features/bid/hooks/useBidRouter';
 import { Suspense, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 import AuctionResult from './AuctionResult';

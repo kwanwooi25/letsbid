@@ -3,12 +3,10 @@
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
-import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
-import { getAuctionCaseStatus } from '@/features/auction-case/utils';
-import { useGroupRouter } from '@/features/group/useGroupRouter';
-import { useIsGroupMember } from '@/features/group/useIsGroupMember';
-import { useWindowScroll } from '@/hooks/useWindowScroll';
+import { getAuctionCaseDetailQueryOptions, getAuctionCaseStatus } from '@/features/auction-case';
+import AuctionCaseMenu from '@/features/auction-case/components/AuctionCaseMenu';
+import { useGroupRouter, useIsGroupMember } from '@/features/group';
+import { useWindowScroll } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';

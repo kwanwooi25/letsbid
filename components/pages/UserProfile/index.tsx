@@ -3,7 +3,7 @@
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
-import { useUserRouter } from '@/features/user/useUserRouter';
+import { useUserRouter } from '@/features/user/hooks';
 import UserDetail from './UserDetail';
 
 export default function UserProfile() {

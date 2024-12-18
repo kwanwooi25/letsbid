@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { getAuctionCaseStatus } from '@/features/auction-case/utils';
 import { getBidDetailQueryOptions } from '@/features/bid/query';
-import { useBidActions } from '@/features/bid/useBidActions';
-import { useBidRouter } from '@/features/bid/useBidRouter';
+import { useBidActions } from '@/features/bid/hooks/useBidActions';
+import { useBidRouter } from '@/features/bid/hooks/useBidRouter';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 export default function MyBid({ bidId, auctionCase }: Props) {

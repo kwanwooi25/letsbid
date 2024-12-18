@@ -1,2 +1,4 @@
-export { deleteImage } from './deleteImage';
-export { uploadImage } from './uploadImage';
+export * from './const';
+export * from './deleteImage';
+export * from './mutation';
+export * from './uploadImage';

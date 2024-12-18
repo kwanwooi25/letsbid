@@ -4,14 +4,14 @@ import AuctionCaseStatusBadge from '@/components/common/AuctionCaseStatusBadge';
 import ListItem from '@/components/common/ListItem';
 import WithTooltip from '@/components/common/WithTooltip';
 import { PATHS } from '@/const/paths';
-import AuctionCaseMenu from '@/features/auction-case/AuctionCaseMenu';
-import { AuctionCaseLike } from '@/features/auction-case/types';
 import {
+  AuctionCaseLike,
   getAuctionCaseColor,
   getFullAddress,
   getRemainingTimeDisplay,
-} from '@/features/auction-case/utils';
-import { useLoggedInUser } from '@/hooks/useLoggedInUser';
+} from '@/features/auction-case';
+import AuctionCaseMenu from '@/features/auction-case/components/AuctionCaseMenu';
+import { useLoggedInUser } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { LucideNotebookText, LucideTimer, LucideUsersRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';

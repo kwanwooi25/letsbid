@@ -2,8 +2,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { useAlert } from '@/context/Alert';
 import { deleteAuctionCaseMutationOptions } from '@/features/auction-case/mutation';
 import { AuctionCaseLike } from '@/features/auction-case/types';
-import { useGroupRouter } from '@/features/group/useGroupRouter';
-import { useAxiosError } from '@/hooks/useAxiosError';
+import { useGroupRouter } from '@/features/group/hooks';
+import { useAxiosError } from '@/hooks';
 import { useMutation } from '@tanstack/react-query';
 
 export function useAuctionCaseActions() {

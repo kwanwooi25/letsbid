@@ -3,9 +3,8 @@
 import ListItem from '@/components/common/ListItem';
 import UserImage from '@/components/common/UserImage';
 import { Chip } from '@/components/ui/chip';
-import ArticleMenu from '@/features/article/ArticleMenu';
-import { ArticleWithAuctionCaseAuthor } from '@/features/article/types';
-import { useArticleRouter } from '@/features/article/useArticleRouter';
+import { ArticleWithAuctionCaseAuthor, useArticleRouter } from '@/features/article';
+import ArticleMenu from '@/features/article/components/ArticleMenu';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { LucideEye, ThumbsUp } from 'lucide-react';

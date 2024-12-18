@@ -5,13 +5,14 @@ import ListItem from '@/components/common/ListItem';
 import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useFormDialog } from '@/context/FormDialog';
-import GroupMenu from '@/features/group/GroupMenu';
-import { joinGroupMutationOptions } from '@/features/group/mutation';
-import { GroupWithMembers } from '@/features/group/types';
-import { useIsGroupMember } from '@/features/group/useIsGroupMember';
-import { getMinimumUserRole } from '@/features/group/utils';
-import { useAxiosError } from '@/hooks/useAxiosError';
-import { useLoggedInUser } from '@/hooks/useLoggedInUser';
+import {
+  getMinimumUserRole,
+  GroupWithMembers,
+  joinGroupMutationOptions,
+  useIsGroupMember,
+} from '@/features/group';
+import GroupMenu from '@/features/group/components/GroupMenu';
+import { useAxiosError, useLoggedInUser } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
 import { LucideLock, LucideLockOpen } from 'lucide-react';

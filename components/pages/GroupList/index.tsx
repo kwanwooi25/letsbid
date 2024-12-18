@@ -6,7 +6,7 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { useGroupRouter } from '@/features/group/useGroupRouter';
+import { useGroupRouter } from '@/features/group/hooks/useGroupRouter';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { useWindowScroll } from '@/hooks/useWindowScroll';
 import { cn } from '@/lib/utils';

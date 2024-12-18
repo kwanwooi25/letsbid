@@ -9,7 +9,7 @@ import { Form, InputFormField } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { getArticleDetailQueryOptions } from '@/features/article/query';
-import { useArticleActions } from '@/features/article/useArticleActions';
+import { useArticleActions } from '@/features/article/hooks/useArticleActions';
 import { getAuctionCaseDetailQueryOptions } from '@/features/auction-case/query';
 import { uploadImageMutationOptions } from '@/features/s3/mutation';
 import { zodResolver } from '@hookform/resolvers/zod';

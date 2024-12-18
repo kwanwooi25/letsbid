@@ -1,7 +1,7 @@
 import { PATHS } from '@/const/paths';
-import { useCurrentUrl } from '@/hooks/useCurrentUrl';
+import { useCurrentUrl } from '@/hooks';
 import { useRouter } from 'next/navigation';
-import { AuctionCaseLike } from './types';
+import { AuctionCaseLike } from '../types';
 
 export function useAuctionCaseRouter() {
   const router = useRouter();

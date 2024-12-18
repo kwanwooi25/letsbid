@@ -1,5 +1,5 @@
 import { PATHS } from '@/const/paths';
-import { useCurrentUrl } from '@/hooks/useCurrentUrl';
+import { useCurrentUrl } from '@/hooks';
 import { useRouter } from 'next/navigation';
 
 export function useUserRouter() {
