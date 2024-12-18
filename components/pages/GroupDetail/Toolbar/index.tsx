@@ -2,9 +2,9 @@
 
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
-import { useAuctionCaseRouter } from '@/features/auction-case/useAuctionCaseRouter';
+import { useAuctionCaseRouter } from '@/features/auction-case/hooks/useAuctionCaseRouter';
 import { GroupWithMembers } from '@/features/group/types';
-import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { useIsGroupMember } from '@/features/group/hooks/useIsGroupMember';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useGroupDetailTabs } from '../useGroupDetailTabs';

@@ -1,9 +1,9 @@
 import { PATHS } from '@/const/paths';
 import { AuctionCaseLike } from '@/features/auction-case/types';
-import { useCurrentUrl } from '@/hooks/useCurrentUrl';
+import { useCurrentUrl } from '@/hooks';
 import { AuctionCase } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { BidWithUserAndAuctionCase } from './types';
+import { BidWithUserAndAuctionCase } from '../types';
 
 export function useBidRouter() {
   const router = useRouter();

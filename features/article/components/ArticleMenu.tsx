@@ -7,12 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLoggedInUser } from '@/hooks/useLoggedInUser';
+import { useLoggedInUser } from '@/hooks';
 import { LucideBookOpen, LucideEdit2, LucideMoreVertical, LucideTrash2 } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
-import { ArticleWithAuctionCaseAuthor } from './types';
-import { useArticleActions } from './useArticleActions';
-import { useArticleRouter } from './useArticleRouter';
+import { useArticleActions, useArticleRouter } from '../hooks';
+import { ArticleWithAuctionCaseAuthor } from '../types';
 
 export default function ArticleMenu({ className, trigger, triggerClassName, article }: Props) {
   const { loggedInUser } = useLoggedInUser();

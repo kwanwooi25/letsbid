@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useLoggedInUser } from '@/hooks/useLoggedInUser';
+import { useLoggedInUser } from '@/hooks';
 import {
   LucideCopy,
   LucideEdit2,
@@ -19,10 +19,8 @@ import {
   LucideTrash2,
 } from 'lucide-react';
 import { HTMLAttributes, ReactNode } from 'react';
-import { GroupWithMembers } from './types';
-import { useGroupActions } from './useGroupActions';
-import { useGroupRouter } from './useGroupRouter';
-import { useIsGroupMember } from './useIsGroupMember';
+import { useGroupActions, useGroupRouter, useIsGroupMember } from '../hooks';
+import { GroupWithMembers } from '../types';
 
 export default function GroupMenu({ className, trigger, triggerClassName, group }: Props) {
   const { loggedInUser } = useLoggedInUser();

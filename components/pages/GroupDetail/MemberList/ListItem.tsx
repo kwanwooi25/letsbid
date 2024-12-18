@@ -19,7 +19,7 @@ import {
   updateGroupViceHostsMutationOptions,
 } from '@/features/group/mutation';
 import { GroupMember, GroupWithMembers } from '@/features/group/types';
-import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { useIsGroupMember } from '@/features/group/hooks/useIsGroupMember';
 import { useAxiosError } from '@/hooks/useAxiosError';
 import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { formatPhoneNumber } from '@/lib/string';

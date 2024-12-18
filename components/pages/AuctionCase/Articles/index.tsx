@@ -4,7 +4,7 @@ import List from '@/components/common/List';
 import ListEmpty from '@/components/common/ListEmpty';
 import { Button } from '@/components/ui/button';
 import { getAuctionCaseArticleListQueryOptions } from '@/features/article/query';
-import { useArticleRouter } from '@/features/article/useArticleRouter';
+import { useArticleRouter } from '@/features/article/hooks/useArticleRouter';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideNotebookPen } from 'lucide-react';

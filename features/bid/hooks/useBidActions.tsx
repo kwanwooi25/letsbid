@@ -3,7 +3,7 @@ import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
 import { deleteBidMutationOptions, updateBidMutationOptions } from '@/features/bid/mutation';
 import { BidWithUserAndAuctionCase } from '@/features/bid/types';
-import { useAxiosError } from '@/hooks/useAxiosError';
+import { useAxiosError } from '@/hooks';
 import { useMutation } from '@tanstack/react-query';
 
 export function useBidActions() {

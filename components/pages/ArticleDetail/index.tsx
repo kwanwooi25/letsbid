@@ -6,18 +6,16 @@ import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
-import ArticleMenu from '@/features/article/ArticleMenu';
-import {
-  likeArticleMutaionOptions,
-  unlikeArticleMutaionOptions,
-  viewArticleMutaionOptions,
-} from '@/features/article/mutation';
 import {
   getArticleDetailQueryOptions,
   getLikesOnArticleQueryOptions,
   getViewsOnArticleQueryOptions,
-} from '@/features/article/query';
-import { useArticleRouter } from '@/features/article/useArticleRouter';
+  likeArticleMutaionOptions,
+  unlikeArticleMutaionOptions,
+  useArticleRouter,
+  viewArticleMutaionOptions,
+} from '@/features/article';
+import ArticleMenu from '@/features/article/components/ArticleMenu';
 import { formatDateTime } from '@/lib/datetime';
 import { cn } from '@/lib/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';

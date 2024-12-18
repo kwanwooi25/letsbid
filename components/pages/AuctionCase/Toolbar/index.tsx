@@ -5,7 +5,7 @@ import { AUCTION_CASE_PAGE_HEADER_HEIGHT, GNB_HEIGHT } from '@/components/layout
 import PageToolbar from '@/components/layouts/PageToolbar';
 import { Button } from '@/components/ui/button';
 import Divider from '@/components/ui/divider';
-import { useArticleRouter } from '@/features/article/useArticleRouter';
+import { useArticleRouter } from '@/features/article/hooks/useArticleRouter';
 import { AuctionCaseLike } from '@/features/auction-case/types';
 import {
   getAuctionCaseColor,

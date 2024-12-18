@@ -8,7 +8,7 @@ import { useSearchInput } from '@/components/common/SearchInput/useSearchInput';
 import { Button } from '@/components/ui/button';
 import { AUCTION_CASE_STATUS_LIST } from '@/features/auction-case/const';
 import { getAuctionCaseListQueryOptions } from '@/features/auction-case/query';
-import { useAuctionCaseRouter } from '@/features/auction-case/useAuctionCaseRouter';
+import { useAuctionCaseRouter } from '@/features/auction-case/hooks/useAuctionCaseRouter';
 import { useCalibrateCurrentPage } from '@/hooks/useCalibrateCurrentPage';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { LucideFilePlus2 } from 'lucide-react';
