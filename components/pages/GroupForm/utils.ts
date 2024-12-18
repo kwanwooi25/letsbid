@@ -1,3 +1,4 @@
+import { GROUP_MEMBER_ROLE } from '@/features/group/const';
 import { GroupWithMembers } from '@/features/group/types';
 import { Group } from '@prisma/client';
 import { GroupFormSchema } from './formSchema';
@@ -10,6 +11,7 @@ export function getDefaultFormValues(group?: Group | GroupWithMembers): GroupFor
       isPrivate: false,
       password: '',
       maxMembers: 1000,
+      userRoles: GROUP_MEMBER_ROLE.USER,
     };
   }
 

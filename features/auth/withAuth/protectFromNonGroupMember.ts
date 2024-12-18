@@ -10,22 +10,32 @@ export async function protectFromNonGroupMember({ session }: Args) {
   const headerList = headers();
   const pathname = headerList.get('x-url-pathname');
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, rootPath, groupId, childPath] = pathname?.split('/') ?? [];
+  const [, rootPath, groupId, childPath] = pathname?.split('/') ?? [];
 
   if (rootPath !== 'group') return;
 
   const queryClient = getQueryClient();
   const group = await queryClient.fetchQuery(getGroupDetailQueryOptions(groupId));
 
+  if (!groupId) return;
+
   if (!!groupId && groupId !== 'create' && !group)
     return redirect(PATHS.GROUP, RedirectType.replace);
 
-  if (
-    !!childPath &&
-    group.members.filter((member) => member.userId === session?.user?.id).length <= 0
-  ) {
+  const isGroupMember = !!group.members.find((member) => member.userId === session?.user?.id);
+
+  // 그룹 멤버인지 확인
+  if (!!childPath && !isGroupMember) {
     const redirectUrl = appendCallbackUrl(`${PATHS.GROUP}/${groupId}`);
+
+    return redirect(redirectUrl, RedirectType.replace);
+  }
+
+  // 최소 회원 등급 이상인지 확인
+  const isAboveMinimumUserRole = !!session?.user && group.userRoles.includes(session.user.role);
+
+  if (!!childPath && !isAboveMinimumUserRole) {
+    const redirectUrl = `${PATHS.GROUP}/${groupId}`;
 
     return redirect(redirectUrl, RedirectType.replace);
   }

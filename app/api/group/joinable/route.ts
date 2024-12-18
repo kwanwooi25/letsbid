@@ -24,6 +24,9 @@ export const POST = auth(async function POST(req) {
           userId: user?.id,
         },
       },
+      userRoles: {
+        has: user?.role,
+      },
       archivedAt: null,
       OR: [
         ...searchSplit.map(

@@ -5,20 +5,23 @@ import { Button } from '@/components/ui/button';
 import { useAuctionCaseRouter } from '@/features/auction-case/useAuctionCaseRouter';
 import { GroupWithMembers } from '@/features/group/types';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
+import { useLoggedInUser } from '@/hooks/useLoggedInUser';
 import { LucideFilePlus2 } from 'lucide-react';
 import { useGroupDetailTabs } from '../useGroupDetailTabs';
 import GroupDetailTabsList from './GroupDetailTabsList';
 
 export default function GroupDetailPageToolbar({ group }: Props) {
+  const { loggedInUser } = useLoggedInUser();
   const { tab } = useGroupDetailTabs();
   const { moveToCreateAuctionCase } = useAuctionCaseRouter();
-  const { isGroupHost, isViceGroupHost } = useIsGroupMember(group);
+  const { isGroupAdmin } = useIsGroupMember(group);
+  const isCreatable = isGroupAdmin && loggedInUser && group?.userRoles.includes(loggedInUser.role);
   const isArchived = !!group?.archivedAt;
 
   return (
     <PageToolbar className="flex items-center gap-4">
       <GroupDetailTabsList />
-      {(isGroupHost || isViceGroupHost) && !isArchived && tab === 'auctionCases' && (
+      {isCreatable && !isArchived && tab === 'auctionCases' && (
         <Button className="lg:w-full" onClick={() => moveToCreateAuctionCase(group?.id)}>
           <LucideFilePlus2 className="w-4 h-4 mr-2" />
           경매 사건 추가
