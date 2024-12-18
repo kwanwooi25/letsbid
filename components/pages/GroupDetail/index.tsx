@@ -9,7 +9,6 @@ import PageAlert from '@/components/layouts/PageAlert';
 import PageBody from '@/components/layouts/PageBody';
 import PageHeader from '@/components/layouts/PageHeader';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { MINIMUM_USER_ROLE_TRANSLATION } from '@/features/group/const';
 import GroupMenu from '@/features/group/GroupMenu';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { useIsGroupMember } from '@/features/group/useIsGroupMember';
@@ -39,7 +38,6 @@ export default function GroupDetail() {
   const { isScrolled } = useWindowScroll();
   const { loggedInUser } = useLoggedInUser();
   const minimumRole = getMinimumUserRole(group.userRoles);
-  const minimumTranslation = MINIMUM_USER_ROLE_TRANSLATION[minimumRole];
   const isActable = loggedInUser && group.userRoles.includes(loggedInUser.role);
 
   const isArchived = !!group.archivedAt;
@@ -120,7 +118,7 @@ export default function GroupDetail() {
         <PageAlert>
           <span>이 그룹에서 활동하실 수 없습니다</span>
           <span className="flex items-center gap-1">
-            최소 회원 등급: <UserRoleBadge role={minimumRole} /> <b>{minimumTranslation}</b>
+            최소 회원 등급: <UserRoleBadge role={minimumRole} withRoleName />
           </span>
         </PageAlert>
       )}

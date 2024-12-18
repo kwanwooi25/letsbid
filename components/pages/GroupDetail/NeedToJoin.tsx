@@ -7,7 +7,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { PATHS } from '@/const/paths';
 import { useAlert } from '@/context/Alert';
 import { useFormDialog } from '@/context/FormDialog';
-import { MINIMUM_USER_ROLE_TRANSLATION } from '@/features/group/const';
+import { USER_ROLE_TRANSLATION } from '@/features/group/const';
 import { joinGroupMutationOptions } from '@/features/group/mutation';
 import { getGroupDetailQueryOptions } from '@/features/group/query';
 import { getMinimumUserRole } from '@/features/group/utils';
@@ -36,7 +36,7 @@ export default function NeedToJoinGroup() {
   const { name, description, isPrivate, userRoles } = group;
   const isJoinable = loggedInUser && userRoles.includes(loggedInUser.role);
   const minimumRole = getMinimumUserRole(userRoles);
-  const minimumRoleTranslation = MINIMUM_USER_ROLE_TRANSLATION[minimumRole];
+  const minimumRoleTranslation = USER_ROLE_TRANSLATION[minimumRole];
 
   const onSuccess = () => {
     toast({
